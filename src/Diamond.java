@@ -1,4 +1,3 @@
-import java.lang.*;
 import java.util.*;
 import java.io.*;
 
@@ -61,7 +60,7 @@ public class Diamond {
 				
 				case "delete":
 					int lineNumberToDelete = sc.nextInt();
-					String lineToDelete = deleteLine(storageFile, lineNumberToDelete);
+					deleteLine(storageFile, lineNumberToDelete);
 					showToUser(MESSAGE_DELETE_SUCCESS);
 					break;
 				
@@ -200,9 +199,7 @@ public class Diamond {
 
 	private static void searchText(String keyword, File storageFile) {
 		try {
-			File resultFile = new File("resultFile.txt");
 			BufferedReader searchBufferedReader = initBufferedReader(storageFile);
-			BufferedWriter searchBufferedWriter = initBufferedWriter(resultFile);
 			String line = "";
 			int matchCount = 0;
 
