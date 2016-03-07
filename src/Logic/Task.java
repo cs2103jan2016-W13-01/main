@@ -56,4 +56,12 @@ public class Task {
 		idCounter++;
 		this.id = new Integer(idCounter).toString();
 	}
+	
+	public Task(String description, String date) {
+		this(description, date, Priority.NULL);
+	}
+	
+	public Task(String description) {
+		this(description, null, Priority.NULL);
+	}
 }
