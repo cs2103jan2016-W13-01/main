@@ -1,3 +1,5 @@
+package Logic;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -7,7 +9,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Comparator;
 import java.util.PriorityQueue;
-import java.util.Scanner;
 
 /** Class TextBuddy
  * This class provides methods to write to, delete from, view content of, clear, sort the content
@@ -32,6 +33,7 @@ import java.util.Scanner;
  * 7. The sort command only allows sorting in ascending order
  */
 
+
 public class Storage {
 
 	protected String _name; // The file name, which is given as argument to main
@@ -50,8 +52,6 @@ public class Storage {
 	private static final String MESSAGE_EMPTY_FILE = "File is empty";
 	private static final String MESSAGE_WELCOME = "Welcome to TextBuddy. %1$s is ready for use";
 
-	private static Scanner sc = new Scanner(System.in);
-	
 	private static Comparator<String> comparatorIgnoreSpace = new Comparator<String>() {
 		public int compare(String str1, String str2) {
 			return str1.trim().compareTo(str2.trim());
@@ -63,21 +63,6 @@ public class Storage {
 		_name = name;
 		_contentFile = openFile(name); // Will throw IOException if file cannot
 										// be created
-	}
-	
-	public static void main(String[] args) {
-
-		try {
-			Storage textBuddy = new Storage(args[0]);
-			textBuddy.getMessageWelcome();
-			while (true) {
-				System.out.print("command: ");
-				String command = sc.nextLine();
-				show(textBuddy.execute(command));
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 
 	// Possible command types
@@ -207,6 +192,7 @@ public class Storage {
 	}
 
 	// Shows a welcome message
+	@SuppressWarnings("unused")
 	private String getMessageWelcome() {
 		String message = String.format(MESSAGE_WELCOME, _name);
 		return message;

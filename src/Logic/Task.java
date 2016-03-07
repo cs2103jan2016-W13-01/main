@@ -7,6 +7,8 @@
  *     - date: date for the task to be done or deadline
  *     - priority: the task's priority
  */
+package Logic;
+
 public class Task {
 	
 	private static int idCounter;

@@ -1,3 +1,5 @@
+package Logic;
+
 import java.io.IOException;
 
 /**
@@ -14,6 +16,7 @@ import java.io.IOException;
  *    7. search: search for tasks containing a keyword
  *    8. exit: exit the program
  */
+
 public class Logic {
 	
 	private static Storage storageEditor;
