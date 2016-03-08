@@ -3,15 +3,6 @@ import java.io.*;
 
 public class Storage {
 
-	private static final String MESSAGE_WELCOME = "Welcome to Diamond.";
-	private static final String MESSAGE_WRONG_FORMAT = "Please use this format: Diamond <storageFileName>.txt";
-	private static final String MESSAGE_INPUT_PROMPT = "Please enter your command: ";
-	private static final String MESSAGE_USABLE_COMMANDS = "Commands: add <text>, delete <line number>, display, clear, sort, search <keyword>, exit";
-	private static final String MESSAGE_ADD_SUCCESS = "Task added successfully.";
-	private static final String MESSAGE_DELETE_SUCCESS = "Task deleted";
-	private static final String MESSAGE_NO_TASKS = "There are no tasks at the moment.";
-	private static final String MESSAGE_TASKS_CLEARED = "All tasks deleted.";
-	private static final String MESSAGE_SORTED = "All tasks sorted alphabetically.";
 	private static final String MESSAGE_ADD_ERROR = "Error encountered when adding text. Please try again.";
 	private static final String MESSAGE_DELETE_ERROR = "Error encountered when deleting task. Please try again";
 	private static final String MESSAGE_DISPLAY_ERROR = "Error encountered when displaying tasks. Please try again";
@@ -19,88 +10,36 @@ public class Storage {
 	private static final String MESSAGE_SORT_ERROR = "Error encountered when sorting tasks. Please try again.";
 	private static final String MESSAGE_SEARCH_ERROR = "Error encountered when searching for keyword. Please try again.";
 	private static final String MESSAGE_NO_MATCH = "No match found.";
-	
-	private static Scanner sc = new Scanner(System.in);
-	
-	public static void main(String[] args) {
+	private static final String STORAGE_FILE = "storage.txt";
+	private static File storageFile;
 
-		// check if command line input format is adhered to
-		checkInputFormat(args);
-		String fileName = args[0];
-		File storageFile = new File(fileName);
-		showToUser(MESSAGE_WELCOME);
-		processInput(fileName, storageFile);
+	private Storage() {
+		retrieveFile();
 	}
 
-	// exits program if input format is not adhered to
-	private static void checkInputFormat(String[] args) {
-		if (args.length != 1) {
-			showToUser(MESSAGE_WRONG_FORMAT);
-			System.exit(1);
+	protected File retrieveFile() {
+		storageFile = new File(STORAGE_FILE);
+		if (!storageFile.exists()) {
+			// Create file if it does not exist
+			try {
+				storageFile.createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
+		return storageFile;
 	}
 
 	// prints text
 	private static void showToUser(String textToPrint) {
 		System.out.println(textToPrint);
 	}
-	
-	// process the different commands 
-	private static void processInput(String fileName, File storageFile) {
-		while (true) {
-			System.out.print(MESSAGE_INPUT_PROMPT);
-			String command = sc.next();
-			switch (command) {
-			
-				case "add":
-					String nextLine = sc.nextLine();
-					addNewTask(storageFile, nextLine);
-					showToUser(MESSAGE_ADD_SUCCESS);
-					break;
-				
-				case "delete":
-					int taskNumberToDelete = sc.nextInt();
-					String taskToDelete = deleteTask(storageFile, taskNumberToDelete);
-					showToUser(MESSAGE_DELETE_SUCCESS + ": " + taskToDelete);
-					break;
-				
-				case "display":
-					int linesWritten = displayAllTasks(storageFile);
-					if (linesWritten == 0) {
-						showToUser(MESSAGE_NO_TASKS);
-					}
-					break;
-				
-				case "clear":
-					clearAllTasks(storageFile);
-					showToUser(MESSAGE_TASKS_CLEARED);
-					break;
-
-				case "sort":
-					sortTasks(storageFile);
-					showToUser(MESSAGE_SORTED);
-					break;
-
-				case "search":
-					String keyword = sc.next();
-					searchTask(keyword, storageFile);
-					break;
-
-				case "exit":
-					System.exit(-1);
-				
-				default:
-					showToUser(MESSAGE_USABLE_COMMANDS);
-					break;
-			}
-		}
-	}
 
 	// appends a new line of text at the bottom of the file
 	private static void addNewTask(File storageFile, String nextLine) {
 		try {
 			BufferedWriter addBufferedWriter = initBufferedWriter(storageFile);
-			
+
 			addBufferedWriter.write(nextLine.trim());
 			addBufferedWriter.newLine();
 			addBufferedWriter.close();
@@ -111,14 +50,13 @@ public class Storage {
 	}
 
 	// deletes a line from the file based on line number
-	private static String deleteTask(File storageFile, int taskNumberToDelete) {
+	private static void deleteTask(File storageFile, int taskNumberToDelete) {
 		try {
 			File tempStorageFile = new File("tempStorageFile.txt");
 			BufferedReader deleteBufferedReader = initBufferedReader(storageFile);
 			BufferedWriter deleteBufferedWriter = initBufferedWriter(tempStorageFile);
-			
+
 			String line = "";
-			String taskToDelete = "";
 			int currentTaskNumber = 1;
 			while ((line = deleteBufferedReader.readLine()) != null) {
 				if (currentTaskNumber != taskNumberToDelete) {		// write all lines except for the
@@ -128,37 +66,34 @@ public class Storage {
 				}
 				else {
 					currentTaskNumber++;						// skip the line to be deleted
-					taskToDelete = line;
 				}
 			}
 			deleteBufferedReader.close();
 			deleteBufferedWriter.close();
 			storageFile.delete();
 			tempStorageFile.renameTo(storageFile);
-			return taskToDelete;
 		}
 		catch (IOException e) {
 			showToUser(MESSAGE_DELETE_ERROR);
 		}
-		return null;
 	}
-					
+
 	// displays every line in the file in a numbered sequence
-	private static int displayAllTasks(File storageFile) {	
+	private static void displayAllTasks(File storageFile) {	
 		int linesWritten = 0;
+		Controller2.clearDW();
 		try {	
 			BufferedReader displayBufferedReader = initBufferedReader(storageFile);
 			String line = "";
 			while ((line = displayBufferedReader.readLine()) != null) {
 				linesWritten++;
-				showToUser(linesWritten+ ". " +line);	
+				Controller2.displayDW(linesWritten+ ". " +line);	
 			}
 			displayBufferedReader.close();
 		}
 		catch (IOException e) {
 			showToUser(MESSAGE_DISPLAY_ERROR);
 		}
-		return linesWritten;	
 	}
 
 	// deletes all text in the file
@@ -201,7 +136,6 @@ public class Storage {
 		try {
 			File resultFile = new File("resultFile.txt");
 			BufferedReader searchBufferedReader = initBufferedReader(storageFile);
-			BufferedWriter searchBufferedWriter = initBufferedWriter(resultFile);
 			String line = "";
 			int matchCount = 0;
 
