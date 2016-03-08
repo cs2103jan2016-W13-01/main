@@ -7,9 +7,7 @@ import logic.CommandType;
 import logic.Task;
 
 public class CommandParser{
-	public enum command {
-		ADD,DELETE,DISPLAY,UNDO,EDIT,MARK,UNMARK,ERROR
-	}
+
 	
 	public CommandParser cmdParser;
 	public ArrayList<String> list;
