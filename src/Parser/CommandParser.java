@@ -3,6 +3,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import logic.CommandDetails;
 import logic.CommandType;
 import logic.Task;
 
@@ -26,10 +27,10 @@ public class CommandParser{
 	//format e.g: add "cs2103 user guide v0.0" "event"
 	//            "14/02/2016" , A temp user guide for v0.0"
 	// "cmd" "title" "type" "date" "description" where date is in DD/MM/YYYY
-	public Task parseInput(String input){
+	public CommandDetails parseInput(String input){
 		String[] inputTokens = input.split(",");
-		Task task = getCommand(inputTokens);
-		return task;
+		CommandDetails cmdDetails = getCommand(inputTokens);
+		return cmdDetails;
 		
 	}
 	
@@ -40,15 +41,16 @@ public class CommandParser{
 	 * <date> = 09/03/2016 23:59
 	 * <desc> = anyrandomdescription
 	 */
-	private Task getCommand(String[] inputTokens) {
+	private CommandDetails getCommand(String[] inputTokens) {
 		CommandType cmd = getCmd(inputTokens[0]);
 		trim(inputTokens);
 		String title = getCommandTitle(inputTokens);
 		String description = getCommandDescription(inputTokens);
 		Date date = getCommandDate(inputTokens);
 		String taskType = getCommandTaskType(inputTokens);
-		Task pc = new Task(cmd,title,description,date);	
-		return pc;
+		Task pc = new Task(title,description,date);	
+		CommandDetails cd = new CommandDetails(cmd,pc);
+		return cd;
 	}
 
 // removes extra spaces
