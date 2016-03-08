@@ -17,13 +17,13 @@ import java.io.IOException;
  *    8. exit: exit the program
  */
 
-public class Logic {
+public class LogicDemo {
 	
-	private static Storage storageEditor;
+	private static StorageDemo storageEditor;
 	
 	public static void start(String storageFileName) {
 		try {
-			storageEditor = new Storage(storageFileName);
+			storageEditor = new StorageDemo(storageFileName);
 		} catch (IOException e) {
 			throw new Error(e.toString());
 		}
