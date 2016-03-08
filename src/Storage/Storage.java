@@ -38,11 +38,11 @@ public class Storage {
 	}
 
 	// appends a new line of text at the bottom of the file
-	public static void addNewTask(File storageFile, String nextLine) {
+	public static void addNewTask(String newTask) {
 		try {
 			BufferedWriter addBufferedWriter = initBufferedWriter(storageFile);
 
-			addBufferedWriter.write(nextLine.trim());
+			addBufferedWriter.write(newTask.trim());
 			addBufferedWriter.newLine();
 			addBufferedWriter.close();
 		}
@@ -52,7 +52,7 @@ public class Storage {
 	}
 
 	// deletes a line from the file based on line number
-	public static void deleteTask(File storageFile, int taskNumberToDelete) {
+	public static void deleteTask(int taskNumberToDelete) {
 		try {
 			File tempStorageFile = new File("tempStorageFile.txt");
 			BufferedReader deleteBufferedReader = initBufferedReader(storageFile);
@@ -81,7 +81,7 @@ public class Storage {
 	}
 
 	// displays every line in the file in a numbered sequence
-	public static void displayAllTasks(File storageFile) {	
+	public static void displayAllTasks() {	
 		int linesWritten = 0;
 		Controller2.clearDW();
 		try {	
@@ -99,7 +99,7 @@ public class Storage {
 	}
 
 	// deletes all text in the file
-	public static void clearAllTasks(File storageFile) {
+	public static void clearAllTasks() {
 		try {
 			storageFile.delete();				// delete the whole file and
 			storageFile.createNewFile();		// create a new empty file with the same name
@@ -109,7 +109,7 @@ public class Storage {
 		}
 	}
 
-	public static void sortTasks(File storageFile) {
+	public static void sortTasks() {
 		try {
 			File tempStorageFile = new File("tempStorageFile.txt");
 			BufferedReader sortBufferedReader = initBufferedReader(storageFile);
@@ -134,7 +134,7 @@ public class Storage {
 		}
 	}
 
-	public static void searchTask(String keyword, File storageFile) {
+	public static void searchTask(String keyword) {
 		try {
 			File resultFile = new File("resultFile.txt");
 			BufferedReader searchBufferedReader = initBufferedReader(storageFile);
