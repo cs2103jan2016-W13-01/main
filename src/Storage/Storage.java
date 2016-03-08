@@ -1,10 +1,12 @@
 package Storage;
 
 import java.util.*;
+
 import java.io.*;
 
 public class Storage {
 
+	/*
 	private static final String MESSAGE_ADD_ERROR = "Error encountered when adding text. Please try again.";
 	private static final String MESSAGE_DELETE_ERROR = "Error encountered when deleting task. Please try again";
 	private static final String MESSAGE_DISPLAY_ERROR = "Error encountered when displaying tasks. Please try again";
@@ -12,6 +14,7 @@ public class Storage {
 	private static final String MESSAGE_SORT_ERROR = "Error encountered when sorting tasks. Please try again.";
 	private static final String MESSAGE_SEARCH_ERROR = "Error encountered when searching for keyword. Please try again.";
 	private static final String MESSAGE_NO_MATCH = "No match found.";
+	*/
 	private static final String STORAGE_FILE = "storage.txt";
 	private static File storageFile;
 
@@ -38,21 +41,22 @@ public class Storage {
 	}
 
 	// appends a new line of text at the bottom of the file
-	public static void addNewTask(String newTask) {
+	public static boolean addNewTask(String newTask) {
 		try {
 			BufferedWriter addBufferedWriter = initBufferedWriter(storageFile);
 
 			addBufferedWriter.write(newTask.trim());
 			addBufferedWriter.newLine();
 			addBufferedWriter.close();
+			return true;
 		}
 		catch (IOException e) {
-			showToUser(MESSAGE_ADD_ERROR);
+			return false;
 		}
 	}
 
 	// deletes a line from the file based on line number
-	public static void deleteTask(int taskNumberToDelete) {
+	public static boolean deleteTask(int taskNumberToDelete) {
 		try {
 			File tempStorageFile = new File("tempStorageFile.txt");
 			BufferedReader deleteBufferedReader = initBufferedReader(storageFile);
@@ -74,13 +78,15 @@ public class Storage {
 			deleteBufferedWriter.close();
 			storageFile.delete();
 			tempStorageFile.renameTo(storageFile);
+			return true;
 		}
 		catch (IOException e) {
-			showToUser(MESSAGE_DELETE_ERROR);
+			return false;
 		}
 	}
 
 	// displays every line in the file in a numbered sequence
+	/*
 	public static void displayAllTasks() {	
 		int linesWritten = 0;
 		Controller2.clearDW();
@@ -96,20 +102,21 @@ public class Storage {
 		catch (IOException e) {
 			showToUser(MESSAGE_DISPLAY_ERROR);
 		}
-	}
+	} */
 
 	// deletes all text in the file
-	public static void clearAllTasks() {
+	public static boolean clearAllTasks() {
 		try {
 			storageFile.delete();				// delete the whole file and
 			storageFile.createNewFile();		// create a new empty file with the same name
+			return true;
 		}
 		catch (IOException e) {
-			showToUser(MESSAGE_CLEAR_ERROR);
+			return false;
 		}
 	}
 
-	public static void sortTasks() {
+	public static boolean sortTasks() {
 		try {
 			File tempStorageFile = new File("tempStorageFile.txt");
 			BufferedReader sortBufferedReader = initBufferedReader(storageFile);
@@ -128,15 +135,16 @@ public class Storage {
 			sortBufferedWriter.close();
 			storageFile.delete();
 			tempStorageFile.renameTo(storageFile);
+			return true;
 		}
 		catch (IOException e) {
-			showToUser(MESSAGE_SORT_ERROR);
+			return false;
 		}
 	}
-
+	
+	/*
 	public static void searchTask(String keyword) {
 		try {
-			File resultFile = new File("resultFile.txt");
 			BufferedReader searchBufferedReader = initBufferedReader(storageFile);
 			String line = "";
 			int matchCount = 0;
@@ -158,7 +166,30 @@ public class Storage {
 		catch (IOException e) {
 			showToUser(MESSAGE_SEARCH_ERROR);
 		}
-	}
+	} */
+	
+	public static ArrayList<String> searchTask(String keyword) {
+		
+		ArrayList<String> searchResult = new ArrayList<String>();
+		try {
+			BufferedReader searchBufferedReader = initBufferedReader(storageFile);
+			String line = "";
+
+			while ((line = searchBufferedReader.readLine()) != null) {
+				String[] wordsArray = line.split("\\s+");
+				for (String word : wordsArray) {
+					if ((word.trim()).equals(keyword.trim())) {
+						searchResult.add(line);
+						break;
+					}
+				}
+			}
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+		return searchResult;
+	} 
 
 	private static BufferedReader initBufferedReader(File textFile) {
 		try {

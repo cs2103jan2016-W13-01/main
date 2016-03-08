@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class CommandWindow extends Frame implements ActionListener {
-	
+
 	/**
 	 * 
 	 */

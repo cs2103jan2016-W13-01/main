@@ -9,56 +9,53 @@ import gui.CommandWindow;
 import gui.DisplayWindow;
 
 public class Diamond {
-	public static DisplayWindow DW;
-    public static CommandWindow CW;
+
+	private static final String MESSAGE_TASK_LIST = "Current task list:";
+	private static final String MESSAGE_NO_TASK = "No task to show.";
 	
-	public static void main(String args[]){
+	public static DisplayWindow DW;
+	public static CommandWindow CW;
+
+	public static void main(String args[]) {
 		DW = new DisplayWindow("Display");
-    	CW = new CommandWindow("Command");
-		while (true){
+		CW = new CommandWindow("Command");
+		while (true) {
 			executeCommand();
 			displayTasks();
 		}
 	}
 
-	public static void executeCommand(){
+	public static void executeCommand() {
 		String cmd = CW.getCommand();
-	}	
-	
-	public static void clearWindow(){
-			DW.clearTasks();
+		String message = TaskProcessor.getReturnMessage(cmd);
+		DW.clearTasks();
+		DW.displayTask(message);
+		displayTasks();
 	}
-	
-	public static void displayTasks(){
-		clearWindow();
+
+	public static void displayTasks() {
+		int taskCounter = 0;
+		DW.displayTask(MESSAGE_TASK_LIST);
+		for (Task task: TaskProcessor.getTaskList()) {
+			taskCounter++;
+			String taskString = taskCounter + ". " + task.toString();
+			DW.displayTask(taskString);
+		}
+		if (taskCounter == 0) {
+			DW.displayTask(MESSAGE_NO_TASK);
+		}
 	}
-	
-	public void getFileName(){		
+
+	public void getFileName() {
 
 	}
-	
-	public static void displayAllTasks(File storageFile) {	
-		int linesWritten = 0;
-		try {	
-			BufferedReader displayBufferedReader = initBufferedReader(storageFile);
-			String line = "";
-			while ((line = displayBufferedReader.readLine()) != null) {
-				DW.displayTask(linesWritten+ ". " +line);
-				linesWritten++;
-				}
-			displayBufferedReader.close();
-		}
-		catch (IOException e) {
-		}	
-	}
-	
-	private static BufferedReader initBufferedReader(File textFile) {
+
+	public static BufferedReader initBufferedReader(File textFile) {
 		try {
 			FileReader fileReader = new FileReader(textFile.getAbsoluteFile());
 			BufferedReader bufferedReader = new BufferedReader(fileReader);
 			return bufferedReader;
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 		}
 		return null;
 	}

@@ -10,7 +10,7 @@ import logic.Task;
 public class CommandParser{
 
 	public ArrayList<String> list;
-	public SimpleDateFormat sdf;
+	public static SimpleDateFormat sdf;
 	
 	public CommandParser(){
 		list = new ArrayList<String>();
@@ -25,11 +25,10 @@ public class CommandParser{
 	 *            "14/02/2016" , A temp user guide for v0.0"
 	 * "cmd" "title" "type" "date" "description" where date is in DD/MM/YYYY
 	 */
-	public CommandDetails parseInput(String input){
+	public static CommandDetails parseInput(String input){
 		String[] inputTokens = input.split(",");
 		CommandDetails cmdDetails = getCommand(inputTokens);
 		return cmdDetails;
-		
 	}
 	
 	//format e.g <cmd>,<title>,<date>,/<desc> ------ note: , and / ------ 
@@ -37,9 +36,9 @@ public class CommandParser{
 	 * <cmd>=add or a
 	 * <title> = submit progress report
 	 * <date> = 09/03/2016 23:59
-	 * <desc> = anyrandomdescription
+	 * <desc> = any random description
 	 */
-	private CommandDetails getCommand(String[] inputTokens) {
+	private static CommandDetails getCommand(String[] inputTokens) {
 		CommandType cmd = getCmd(inputTokens[0]);
 		trim(inputTokens);
 		String title = getCommandTitle(inputTokens);
@@ -52,20 +51,20 @@ public class CommandParser{
 	}
 
 // removes extra spaces
-	private void trim(String[] inputTokens) {
+	private static void trim(String[] inputTokens) {
 		for(int i=0;i<inputTokens.length;i++){
 			inputTokens[i]=inputTokens[i].trim();				
 		}	
 	}
 
 
-	private String getCommandTaskType(String[] inputTokens) {
+	private static String getCommandTaskType(String[] inputTokens) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 
-	public Date getCommandDate(String[] inputTokens) {
+	public static Date getCommandDate(String[] inputTokens) {
 		Date date=null;
 		String temp;
 		for(int i=0;i<inputTokens.length;i++){
@@ -81,7 +80,7 @@ public class CommandParser{
 	}
 
 
-	private String getCommandDescription(String[] inputTokens) {
+	private static String getCommandDescription(String[] inputTokens) {
 		String description="";
 		for(int i=0;i<inputTokens.length;i++){
 			if(inputTokens[i].charAt(0)=='/'){
@@ -95,14 +94,14 @@ public class CommandParser{
 	}
 
 
-	private String getCommandTitle(String[] inputTokens) {
+	private static String getCommandTitle(String[] inputTokens) {
 		String title="";
 		title=inputTokens[1];
 		return title;
 	}
 
 
-	private CommandType getCmd(String string) {
+	private static CommandType getCmd(String string) {
 		string=string.toLowerCase();
 		switch(string){
 			case "a": 

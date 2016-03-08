@@ -4,6 +4,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import logic.Task;
+import logic.TaskProcessor;
+
 public class DisplayWindow extends Frame implements ActionListener {
 	
 	TextArea task;
@@ -22,6 +25,10 @@ public class DisplayWindow extends Frame implements ActionListener {
 		setVisible(true);
 		validate();
 	}
+	
+	public static void main(String[] args) {
+		DisplayWindow dw = new DisplayWindow("window");
+	}
 
 	public void displayTask(String event) {
 		task.setText(event);
@@ -36,9 +43,15 @@ public class DisplayWindow extends Frame implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == text) {
-			cmd = text.getText();
-			text.setText("");
+		int taskCounter = 0;
+		cmd = text.getText();
+		text.setText("");
+		task.setText("");
+		String message = TaskProcessor.getReturnMessage(cmd);
+		task.append(message);
+		for (Task t: TaskProcessor.getTaskList()) {
+			taskCounter++;
+			task.append(taskCounter + ". " + t.toString());
 		}
 	}
 }

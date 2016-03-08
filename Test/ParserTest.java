@@ -3,7 +3,8 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 public class ParserTest {
-
+	
+	/*
 	@Test
 	public void test() {
 		Parser parserTester = new Parser();
@@ -12,5 +13,6 @@ public class ParserTest {
 		assertTrue(parserTester.checkDate("29/04/2012"));
 		assertFalse(parserTester.checkDate("2014/05/19"));
 	}
+	*/
 
 }
