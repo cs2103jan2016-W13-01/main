@@ -9,23 +9,30 @@
  */
 package logic;
 
+import java.util.Date;
+
 public class Task {
 	
 	private static int idCounter;
 	private String id;
+	private String title;
 	private String description;
-	private String date;
+	private Date date;
 	private Priority priority;
 	
 	public String getId() {
 		return id;
 	}
 	
+	public String getTitle() {
+		return title;
+	}
+	
 	public String getDescription() {
 		return description;
 	}
 	
-	public String getDate() {
+	public Date getDate() {
 		return date;
 	}
 	
@@ -37,11 +44,15 @@ public class Task {
 		id = newId;
 	}
 	
+	public void setTitle(String newTitle) {
+		title = newTitle; 
+	}
+	
 	public void setDescription(String newDes) {
 		description = newDes;
 	}
 	
-	public void setDate(String newDate) {
+	public void setDate(Date newDate) {
 		date = newDate;
 	}
 	
@@ -49,7 +60,8 @@ public class Task {
 		priority = newPrio;
 	}
 	
-	public Task(String description, String date, Priority priority) {
+	public Task(String title, String description, Date date, Priority priority) {
+		this.title = title;
 		this.description = description;
 		this.date = date;
 		this.priority = priority;
@@ -57,11 +69,15 @@ public class Task {
 		this.id = new Integer(idCounter).toString();
 	}
 	
-	public Task(String description, String date) {
-		this(description, date, Priority.NULL);
+	public Task(String title, String description, Date date) {
+		this(title, description, date, Priority.NULL);
 	}
 	
-	public Task(String description) {
-		this(description, null, Priority.NULL);
+	public Task(String title, Date date) {
+		this(title, null, date, Priority.NULL);
+	}
+	
+	public Task(String title) {
+		this(title, null, null, Priority.NULL);
 	}
 }

@@ -34,7 +34,7 @@ import java.util.PriorityQueue;
  */
 
 
-public class Storage {
+public class StorageDemo {
 
 	protected String _name; // The file name, which is given as argument to main
 							// method
@@ -59,7 +59,7 @@ public class Storage {
 	};
 	
 	// Constructor
-	protected Storage(String name) throws IOException {
+	protected StorageDemo(String name) throws IOException {
 		_name = name;
 		_contentFile = openFile(name); // Will throw IOException if file cannot
 										// be created

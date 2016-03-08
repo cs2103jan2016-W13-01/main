@@ -14,7 +14,7 @@ public class Controller2 {
 	
 	public static void executeCommand(){
 		String cmd = CW.getCommand();
-		Logic.parseCommand(cmd);
+		LogicDemo.parseCommand(cmd);
 	}	
 	
 	public void clearDW(){
