@@ -78,5 +78,6 @@ public class TaskProcessor {
 	
 	public static void initialize() {
 		taskList = new ArrayList<Task>();
+		Storage.loadIntoList(taskList);
 	}
 }

@@ -2,6 +2,9 @@ package Storage;
 
 import java.util.*;
 
+import Parser.CommandParser;
+import logic.Task;
+
 import java.io.*;
 
 public class Storage {
@@ -189,7 +192,25 @@ public class Storage {
 			e.printStackTrace();
 		}
 		return searchResult;
-	} 
+	}
+	
+	// Load the content of the file into an a list of task
+	public static boolean loadIntoList(ArrayList<Task> taskList) {
+		try {
+			BufferedReader searchBufferedReader = initBufferedReader(storageFile);
+			String line = null;
+
+			while ((line = searchBufferedReader.readLine()) != null) {
+				Task task = CommandParser.parseTask(line);
+				taskList.add(task);
+			}
+			return true;
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
 
 	private static BufferedReader initBufferedReader(File textFile) {
 		try {
