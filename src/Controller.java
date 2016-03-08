@@ -32,7 +32,7 @@ public class Controller {
 
 /**	public static void displayTasks(){
 		clearTextArea();
-		File storageFile = Storage.retriveFile();
+		File storageFile = Storage.retrieveFile();
 		displayFromStorage(storage);
 	}
 	
