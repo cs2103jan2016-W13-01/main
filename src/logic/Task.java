@@ -7,7 +7,7 @@
  *     - date: date for the task to be done or deadline
  *     - priority: the task's priority
  */
-package logic;
+package Logic;
 
 import java.util.Date;
 
@@ -80,5 +80,11 @@ public class Task {
 	
 	public Task(CommandType cmd,String title) {
 		this(cmd,title, null, null, Priority.NULL);
+	}
+	
+	public String toString() {
+		String dateString = date.toString();
+		String result = dateString + ": " + title + " - " + description;
+		return result;
 	}
 }
