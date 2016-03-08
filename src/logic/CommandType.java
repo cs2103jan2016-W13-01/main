@@ -5,5 +5,5 @@
 package logic;
 
 public enum CommandType {
-	ADD, DELETE, INVALID;
+	ADD, DELETE, INVALID,UNDO,MARK,UNMARK;
 }
