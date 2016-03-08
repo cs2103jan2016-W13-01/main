@@ -22,7 +22,6 @@ public class Controller2 {
 	
 	public static void executeCommand(){
 		String cmd = CW.getCommand();
-		LogicDemo.parseCommand(cmd);
 	}	
 	
 	public static void clearWindow(){
@@ -35,7 +34,7 @@ public class Controller2 {
 	}
 	
 	public void getFileName(){		
-		File StorageFile		
+
 	}
 	
 	private static void displayAllTasks(File storageFile) {	
