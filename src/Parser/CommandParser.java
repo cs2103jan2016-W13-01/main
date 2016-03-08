@@ -9,13 +9,10 @@ import logic.Task;
 
 public class CommandParser{
 
-	
-	public CommandParser cmdParser;
 	public ArrayList<String> list;
 	public SimpleDateFormat sdf;
 	
-	public void init(){
-		cmdParser = new CommandParser();
+	public CommandParser(){
 		list = new ArrayList<String>();
 		sdf = new SimpleDateFormat("ddMMyyyy HHmm");
 		sdf.setLenient(false);
@@ -108,23 +105,23 @@ public class CommandParser{
 	private CommandType getCmd(String string) {
 		string=string.toLowerCase();
 		switch(string){
-		case "a": 
-		case "add":
-			return CommandType.ADD;
-		case "d": 
-		case "delete":
-			return CommandType.DELETE;
-		case "u": 
-		case "undo":
-			return CommandType.UNDO;
-		case "m": 
-		case "mark":
-			return CommandType.MARK;
-		case "um": 
-		case "unmark":
-			return CommandType.UNMARK;
-		default:
-			return CommandType.INVALID;
+			case "a": 
+			case "add":
+				return CommandType.ADD;
+			case "d": 
+			case "delete":
+				return CommandType.DELETE;
+			case "u": 
+			case "undo":
+				return CommandType.UNDO;
+			case "m": 
+			case "mark":
+				return CommandType.MARK;
+			case "um": 
+			case "unmark":
+				return CommandType.UNMARK;
+			default:
+				return CommandType.INVALID;
 		}
 	}
 }
