@@ -22,7 +22,7 @@ public class Storage {
 		retrieveFile();
 	}
 
-	protected File retrieveFile() {
+	public static File retrieveFile() {
 		storageFile = new File(STORAGE_FILE);
 		if (!storageFile.exists()) {
 			// Create file if it does not exist
@@ -209,6 +209,7 @@ public class Storage {
 			return bufferedWriter;
 		}
 		catch (IOException e) {
+			e.printStackTrace();
 		}
 		return null;
 	}

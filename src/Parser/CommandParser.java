@@ -33,7 +33,7 @@ public class CommandParser{
 	
 	//format e.g <cmd>,<title>,<date>,/<desc> ------ note: , and / ------ 
 	/**
-	 * <cmd>=add or a
+	 * <cmd> = add or a
 	 * <title> = submit progress report
 	 * <date> = 09/03/2016 23:59
 	 * <desc> = any random description
@@ -65,7 +65,7 @@ public class CommandParser{
 
 
 	public static Date getCommandDate(String[] inputTokens) {
-		Date date=null;
+		Date date = new Date();
 		String temp;
 		for(int i=0;i<inputTokens.length;i++){
 			try{

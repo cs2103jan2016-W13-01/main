@@ -73,11 +73,11 @@ public class Task {
 	}
 	
 	public Task(String title, Date date) {
-		this(title, null, date, Priority.NULL);
+		this(title, "null", date, Priority.NULL);
 	}
 	
 	public Task(String title) {
-		this(title, null, null, Priority.NULL);
+		this(title, "null", new Date(), Priority.NULL);
 	}
 	
 	public String toString() {
