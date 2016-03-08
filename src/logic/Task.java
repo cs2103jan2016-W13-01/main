@@ -7,12 +7,11 @@
  *     - date: date for the task to be done or deadline
  *     - priority: the task's priority
  */
-package Logic;
+package logic;
 
 import java.util.Date;
 
 public class Task {
-	private CommandType cmd;
 	private static int idCounter;
 	private String id;
 	private String title;
@@ -60,8 +59,7 @@ public class Task {
 		priority = newPrio;
 	}
 	
-	public Task(CommandType cmd,String title, String description, Date date, Priority priority) {
-		this.cmd=cmd;
+	public Task(String title, String description, Date date, Priority priority) {
 		this.title = title;
 		this.description = description;
 		this.date = date;
@@ -70,16 +68,16 @@ public class Task {
 		this.id = new Integer(idCounter).toString();
 	}
 	
-	public Task(CommandType cmd,String title, String description, Date date) {
-		this(cmd,title, description, date, Priority.NULL);
+	public Task(String title, String description, Date date) {
+		this(title, description, date, Priority.NULL);
 	}
 	
-	public Task(CommandType cmd,String title, Date date) {
-		this(cmd,title, null, date, Priority.NULL);
+	public Task(String title, Date date) {
+		this(title, null, date, Priority.NULL);
 	}
 	
-	public Task(CommandType cmd,String title) {
-		this(cmd,title, null, null, Priority.NULL);
+	public Task(String title) {
+		this(title, null, null, Priority.NULL);
 	}
 	
 	public String toString() {
