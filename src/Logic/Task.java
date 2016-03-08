@@ -7,7 +7,7 @@
  *     - date: date for the task to be done or deadline
  *     - priority: the task's priority
  */
-package logic;
+package Logic;
 
 public class Task {
 	

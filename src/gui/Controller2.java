@@ -1,5 +1,6 @@
 package gui;
 
+import Parser.CommandParser;
 
 public class Controller2 {
 	public static DisplayWindow DW;
@@ -14,7 +15,7 @@ public class Controller2 {
 	
 	public static void executeCommand(){
 		String cmd = CW.getCommand();
-		Logic.parseCommand(cmd);
+		Parser.parseCommand(cmd);
 	}	
 	
 	public void clearDW(){
