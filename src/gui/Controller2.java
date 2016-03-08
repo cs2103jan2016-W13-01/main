@@ -1,6 +1,12 @@
 package gui;
 
-import Parser.CommandParser;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+
+import Logic.LogicDemo;
+import Storage.src.Storage;
 
 public class Controller2 {
 	public static DisplayWindow DW;
@@ -11,23 +17,46 @@ public class Controller2 {
 		CW = new CommandWindow("Command");
 		while (true){
 		executeCommand();
+		displayTasks();
 		}}
 	
 	public static void executeCommand(){
 		String cmd = CW.getCommand();
-<<<<<<< HEAD
-		Parser.parseCommand(cmd);
-=======
 		LogicDemo.parseCommand(cmd);
->>>>>>> 7dfdce5465ea7042de0af85484f0db2063da77ee
 	}	
 	
-	public void clearDW(){
+	public void clearWindow(){
 		DW.clearUI();
 		}
 	
-	public void displayDW(String task){
-		DW.displayUI(task);		
+	public void displayTasks(){		
+		DW.displayTask(task);		
+	}
+	
+	private static void displayAllTasks(File storageFile) {	
+		int linesWritten = 0;
+		try {	
+			BufferedReader displayBufferedReader = initBufferedReader(storageFile);
+			String line = "";
+			while ((line = displayBufferedReader.readLine()) != null) {
+				DW.displayTask(linesWritten+ ". " +line);
+				linesWritten++;
+				}
+			displayBufferedReader.close();
+		}
+		catch (IOException e) {
+		}	
+	}
+	
+	private static BufferedReader initBufferedReader(File textFile) {
+		try {
+			FileReader fileReader = new FileReader(textFile.getAbsoluteFile());
+			BufferedReader bufferedReader = new BufferedReader(fileReader);
+			return bufferedReader;
+		}
+		catch (IOException e) {
+		}
+		return null;
 	}
 	
 }

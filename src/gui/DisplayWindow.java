@@ -15,11 +15,11 @@ DisplayWindow(String name){
 	validate();
 	}
 
-public void displayUI(String task){
+public void displayTask(String task){
 	text.setText(task);		
 }
 
-public void clearUI(){
+public void clearTasks(){
 	text.setText("");
 	}
 }
