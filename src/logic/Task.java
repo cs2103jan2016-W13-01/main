@@ -80,4 +80,10 @@ public class Task {
 	public Task(String title) {
 		this(title, null, null, Priority.NULL);
 	}
+	
+	public String toString() {
+		String dateString = date.toString();
+		String result = dateString + ": " + title + " - " + description;
+		return result;
+	}
 }
