@@ -23,10 +23,11 @@ public class CommandParser{
 	
 
 
-	//for now assume the user input the full required string
-	//format e.g: add "cs2103 user guide v0.0" "event"
-	//            "14/02/2016" , A temp user guide for v0.0"
-	// "cmd" "title" "type" "date" "description" where date is in DD/MM/YYYY
+	/**for now assume the user input the full required string
+	 *format e.g: add "cs2103 user guide v0.0" "event"
+	 *            "14/02/2016" , A temp user guide for v0.0"
+	 * "cmd" "title" "type" "date" "description" where date is in DD/MM/YYYY
+	 */
 	public CommandDetails parseInput(String input){
 		String[] inputTokens = input.split(",");
 		CommandDetails cmdDetails = getCommand(inputTokens);
@@ -35,7 +36,7 @@ public class CommandParser{
 	}
 	
 	//format e.g <cmd>,<title>,<date>,/<desc> ------ note: , and / ------ 
-	/*
+	/**
 	 * <cmd>=add or a
 	 * <title> = submit progress report
 	 * <date> = 09/03/2016 23:59

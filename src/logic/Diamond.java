@@ -1,59 +1,64 @@
-package gui;
+package logic;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class Controller2 {
-	public static DisplayWindow DW;
-	public static CommandWindow CW;
+import gui.CommandWindow;
+import gui.DisplayWindow;
 
-	public static void main(String args[]) {
+public class Diamond {
+	public static DisplayWindow DW;
+    public static CommandWindow CW;
+	
+	public static void main(String args[]){
 		DW = new DisplayWindow("Display");
-		CW = new CommandWindow("Command");
-		while (true) {
+    	CW = new CommandWindow("Command");
+		while (true){
 			executeCommand();
 			displayTasks();
 		}
 	}
 
-	public static void executeCommand() {
+	public static void executeCommand(){
 		String cmd = CW.getCommand();
+	}	
+	
+	public static void clearWindow(){
+			DW.clearTasks();
 	}
-
-	public static void clearWindow() {
-		DW.clearTasks();
-	}
-
-	public static void displayTasks() {
+	
+	public static void displayTasks(){
 		clearWindow();
 	}
-
-	public void getFileName() {
+	
+	public void getFileName(){		
 
 	}
-
-	public static void displayAllTasks(File storageFile) {
+	
+	public static void displayAllTasks(File storageFile) {	
 		int linesWritten = 0;
-		try {
+		try {	
 			BufferedReader displayBufferedReader = initBufferedReader(storageFile);
 			String line = "";
 			while ((line = displayBufferedReader.readLine()) != null) {
-				DW.displayTask(linesWritten + ". " + line);
+				DW.displayTask(linesWritten+ ". " +line);
 				linesWritten++;
-			}
+				}
 			displayBufferedReader.close();
-		} catch (IOException e) {
 		}
+		catch (IOException e) {
+		}	
 	}
-
+	
 	private static BufferedReader initBufferedReader(File textFile) {
 		try {
 			FileReader fileReader = new FileReader(textFile.getAbsoluteFile());
 			BufferedReader bufferedReader = new BufferedReader(fileReader);
 			return bufferedReader;
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 		}
 		return null;
 	}
