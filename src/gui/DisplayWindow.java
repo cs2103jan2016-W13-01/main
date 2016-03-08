@@ -12,11 +12,11 @@ class DisplayWindow extends Frame implements ActionListener{
 DisplayWindow(String name){
 	super(name);
 	setLayout(new FlowLayout());
-	task = new TextArea("");
-	add(task);
 	text = new TextField("", 30);
 	text.addActionListener(this);
 	add(text);
+	task = new TextArea("");
+	add(task);
 	setBounds(500, 500, 500, 500);
 	setVisible(true);
 	validate();
