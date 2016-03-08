@@ -25,12 +25,17 @@ public class Controller2 {
 		LogicDemo.parseCommand(cmd);
 	}	
 	
-	public void clearWindow(){
-		DW.clearUI();
+	public static void clearWindow(){
+		DW.clearTasks();
 		}
 	
-	public void displayTasks(){		
-		DW.displayTask(task);		
+	public static void displayTasks(){
+		clearWindow();
+		File storageFile = Storage.getFileName();
+	}
+	
+	public void getFileName(){		
+		File StorageFile		
 	}
 	
 	private static void displayAllTasks(File storageFile) {	
