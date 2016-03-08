@@ -4,22 +4,21 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-
 import Logic.LogicDemo;
 import Storage.src.Storage;
 
 public class Controller2 {
 	public static DisplayWindow DW;
-	public static CommandWindow CW;
+/**	public static CommandWindow CW;**/
 	
 	public static void main(String args[]){
-		DW = new DisplayWindow("Display");
-		CW = new CommandWindow("Command");
+		DW = new DisplayWindow("Display");}}
+/**		CW = new CommandWindow("Command");
 		while (true){
 		executeCommand();
 		displayTasks();
 		}}
-	
+
 	public static void executeCommand(){
 		String cmd = CW.getCommand();
 	}	
@@ -37,7 +36,7 @@ public class Controller2 {
 
 	}
 	
-	private static void displayAllTasks(File storageFile) {	
+	public static void displayAllTasks(File storageFile) {	
 		int linesWritten = 0;
 		try {	
 			BufferedReader displayBufferedReader = initBufferedReader(storageFile);
@@ -62,5 +61,5 @@ public class Controller2 {
 		}
 		return null;
 	}
-	
-}
+	**/
+		
