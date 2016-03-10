@@ -25,13 +25,13 @@ public class CommandParser {
 	 * v0.0" "cmd" "title" "type" "date" "description" where date is in
 	 * DD/MM/YYYY
 	 */
-	/*
 	public static CommandDetails parseInput(String input) {
 		String[] inputTokens = input.split(",");
 		CommandDetails cmdDetails = getCommand(inputTokens);
 		return cmdDetails;
-	} */
+	}
 	
+	/*
 	public static CommandDetails parseInput(String input) {
 		CommandDetails result;
 		String commandString = getFirstWord(input);
@@ -39,17 +39,17 @@ public class CommandParser {
 		Task task = parseTask(getSecondWord(input));
 		result = new CommandDetails(cmdType, task);
 		return result;
-	}
+	} */
 
 	// This method extracts the second word from a command
-	private static String getSecondWord(String command) {
+	public static String getSecondWord(String command) {
 		String commandTypeString = getFirstWord(command);
 		String taskString = command.replaceFirst(command+",", "").trim();
 		return taskString;
 	}
 
 	// This method extracts the first word from a command
-	private static String getFirstWord(String command) {
+	public static String getFirstWord(String command) {
 		String commandTypeString = command.trim().split(",")[0].trim();
 		return commandTypeString;
 	}
@@ -124,7 +124,7 @@ public class CommandParser {
 
 	private static String getCommandTitle(String[] inputTokens) {
 		String title = "";
-		title = inputTokens[0];
+		title = inputTokens[1];
 		return title;
 	}
 
