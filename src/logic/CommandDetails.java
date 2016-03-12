@@ -3,6 +3,7 @@ package logic;
 public class CommandDetails {
 	private CommandType cmd;
 	private Task task;
+
 	
 	public CommandDetails(CommandType cmd,Task task){
 		
@@ -17,4 +18,6 @@ public class CommandDetails {
 	public Task getTask() {
 		return task;
 	}
+	
+	
 }

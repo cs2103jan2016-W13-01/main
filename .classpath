@@ -4,5 +4,11 @@
 	<classpathentry kind="src" path="Test"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="libs/antlr-4.5.1-complete.jar"/>
+	<classpathentry kind="lib" path="libs/antlr-runtime-3.5.2.jar"/>
+	<classpathentry kind="lib" path="libs/ical4j-2.0-beta1.jar"/>
+	<classpathentry kind="lib" path="libs/natty-0.12.jar"/>
+	<classpathentry kind="lib" path="libs/slf4j-api-1.7.18.jar"/>
+	<classpathentry kind="lib" path="libs/slf4j-simple-1.7.18.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
