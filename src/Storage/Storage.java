@@ -1,10 +1,11 @@
 package Storage;
 
 import java.util.*;
-
 import java.io.*;
 
-public class Storage {
+import logic.Task;
+
+public class Storage implements Serializable {
 
 	/*
 	private static final String MESSAGE_ADD_ERROR = "Error encountered when adding text. Please try again.";
@@ -17,6 +18,7 @@ public class Storage {
 	*/
 	private static final String STORAGE_FILE = "storage.txt";
 	private static File storageFile;
+	private static ArrayList<Task> taskList;
 
 	private Storage() {
 		retrieveFile();
@@ -41,8 +43,8 @@ public class Storage {
 	}
 
 	// appends a new line of text at the bottom of the file
-	public static boolean addNewTask(String newTask) {
-		try {
+	public static boolean addNewTask(Task newTask) {
+/*		try {
 			BufferedWriter addBufferedWriter = initBufferedWriter(storageFile);
 
 			addBufferedWriter.write(newTask.trim());
@@ -52,7 +54,20 @@ public class Storage {
 		}
 		catch (IOException e) {
 			return false;
+		}*/
+		
+		taskList = loadTaskList();
+		taskList.add(newTask);
+		try {
+			FileOutputStream fos = new FileOutputStream(storageFile);
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
+			oos.writeObject(taskList);
+			oos.close();
+		} 
+		catch (IOException e) {
+			e.printStackTrace();
 		}
+	
 	}
 
 	// deletes a line from the file based on line number
@@ -207,6 +222,32 @@ public class Storage {
 			FileWriter fileWriter = new FileWriter(textFile.getAbsoluteFile(), true);
 			BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
 			return bufferedWriter;
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	private static ArrayList<Task> loadTaskList() {
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(storageFile));     
+			if (br.readLine() == null) {
+				taskList = new ArrayList<Task>();
+				return taskList;
+			}
+			else {
+				try {
+					FileInputStream fis = new FileInputStream(storageFile);
+					ObjectInputStream ois = new ObjectInputStream(fis);
+					taskList = (ArrayList<Task>) ois.readObject();
+					ois.close();
+					return taskList;
+				}
+				catch (ClassNotFoundException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 		catch (IOException e) {
 			e.printStackTrace();
