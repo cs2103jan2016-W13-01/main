@@ -82,7 +82,7 @@ public class Task {
 	
 	public String toString() {
 		String dateString = date.toString();
-		String result = dateString + ": " + title + " - " + description;
+		String result = title + " " + dateString + ", / " + description;
 		return result;
 	}
 }

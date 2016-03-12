@@ -1,4 +1,3 @@
-<<<<<<< HEAD:src/gui/DisplayWindow.java
 package gui;
 
 import java.awt.*;

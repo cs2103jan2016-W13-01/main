@@ -28,8 +28,8 @@ public class Diamond extends CommandWindow {
 
 	public static void main(String args[]) {
 		diamond = new Diamond();
-		TaskProcessor.initialize();
 		Storage.retrieveFile();
+		TaskProcessor.initialize();
 	}
 
 	public static String executeCommand() {
