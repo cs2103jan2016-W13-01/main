@@ -7,7 +7,7 @@ import logic.Task;
 import java.io.*;
 
 public class Storage implements Serializable {
-
+	
 	/*
 	private static final String MESSAGE_ADD_ERROR = "Error encountered when adding text. Please try again.";
 	private static final String MESSAGE_DELETE_ERROR = "Error encountered when deleting task. Please try again";
@@ -23,6 +23,7 @@ public class Storage implements Serializable {
 
 	private Storage() {
 		retrieveFile();
+		taskList = loadTaskList();
 	}
 
 	public static File retrieveFile() {
@@ -36,11 +37,6 @@ public class Storage implements Serializable {
 			}
 		}
 		return storageFile;
-	}
-
-	// prints text
-	private static void showToUser(String textToPrint) {
-		System.out.println(textToPrint);
 	}
 
 	// appends a new line of text at the bottom of the file
@@ -57,25 +53,15 @@ public class Storage implements Serializable {
 			return false;
 		}*/
 		
-		taskList = loadTaskList();
-		taskList.add(newTask);
-		try {
-			FileOutputStream fos = new FileOutputStream(storageFile);
-			ObjectOutputStream oos = new ObjectOutputStream(fos);
-			oos.writeObject(taskList);
-			oos.close();
-			return true;
-		} 
-		catch (IOException e) {
-			e.printStackTrace();
-		}
-		return false;
 	
+		taskList.add(newTask);
+		saveTaskList();
+		return true;
 	}
 
 	// deletes a line from the file based on line number
 	public static boolean deleteTask(int taskNumberToDelete) {
-		try {
+	/*	try {
 			File tempStorageFile = new File("tempStorageFile.txt");
 			BufferedReader deleteBufferedReader = initBufferedReader(storageFile);
 			BufferedWriter deleteBufferedWriter = initBufferedWriter(tempStorageFile);
@@ -100,6 +86,15 @@ public class Storage implements Serializable {
 		}
 		catch (IOException e) {
 			return false;
+		}*/
+		
+		if (taskList.isEmpty() || taskNumberToDelete == 0 || taskNumberToDelete >= taskList.size() - 1) {
+			return false;
+		}
+		else {
+			taskList.remove(taskNumberToDelete - 1);
+			saveTaskList();
+			return true;
 		}
 	}
 
@@ -237,6 +232,7 @@ public class Storage implements Serializable {
 			BufferedReader br = new BufferedReader(new FileReader(storageFile));     
 			if (br.readLine() == null) {
 				taskList = new ArrayList<Task>();
+				br.close();
 				return taskList;
 			}
 			else {
@@ -251,10 +247,25 @@ public class Storage implements Serializable {
 					e.printStackTrace();
 				}
 			}
+			br.close();
 		}
 		catch (IOException e) {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	private static boolean saveTaskList() {
+		try {
+			FileOutputStream fos = new FileOutputStream(storageFile);
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
+			oos.writeObject(taskList);
+			oos.close();
+			return true;
+		} 
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 }
