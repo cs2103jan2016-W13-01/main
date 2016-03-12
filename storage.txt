@@ -1,6 +1,7 @@
-Wed Mar 09 03:11:05 SGT 2016: title - des
-Wed Mar 09 03:11:12 SGT 2016: title - des
-Wed Mar 09 03:15:53 SGT 2016: title - des
-Wed Mar 09 03:18:08 SGT 2016: title - des
-Wed Mar 09 03:27:01 SGT 2016: some task -  some stuff
-Wed Mar 09 03:27:51 SGT 2016: other task -  sleep like death
+addWed Mar 09 12:48:06 SGT 2016, /
+add Wed Mar 09 13:02:21 SGT 2016, /
+add Wed Mar 09 13:03:20 SGT 2016, /
+sometitle Wed Mar 09 13:08:49 SGT 2016, / des
+title Wed Mar 09 13:21:47 SGT 2016, / des
+title Wed Mar 09 13:34:21 SGT 2016, / des
+sleep Wed Mar 09 13:51:37 SGT 2016, / go to bed
