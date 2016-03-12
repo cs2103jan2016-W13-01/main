@@ -20,94 +20,88 @@ public class CommandParser {
 	}
 
 	/**
-	 * for now assume the user input the full required string format e.g: add
-	 * "cs2103 user guide v0.0" "event" "14/02/2016" , A temp user guide for
-	 * v0.0" "cmd" "title" "type" "date" "description" where date is in
-	 * DD/MM/YYYY
+	 * Requires input format add title date 
 	 */
 	public static CommandDetails parseInput(String input) {
-		String[] inputTokens = input.split(",");
-		CommandDetails cmdDetails = getCommand(inputTokens);
+		input=input.trim();
+		input = input.replaceAll("\\s+"," ");
+		String[] inputTokens = input.split(" ");
+		CommandType cmd = getCmd(inputTokens[0]);
+		Task task=null;
+		String inputNum;
+		CommandDetails cmdDetails;
+		
+		switch(cmd){
+		
+		case ADD:
+			task = getTask(input);
+			cmdDetails = new CommandDetails(cmd,task);
+			break;
+			
+			
+		case DELETE:
+			inputNum = getInputNum(inputTokens);
+			if(inputNum.equals("-1")){
+				cmd=CommandType.INVALID;
+			}
+			task= new Task(null);
+			task.setId(inputNum);
+			
+			cmdDetails = new CommandDetails(cmd,null);
+			break;
+			
+			
+		case EDIT:
+			task = getTask(input);
+			inputNum = getInputNum(inputTokens);
+			if(inputNum.equals("-1")){
+				cmd=CommandType.INVALID;
+			}
+			task.setId(inputNum);
+			cmdDetails = new CommandDetails(cmd,task);
+			break;
+			
+			
+		case UNDO:
+			cmdDetails = new CommandDetails(cmd,null);
+			break;
+			
+			
+		default:
+			cmdDetails = new CommandDetails(cmd,null);
+			
+		}
+	
 		return cmdDetails;
 	}
 	
-	/*
-	public static CommandDetails parseInput(String input) {
-		CommandDetails result;
-		String commandString = getFirstWord(input);
-		CommandType cmdType = getCmd(commandString);
-		Task task = parseTask(getSecondWord(input));
-		result = new CommandDetails(cmdType, task);
-		return result;
-	} */
 
-	// This method extracts the second word from a command
-	public static String getSecondWord(String command) {
-		String commandTypeString = getFirstWord(command);
-		String taskString = command.replaceFirst(command+",", "").trim();
-		return taskString;
-	}
-
-	// This method extracts the first word from a command
-	public static String getFirstWord(String command) {
-		String commandTypeString = command.trim().split(",")[0].trim();
-		return commandTypeString;
-	}
+	private static Task getTask(String input) {
 	
-	public static Task parseTask(String taskString) {
-		String[] tokens = taskString.split("[,.]+");
-		if (tokens.length < 1) {
-			return null;
+		String[] inputTokens= input.split(" ", 2);
+		String title = titleParser.getTitle(inputTokens[1]);
+		Date date = dateParser.getDate(inputTokens[1]);
+		
+		Task task = new Task(title,date);
+		return task;
+	}
+
+
+
+	private static String getInputNum(String[] inputTokens) {
+		String inputNum = inputTokens[1];
+		int num;
+		try{
+			num=Integer.parseInt(inputNum);
 		}
-		String title = getCommandTitle(tokens);
-		String description = getCommandDescription(tokens);
-		Date date = getCommandDate(tokens);
-		return new Task(title, description, date);
-	}
-
-	// format e.g <cmd>,<title>,<date>,/<desc> ------ note: , and / ------
-	/**
-	 * <cmd> = add or a <title> = submit progress report <date> = 09/03/2016
-	 * 23:59 <desc> = any random description
-	 */
-	private static CommandDetails getCommand(String[] inputTokens) {
-		CommandType cmd = getCmd(inputTokens[0]);
-		trim(inputTokens);
-		String title = getCommandTitle(inputTokens);
-		String description = getCommandDescription(inputTokens);
-		Date date = getCommandDate(inputTokens);
-		String taskType = getCommandTaskType(inputTokens);
-		Task pc = new Task(title, description, date);
-		CommandDetails cd = new CommandDetails(cmd, pc);
-		return cd;
-	}
-
-	// removes extra spaces
-	private static void trim(String[] inputTokens) {
-		for (int i = 0; i < inputTokens.length; i++) {
-			inputTokens[i] = inputTokens[i].trim();
+		catch(Exception e){
+			num=-1;
 		}
+		String strNum = Integer.toString(num);
+		System.out.println("deleted num = "+strNum);
+		return strNum;
 	}
 
-	private static String getCommandTaskType(String[] inputTokens) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public static Date getCommandDate(String[] inputTokens) {
-		Date date = new Date();
-		String temp;
-		for (int i = 0; i < inputTokens.length; i++) {
-			try {
-				temp = inputTokens[i].replaceAll("[-+.^:/,]", "");
-				date = sdf.parse(temp);
-			} catch (Exception e) {
-				continue;
-			}
-			break;
-		}
-		return date;
-	}
 
 	private static String getCommandDescription(String[] inputTokens) {
 		String description = "";
@@ -122,11 +116,7 @@ public class CommandParser {
 		return description;
 	}
 
-	private static String getCommandTitle(String[] inputTokens) {
-		String title = "";
-		title = inputTokens[1];
-		return title;
-	}
+	
 
 	private static CommandType getCmd(String string) {
 		string = string.toLowerCase();
@@ -146,6 +136,10 @@ public class CommandParser {
 		case "um":
 		case "unmark":
 			return CommandType.UNMARK;
+		case "e":
+		case "edit":
+			return CommandType.EDIT;
+		
 		default:
 			return CommandType.INVALID;
 		}
