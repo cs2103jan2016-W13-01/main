@@ -40,7 +40,7 @@ public class Storage implements Serializable {
 	}
 
 	// appends a new line of text at the bottom of the file
-	public static boolean addNewTask(Task newTask) {
+	public static ArrayList<Task> addNewTask(Task newTask) {
 /*		try {
 			BufferedWriter addBufferedWriter = initBufferedWriter(storageFile);
 
@@ -56,11 +56,11 @@ public class Storage implements Serializable {
 	
 		taskList.add(newTask);
 		saveTaskList();
-		return true;
+		return taskList;
 	}
 
 	// deletes a line from the file based on line number
-	public static boolean deleteTask(int taskNumberToDelete) {
+	public static ArrayList<Task> deleteTask(int taskNumberToDelete) {
 	/*	try {
 			File tempStorageFile = new File("tempStorageFile.txt");
 			BufferedReader deleteBufferedReader = initBufferedReader(storageFile);
@@ -88,14 +88,11 @@ public class Storage implements Serializable {
 			return false;
 		}*/
 		
-		if (taskList.isEmpty() || taskNumberToDelete == 0 || taskNumberToDelete >= taskList.size() - 1) {
-			return false;
-		}
-		else {
+		if (!taskList.isEmpty() && taskNumberToDelete > 0 && taskNumberToDelete < taskList.size()) {
 			taskList.remove(taskNumberToDelete - 1);
 			saveTaskList();
-			return true;
 		}
+		return taskList;
 	}
 
 	// displays every line in the file in a numbered sequence
