@@ -178,9 +178,9 @@ public class Storage implements Serializable {
 		}
 	} */
 	
-	public static ArrayList<String> searchTask(String keyword) {
+	public static ArrayList<Task> searchTask(String keyword) {
 		
-		ArrayList<String> searchResult = new ArrayList<String>();
+	/*	ArrayList<String> searchResult = new ArrayList<String>();
 		try {
 			BufferedReader searchBufferedReader = initBufferedReader(storageFile);
 			String line = "";
@@ -197,6 +197,16 @@ public class Storage implements Serializable {
 		}
 		catch (IOException e) {
 			e.printStackTrace();
+		}
+		return searchResult;*/
+		
+		ArrayList<Task> searchResult = new ArrayList<Task>();
+		String lowerCaseKeyword = keyword.toLowerCase();
+		for (int i = 0; i < taskList.size(); i++) {
+			String taskTitle = taskList.get(i).getTitle();
+			if (taskTitle.toLowerCase().contains(lowerCaseKeyword)) {
+				searchResult.add(taskList.get(i));
+			}
 		}
 		return searchResult;
 	}
