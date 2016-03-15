@@ -3,10 +3,10 @@ package logic;
 public class CommandDetails {
 	private CommandType cmd;
 	private Task task;
+	private String inputNum;
 
 	
 	public CommandDetails(CommandType cmd,Task task){
-		
 		this.cmd=cmd;
 		this.task=task;
 	}
@@ -19,5 +19,11 @@ public class CommandDetails {
 		return task;
 	}
 	
+	public void setInputNum(String inputNum){
+		this.inputNum=inputNum;
+	}
+	public String getInputNum(){
+		return inputNum;
+	}
 	
 }

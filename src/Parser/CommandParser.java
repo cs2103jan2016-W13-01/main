@@ -44,10 +44,8 @@ public class CommandParser {
 			if(inputNum.equals("-1")){
 				cmd=CommandType.INVALID;
 			}
-			task= new Task(null);
-			task.setId(inputNum);
-			
-			cmdDetails = new CommandDetails(cmd,null);
+			cmdDetails = new CommandDetails(cmd,task);
+			cmdDetails.setInputNum(inputNum);
 			break;
 			
 			
@@ -57,18 +55,36 @@ public class CommandParser {
 			if(inputNum.equals("-1")){
 				cmd=CommandType.INVALID;
 			}
-			task.setId(inputNum);
-			cmdDetails = new CommandDetails(cmd,task);
+			cmdDetails= new CommandDetails(cmd,task);
+			cmdDetails.setInputNum(inputNum);
 			break;
 			
 			
 		case UNDO:
-			cmdDetails = new CommandDetails(cmd,null);
+			cmdDetails = new CommandDetails(cmd,task);
 			break;
 			
+		case MARK:
+			inputNum = getInputNum(inputTokens);
+			if(inputNum.equals("-1")){
+				cmd=CommandType.INVALID;
+			}
+			cmdDetails= new CommandDetails(cmd,task);
+			cmdDetails.setInputNum(inputNum);
+			break;
+			
+		case UNMARK:
+			inputNum = getInputNum(inputTokens);
+			if(inputNum.equals("-1")){
+				cmd=CommandType.INVALID;
+			}
+			cmdDetails= new CommandDetails(cmd,task);
+			cmdDetails.setInputNum(inputNum);
+			break;
+				
 			
 		default:
-			cmdDetails = new CommandDetails(cmd,null);
+			cmdDetails = new CommandDetails(cmd,task);
 			
 		}
 	

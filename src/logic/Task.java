@@ -12,16 +12,11 @@ package logic;
 import java.util.Date;
 
 public class Task {
-	private static int idCounter;
-	private String id;
 	private String title;
 	private String description;
 	private Date date;
 	private Priority priority;
-	
-	public String getId() {
-		return id;
-	}
+
 	
 	public String getTitle() {
 		return title;
@@ -39,9 +34,6 @@ public class Task {
 		return priority;
 	}
 	
-	public void setId(String newId) {
-		id = newId;
-	}
 	
 	public void setTitle(String newTitle) {
 		title = newTitle; 
@@ -64,8 +56,6 @@ public class Task {
 		this.description = description;
 		this.date = date;
 		this.priority = priority;
-		idCounter++;
-		this.id = new Integer(idCounter).toString();
 	}
 	
 	public Task(String title, String description, Date date) {
