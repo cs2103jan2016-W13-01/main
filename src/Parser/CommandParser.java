@@ -20,104 +20,94 @@ public class CommandParser {
 	}
 
 	/**
-	 * Requires input format add title date 
+	 * Requires input format add title date
 	 */
 	public static CommandDetails parseInput(String input) {
-		input=input.trim();
-		input = input.replaceAll("\\s+"," ");
+		input = input.trim();
+		input = input.replaceAll("\\s+", " ");
 		String[] inputTokens = input.split(" ");
 		CommandType cmd = getCmd(inputTokens[0]);
-		Task task=null;
-		String inputNum;
+		Task task = null;
+		int inputNum;
 		CommandDetails cmdDetails;
-		
-		switch(cmd){
-		
-		case ADD:
-			task = getTask(input);
-			cmdDetails = new CommandDetails(cmd,task);
-			break;
-			
-			
-		case DELETE:
-			inputNum = getInputNum(inputTokens);
-			if(inputNum.equals("-1")){
-				cmd=CommandType.INVALID;
-			}
-			cmdDetails = new CommandDetails(cmd,task);
-			cmdDetails.setInputNum(inputNum);
-			break;
-			
-			
-		case EDIT:
-			task = getTask(input);
-			inputNum = getInputNum(inputTokens);
-			if(inputNum.equals("-1")){
-				cmd=CommandType.INVALID;
-			}
-			cmdDetails= new CommandDetails(cmd,task);
-			cmdDetails.setInputNum(inputNum);
-			break;
-			
-			
-		case UNDO:
-			cmdDetails = new CommandDetails(cmd,task);
-			break;
-			
-		case MARK:
-			inputNum = getInputNum(inputTokens);
-			if(inputNum.equals("-1")){
-				cmd=CommandType.INVALID;
-			}
-			cmdDetails= new CommandDetails(cmd,task);
-			cmdDetails.setInputNum(inputNum);
-			break;
-			
-		case UNMARK:
-			inputNum = getInputNum(inputTokens);
-			if(inputNum.equals("-1")){
-				cmd=CommandType.INVALID;
-			}
-			cmdDetails= new CommandDetails(cmd,task);
-			cmdDetails.setInputNum(inputNum);
-			break;
-				
-			
-		default:
-			cmdDetails = new CommandDetails(cmd,task);
-			
-		}
+
+		switch (cmd) {
+
+			case ADD:
+				task = getTask(input);
+				cmdDetails = new CommandDetails(cmd, task);
+				break;
 	
+			case DELETE:
+				inputNum = getInputNum(inputTokens);
+				if (inputNum < 0) {
+					cmd = CommandType.INVALID;
+				}
+				cmdDetails = new CommandDetails(cmd, task);
+				cmdDetails.setInputNum(inputNum);
+				break;
+	
+			case EDIT:
+				task = getTask(input);
+				inputNum = getInputNum(inputTokens);
+				if (inputNum < 0) {
+					cmd = CommandType.INVALID;
+				}
+				cmdDetails = new CommandDetails(cmd, task);
+				cmdDetails.setInputNum(inputNum);
+				break;
+	
+			case UNDO:
+				cmdDetails = new CommandDetails(cmd, task);
+				break;
+	
+			case MARK:
+				inputNum = getInputNum(inputTokens);
+				if (inputNum < 0) {
+					cmd = CommandType.INVALID;
+				}
+				cmdDetails = new CommandDetails(cmd, task);
+				cmdDetails.setInputNum(inputNum);
+				break;
+	
+			case UNMARK:
+				inputNum = getInputNum(inputTokens);
+				if (inputNum < -1) {
+					cmd = CommandType.INVALID;
+				}
+				cmdDetails = new CommandDetails(cmd, task);
+				cmdDetails.setInputNum(inputNum);
+				break;
+	
+			default:
+				cmdDetails = new CommandDetails(cmd, task);
+
+		}
+
 		return cmdDetails;
 	}
-	
 
 	private static Task getTask(String input) {
-	
-		String[] inputTokens= input.split(" ", 2);
+
+		String[] inputTokens = input.split(" ", 2);
 		String title = titleParser.getTitle(inputTokens[1]);
 		Date date = dateParser.getDate(inputTokens[1]);
-		
-		Task task = new Task(title,date);
+
+		Task task = new Task(title, date);
 		return task;
 	}
 
-
-
-	private static String getInputNum(String[] inputTokens) {
+	private static int getInputNum(String[] inputTokens) {
 		String inputNum = inputTokens[1];
 		int num;
-		try{
-			num=Integer.parseInt(inputNum);
+		try {
+			num = Integer.parseInt(inputNum);
+		} catch (Exception e) {
+			num = -1;
 		}
-		catch(Exception e){
-			num=-1;
-		}
-		String strNum = Integer.toString(num);
-		System.out.println("deleted num = "+strNum);
-		return strNum;
+		System.out.println("deleted num = " + num);
+		return num;
 	}
-
 
 	private static String getCommandDescription(String[] inputTokens) {
 		String description = "";
@@ -131,8 +121,6 @@ public class CommandParser {
 		}
 		return description;
 	}
-
-	
 
 	private static CommandType getCmd(String string) {
 		string = string.toLowerCase();
@@ -155,7 +143,7 @@ public class CommandParser {
 		case "e":
 		case "edit":
 			return CommandType.EDIT;
-		
+
 		default:
 			return CommandType.INVALID;
 		}

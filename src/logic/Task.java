@@ -12,17 +12,10 @@ package logic;
 import java.util.Date;
 
 public class Task {
-<<<<<<< HEAD
-	private static int idCounter;
-=======
->>>>>>> 74db55326c83cd26e3eaff546aa36fde5e88997a
+
 	private String title;
 	private Date date;
 	private Priority priority;
-<<<<<<< HEAD
-=======
-
->>>>>>> 74db55326c83cd26e3eaff546aa36fde5e88997a
 	
 	public String getTitle() {
 		return title;
@@ -36,10 +29,6 @@ public class Task {
 		return priority;
 	}
 	
-<<<<<<< HEAD
-=======
-	
->>>>>>> 74db55326c83cd26e3eaff546aa36fde5e88997a
 	public void setTitle(String newTitle) {
 		title = newTitle; 
 	}
