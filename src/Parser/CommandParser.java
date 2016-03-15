@@ -31,6 +31,7 @@ public class CommandParser {
 		parserLogger.log(Level.INFO, "log starting");
 		
 	}
+<<<<<<< HEAD
 	
 	public static CommandParser getInstance() throws SecurityException, IOException{
 		if (cmdParser == null){
@@ -118,11 +119,78 @@ public class CommandParser {
 			cmd=CommandType.INVALID;
 			cmdDetails = new CommandDetails(cmd,null);
 		}
+=======
+
+	/**
+	 * Requires input format add title date
+	 */
+	public static CommandDetails parseInput(String input) {
+		input = input.trim();
+		input = input.replaceAll("\\s+", " ");
+		String[] inputTokens = input.split(" ");
+		CommandType cmd = getCmd(inputTokens[0]);
+		Task task = null;
+		int inputNum;
+		CommandDetails cmdDetails;
+
+		switch (cmd) {
+
+			case ADD:
+				task = getTask(input);
+				cmdDetails = new CommandDetails(cmd, task);
+				break;
 	
+			case DELETE:
+				inputNum = getInputNum(inputTokens);
+				if (inputNum < 0) {
+					cmd = CommandType.INVALID;
+				}
+				cmdDetails = new CommandDetails(cmd, task);
+				cmdDetails.setInputNum(inputNum);
+				break;
+	
+			case EDIT:
+				task = getTask(input);
+				inputNum = getInputNum(inputTokens);
+				if (inputNum < 0) {
+					cmd = CommandType.INVALID;
+				}
+				cmdDetails = new CommandDetails(cmd, task);
+				cmdDetails.setInputNum(inputNum);
+				break;
+	
+			case UNDO:
+				cmdDetails = new CommandDetails(cmd, task);
+				break;
+	
+			case MARK:
+				inputNum = getInputNum(inputTokens);
+				if (inputNum < 0) {
+					cmd = CommandType.INVALID;
+				}
+				cmdDetails = new CommandDetails(cmd, task);
+				cmdDetails.setInputNum(inputNum);
+				break;
+>>>>>>> a4fb3a2bda54b2d0b98ca12255f9b79d62744ba8
+	
+			case UNMARK:
+				inputNum = getInputNum(inputTokens);
+				if (inputNum < -1) {
+					cmd = CommandType.INVALID;
+				}
+				cmdDetails = new CommandDetails(cmd, task);
+				cmdDetails.setInputNum(inputNum);
+				break;
+	
+			default:
+				cmdDetails = new CommandDetails(cmd, task);
+
+		}
+
 		return cmdDetails;
 	}
-	
 
+<<<<<<< HEAD
 	private String[] getToken(String input) {
 		input = input.trim();
 		input=input.replaceAll(REGEX_SPACE," ");
@@ -135,6 +203,44 @@ public class CommandParser {
 	
 
 	private static CommandType getCmdType(String string) {
+=======
+	private static Task getTask(String input) {
+
+		String[] inputTokens = input.split(" ", 2);
+		String title = titleParser.getTitle(inputTokens[1]);
+		Date date = dateParser.getDate(inputTokens[1]);
+
+		Task task = new Task(title, date);
+		return task;
+	}
+
+	private static int getInputNum(String[] inputTokens) {
+		String inputNum = inputTokens[1];
+		int num;
+		try {
+			num = Integer.parseInt(inputNum);
+		} catch (Exception e) {
+			num = -1;
+		}
+		System.out.println("deleted num = " + num);
+		return num;
+	}
+
+	private static String getCommandDescription(String[] inputTokens) {
+		String description = "";
+		for (int i = 0; i < inputTokens.length; i++) {
+			if (inputTokens[i].charAt(0) == '/') {
+				StringBuilder sb = new StringBuilder(inputTokens[i]);
+				sb = sb.deleteCharAt(0);
+				description = sb.toString();
+				break;
+			}
+		}
+		return description;
+	}
+
+	private static CommandType getCmd(String string) {
+>>>>>>> a4fb3a2bda54b2d0b98ca12255f9b79d62744ba8
 		string = string.toLowerCase();
 		switch (string) {
 		case "a":
@@ -155,9 +261,13 @@ public class CommandParser {
 		case "e":
 		case "edit":
 			return CommandType.EDIT;
+<<<<<<< HEAD
 		case "s":
 		case "search":
 			return CommandType.SEARCH;
+=======
+
+>>>>>>> a4fb3a2bda54b2d0b98ca12255f9b79d62744ba8
 		default:
 			return CommandType.INVALID;
 		}

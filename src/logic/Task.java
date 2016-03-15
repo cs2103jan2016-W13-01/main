@@ -19,6 +19,7 @@ public class Task {
 	private Date date;
 	private Priority priority;
 
+
 	
 	public String getTitle() {
 		return title;
