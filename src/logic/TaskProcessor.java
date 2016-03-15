@@ -41,8 +41,12 @@ public class TaskProcessor {
 				Task task = cmdDetails.getTask();
 				return addTask(task);
 			case DELETE:
+<<<<<<< HEAD
 				int taskNumber = cmdDetails.getTaskNumber();
 				return deleteTask(taskNumber);
+=======
+				return delete(cmdDetails.getInputNum());
+>>>>>>> 74db55326c83cd26e3eaff546aa36fde5e88997a
 			case INVALID:
 			default:
 				return MESSAGE_INVALID_COMMAND;
