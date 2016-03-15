@@ -1,140 +1,140 @@
 package Parser;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import logic.CommandDetails;
 import logic.CommandType;
-import logic.Task;
 
 public class CommandParser {
-
+	
+	private static final String REGEX_SPACE = "\\s";
+	
+	public static Logger parserLogger = Logger.getLogger(CommandParser.class.getName());
 	public ArrayList<String> list;
 	public static SimpleDateFormat sdf;
+	
+	public static CommandParser cmdParser;
+	FileHandler fh; 
 
-	public CommandParser() {
+	public CommandParser() throws SecurityException, IOException {
 		list = new ArrayList<String>();
 		sdf = new SimpleDateFormat("ddMMyyyy HHmm");
 		sdf.setLenient(false);
+		FileHandler fh = new FileHandler("./log/MyLogFile.txt");  
+	    parserLogger.addHandler(fh);
+		System.out.println("where is my log file "+getClass().getClassLoader().getResource("logging.properties"));
+		parserLogger.log(Level.INFO, "log starting");
+		
 	}
-
-	/**
-	 * Requires input format add title date 
+	
+	public static CommandParser getInstance() throws SecurityException, IOException{
+		if (cmdParser == null){
+			cmdParser= new CommandParser();
+		}
+		return cmdParser;
+	}
+	
+	/**for add
+	 * Requires input format <add> <title> <date> 
+	 * for e.g add meet at john's house at next wednesday
+	 * 
+	 * for delete
+	 * Requires input format <delete> <num>
+	 * for e.g delete 2
+	 * 
+	 * for edit
+	 * Requires input format <edit> <num> <title>/<date>
+	 * for e.g edit 3 meet at jack's place 
+	 * or edit 3 at next tuesday
+	 * should check the value of TASK to see if the respective title and date fields 
+	 * are null or not.
+	 * 
+	 * for mark
+	 * Requires input format <mark> <num>
+	 * for e.g mark 1
+	 * 
+	 * for unmark
+	 * Requires input format <unmark> <num>
+	 * for e.g unmark 1
+	 * 
+	 * for undo
+	 * inputformat <undo>
 	 */
-	public static CommandDetails parseInput(String input) {
-		input=input.trim();
-		input = input.replaceAll("\\s+"," ");
-		String[] inputTokens = input.split(" ");
-		CommandType cmd = getCmd(inputTokens[0]);
-		Task task=null;
-		String inputNum;
-		CommandDetails cmdDetails;
+	public CommandDetails parseInput(String input) {
+		String[] inputTokens = getToken(input);
+		CommandType cmd = getCmdType(inputTokens[0]);
+		CommandDetails cmdDetails=null;
 		
 		switch(cmd){
 		
 		case ADD:
-			task = getTask(input);
-			cmdDetails = new CommandDetails(cmd,task);
+			AddParser ap = new AddParser();
+			cmdDetails = ap.parse(inputTokens[1]);
 			break;
 			
 			
 		case DELETE:
-			inputNum = getInputNum(inputTokens);
-			if(inputNum.equals("-1")){
-				cmd=CommandType.INVALID;
-			}
-			cmdDetails = new CommandDetails(cmd,task);
-			cmdDetails.setInputNum(inputNum);
+			DeleteParser dp = new DeleteParser();
+			cmdDetails = dp.parse(inputTokens[1]);
 			break;
 			
 			
 		case EDIT:
-			task = getTask(input);
-			inputNum = getInputNum(inputTokens);
-			if(inputNum.equals("-1")){
-				cmd=CommandType.INVALID;
-			}
-			cmdDetails= new CommandDetails(cmd,task);
-			cmdDetails.setInputNum(inputNum);
+			EditParser ep = new EditParser();
+			cmdDetails = ep.parse(inputTokens[1]);
 			break;
 			
-			
+		/*	
 		case UNDO:
 			cmdDetails = new CommandDetails(cmd,task);
 			break;
 			
 		case MARK:
 			inputNum = getInputNum(inputTokens);
-			if(inputNum.equals("-1")){
+			if(inputNum==-1){
 				cmd=CommandType.INVALID;
 			}
-			cmdDetails= new CommandDetails(cmd,task);
-			cmdDetails.setInputNum(inputNum);
+			cmdDetails= new CommandDetails(cmd,task,inputNum);
 			break;
 			
 		case UNMARK:
 			inputNum = getInputNum(inputTokens);
-			if(inputNum.equals("-1")){
+			if(inputNum==-1){
 				cmd=CommandType.INVALID;
 			}
-			cmdDetails= new CommandDetails(cmd,task);
-			cmdDetails.setInputNum(inputNum);
+			cmdDetails= new CommandDetails(cmd,task,inputNum);
 			break;
-				
-			
+			*/
+		case SEARCH:
+			SearchParser sp = new SearchParser();
+			cmdDetails = sp.parse(inputTokens[1]);
+			break;
 		default:
-			cmdDetails = new CommandDetails(cmd,task);
-			
+			cmd=CommandType.INVALID;
+			cmdDetails = new CommandDetails(cmd,null);
 		}
 	
 		return cmdDetails;
 	}
 	
 
-	private static Task getTask(String input) {
-	
-		String[] inputTokens= input.split(" ", 2);
-		String title = titleParser.getTitle(inputTokens[1]);
-		Date date = dateParser.getDate(inputTokens[1]);
-		
-		Task task = new Task(title,date);
-		return task;
+	private String[] getToken(String input) {
+		input = input.trim();
+		input=input.replaceAll(REGEX_SPACE," ");
+		String[] inputTokens = input.split(" ",2); 
+		return inputTokens;
 	}
 
 
-
-	private static String getInputNum(String[] inputTokens) {
-		String inputNum = inputTokens[1];
-		int num;
-		try{
-			num=Integer.parseInt(inputNum);
-		}
-		catch(Exception e){
-			num=-1;
-		}
-		String strNum = Integer.toString(num);
-		System.out.println("deleted num = "+strNum);
-		return strNum;
-	}
-
-
-	private static String getCommandDescription(String[] inputTokens) {
-		String description = "";
-		for (int i = 0; i < inputTokens.length; i++) {
-			if (inputTokens[i].charAt(0) == '/') {
-				StringBuilder sb = new StringBuilder(inputTokens[i]);
-				sb = sb.deleteCharAt(0);
-				description = sb.toString();
-				break;
-			}
-		}
-		return description;
-	}
 
 	
 
-	private static CommandType getCmd(String string) {
+	private static CommandType getCmdType(String string) {
 		string = string.toLowerCase();
 		switch (string) {
 		case "a":
@@ -155,7 +155,9 @@ public class CommandParser {
 		case "e":
 		case "edit":
 			return CommandType.EDIT;
-		
+		case "s":
+		case "search":
+			return CommandType.SEARCH;
 		default:
 			return CommandType.INVALID;
 		}
