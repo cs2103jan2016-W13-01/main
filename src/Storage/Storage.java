@@ -2,13 +2,12 @@ package Storage;
 
 import java.util.*;
 
-import Parser.CommandParser;
 import logic.Task;
 
 import java.io.*;
 
-public class Storage {
-
+public class Storage implements Serializable {
+	
 	/*
 	private static final String MESSAGE_ADD_ERROR = "Error encountered when adding text. Please try again.";
 	private static final String MESSAGE_DELETE_ERROR = "Error encountered when deleting task. Please try again";
@@ -20,9 +19,11 @@ public class Storage {
 	*/
 	private static final String STORAGE_FILE = "storage.txt";
 	private static File storageFile;
+	private static ArrayList<Task> taskList;
 
 	private Storage() {
 		retrieveFile();
+		taskList = loadTaskList();
 	}
 
 	public static File retrieveFile() {
@@ -38,14 +39,9 @@ public class Storage {
 		return storageFile;
 	}
 
-	// prints text
-	private static void showToUser(String textToPrint) {
-		System.out.println(textToPrint);
-	}
-
 	// appends a new line of text at the bottom of the file
-	public static boolean addNewTask(String newTask) {
-		try {
+	public static ArrayList<Task> addNewTask(Task newTask) {
+/*		try {
 			BufferedWriter addBufferedWriter = initBufferedWriter(storageFile);
 
 			addBufferedWriter.write(newTask.trim());
@@ -55,12 +51,17 @@ public class Storage {
 		}
 		catch (IOException e) {
 			return false;
-		}
+		}*/
+		
+	
+		taskList.add(newTask);
+		saveTaskList();
+		return taskList;
 	}
 
 	// deletes a line from the file based on line number
-	public static boolean deleteTask(int taskNumberToDelete) {
-		try {
+	public static ArrayList<Task> deleteTask(int taskNumberToDelete) {
+	/*	try {
 			File tempStorageFile = new File("tempStorageFile.txt");
 			BufferedReader deleteBufferedReader = initBufferedReader(storageFile);
 			BufferedWriter deleteBufferedWriter = initBufferedWriter(tempStorageFile);
@@ -85,7 +86,13 @@ public class Storage {
 		}
 		catch (IOException e) {
 			return false;
+		}*/
+		
+		if (!taskList.isEmpty() && taskNumberToDelete > 0 && taskNumberToDelete < taskList.size()) {
+			taskList.remove(taskNumberToDelete - 1);
+			saveTaskList();
 		}
+		return taskList;
 	}
 
 	// displays every line in the file in a numbered sequence
@@ -171,9 +178,9 @@ public class Storage {
 		}
 	} */
 	
-	public static ArrayList<String> searchTask(String keyword) {
+	public static ArrayList<Task> searchTask(String keyword) {
 		
-		ArrayList<String> searchResult = new ArrayList<String>();
+	/*	ArrayList<String> searchResult = new ArrayList<String>();
 		try {
 			BufferedReader searchBufferedReader = initBufferedReader(storageFile);
 			String line = "";
@@ -191,25 +198,17 @@ public class Storage {
 		catch (IOException e) {
 			e.printStackTrace();
 		}
-		return searchResult;
-	}
-	
-	// Load the content of the file into an a list of task
-	public static boolean loadIntoList(ArrayList<Task> taskList) {
-		try {
-			BufferedReader searchBufferedReader = initBufferedReader(storageFile);
-			String line = null;
-
-			while ((line = searchBufferedReader.readLine()) != null) {
-				Task task = CommandParser.parseTask(line);
-				taskList.add(task);
+		return searchResult;*/
+		
+		ArrayList<Task> searchResult = new ArrayList<Task>();
+		String lowerCaseKeyword = keyword.toLowerCase();
+		for (int i = 0; i < taskList.size(); i++) {
+			String taskTitle = taskList.get(i).getTitle();
+			if (taskTitle.toLowerCase().contains(lowerCaseKeyword)) {
+				searchResult.add(taskList.get(i));
 			}
-			return true;
 		}
-		catch (IOException e) {
-			e.printStackTrace();
-		}
-		return false;
+		return searchResult;
 	}
 
 	private static BufferedReader initBufferedReader(File textFile) {
@@ -233,5 +232,47 @@ public class Storage {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	private static ArrayList<Task> loadTaskList() {
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(storageFile));     
+			if (br.readLine() == null) {
+				taskList = new ArrayList<Task>();
+				br.close();
+				return taskList;
+			}
+			else {
+				try {
+					FileInputStream fis = new FileInputStream(storageFile);
+					ObjectInputStream ois = new ObjectInputStream(fis);
+					taskList = (ArrayList<Task>) ois.readObject();
+					ois.close();
+					return taskList;
+				}
+				catch (ClassNotFoundException e) {
+					e.printStackTrace();
+				}
+			}
+			br.close();
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	private static boolean saveTaskList() {
+		try {
+			FileOutputStream fos = new FileOutputStream(storageFile);
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
+			oos.writeObject(taskList);
+			oos.close();
+			return true;
+		} 
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 }
