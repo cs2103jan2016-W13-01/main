@@ -198,7 +198,8 @@ public class Storage implements Serializable {
 		catch (IOException e) {
 			e.printStackTrace();
 		}
-		return searchResult;*/
+		return searchResult;
+		*/
 		
 		ArrayList<Task> searchResult = new ArrayList<Task>();
 		String lowerCaseKeyword = keyword.toLowerCase();
@@ -234,7 +235,7 @@ public class Storage implements Serializable {
 		return null;
 	}
 	
-	private static ArrayList<Task> loadTaskList() {
+	public static ArrayList<Task> loadTaskList() {
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(storageFile));     
 			if (br.readLine() == null) {

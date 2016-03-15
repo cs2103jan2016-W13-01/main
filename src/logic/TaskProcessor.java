@@ -27,57 +27,48 @@ public class TaskProcessor {
 	private static final String MESSAGE_TASK_DELETED = "Task deleted successfully";
 	private static final String MESSAGE_INVALID_COMMAND = "Invalid command. Please try again.";
 	
-	private static ArrayList<Task> taskList;
+	private static ArrayList<String> listToDisplay;
 	
-	public static ArrayList<Task> getTaskList() {
-		return taskList;
+	public static ArrayList<String> getListToDisplay() {
+		return listToDisplay;
 	}
 	
-	public static String getReturnMessage(String cmd) {
+	public static String executeCommand(String cmd) {
 		CommandDetails cmdDetails = CommandParser.parseInput(cmd);
 		CommandType cmdType = cmdDetails.getCommand();
-		Task task = cmdDetails.getTask();
 		switch (cmdType) {
 			case ADD:
-				return add(task);
+				Task task = cmdDetails.getTask();
+				return addTask(task);
 			case DELETE:
-				return delete(task.getId());
+				int taskNumber = cmdDetails.getTaskNumber();
+				return deleteTask(taskNumber);
 			case INVALID:
 			default:
 				return MESSAGE_INVALID_COMMAND;
 		}
-	}
-	
-	public static void showToUser() {
 		
 	}
 	
-	public static String add(Task task) {
-		taskList.add(task);
-		if (Storage.addNewTask(task.toString())) {
-			return MESSAGE_TASK_ADDED;
-		} else {
-			return MESSAGE_ADD_ERROR;
-		}
+	public static String addTask(Task task) {
+		loadIntoDisplayList(Storage.addNewTask(task));
+		return MESSAGE_TASK_ADDED;
 	}
 	
-	public static String delete(String taskId) {
-		int taskNumberToDelete = 0;
-		for (Task task : taskList) {
-			if (taskId.equals(task.getId())) {
-				taskList.remove(task);
-				break;
-			}
-		}
-		if (Storage.deleteTask(taskNumberToDelete)) {
-			return MESSAGE_TASK_DELETED;
-		} else {
-			return MESSAGE_DELETE_ERROR;
-		}
+	public static String deleteTask(int taskNumber) {
+		loadIntoDisplayList(Storage.deleteTask(taskNumber));
+		return MESSAGE_TASK_DELETED;
 	}
 	
 	public static void initialize() {
-		taskList = new ArrayList<Task>();
-		Storage.loadIntoList(taskList);
+		Storage.retrieveFile();
+		listToDisplay = new ArrayList<String>();
+		loadIntoDisplayList(Storage.loadTaskList());
+	}
+	
+	public static void loadIntoDisplayList(ArrayList<Task> taskList) {
+		for (Task task: taskList) {
+			listToDisplay.add(task.toString());
+		}
 	}
 }
