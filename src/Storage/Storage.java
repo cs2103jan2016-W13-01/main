@@ -1,6 +1,8 @@
 package Storage;
 
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import logic.Task;
 
@@ -20,7 +22,8 @@ public class Storage implements Serializable {
 	private static final String STORAGE_FILE = "storage.txt";
 	private static File storageFile;
 	private static ArrayList<Task> taskList;
-
+	private final static Logger LOGGER = Logger.getLogger(Storage.class.getName()); 
+	
 	private Storage() {
 		retrieveFile();
 		taskList = loadTaskList();
@@ -41,19 +44,8 @@ public class Storage implements Serializable {
 
 	// appends a new line of text at the bottom of the file
 	public static ArrayList<Task> addNewTask(Task newTask) {
-/*		try {
-			BufferedWriter addBufferedWriter = initBufferedWriter(storageFile);
-
-			addBufferedWriter.write(newTask.trim());
-			addBufferedWriter.newLine();
-			addBufferedWriter.close();
-			return true;
-		}
-		catch (IOException e) {
-			return false;
-		}*/
-		
 	
+		LOGGER.log(Level.INFO, "Adding new Task to the ArrayList");
 		taskList.add(newTask);
 		saveTaskList();
 		return taskList;
@@ -61,62 +53,20 @@ public class Storage implements Serializable {
 
 	// deletes a line from the file based on line number
 	public static ArrayList<Task> deleteTask(int taskNumberToDelete) {
-	/*	try {
-			File tempStorageFile = new File("tempStorageFile.txt");
-			BufferedReader deleteBufferedReader = initBufferedReader(storageFile);
-			BufferedWriter deleteBufferedWriter = initBufferedWriter(tempStorageFile);
-
-			String line = "";
-			int currentTaskNumber = 1;
-			while ((line = deleteBufferedReader.readLine()) != null) {
-				if (currentTaskNumber != taskNumberToDelete) {		// write all lines except for the
-					deleteBufferedWriter.write(line);		// line to be deleted in a temp file
-					deleteBufferedWriter.newLine();
-					currentTaskNumber++;
-				}
-				else {
-					currentTaskNumber++;						// skip the line to be deleted
-				}
-			}
-			deleteBufferedReader.close();
-			deleteBufferedWriter.close();
-			storageFile.delete();
-			tempStorageFile.renameTo(storageFile);
-			return true;
-		}
-		catch (IOException e) {
-			return false;
-		}*/
 		
-		if (!taskList.isEmpty() && taskNumberToDelete > 0 && taskNumberToDelete < taskList.size()) {
+		assert(taskNumberToDelete > 0);
+		if (!taskList.isEmpty() && taskNumberToDelete < taskList.size()) {
+			LOGGER.log(Level.INFO, "Deleting Task from the ArrayList");
 			taskList.remove(taskNumberToDelete - 1);
 			saveTaskList();
 		}
 		return taskList;
 	}
 
-	// displays every line in the file in a numbered sequence
-	/*
-	public static void displayAllTasks() {	
-		int linesWritten = 0;
-		Controller2.clearDW();
-		try {	
-			BufferedReader displayBufferedReader = initBufferedReader(storageFile);
-			String line = "";
-			while ((line = displayBufferedReader.readLine()) != null) {
-				linesWritten++;
-				Controller2.displayDW(linesWritten+ ". " +line);	
-			}
-			displayBufferedReader.close();
-		}
-		catch (IOException e) {
-			showToUser(MESSAGE_DISPLAY_ERROR);
-		}
-	} */
-
 	// deletes all text in the file
 	public static boolean clearAllTasks() {
 		try {
+			LOGGER.log(Level.INFO, "Deleting ALL Tasks to the ArrayList");
 			storageFile.delete();				// delete the whole file and
 			storageFile.createNewFile();		// create a new empty file with the same name
 			return true;
@@ -152,60 +102,14 @@ public class Storage implements Serializable {
 		}
 	}
 	
-	/*
-	public static void searchTask(String keyword) {
-		try {
-			BufferedReader searchBufferedReader = initBufferedReader(storageFile);
-			String line = "";
-			int matchCount = 0;
-
-			while ((line = searchBufferedReader.readLine()) != null) {
-				String[] wordsArray = line.split("\\s+");
-				for (String word : wordsArray) {
-					if ((word.trim()).equals(keyword)) {
-						showToUser(line);
-						matchCount++;
-						break;
-					}
-				}
-			}
-			if (matchCount == 0) {
-				showToUser(MESSAGE_NO_MATCH);
-			}
-		}
-		catch (IOException e) {
-			showToUser(MESSAGE_SEARCH_ERROR);
-		}
-	} */
-	
 	public static ArrayList<Task> searchTask(String keyword) {
-		
-	/*	ArrayList<String> searchResult = new ArrayList<String>();
-		try {
-			BufferedReader searchBufferedReader = initBufferedReader(storageFile);
-			String line = "";
-
-			while ((line = searchBufferedReader.readLine()) != null) {
-				String[] wordsArray = line.split("\\s+");
-				for (String word : wordsArray) {
-					if ((word.trim()).equals(keyword.trim())) {
-						searchResult.add(line);
-						break;
-					}
-				}
-			}
-		}
-		catch (IOException e) {
-			e.printStackTrace();
-		}
-		return searchResult;
-		*/
 		
 		ArrayList<Task> searchResult = new ArrayList<Task>();
 		String lowerCaseKeyword = keyword.toLowerCase();
 		for (int i = 0; i < taskList.size(); i++) {
 			String taskTitle = taskList.get(i).getTitle();
 			if (taskTitle.toLowerCase().contains(lowerCaseKeyword)) {
+				LOGGER.log(Level.INFO, "Stores all hits in a separate ArrayList");
 				searchResult.add(taskList.get(i));
 			}
 		}
