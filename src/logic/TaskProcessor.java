@@ -1,10 +1,12 @@
 package logic;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import Parser.CommandParser;
 import Storage.Storage;
 
+import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 /**
@@ -18,20 +20,16 @@ import java.util.logging.Logger;
  */
 public class TaskProcessor {
 	
-	private static final String MESSAGE_ADD_ERROR = "Error encountered when adding task. Please try again.";
-	private static final String MESSAGE_DELETE_ERROR = "Error encountered when deleting task. Please try again";
 	private static final String MESSAGE_DISPLAY_ERROR = "Error encountered when displaying tasks. Please try again";
 	private static final String MESSAGE_CLEAR_ERROR = "Error encountered when clearing all tasks. Please try again";
 	private static final String MESSAGE_SORT_ERROR = "Error encountered when sorting tasks. Please try again.";
 	private static final String MESSAGE_SEARCH_ERROR = "Error encountered when searching for keyword. Please try again.";
 	private static final String MESSAGE_NO_MATCH = "No match found.";
-	private static final String MESSAGE_TASK_ADDED = "Task added successfully";
-	private static final String MESSAGE_TASK_DELETED = "Task deleted successfully";
 	private static final String MESSAGE_INVALID_COMMAND = "Invalid command. Please try again.";
 	
 	private static ArrayList<String> listToDisplay;
 	
-	private static Logger logger = Logger.getLogger("Logic Logger");
+	private static Logger logger = Logger.getLogger("Logic logger");
 	
 	public static ArrayList<String> getListToDisplay() {
 		return listToDisplay;
@@ -39,7 +37,7 @@ public class TaskProcessor {
 	
 	public static String executeCommand(String cmd) {
 		logger.log(Level.INFO, "begin parsing input: " + cmd);
-		CommandDetails cmdDetails = CommandParser.parseInput(cmd);
+		Command cmdDetails = CommandParser.parseInput(cmd);
 		CommandType cmdType = cmdDetails.getCommand();
 		switch (cmdType) {
 			case ADD:
@@ -85,19 +83,14 @@ public class TaskProcessor {
 		Storage.retrieveFile();
 		listToDisplay = new ArrayList<String>();
 		logger.log(Level.INFO, "loading tasks from storage...");
-		try {
-			ArrayList<Task> taskList = Storage.loadTaskList();
-			loadIntoDisplayList(taskList);
-			logger.log(Level.INFO, "memory initialized");
-		} catch (Exception e) {
-			System.out.println("Error caught");
-			logger.log(Level.WARNING, "Task list cannot be loaded from storage");
-		}
+		ArrayList<Task> taskList = Storage.loadTaskList();
+		loadIntoDisplayList(taskList);
+		logger.log(Level.INFO, "memory initialized");
 	}
 	
 	private static void loadIntoDisplayList(ArrayList<Task> taskList) {
 		for (Task task: taskList) {
-			assert task == null : "Some task in the task list is null";
+			assert task != null : "Some task in the task list is null";
 			listToDisplay.add(task.toString());
 		}
 	}

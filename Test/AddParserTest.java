@@ -11,7 +11,7 @@ import org.junit.Test;
 import Parser.AddParser;
 import Parser.CommandParser;
 import Parser.DateParser;
-import logic.CommandDetails;
+import logic.Command;
 import logic.CommandType;
 import logic.Task;
 
@@ -28,8 +28,8 @@ public class AddParserTest {
 		DateParser dp = new DateParser();
 		Date date = dp.getDate("16 march 2016");
 		Task task = new Task("meeting by the seaside at johnsons place", date);
-		CommandDetails cmdDetails = new CommandDetails(CommandType.ADD,task);
-		CommandDetails cmdDetails2 =ap.parse("meeting by the seaside at johnsons place 16 march 2016");
+		Command cmdDetails = new Command(CommandType.ADD,task);
+		Command cmdDetails2 =ap.parse("meeting by the seaside at johnsons place 16 march 2016");
 		
 		System.out.println(cmdDetails.getTaskNumber()+ " vs "+cmdDetails2.getTaskNumber());
 		assertEquals(cmdDetails.getTaskNumber(),cmdDetails2.getTaskNumber());

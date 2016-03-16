@@ -2,13 +2,13 @@ package Parser;
 
 import java.util.Date;
 
-import logic.CommandDetails;
+import logic.Command;
 
 public abstract class GeneralParser {
 	
 	private static final String REGEX_SPACE = "\\s";
 
-	protected abstract CommandDetails parse(String inputArgs);
+	protected abstract Command parse(String inputArgs);
 	
 	
 	protected String getTitle(String input){

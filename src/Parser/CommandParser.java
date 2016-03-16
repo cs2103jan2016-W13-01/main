@@ -7,7 +7,7 @@ import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import logic.CommandDetails;
+import logic.Command;
 import logic.CommandType;
 
 public class CommandParser {
@@ -66,10 +66,10 @@ public class CommandParser {
 	 * for undo
 	 * inputformat <undo>
 	 */
-	public static CommandDetails parseInput(String input) {
+	public static Command parseInput(String input) {
 		String[] inputTokens = getToken(input);
 		CommandType cmd = getCmdType(inputTokens[0]);
-		CommandDetails cmdDetails=null;
+		Command cmdDetails=null;
 		
 		switch(cmd){
 		
@@ -117,7 +117,7 @@ public class CommandParser {
 			break;
 		default:
 			cmd=CommandType.INVALID;
-			cmdDetails = new CommandDetails(cmd,null);
+			cmdDetails = new Command(cmd,null);
 		}
 		return cmdDetails;
 	}

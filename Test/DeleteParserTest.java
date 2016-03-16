@@ -3,7 +3,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import Parser.DeleteParser;
-import logic.CommandDetails;
+import logic.Command;
 import logic.CommandType;
 import logic.Task;
 
@@ -14,8 +14,8 @@ public class DeleteParserTest {
 		DeleteParser dp = new DeleteParser();
 		
 		Task task = new Task(null,null);
-		CommandDetails cmdDetails = new CommandDetails(CommandType.DELETE,task,1);
-		CommandDetails cmdDetails2= dp.parse("1");
+		Command cmdDetails = new Command(CommandType.DELETE,task,1);
+		Command cmdDetails2= dp.parse("1");
 	
 		System.out.println(cmdDetails.getTaskNumber()+ " vs "+cmdDetails2.getTaskNumber());
 		assertEquals(cmdDetails.getTaskNumber(),cmdDetails2.getTaskNumber());
