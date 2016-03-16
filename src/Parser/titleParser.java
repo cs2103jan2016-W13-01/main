@@ -2,7 +2,6 @@
 
 
 /*
- * Reused code
  * The following code to obtain the title is obtain from 
  * https://github.com/CS2103-Aug2015-w15-4j/main.git
  */

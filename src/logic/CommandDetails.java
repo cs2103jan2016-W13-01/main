@@ -3,26 +3,29 @@ package logic;
 public class CommandDetails {
 	private CommandType cmd;
 	private Task task;
-	private int inputNum;
+
+	private int taskNumber;
+
 
 	public CommandDetails(CommandType cmd, Task task, int taskNumber) {
 		
 		this.cmd = cmd;
 		this.task = task;
-		this.inputNum = taskNumber;
+		this.taskNumber = taskNumber;
 	}
 	
 	public CommandDetails(CommandType cmd, Task task){
+
 		this.cmd=cmd;
 		this.task=task;
-		inputNum = 0;
+		this.taskNumber = 0;
 	}
 	
 	public CommandDetails(CommandType cmd, int taskNumber) {
 		
 		this.cmd = cmd;
 		this.task = null;
-		this.inputNum = taskNumber;
+		this.taskNumber = taskNumber;
 	}
 	
 	public CommandType getCommand() {
@@ -33,12 +36,8 @@ public class CommandDetails {
 		return task;
 	}
 
-	public void setInputNum(int inputNum) {
-		this.inputNum = inputNum;
-	}
-	public int getInputNum() {
-		return inputNum;
+	public int getTaskNumber() {
+		return taskNumber;
 	}
 
-	
 }
