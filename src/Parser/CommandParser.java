@@ -66,7 +66,7 @@ public class CommandParser {
 	 * for undo
 	 * inputformat <undo>
 	 */
-	public CommandDetails parseInput(String input) {
+	public static CommandDetails parseInput(String input) {
 		String[] inputTokens = getToken(input);
 		CommandType cmd = getCmdType(inputTokens[0]);
 		CommandDetails cmdDetails=null;
@@ -123,7 +123,7 @@ public class CommandParser {
 	}
 
 
-	private String[] getToken(String input) {
+	private static String[] getToken(String input) {
 		input = input.trim();
 		input=input.replaceAll(REGEX_SPACE," ");
 		String[] inputTokens = input.split(" ",2); 

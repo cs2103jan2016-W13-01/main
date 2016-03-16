@@ -42,7 +42,7 @@ public class TaskProcessor {
 				assert task == null : "There is no task to add";
 				return addTask(task);
 			case DELETE:
-				int taskNumber = cmdDetails.getInputNum();
+				int taskNumber = cmdDetails.getTaskNumber();
 				return deleteTask(taskNumber);
 			case INVALID:
 			default:

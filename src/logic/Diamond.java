@@ -1,15 +1,5 @@
 package logic;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-
-import Storage.Storage;
-import gui.CommandWindow;
-
 public class Diamond {
 
 	/**
