@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="windows-1252" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2016-03-16T13:25:36</date>
+  <millis>1458105936690</millis>
+  <sequence>0</sequence>
+  <logger>Logic logger</logger>
+  <level>INFO</level>
+  <class>logic.TaskProcessor</class>
+  <method>initialize</method>
+  <thread>1</thread>
+  <message>initializing memory...</message>
+</record>
+<record>
+  <date>2016-03-16T13:25:36</date>
+  <millis>1458105936703</millis>
+  <sequence>1</sequence>
+  <logger>Logic logger</logger>
+  <level>INFO</level>
+  <class>logic.TaskProcessor</class>
+  <method>initialize</method>
+  <thread>1</thread>
+  <message>loading tasks from storage...</message>
+</record>
+<record>
+  <date>2016-03-16T13:25:36</date>
+  <millis>1458105936706</millis>
+  <sequence>2</sequence>
+  <logger>Logic logger</logger>
+  <level>INFO</level>
+  <class>logic.TaskProcessor</class>
+  <method>initialize</method>
+  <thread>1</thread>
+  <message>memory initialized</message>
+</record>
+</log>

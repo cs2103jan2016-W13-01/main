@@ -1,10 +1,14 @@
 package logic;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import Parser.CommandParser;
 import Storage.Storage;
 
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  * @author Bao Linh
  * Class TaskProcessor
@@ -16,30 +20,28 @@ import Storage.Storage;
  */
 public class TaskProcessor {
 	
-	private static final String MESSAGE_ADD_ERROR = "Error encountered when adding text. Please try again.";
-	private static final String MESSAGE_DELETE_ERROR = "Error encountered when deleting task. Please try again";
 	private static final String MESSAGE_DISPLAY_ERROR = "Error encountered when displaying tasks. Please try again";
 	private static final String MESSAGE_CLEAR_ERROR = "Error encountered when clearing all tasks. Please try again";
 	private static final String MESSAGE_SORT_ERROR = "Error encountered when sorting tasks. Please try again.";
 	private static final String MESSAGE_SEARCH_ERROR = "Error encountered when searching for keyword. Please try again.";
 	private static final String MESSAGE_NO_MATCH = "No match found.";
-	private static final String MESSAGE_TASK_ADDED = "Task added successfully";
-	private static final String MESSAGE_TASK_DELETED = "Task deleted successfully";
 	private static final String MESSAGE_INVALID_COMMAND = "Invalid command. Please try again.";
 	
 	private static ArrayList<String> listToDisplay;
+	
+	private static Logger logger = Logger.getLogger("Logic logger");
 	
 	public static ArrayList<String> getListToDisplay() {
 		return listToDisplay;
 	}
 	
 	public static String executeCommand(String cmd) {
-		CommandDetails cmdDetails = CommandParser.parseInput(cmd);
+		logger.log(Level.INFO, "begin parsing input: " + cmd);
+		Command cmdDetails = CommandParser.parseInput(cmd);
 		CommandType cmdType = cmdDetails.getCommand();
 		switch (cmdType) {
 			case ADD:
 				Task task = cmdDetails.getTask();
-				assert task == null : "There is no task to add";
 				return addTask(task);
 			case DELETE:
 				int taskNumber = cmdDetails.getTaskNumber();
@@ -52,25 +54,43 @@ public class TaskProcessor {
 	}
 	
 	private static String addTask(Task task) {
-		loadIntoDisplayList(Storage.addNewTask(task));
-		return MESSAGE_TASK_ADDED;
+		assert task == null : "task is null";
+		logger.log(Level.INFO, "begin adding task: " + task.toString());
+		try {
+			loadIntoDisplayList(Storage.addNewTask(task));
+			logger.log(Level.INFO, "task added successfully: " + task.toString());
+			return MESSAGE_TASK_ADDED;
+		} catch (Exception e) {
+			logger.log(Level.WARNING, "failed to add task" + task.toString());
+			return MESSAGE_ADD_ERROR;
+		}
 	}
 	
 	private static String deleteTask(int taskNumber) {
-		loadIntoDisplayList(Storage.deleteTask(taskNumber));
-		return MESSAGE_TASK_DELETED;
+		logger.log(Level.INFO, "begin deleting task at " + taskNumber);
+		try {
+			loadIntoDisplayList(Storage.deleteTask(taskNumber));
+			logger.log(Level.INFO, "task deleted successfully: ");
+			return MESSAGE_TASK_DELETED;
+		} catch (Exception e) {
+			logger.log(Level.WARNING, "failed to delete task at " + taskNumber);
+			return MESSAGE_DELETE_ERROR;
+		}
 	}
 	
 	public static void initialize() {
+		logger.log(Level.INFO, "initializing memory...");
 		Storage.retrieveFile();
 		listToDisplay = new ArrayList<String>();
-		loadIntoDisplayList(Storage.loadTaskList());
+		logger.log(Level.INFO, "loading tasks from storage...");
+		ArrayList<Task> taskList = Storage.loadTaskList();
+		loadIntoDisplayList(taskList);
+		logger.log(Level.INFO, "memory initialized");
 	}
 	
 	private static void loadIntoDisplayList(ArrayList<Task> taskList) {
-		assert taskList == null : "Task List is not loaded properly";
 		for (Task task: taskList) {
-			assert task == null : "Some task in the task list is null";
+			assert task != null : "Some task in the task list is null";
 			listToDisplay.add(task.toString());
 		}
 	}
