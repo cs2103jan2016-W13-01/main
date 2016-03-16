@@ -39,6 +39,7 @@ public class TaskProcessor {
 		switch (cmdType) {
 			case ADD:
 				Task task = cmdDetails.getTask();
+				assert task == null : "There is no task to add";
 				return addTask(task);
 			case DELETE:
 				int taskNumber = cmdDetails.getInputNum();
@@ -50,12 +51,12 @@ public class TaskProcessor {
 		
 	}
 	
-	public static String addTask(Task task) {
+	private static String addTask(Task task) {
 		loadIntoDisplayList(Storage.addNewTask(task));
 		return MESSAGE_TASK_ADDED;
 	}
 	
-	public static String deleteTask(int taskNumber) {
+	private static String deleteTask(int taskNumber) {
 		loadIntoDisplayList(Storage.deleteTask(taskNumber));
 		return MESSAGE_TASK_DELETED;
 	}
@@ -66,8 +67,10 @@ public class TaskProcessor {
 		loadIntoDisplayList(Storage.loadTaskList());
 	}
 	
-	public static void loadIntoDisplayList(ArrayList<Task> taskList) {
+	private static void loadIntoDisplayList(ArrayList<Task> taskList) {
+		assert taskList == null : "Task List is not loaded properly";
 		for (Task task: taskList) {
+			assert task == null : "Some task in the task list is null";
 			listToDisplay.add(task.toString());
 		}
 	}

@@ -26,10 +26,13 @@ public class DemoUI extends JFrame implements ActionListener {
 		textField = new JTextField(10);
 		textField.setActionCommand("input");
 		textField.addActionListener(this);
+		textField.setVisible(true);
 		
 		taskListArea = new JTextArea();
+		taskListArea.setVisible(true);
 		
 		messageArea = new JTextArea();
+		messageArea.setVisible(true);
 		
 		add(textField, BorderLayout.PAGE_END);
 		add(taskListArea, BorderLayout.CENTER);

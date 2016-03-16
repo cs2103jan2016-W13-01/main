@@ -236,10 +236,11 @@ public class Storage implements Serializable {
 	}
 	
 	public static ArrayList<Task> loadTaskList() {
+		
+		taskList = new ArrayList<Task>();
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(storageFile));     
 			if (br.readLine() == null) {
-				taskList = new ArrayList<Task>();
 				br.close();
 				return taskList;
 			}
@@ -260,7 +261,7 @@ public class Storage implements Serializable {
 		catch (IOException e) {
 			e.printStackTrace();
 		}
-		return null;
+		return taskList;
 	}
 	
 	private static boolean saveTaskList() {
