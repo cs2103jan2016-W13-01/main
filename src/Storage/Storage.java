@@ -10,6 +10,10 @@ import java.io.*;
 
 public class Storage implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	/*
 	private static final String MESSAGE_ADD_ERROR = "Error encountered when adding text. Please try again.";
 	private static final String MESSAGE_DELETE_ERROR = "Error encountered when deleting task. Please try again";
@@ -22,7 +26,7 @@ public class Storage implements Serializable {
 	private static final String STORAGE_FILE = "storage.txt";
 	private static File storageFile;
 	private static ArrayList<Task> taskList;
-	private final static Logger LOGGER = Logger.getLogger(Storage.class.getName()); 
+	private static Logger logger = Logger.getLogger(Storage.class.getName()); 
 	
 	private Storage() {
 		retrieveFile();
@@ -45,7 +49,7 @@ public class Storage implements Serializable {
 	// appends a new line of text at the bottom of the file
 	public static ArrayList<Task> addNewTask(Task newTask) {
 	
-		LOGGER.log(Level.INFO, "Adding new Task to the ArrayList");
+		logger.log(Level.INFO, "Adding new Task to the ArrayList");
 		taskList.add(newTask);
 		saveTaskList();
 		return taskList;
@@ -56,7 +60,7 @@ public class Storage implements Serializable {
 		
 		assert(taskNumberToDelete > 0);
 		if (!taskList.isEmpty() && taskNumberToDelete < taskList.size()) {
-			LOGGER.log(Level.INFO, "Deleting Task from the ArrayList");
+			logger.log(Level.INFO, "Deleting Task from the ArrayList");
 			taskList.remove(taskNumberToDelete - 1);
 			saveTaskList();
 		}
@@ -66,12 +70,11 @@ public class Storage implements Serializable {
 	// deletes all text in the file
 	public static boolean clearAllTasks() {
 		try {
-			LOGGER.log(Level.INFO, "Deleting ALL Tasks to the ArrayList");
+			logger.log(Level.INFO, "Deleting ALL Tasks to the ArrayList");
 			storageFile.delete();				// delete the whole file and
 			storageFile.createNewFile();		// create a new empty file with the same name
 			return true;
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			return false;
 		}
 	}
@@ -96,8 +99,7 @@ public class Storage implements Serializable {
 			storageFile.delete();
 			tempStorageFile.renameTo(storageFile);
 			return true;
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			return false;
 		}
 	}
@@ -121,8 +123,7 @@ public class Storage implements Serializable {
 			FileReader fileReader = new FileReader(textFile.getAbsoluteFile());
 			BufferedReader bufferedReader = new BufferedReader(fileReader);
 			return bufferedReader;
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 		}
 		return null;
 	}
@@ -132,8 +133,7 @@ public class Storage implements Serializable {
 			FileWriter fileWriter = new FileWriter(textFile.getAbsoluteFile(), true);
 			BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
 			return bufferedWriter;
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return null;
@@ -147,22 +147,19 @@ public class Storage implements Serializable {
 			if (br.readLine() == null) {
 				br.close();
 				return taskList;
-			}
-			else {
+			} else {
 				try {
 					FileInputStream fis = new FileInputStream(storageFile);
 					ObjectInputStream ois = new ObjectInputStream(fis);
 					taskList = (ArrayList<Task>) ois.readObject();
 					ois.close();
 					return taskList;
-				}
-				catch (ClassNotFoundException e) {
+				} catch (ClassNotFoundException e) {
 					e.printStackTrace();
 				}
 			}
 			br.close();
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return taskList;
@@ -175,8 +172,7 @@ public class Storage implements Serializable {
 			oos.writeObject(taskList);
 			oos.close();
 			return true;
-		} 
-		catch (IOException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return false;
