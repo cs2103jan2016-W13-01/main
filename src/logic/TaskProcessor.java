@@ -84,8 +84,8 @@ public class TaskProcessor {
 		logger.log(Level.INFO, "initializing memory...");
 		Storage.retrieveFile();
 		listToDisplay = new ArrayList<String>();
+		logger.log(Level.INFO, "loading tasks from storage...");
 		try {
-			logger.log(Level.INFO, "loading tasks from storage...");
 			ArrayList<Task> taskList = Storage.loadTaskList();
 			loadIntoDisplayList(taskList);
 			logger.log(Level.INFO, "memory initialized");
