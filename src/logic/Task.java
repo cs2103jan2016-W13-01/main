@@ -13,13 +13,9 @@ import java.util.Date;
 
 public class Task {
 
-	private static int idCounter;
-
 	private String title;
 	private Date date;
 	private Priority priority;
-
-
 	
 	public String getTitle() {
 		return title;

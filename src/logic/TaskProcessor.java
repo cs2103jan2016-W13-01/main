@@ -3,12 +3,7 @@ package logic;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import Parser.CommandParser;
 import Storage.Storage;
-
-import java.util.logging.FileHandler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 /**
  * @author Bao Linh
  * Class TaskProcessor
@@ -31,24 +26,53 @@ public class TaskProcessor {
 	
 	private static ArrayList<String> listToDisplay;
 	
-	private static Logger logger = Logger.getLogger("Logic logger");
+	public static void main(String[] args) {
+		while (true) {
+			getAndExecuteCommand();
+		}
+	}
 	
 	public static ArrayList<String> getListToDisplay() {
 		return listToDisplay;
 	}
 	
-	public static String executeCommand(String cmd) {
-		
+	public static void getAndExecuteCommand() {
+		Command command = CommandQueue.getCommand();
+		if (command != null) {
+			executeCommand(command);
+		}
+	}
+
+	private static void executeCommand(Command command) {
+		if (command.getType() != CommandType.UNDO) {
+			String message = command.execute();
+			ExecutedCommands.addCommand(command);
+			ArrayList<String> taskList = getListToDisplay();
+			Response response = new Response(message, taskList);
+			ResponseQueue.addResponse(response);
+		} else {
+			undoCommand(command);
+		}
+	}
+	
+	public static void undoCommand(Command command) {
+		String message = command.undo();
+		Response response = new Response(message);
+		ResponseQueue.addResponse(response);
 	}
 	
 	public static void initialize() {
-		logger.log(Level.INFO, "initializing memory...");
-		Storage.retrieveFile();
 		listToDisplay = new ArrayList<String>();
-		logger.log(Level.INFO, "loading tasks from storage...");
-		ArrayList<Task> taskList = Storage.loadTaskList();
-		loadIntoDisplayList(taskList);
-		logger.log(Level.INFO, "memory initialized");
+		try {
+			Storage.retrieveFile();
+			ArrayList<Task> taskList = Storage.loadTaskList();
+			loadIntoDisplayList(taskList);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private static void loadIntoDisplayList(ArrayList<Task> taskList) {
