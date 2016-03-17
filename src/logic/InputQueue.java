@@ -1,5 +1,6 @@
 package logic;
 
+import java.util.LinkedList;
 import java.util.Queue;
 
 /**
@@ -23,6 +24,6 @@ public class InputQueue {
 	}
 	
 	public static void initialize() {
-		inputQueue = new InputQueue<String>();
+		inputQueue = new LinkedList<String>();
 	}
 }
