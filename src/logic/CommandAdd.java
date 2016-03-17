@@ -21,6 +21,10 @@ public class CommandAdd implements Command {
 		assert task != null: "Attempt to create a null task";
 		this.task = task;
 	}
+	
+	public CommandType getType() {
+		return CommandType.ADD;
+	}
 
 	public String execute() {
 		try {
