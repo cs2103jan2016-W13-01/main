@@ -8,6 +8,7 @@ package gui;
 import java.awt.Color;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -16,7 +17,6 @@ import java.util.GregorianCalendar;
  * @author tfj
  */
 public class DisplayWindow extends javax.swing.JFrame {
-    private String cmd;
     /**
      * Creates new form DisplayWindow
      */
@@ -57,11 +57,7 @@ public class DisplayWindow extends javax.swing.JFrame {
         };
         clock.start();
     }
-
-    String getCmd() {
-        return cmd;
-    }
-    
+  
     void clear() {
         jTextArea1.setText("");
     }
@@ -69,6 +65,13 @@ public class DisplayWindow extends javax.swing.JFrame {
     void displayStatus(String status){
         jLabel3.setText("");
         jLabel3.setText(status);
+    }
+    
+    void displayTaskList(ArrayList<String> tasks){
+        int size = tasks.size();
+        for (int i = 0; i< size; i++){
+            jTextArea1.append(i + ". " + tasks + "\r\n");
+        }
     }
     
     
@@ -298,8 +301,9 @@ public class DisplayWindow extends javax.swing.JFrame {
 
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
         // TODO add your handling code here:
-        cmd = jTextField2.getText();
+        String cmd = jTextField2.getText();
         jTextField2.setText("");
+        Controller.sendCmd(cmd);
     }//GEN-LAST:event_jTextField2ActionPerformed
 
     /**
