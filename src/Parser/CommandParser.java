@@ -8,7 +8,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import logic.Command;
+import logic.CommandInvalid;
 import logic.CommandType;
+import logic.CommandUndo;
 
 public class CommandParser {
 	
@@ -90,11 +92,11 @@ public class CommandParser {
 			cmdDetails = ep.parse(inputTokens[1]);
 			break;
 			
-		/*	
-		case UNDO:
-			cmdDetails = new CommandDetails(cmd,task);
-			break;
 			
+		case UNDO:
+			cmdDetails = new CommandUndo();
+			break;
+		/*	
 		case MARK:
 			inputNum = getInputNum(inputTokens);
 			if(inputNum==-1){
@@ -117,7 +119,7 @@ public class CommandParser {
 			break;
 		default:
 			cmd=CommandType.INVALID;
-			cmdDetails = new Command(cmd,null);
+			cmdDetails = new CommandInvalid();
 		}
 		return cmdDetails;
 	}

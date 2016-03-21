@@ -16,32 +16,33 @@ public class Controller {
     public static void main(String args[]){
         DW = new DisplayWindow();
         DW.setVisible(true);
-        while (true){
-            sendCmd();
-            /*retrieveStatusMsg();
-            displayTasks();
-        }*/
-    }}
+    }
         
-    public static void sendCmd(){
-  
-        String cmd = DW.getCmd();
+    public static void sendCmd(String command){
         DW.clear();/*
-        Logic.executeCommand(cmd);*/
+        Logic.executeCommand(cmd);
+        displayFeedback();
+        */
     }
     
-    public static void retrieveStatusMsg(){
+    public static void displayFeedback(){
+        displayStatus();
+        displayTasks();
+    }
+    
+    public static void displayStatus(){
         /*String status = Logic.retrieveStatusMsg();
-        DW.displayStatus(status);*/
+        DW.displayStatusMsg(status);*/
+    }
+    
+    public static void retrieveTasks(){
+        /*Tasks = Logic.retrieveTasks();*/
     }
     
     public static void displayTasks(){
         /*ArrayList<String> tasks = new ArrayList<String>();
-        Tasks = Logic.retrieveTasks();
-        int length = tasks.length();
-        for (int i = 0; i< length; i++){
-            DW.jTextField1.append(i + ". " + task + "\r\n");
-        }
+        tasks = Logic.retrieveTasks();
+        DW.displayTaskList(tasks);
         */
     }
 }
