@@ -19,9 +19,6 @@ public class TaskProcessor {
 	private static final String MESSAGE_DISPLAY_ERROR = "Error encountered when displaying tasks. Please try again";
 	private static final String MESSAGE_CLEAR_ERROR = "Error encountered when clearing all tasks. Please try again";
 	private static final String MESSAGE_SORT_ERROR = "Error encountered when sorting tasks. Please try again.";
-	private static final String MESSAGE_SEARCH_ERROR = "Error encountered when searching for keyword. Please try again.";
-	private static final String MESSAGE_NO_MATCH = "No match found.";
-	private static final String MESSAGE_INVALID_COMMAND = "Invalid command. Please try again.";
 	*/
 	
 	private static ArrayList<String> listToDisplay;
@@ -45,20 +42,10 @@ public class TaskProcessor {
 	}
 
 	private static void executeCommand(Command command) {
-		if (command.getType() != CommandType.UNDO) {
-			String message = command.execute();
-			ExecutedCommands.addCommand(command);
-			ArrayList<String> taskList = getListToDisplay();
-			Response response = new Response(message, taskList);
-			ResponseQueue.addResponse(response);
-		} else {
-			undoCommand(command);
-		}
-	}
-	
-	public static void undoCommand(Command command) {
-		String message = command.undo();
-		Response response = new Response(message);
+		String message = command.execute();
+		ExecutedCommands.addCommand(command);
+		ArrayList<String> taskList = getListToDisplay();
+		Response response = new Response(message, taskList);
 		ResponseQueue.addResponse(response);
 	}
 	
