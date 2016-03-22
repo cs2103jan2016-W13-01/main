@@ -133,7 +133,7 @@ public class Storage implements Serializable {
 		return bufferedWriter;
 	}
 
-	public static ArrayList<Task> loadTaskList() throws ClassNotFoundException, IOException, ParseException {
+	public static ArrayList<Task> loadTaskList() throws ClassNotFoundException, IOException {
 
 	/*	taskList = new ArrayList<Task>();
 		BufferedReader br = new BufferedReader(new FileReader(storageFile));
@@ -153,10 +153,13 @@ public class Storage implements Serializable {
 		
 		String titleString, dateString;
 		while((titleString = br.readLine()) != null && (dateString = br.readLine()) != null) {
-			DateFormat df = new SimpleDateFormat("HH:mm:ss dd/MM/yyyy", Locale.ENGLISH);
-			Date date = df.parse(dateString);
-			Task task = new Task(titleString.trim(), date);
-			taskList.add(task);
+			try {
+				DateFormat df = new SimpleDateFormat("HH:mm:ss dd/MM/yyyy", Locale.ENGLISH);
+				Date date = df.parse(dateString);
+				Task task = new Task(titleString.trim(), date);
+				taskList.add(task);
+			} catch (ParseException e) {
+			}
 		}
 		return taskList;
 	}

@@ -51,6 +51,8 @@ public class TaskProcessor {
 	
 	public static void initialize() {
 		listToDisplay = new ArrayList<String>();
+		CommandQueue.initialize();
+		ResponseQueue.initialize();
 		try {
 			Storage.retrieveFile();
 			ArrayList<Task> taskList = Storage.loadTaskList();
