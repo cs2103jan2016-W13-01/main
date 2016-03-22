@@ -7,6 +7,9 @@ import java.util.logging.Logger;
 import logic.Task;
 
 import java.io.*;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 public class Storage implements Serializable {
 
@@ -130,9 +133,9 @@ public class Storage implements Serializable {
 		return bufferedWriter;
 	}
 
-	public static ArrayList<Task> loadTaskList() throws ClassNotFoundException, IOException {
+	public static ArrayList<Task> loadTaskList() throws ClassNotFoundException, IOException, ParseException {
 
-		taskList = new ArrayList<Task>();
+	/*	taskList = new ArrayList<Task>();
 		BufferedReader br = new BufferedReader(new FileReader(storageFile));
 		if (br.readLine() == null) {
 			br.close();
@@ -143,12 +146,36 @@ public class Storage implements Serializable {
 			ois.close();
 		}
 		return taskList;
+		*/
+		
+		BufferedReader br = initBufferedReader(storageFile);
+		taskList = new ArrayList<Task>();
+		
+		String titleString, dateString;
+		while((titleString = br.readLine()) != null && (dateString = br.readLine()) != null) {
+			DateFormat df = new SimpleDateFormat("HH:mm:ss dd/MM/yyyy", Locale.ENGLISH);
+			Date date = df.parse(dateString);
+			Task task = new Task(titleString.trim(), date);
+			taskList.add(task);
+		}
+		return taskList;
 	}
 
 	private static void saveTaskList() throws IOException {
-		FileOutputStream fos = new FileOutputStream(storageFile);
+	/*	FileOutputStream fos = new FileOutputStream(storageFile);
 		ObjectOutputStream oos = new ObjectOutputStream(fos);
 		oos.writeObject(taskList);
 		oos.close();
+	*/
+		BufferedWriter bw = initBufferedWriter(storageFile);
+		DateFormat df = new SimpleDateFormat("HH:mm:ss yyyyMMdd");
+		for (int i = 0; i < taskList.size(); i++) {
+			bw.write(taskList.get(i).getTitle());
+			bw.newLine();
+			String dateString = df.format(taskList.get(i).getDate());
+			bw.write(dateString);
+			bw.newLine();
+		}
+		bw.close();
 	}
 }
