@@ -70,11 +70,23 @@ public class DisplayWindow extends javax.swing.JFrame {
     void displayTaskList(ArrayList<String> tasks){
         int size = tasks.size();
         for (int i = 0; i< size; i++){
-            TaskDisplayArea.append(i + ". " + tasks + "\r\n");
+            TaskDisplayArea.append((i+1) + ". " + tasks.get(i) + "\r\n");
         }
     }
     
+    javax.swing.JTextArea getTaskDisplayArea(){
+        return TaskDisplayArea;
+    }
     
+    javax.swing.JTextField getCommandField(){
+        return CommandField;
+    }
+    
+    javax.swing.JLabel getStatusField(){
+        return StatusField;
+    }
+    
+   
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
