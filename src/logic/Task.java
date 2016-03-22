@@ -18,10 +18,16 @@ public class Task {
 	private Priority priority;
 	
 	public String getTitle() {
+		if (title == null) {
+			return "unspecifed title";
+		}
 		return title;
 	}
 	
 	public Date getDate() {
+		if (date == null) {
+			return new Date();
+		}
 		return date;
 	}
 	
@@ -60,8 +66,19 @@ public class Task {
 	}
 	
 	public String toString() {
-		String dateString = date.toString();
-		String result = title + " " + dateString;
+		String dateString;
+		String titleString;
+		if (date != null) {
+			dateString = date.toString();
+		} else {
+			dateString = "unspecified date";
+		}
+		if (title != null) {
+			titleString = title;
+		} else {
+			titleString = "unspecified title";
+		}
+		String result = titleString + " " + dateString;
 		return result;
 	}
 }

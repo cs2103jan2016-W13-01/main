@@ -22,6 +22,10 @@ public class Storage implements Serializable {
 		retrieveFile();
 		taskList = loadTaskList();
 	}
+	
+	public static ArrayList<Task> getTaskList() {
+		return taskList;
+	}
 
 	public static File retrieveFile() throws IOException {
 		storageFile = new File(STORAGE_FILE);
@@ -46,7 +50,7 @@ public class Storage implements Serializable {
 	public static ArrayList<Task> addNewTask(Task newTask, int position) throws IOException {
 
 		logger.log(Level.INFO, "Adding new Task to the ArrayList at position: " + position);
-		taskList.add(position, newTask);
+		taskList.add(position-1, newTask);
 		saveTaskList();
 		return taskList;
 	}
@@ -156,11 +160,12 @@ public class Storage implements Serializable {
 		String titleString, dateString;
 		while((titleString = br.readLine()) != null && (dateString = br.readLine()) != null) {
 			try {
-				DateFormat df = new SimpleDateFormat("HH:mm:ss dd/MM/yyyy", Locale.ENGLISH);
+				DateFormat df = new SimpleDateFormat("HH:mm:ss yyyyMMdd", Locale.ENGLISH);
 				Date date = df.parse(dateString);
 				Task task = new Task(titleString.trim(), date);
 				taskList.add(task);
 			} catch (ParseException e) {
+				e.printStackTrace();
 			}
 		}
 		return taskList;

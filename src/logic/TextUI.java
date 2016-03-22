@@ -11,7 +11,7 @@ public class TextUI {
 	
 	public static void main(String[] args) {
 		sc = new Scanner(System.in);
-		ExecutedCommands.initialize();
+		initialize();
 		while (true) {
 			String input = sc.nextLine();
 			Command command = CommandParser.parseInput(input);
@@ -59,6 +59,7 @@ public class TextUI {
 	}
 	
 	public static void initialize() {
-		InputQueue.initialize();
+		ExecutedCommands.initialize();
+		TaskProcessor.initialize();
 	}
 }

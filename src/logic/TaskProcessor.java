@@ -31,6 +31,7 @@ public class TaskProcessor {
 	}
 	
 	public static ArrayList<String> getListToDisplay() {
+		loadIntoDisplayList(Storage.getTaskList());
 		return listToDisplay;
 	}
 	
@@ -56,8 +57,6 @@ public class TaskProcessor {
 	
 	public static void initialize() {
 		listToDisplay = new ArrayList<String>();
-		CommandQueue.initialize();
-		ResponseQueue.initialize();
 		try {
 			Storage.retrieveFile();
 			ArrayList<Task> taskList = Storage.loadTaskList();
@@ -71,6 +70,7 @@ public class TaskProcessor {
 	}
 	
 	private static void loadIntoDisplayList(ArrayList<Task> taskList) {
+		listToDisplay.clear();
 		for (Task task: taskList) {
 			assert task != null : "Some task in the task list is null";
 			listToDisplay.add(task.toString());
