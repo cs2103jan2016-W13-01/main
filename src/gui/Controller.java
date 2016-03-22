@@ -8,6 +8,7 @@ package gui;
 import logic.InputQueue;
 import logic.ResponseQueue;
 import logic.Response;
+import logic.TaskProcessor;
         
 import java.util.ArrayList;
 /**
@@ -20,23 +21,21 @@ public class Controller {
     public static void main(String args[]){
         DW = new DisplayWindow();
         DW.setVisible(true);
-        displayFeedback();
+
     }
         
     public static void sendCmd(String command){
-        DW.clear();
-        InputQueue.addInput(command);
+        DW.clear(); 
+        Response response = TaskProcessor.executeInput(command);
+        displayFeedback(response);
     }
     
-    public static void displayFeedback(){
-       while (true){
-       while (ResponseQueue.isEmpty() == false) {
-           Response response = ResponseQueue.getResponse();
+    public static void displayFeedback(Response response){
            String status = response.getMessage();
            ArrayList<String> tasks = response.getTaskList();
            displayStatus(status);
            displayTasks(tasks);
-		}}}
+		}
     
     public static void displayStatus(String status){
         DW.displayStatusMsg(status);
