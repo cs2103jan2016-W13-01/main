@@ -8,15 +8,23 @@ public class Diamond {
 	private static final String MESSAGE_NO_TASK = "No task to show.";
 
 	public static void main(String args[]) throws InterruptedException {
-		Thread GUI = new Thread(() -> Controller.main(null), "GUI");
+		
+		TextUI.initialize();
+		InputProcessor.initialize();
+		TaskProcessor.initialize();
+		
+		//Thread GUI = new Thread(() -> Controller.main(null), "GUI");
+		Thread textUI = new Thread(() -> TextUI.main(null), "textUI");
 		Thread inputProc = new Thread(() -> InputProcessor.main(null), "inputProc");
 		Thread taskProc = new Thread(() -> TaskProcessor.main(null), "taskProc");
 		
-		GUI.start();
+		//GUI.start();
+		textUI.start();
 		inputProc.start();
 		taskProc.start();
 		
-		GUI.join();
+		//GUI.join();
+		textUI.join();
 		inputProc.join();
 		taskProc.join();
 	}

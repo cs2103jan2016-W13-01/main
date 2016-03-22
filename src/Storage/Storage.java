@@ -36,6 +36,8 @@ public class Storage implements Serializable {
 	public static ArrayList<Task> addNewTask(Task newTask) throws IOException {
 
 		logger.log(Level.INFO, "Adding new Task to the ArrayList");
+		assert (taskList != null) : "taskList not initialized";
+		assert (newTask != null) : "task is null";
 		taskList.add(newTask);
 		saveTaskList();
 		return taskList;

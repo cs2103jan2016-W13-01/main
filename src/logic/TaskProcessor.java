@@ -3,6 +3,7 @@ package logic;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import Parser.CommandParser;
 import Storage.Storage;
 /**
  * @author Bao Linh
@@ -24,7 +25,6 @@ public class TaskProcessor {
 	private static ArrayList<String> listToDisplay;
 	
 	public static void main(String[] args) {
-		initialize();
 		while (true) {
 			getAndExecuteCommand();
 		}
@@ -40,13 +40,18 @@ public class TaskProcessor {
 			executeCommand(command);
 		}
 	}
+	
+	public static Response executeInput(String input) {
+		Command command = CommandParser.parseInput(input);
+		return executeCommand(command);
+	}
 
-	private static void executeCommand(Command command) {
+	public static Response executeCommand(Command command) {
 		String message = command.execute();
 		ExecutedCommands.addCommand(command);
 		ArrayList<String> taskList = getListToDisplay();
 		Response response = new Response(message, taskList);
-		ResponseQueue.addResponse(response);
+		return response;
 	}
 	
 	public static void initialize() {

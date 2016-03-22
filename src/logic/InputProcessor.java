@@ -17,7 +17,6 @@ public class InputProcessor {
 	}
 	
 	public static void main(String[] args) {
-		initialize();
 		while (true) {
 			getAndParseInput();
 		}
