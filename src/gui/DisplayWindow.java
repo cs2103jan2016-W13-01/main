@@ -47,7 +47,7 @@ public class DisplayWindow extends javax.swing.JFrame {
                       int year = cal.get(Calendar.YEAR);
                       int minute = cal.get(Calendar.MINUTE);
                       int hour = cal.get(Calendar.HOUR);
-                      jLabel3.setText("  "+ year + "/" + month + "/" + day + ", " + hour + ":" + minute );
+                      StatusField.setText("  "+ year + "/" + month + "/" + day + ", " + hour + ":" + minute );
                       sleep(1000);
                     }
                 } catch (InterruptedException e) {
@@ -59,18 +59,18 @@ public class DisplayWindow extends javax.swing.JFrame {
     }
   
     void clear() {
-        jTextArea1.setText("");
+        TaskDisplayArea.setText("");
     }
     
     void displayStatusMsg(String status){
-        jLabel3.setText("");
-        jLabel3.setText(status);
+        StatusField.setText("");
+        StatusField.setText(status);
     }
     
     void displayTaskList(ArrayList<String> tasks){
         int size = tasks.size();
         for (int i = 0; i< size; i++){
-            jTextArea1.append(i + ". " + tasks + "\r\n");
+            TaskDisplayArea.append(i + ". " + tasks + "\r\n");
         }
     }
     
@@ -92,14 +92,14 @@ public class DisplayWindow extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        TaskDisplayArea = new javax.swing.JTextArea();
         jPanel5 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
-        jTextField2 = new javax.swing.JTextField();
+        CommandField = new javax.swing.JTextField();
         jPanel6 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        StatusField = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -147,12 +147,12 @@ public class DisplayWindow extends javax.swing.JFrame {
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder(""), "Task List", 0, 0, new java.awt.Font("Comic Sans MS", 1, 12))); // NOI18N
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder(""), "Task List", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Comic Sans MS", 1, 12))); // NOI18N
         jPanel4.setFont(new java.awt.Font("Comic Sans MS", 1, 12)); // NOI18N
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane3.setViewportView(jTextArea1);
+        TaskDisplayArea.setColumns(20);
+        TaskDisplayArea.setRows(5);
+        jScrollPane3.setViewportView(TaskDisplayArea);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -189,9 +189,9 @@ public class DisplayWindow extends javax.swing.JFrame {
 
         jPanel7.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+        CommandField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
+                CommandFieldActionPerformed(evt);
             }
         });
 
@@ -201,13 +201,13 @@ public class DisplayWindow extends javax.swing.JFrame {
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTextField2)
+                .addComponent(CommandField)
                 .addContainerGap())
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(CommandField, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 11, Short.MAX_VALUE))
         );
 
@@ -240,8 +240,8 @@ public class DisplayWindow extends javax.swing.JFrame {
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gui/DiamondIcon.png"))); // NOI18N
 
-        jLabel3.setFont(new java.awt.Font("Comic Sans MS", 1, 18)); // NOI18N
-        jLabel3.setName("TimeField"); // NOI18N
+        StatusField.setFont(new java.awt.Font("Comic Sans MS", 1, 18)); // NOI18N
+        StatusField.setName("TimeField"); // NOI18N
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -251,7 +251,7 @@ public class DisplayWindow extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 553, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(StatusField, javax.swing.GroupLayout.PREFERRED_SIZE, 553, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
@@ -259,7 +259,7 @@ public class DisplayWindow extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                 .addGap(0, 22, Short.MAX_VALUE)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(StatusField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
@@ -299,18 +299,20 @@ public class DisplayWindow extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+    private void CommandFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CommandFieldActionPerformed
         // TODO add your handling code here:
-        String cmd = jTextField2.getText();
-        jTextField2.setText("");
+        String cmd = CommandField.getText();
+        CommandField.setText("");
         Controller.sendCmd(cmd);
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    }//GEN-LAST:event_CommandFieldActionPerformed
 
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField CommandField;
+    private javax.swing.JLabel StatusField;
+    private javax.swing.JTextArea TaskDisplayArea;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JPanel jPanel1;
@@ -322,8 +324,6 @@ public class DisplayWindow extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField2;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 }
