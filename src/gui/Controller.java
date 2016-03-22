@@ -5,6 +5,10 @@
  */
 package gui;
 
+import logic.InputQueue;
+import logic.ResponseQueue;
+import logic.Response;
+        
 import java.util.ArrayList;
 /**
  *
@@ -16,33 +20,30 @@ public class Controller {
     public static void main(String args[]){
         DW = new DisplayWindow();
         DW.setVisible(true);
+        displayFeedback();
     }
         
     public static void sendCmd(String command){
-        DW.clear();/*
-        Logic.executeCommand(cmd);
-        displayFeedback();
-        */
+        DW.clear();
+        InputQueue.addInput(command);
     }
     
     public static void displayFeedback(){
-        displayStatus();
-        displayTasks();
+       while (true){
+       while (ResponseQueue.isEmpty() == false) {
+           Response response = ResponseQueue.getResponse();
+           String status = response.getMessage();
+           ArrayList<String> tasks = response.getTaskList();
+           displayStatus(status);
+           displayTasks(tasks);
+		}}}
+    
+    public static void displayStatus(String status){
+        DW.displayStatusMsg(status);
     }
     
-    public static void displayStatus(){
-        /*String status = Logic.retrieveStatusMsg();
-        DW.displayStatusMsg(status);*/
-    }
     
-    public static void retrieveTasks(){
-        /*Tasks = Logic.retrieveTasks();*/
-    }
-    
-    public static void displayTasks(){
-        /*ArrayList<String> tasks = new ArrayList<String>();
-        tasks = Logic.retrieveTasks();
+    public static void displayTasks(ArrayList<String> tasks){
         DW.displayTaskList(tasks);
-        */
     }
 }

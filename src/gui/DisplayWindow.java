@@ -62,7 +62,7 @@ public class DisplayWindow extends javax.swing.JFrame {
         jTextArea1.setText("");
     }
     
-    void displayStatus(String status){
+    void displayStatusMsg(String status){
         jLabel3.setText("");
         jLabel3.setText(status);
     }

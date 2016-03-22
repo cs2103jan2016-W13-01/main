@@ -10,6 +10,11 @@ public class Response {
 	
 	private String message;
 	private ArrayList<String> taskList;
+        
+        public Response() {
+	
+	}
+	
 	
 	public Response(String msg, ArrayList<String> list) {
 		message = msg;
