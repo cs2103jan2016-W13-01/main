@@ -1,4 +1,6 @@
-package logic;
+package logic.commands;
+
+import logic.ExecutedCommands;
 
 /**
  * @author Bao Linh

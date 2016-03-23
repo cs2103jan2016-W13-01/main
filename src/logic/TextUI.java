@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import Parser.CommandParser;
+import logic.commands.Command;
 
 public class TextUI {
 	

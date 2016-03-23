@@ -1,8 +1,10 @@
-package logic;
+package logic.commands;
 
 import java.io.IOException;
 
 import Storage.Storage;
+import logic.ExecutedCommands;
+import logic.Task;
 
 /**
  * @author Bao Linh
@@ -20,6 +22,10 @@ public class CommandAdd implements Command {
 	public CommandAdd(Task task) {
 		assert task != null: "Attempt to create a null task";
 		this.task = task;
+	}
+	
+	public Task getTask() {
+		return task;
 	}
 	
 	public CommandType getType() {
@@ -46,5 +52,5 @@ public class CommandAdd implements Command {
 			return String.format(MESSAGE_UNDO_ERROR, e);
 		}
 	}
-
+	
 }

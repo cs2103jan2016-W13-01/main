@@ -2,6 +2,8 @@ package logic;
 
 import java.util.Stack;
 
+import logic.commands.Command;
+
 /**
  * @author Bao Linh
  *

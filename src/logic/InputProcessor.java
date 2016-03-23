@@ -1,6 +1,8 @@
 package logic;
 
 import Parser.CommandParser;
+import logic.commands.Command;
+import logic.commands.CommandQueue;
 
 /**
  * @author Bao Linh
