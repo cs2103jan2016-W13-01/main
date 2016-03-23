@@ -49,7 +49,6 @@ public class TaskProcessor {
 
 	public static Response executeCommand(Command command) {
 		String message = command.execute();
-		ExecutedCommands.addCommand(command);
 		ArrayList<String> taskList = getListToDisplay();
 		Response response = new Response(message, taskList);
 		return response;

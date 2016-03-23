@@ -31,6 +31,7 @@ public class CommandDelete implements Command {
 		try {
 			deletedTask = Storage.deleteTask(taskNumberToDelete);
 			if (deletedTask != null) {
+				ExecutedCommands.addCommand(this);
 				return MESSAGE_TASK_DELETED;
 			} else {
 				return MESSAGE_TASK_NOT_FOUND;

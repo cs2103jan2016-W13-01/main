@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 import logic.Task;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -60,7 +61,7 @@ public class Storage implements Serializable {
 
 		assert (taskNumberToDelete > 0);
 		Task deletedTask = null;
-		if (!taskList.isEmpty() && taskNumberToDelete < taskList.size()) {
+		if (!taskList.isEmpty() && taskNumberToDelete <= taskList.size()) {
 			logger.log(Level.INFO, "Deleting Task from the ArrayList");
 			deletedTask = taskList.remove(taskNumberToDelete - 1);
 			saveTaskList();
@@ -84,13 +85,22 @@ public class Storage implements Serializable {
 	public static boolean clearAllTasks() {
 		try {
 			logger.log(Level.INFO, "Deleting ALL Tasks to the ArrayList");
-			storageFile.delete(); // delete the whole file and
-			storageFile.createNewFile(); // create a new empty file with the
-											// same name
+			taskList.clear();
+			clearStorageFile();
 			return true;
 		} catch (IOException e) {
 			return false;
 		}
+	}
+
+	/**
+	 * @throws IOException
+	 */
+	private static void clearStorageFile() throws IOException {
+		boolean isDeleted = storageFile.delete(); // delete the whole file and
+		if (!isDeleted) throw new IOException("file not deleted");
+		storageFile.createNewFile(); // create a new empty file with the
+										// same name
 	}
 
 	public static void sortTasks() throws IOException {
@@ -177,6 +187,7 @@ public class Storage implements Serializable {
 		oos.writeObject(taskList);
 		oos.close();
 	*/
+		clearStorageFile();
 		BufferedWriter bw = initBufferedWriter(storageFile);
 		DateFormat df = new SimpleDateFormat("HH:mm:ss yyyyMMdd");
 		for (int i = 0; i < taskList.size(); i++) {

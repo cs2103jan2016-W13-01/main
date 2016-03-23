@@ -29,6 +29,7 @@ public class CommandAdd implements Command {
 	public String execute() {
 		try {
 			Storage.addNewTask(task);
+			ExecutedCommands.addCommand(this);
 			return MESSAGE_TASK_ADDED;
 		} catch (IOException e) {
 			return MESSAGE_ADD_ERROR;

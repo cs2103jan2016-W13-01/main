@@ -5,6 +5,7 @@
  */
 package gui;
 
+import logic.ExecutedCommands;
 import logic.InputQueue;
 import logic.ResponseQueue;
 import logic.Response;
@@ -19,10 +20,16 @@ public class Controller {
     public static DisplayWindow DW;
     
     public static void main(String args[]){
-        DW = new DisplayWindow();
-        DW.setVisible(true);
-
+        initialize();
     }
+	
+	public static void initialize() {
+    	DW = new DisplayWindow();
+        DW.setVisible(true);
+		ExecutedCommands.initialize();
+		TaskProcessor.initialize();
+		displayTasks(TaskProcessor.getListToDisplay());
+	}
         
     public static void sendCmd(String command){
         DW.clear(); 
