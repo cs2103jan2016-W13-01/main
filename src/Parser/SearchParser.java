@@ -3,9 +3,9 @@ package Parser;
 import java.util.Date;
 import java.util.logging.Level;
 
-import logic.Command;
-import logic.CommandType;
 import logic.Task;
+import logic.commands.Command;
+import logic.commands.CommandType;
 
 public class SearchParser extends GeneralParser {
 	

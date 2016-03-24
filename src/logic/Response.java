@@ -36,4 +36,23 @@ public class Response {
 	public ArrayList<String> getTaskList() {
 		return taskList;
 	}
+	
+	public boolean equals(Response res) {
+		return (getMessage().equals(res.getMessage()) && getTaskList().equals(res.getTaskList()));
+	}
+	
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(getMessage());
+		if (taskList == null) {
+			sb.append("\r\n");
+			sb.append("null");
+		} else {
+			for (String str: taskList) {
+				sb.append("\r\n");
+				sb.append(str);
+			}
+		}
+		return sb.toString();
+	}
 }

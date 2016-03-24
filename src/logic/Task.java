@@ -81,4 +81,8 @@ public class Task {
 		String result = titleString + " " + dateString;
 		return result;
 	}
+	
+	public boolean equals(Task otherTask) {
+		return (getTitle().equals(otherTask.getTitle()) && getDate().equals(otherTask.getDate()));
+	}
 }

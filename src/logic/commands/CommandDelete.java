@@ -1,8 +1,10 @@
-package logic;
+package logic.commands;
 
 import java.io.IOException;
 
 import Storage.Storage;
+import logic.ExecutedCommands;
+import logic.Task;
 /**
  * @author Bao Linh
  * This class encapsulates the "delete" commands from the user.
