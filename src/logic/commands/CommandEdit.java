@@ -1,4 +1,4 @@
-package logic;
+package logic.commands;
 
 /**
  * @author Bao Linh

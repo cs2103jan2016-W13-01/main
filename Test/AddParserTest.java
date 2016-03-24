@@ -11,10 +11,10 @@ import org.junit.Test;
 import Parser.AddParser;
 import Parser.CommandParser;
 import Parser.DateParser;
-import logic.Command;
-import logic.CommandAdd;
-import logic.CommandType;
+
 import logic.Task;
+import logic.commands.Command;
+import logic.commands.CommandType;
 
 public class AddParserTest {
 
