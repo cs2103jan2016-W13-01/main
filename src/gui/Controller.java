@@ -12,7 +12,10 @@ import logic.Response;
 import logic.TaskProcessor;
         
 import java.util.ArrayList;
-
+/**
+ *
+ * @author tfj
+ */
 public class Controller {
     public static DisplayWindow DW;
     
