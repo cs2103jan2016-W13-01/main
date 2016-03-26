@@ -2,7 +2,7 @@ package Parser;
 
 import java.util.Date;
 
-import logic.Command;
+import logic.commands.Command;
 
 public abstract class GeneralParser {
 	

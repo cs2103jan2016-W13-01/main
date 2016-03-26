@@ -7,32 +7,25 @@ import java.util.logging.Logger;
 import logic.Task;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 public class Storage implements Serializable {
 
-	/*
-	 * private static final String MESSAGE_ADD_ERROR =
-	 * "Error encountered when adding text. Please try again."; private static
-	 * final String MESSAGE_DELETE_ERROR =
-	 * "Error encountered when deleting task. Please try again"; private static
-	 * final String MESSAGE_DISPLAY_ERROR =
-	 * "Error encountered when displaying tasks. Please try again"; private
-	 * static final String MESSAGE_CLEAR_ERROR =
-	 * "Error encountered when clearing all tasks. Please try again"; private
-	 * static final String MESSAGE_SORT_ERROR =
-	 * "Error encountered when sorting tasks. Please try again."; private static
-	 * final String MESSAGE_SEARCH_ERROR =
-	 * "Error encountered when searching for keyword. Please try again.";
-	 * private static final String MESSAGE_NO_MATCH = "No match found.";
-	 */
 	private static final String STORAGE_FILE = "storage.txt";
 	private static File storageFile;
 	private static ArrayList<Task> taskList;
-	private final static Logger LOGGER = Logger.getLogger(Storage.class.getName());
+	private static Logger logger = Logger.getLogger(Storage.class.getName());
 
 	private Storage() throws IOException, ClassNotFoundException {
 		retrieveFile();
 		taskList = loadTaskList();
+	}
+	
+	public static ArrayList<Task> getTaskList() {
+		return taskList;
 	}
 
 	public static File retrieveFile() throws IOException {
@@ -47,7 +40,9 @@ public class Storage implements Serializable {
 	// appends a new line of text at the bottom of the file
 	public static ArrayList<Task> addNewTask(Task newTask) throws IOException {
 
-		LOGGER.log(Level.INFO, "Adding new Task to the ArrayList");
+		logger.log(Level.INFO, "Adding new Task to the ArrayList");
+		assert (taskList != null) : "taskList not initialized";
+		assert (newTask != null) : "task is null";
 		taskList.add(newTask);
 		saveTaskList();
 		return taskList;
@@ -55,8 +50,8 @@ public class Storage implements Serializable {
 	
 	public static ArrayList<Task> addNewTask(Task newTask, int position) throws IOException {
 
-		LOGGER.log(Level.INFO, "Adding new Task to the ArrayList at position: " + position);
-		taskList.add(position, newTask);
+		logger.log(Level.INFO, "Adding new Task to the ArrayList at position: " + position);
+		taskList.add(position-1, newTask);
 		saveTaskList();
 		return taskList;
 	}
@@ -66,8 +61,8 @@ public class Storage implements Serializable {
 
 		assert (taskNumberToDelete > 0);
 		Task deletedTask = null;
-		if (!taskList.isEmpty() && taskNumberToDelete < taskList.size()) {
-			LOGGER.log(Level.INFO, "Deleting Task from the ArrayList");
+		if (!taskList.isEmpty() && taskNumberToDelete <= taskList.size()) {
+			logger.log(Level.INFO, "Deleting Task from the ArrayList");
 			deletedTask = taskList.remove(taskNumberToDelete - 1);
 			saveTaskList();
 		}
@@ -89,14 +84,22 @@ public class Storage implements Serializable {
 	// deletes all text in the file
 	public static boolean clearAllTasks() {
 		try {
-			LOGGER.log(Level.INFO, "Deleting ALL Tasks to the ArrayList");
-			storageFile.delete(); // delete the whole file and
-			storageFile.createNewFile(); // create a new empty file with the
-											// same name
+			logger.log(Level.INFO, "Deleting ALL Tasks to the ArrayList");
+			taskList.clear();
+			clearStorageFile();
 			return true;
 		} catch (IOException e) {
 			return false;
 		}
+	}
+
+	/**
+	 * @throws IOException
+	 */
+	private static void clearStorageFile() throws IOException {
+		Files.delete(storageFile.toPath()); // delete the whole file and
+		storageFile.createNewFile(); // create a new empty file with the
+										// same name
 	}
 
 	public static void sortTasks() throws IOException {
@@ -126,7 +129,7 @@ public class Storage implements Serializable {
 		for (int i = 0; i < taskList.size(); i++) {
 			String taskTitle = taskList.get(i).getTitle();
 			if (taskTitle.toLowerCase().contains(lowerCaseKeyword)) {
-				LOGGER.log(Level.INFO, "Stores all hits in a separate ArrayList");
+				logger.log(Level.INFO, "Stores all hits in a separate ArrayList");
 				searchResult.add(taskList.get(i));
 			}
 		}
@@ -147,7 +150,7 @@ public class Storage implements Serializable {
 
 	public static ArrayList<Task> loadTaskList() throws ClassNotFoundException, IOException {
 
-		taskList = new ArrayList<Task>();
+	/*	taskList = new ArrayList<Task>();
 		BufferedReader br = new BufferedReader(new FileReader(storageFile));
 		if (br.readLine() == null) {
 			br.close();
@@ -158,12 +161,42 @@ public class Storage implements Serializable {
 			ois.close();
 		}
 		return taskList;
+		*/
+		
+		BufferedReader br = initBufferedReader(storageFile);
+		taskList = new ArrayList<Task>();
+		
+		String titleString, dateString;
+		while((titleString = br.readLine()) != null && (dateString = br.readLine()) != null) {
+			try {
+				DateFormat df = new SimpleDateFormat("HH:mm:ss yyyyMMdd", Locale.ENGLISH);
+				Date date = df.parse(dateString);
+				Task task = new Task(titleString.trim(), date);
+				taskList.add(task);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+		}
+		br.close();
+		return taskList;
 	}
 
 	private static void saveTaskList() throws IOException {
-		FileOutputStream fos = new FileOutputStream(storageFile);
+	/*	FileOutputStream fos = new FileOutputStream(storageFile);
 		ObjectOutputStream oos = new ObjectOutputStream(fos);
 		oos.writeObject(taskList);
 		oos.close();
+	*/
+		clearStorageFile();
+		BufferedWriter bw = initBufferedWriter(storageFile);
+		DateFormat df = new SimpleDateFormat("HH:mm:ss yyyyMMdd");
+		for (int i = 0; i < taskList.size(); i++) {
+			bw.write(taskList.get(i).getTitle());
+			bw.newLine();
+			String dateString = df.format(taskList.get(i).getDate());
+			bw.write(dateString);
+			bw.newLine();
+		}
+		bw.close();
 	}
 }

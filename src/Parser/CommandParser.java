@@ -7,10 +7,10 @@ import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import logic.Command;
-import logic.CommandInvalid;
-import logic.CommandType;
-import logic.CommandUndo;
+import logic.commands.Command;
+import logic.commands.CommandInvalid;
+import logic.commands.CommandType;
+import logic.commands.CommandUndo;
 
 public class CommandParser {
 	

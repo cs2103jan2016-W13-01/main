@@ -1,6 +1,8 @@
 package logic;
 
 import Parser.CommandParser;
+import logic.commands.Command;
+import logic.commands.CommandQueue;
 
 /**
  * @author Bao Linh
@@ -20,5 +22,9 @@ public class InputProcessor {
 		while (true) {
 			getAndParseInput();
 		}
+	}
+	
+	public static void initialize() {
+		InputQueue.initialize();
 	}
 }

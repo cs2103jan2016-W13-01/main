@@ -1,20 +1,31 @@
 package logic;
 
-public class Diamond {
+import gui.Controller;
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private static DemoUI GUI;
+public class Diamond {
 	
 	private static final String MESSAGE_TASK_LIST = "Current task list:";
 	private static final String MESSAGE_NO_TASK = "No task to show.";
 
-	public static void main(String args[]) {
+	public static void main(String args[]) throws InterruptedException {
 		
-		GUI = new DemoUI();
+		TextUI.initialize();
+		InputProcessor.initialize();
 		TaskProcessor.initialize();
-		GUI.displayTaskList(TaskProcessor.getListToDisplay());
+		
+		//Thread GUI = new Thread(() -> Controller.main(null), "GUI");
+		Thread textUI = new Thread(() -> TextUI.main(null), "textUI");
+		Thread inputProc = new Thread(() -> InputProcessor.main(null), "inputProc");
+		Thread taskProc = new Thread(() -> TaskProcessor.main(null), "taskProc");
+		
+		//GUI.start();
+		textUI.start();
+		inputProc.start();
+		taskProc.start();
+		
+		//GUI.join();
+		textUI.join();
+		inputProc.join();
+		taskProc.join();
 	}
 }

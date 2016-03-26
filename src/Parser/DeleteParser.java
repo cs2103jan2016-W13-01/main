@@ -3,11 +3,11 @@ package Parser;
 import java.util.Date;
 import java.util.logging.Level;
 
-import logic.Command;
-import logic.CommandDelete;
-import logic.CommandInvalid;
-import logic.CommandType;
 import logic.Task;
+import logic.commands.Command;
+import logic.commands.CommandDelete;
+import logic.commands.CommandInvalid;
+import logic.commands.CommandType;
 
 public class DeleteParser extends GeneralParser {
 	

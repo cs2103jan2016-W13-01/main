@@ -1,8 +1,10 @@
-package logic;
+package logic.commands;
 
 import java.io.IOException;
 
 import Storage.Storage;
+import logic.ExecutedCommands;
+import logic.Task;
 
 /**
  * @author Bao Linh
@@ -22,6 +24,10 @@ public class CommandAdd implements Command {
 		this.task = task;
 	}
 	
+	public Task getTask() {
+		return task;
+	}
+	
 	public CommandType getType() {
 		return CommandType.ADD;
 	}
@@ -29,8 +35,10 @@ public class CommandAdd implements Command {
 	public String execute() {
 		try {
 			Storage.addNewTask(task);
+			ExecutedCommands.addCommand(this);
 			return MESSAGE_TASK_ADDED;
 		} catch (IOException e) {
+			e.printStackTrace();
 			return MESSAGE_ADD_ERROR;
 		}
 	}
@@ -45,5 +53,5 @@ public class CommandAdd implements Command {
 			return String.format(MESSAGE_UNDO_ERROR, e);
 		}
 	}
-
+	
 }
