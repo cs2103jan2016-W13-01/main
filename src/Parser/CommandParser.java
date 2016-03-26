@@ -8,13 +8,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import logic.commands.Command;
+import logic.commands.CommandHelp;
 import logic.commands.CommandInvalid;
 import logic.commands.CommandType;
 import logic.commands.CommandUndo;
 
 public class CommandParser {
 	
-	private static final String REGEX_SPACE = "\\s";
+	private static final String REGEX_SPACE = "\\s+";
 	
 	public static Logger parserLogger = Logger.getLogger(CommandParser.class.getName());
 	public ArrayList<String> list;
@@ -73,52 +74,64 @@ public class CommandParser {
 		CommandType cmd = getCmdType(inputTokens[0]);
 		Command cmdDetails=null;
 		
-		switch(cmd){
-		
-		case ADD:
-			AddParser ap = new AddParser();
-			cmdDetails = ap.parse(inputTokens[1]);
-			break;
+		if(inputTokens.length==2){
+			switch(cmd){
 			
-			
-		case DELETE:
-			DeleteParser dp = new DeleteParser();
-			cmdDetails = dp.parse(inputTokens[1]);
-			break;
-			
-			
-		case EDIT:
-			EditParser ep = new EditParser();
-			cmdDetails = ep.parse(inputTokens[1]);
-			break;
-			
-			
-		case UNDO:
-			cmdDetails = new CommandUndo();
-			break;
-		/*	
-		case MARK:
-			inputNum = getInputNum(inputTokens);
-			if(inputNum==-1){
-				cmd=CommandType.INVALID;
+			case ADD:
+				AddParser ap = new AddParser();
+				cmdDetails = ap.parse(inputTokens[1]);
+				break;
+				
+				
+			case DELETE:
+				DeleteParser dp = new DeleteParser();
+				cmdDetails = dp.parse(inputTokens[1]);
+				break;
+				
+				
+			case EDIT:
+				EditParser ep = new EditParser();
+				cmdDetails = ep.parse(inputTokens[1]);
+				break;
+
+			/*	
+			case MARK:
+				inputNum = getInputNum(inputTokens);
+				if(inputNum==-1){
+					cmd=CommandType.INVALID;
+				}
+				cmdDetails= new CommandDetails(cmd,task,inputNum);
+				break;
+				
+			case UNMARK:
+				inputNum = getInputNum(inputTokens);
+				if(inputNum==-1){
+					cmd=CommandType.INVALID;
+				}
+				cmdDetails= new CommandDetails(cmd,task,inputNum);
+				break;
+				*/
+			case SEARCH:
+				SearchParser sp = new SearchParser();
+				cmdDetails = sp.parse(inputTokens[1]);
+				break;
+			default:
+				cmdDetails = new CommandInvalid();
 			}
-			cmdDetails= new CommandDetails(cmd,task,inputNum);
-			break;
-			
-		case UNMARK:
-			inputNum = getInputNum(inputTokens);
-			if(inputNum==-1){
-				cmd=CommandType.INVALID;
+		}
+		else if(inputTokens.length==1){
+			switch(cmd){			
+			case UNDO:
+				cmdDetails = new CommandUndo();
+				break;
+			case HELP:
+				cmdDetails =  new CommandHelp();
+				break;
+			default:
+				cmdDetails = new CommandInvalid();
 			}
-			cmdDetails= new CommandDetails(cmd,task,inputNum);
-			break;
-			*/
-		case SEARCH:
-			SearchParser sp = new SearchParser();
-			cmdDetails = sp.parse(inputTokens[1]);
-			break;
-		default:
-			cmd=CommandType.INVALID;
+		}
+		else{
 			cmdDetails = new CommandInvalid();
 		}
 		return cmdDetails;
@@ -157,6 +170,9 @@ public class CommandParser {
 		case "s":
 		case "search":
 			return CommandType.SEARCH;
+		case "h":
+		case "help":
+			return CommandType.HELP;
 		default:
 			return CommandType.INVALID;
 		}
