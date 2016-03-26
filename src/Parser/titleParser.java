@@ -26,8 +26,8 @@ public class titleParser {
 	private static final String DATES = "(\\d?\\d)(?:st|rd|nd|th)?";
 	private static final String YEARS = "(\\d{4})?";
 	
-	private static final String DATE_MONTH_REGEX = "(?<=\\s|^)" + DATES + "\\s" + MONTHS + ",?\\s?" + YEARS + "(?=\\s|$)";
-	private static final String MONTH_DATE_REGEX = "(?<=\\s|^)" + MONTHS + "\\s" + DATES + ",?\\s?" + YEARS + "(?=\\s|$)";
+	private static final String DATE_MONTH_REGEX = DATES + "\\s" + MONTHS + ",?\\s?" + YEARS + "(?=\\s|$)";
+	private static final String MONTH_DATE_REGEX =  MONTHS + "\\s" + DATES + ",?\\s?" + YEARS + "(?=\\s|$)";
 	
 
 	private static final String FLEXIBLE_DATE_REGEX = "(" + DATE_MONTH_REGEX + "|" + MONTH_DATE_REGEX + ")";
@@ -39,8 +39,8 @@ public class titleParser {
 	
 	
 	
-	private static final String TWELVE_HR_REGEX = "(?<=\\s|^)([0-9]?[0-9])([.:][0-9][0-9])?\\s?(am|pm)?(\\s?(?:-|to|until|til|till)\\s?([0-9]?[0-9])([.:][0-9][0-9])?\\s?)?(am|pm)(?=\\s|$)";
-	private static final String TWENTYFOUR_HR_REGEX = "(?<=\\s|^)(([0-9]?[0-9])[:]([0-9][0-9]))\\s?[?:h|H]?\\s?((?:-|to|until|til|till)?\\s?(([0-9]?[0-9])[:]([0-9][0-9])))?\\s?[?:h|H]?(?=\\s|$)";
+	private static final String TWELVE_HR_REGEX = "(?<=\\s)([0-9]?[0-9])([.:][0-9][0-9])?\\s?(am|pm)?(\\s?(?:-|to|until|til|till)\\s?([0-9]?[0-9])([.:][0-9][0-9])?\\s?)?(am|pm)(?=\\s|$)";
+	private static final String TWENTYFOUR_HR_REGEX = "(?<=\\s)(([0-9]?[0-9])[:]([0-9][0-9]))\\s?[?:h|H]?\\s?((?:-|to|until|til|till)?\\s?(([0-9]?[0-9])[:]([0-9][0-9])))?\\s?[?:h|H]?(?=\\s|$)";
 		
 	private static final String TIME_REGEX = "(" + TWELVE_HR_REGEX + "|" + TWENTYFOUR_HR_REGEX + ")";
 		
@@ -48,7 +48,7 @@ public class titleParser {
 	
 	static final String NO_KEYWORD_DATE_TIME_REGEX = "(" + TIME_REGEX + "|" + NO_KEYWORD_DATE_REGEX + ")";
 	private static final String NOT_TITLE_REGEX_WITH_KEYWORD = "(" 
-								+ "((?<=\\s|^)(from |fr |at |to |til |till |until |by |on |- ))?" 
+								+ "((?<=\\s)(from |fr |at |to |til |till |until |by |on |- ))?" 
 								+ NO_KEYWORD_DATE_TIME_REGEX + "|" + "|" 
 								+ DESCRIPTION_REGEX + ")";  	
 	
