@@ -7,9 +7,11 @@ package gui;
 
 import java.awt.Color;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
+import static java.lang.Thread.sleep;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 /**
@@ -42,12 +44,10 @@ public class DisplayWindow extends javax.swing.JFrame {
                 try {
                     while (true){
                       Calendar cal = new GregorianCalendar();
-                      int day = cal.get(Calendar.DAY_OF_MONTH);
-                      int month = cal.get(Calendar.MONTH) + 1;
-                      int year = cal.get(Calendar.YEAR);
-                      int minute = cal.get(Calendar.MINUTE);
-                      int hour = cal.get(Calendar.HOUR);
-                      TimeField.setText("  "+ year + "/" + month + "/" + day + ", " + hour + ":" + minute );
+                      Date date = cal.getTime();
+                      SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm");
+                      String time = dateFormat.format(date);
+                      TimeField.setText(time);
                       sleep(1000);
                     }
                 } catch (InterruptedException e) {
@@ -251,7 +251,9 @@ public class DisplayWindow extends javax.swing.JFrame {
 
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gui/DiamondIcon.png"))); // NOI18N
+        jLabel1.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gui/DiamondIcon.PNG"))); // NOI18N
+        jLabel1.setToolTipText("");
 
         TimeField.setFont(new java.awt.Font("Comic Sans MS", 1, 18)); // NOI18N
         TimeField.setName("TimeField"); // NOI18N
@@ -261,9 +263,9 @@ public class DisplayWindow extends javax.swing.JFrame {
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
+                .addGap(43, 43, 43)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(TimeField, javax.swing.GroupLayout.PREFERRED_SIZE, 553, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -272,7 +274,7 @@ public class DisplayWindow extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                 .addGap(0, 22, Short.MAX_VALUE)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(TimeField, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
