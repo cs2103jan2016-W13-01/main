@@ -7,7 +7,7 @@ package logic.commands;
 
 import Storage.Storage;
 
-public class CommandSetLocation {
+public class CommandSetLocation implements Command {
 	
 	private static final String MESSAGE_LOCATION_SET = "Storage location set to: %s";
 	private static final String MESSAGE_UNDONE = "Storage location reverted to: %s";

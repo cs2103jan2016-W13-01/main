@@ -11,7 +11,7 @@ import Storage.Storage;
  * @author Bao Linh
  * This class contains details for "clear" commands
  */
-public class CommandClear {
+public class CommandClear implements Command {
 	
 	private static final String MESSAGE_CLEARED = "All tasks removed";
 	private static final String MESSAGE_UNDONE = "All tasks added back";

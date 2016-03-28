@@ -4,7 +4,7 @@ package logic.commands;
  * @author Bao Linh
  * This class contains details for the "display" commands
  */
-public class CommandDisplay {
+public class CommandDisplay implements Command {
 	
 	private static final String MESSAGE_ALL_TASKS = "All tasks are displayed below:";
 
