@@ -85,4 +85,9 @@ public class Task {
 	public boolean equals(Task otherTask) {
 		return (getTitle().equals(otherTask.getTitle()) && getDate().equals(otherTask.getDate()));
 	}
+	
+	public Task clone() {
+		Task copiedTask = new Task(title, date);
+		return copiedTask;
+	}
 }

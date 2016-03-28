@@ -5,5 +5,5 @@
 package logic.commands;
 
 public enum CommandType {
-	ADD, DELETE, INVALID, UNDO, MARK, UNMARK, EDIT, SEARCH, SET, HELP;
+	ADD, DELETE, CLEAR, DISPLAY, INVALID, UNDO, MARK, UNMARK, EDIT, SEARCH, SET, HELP;
 }
