@@ -9,8 +9,8 @@ import Storage.Storage;
 
 public class CommandSetLocation implements Command {
 	
-	private static final String MESSAGE_LOCATION_SET = "Storage location set to: %s";
-	private static final String MESSAGE_UNDONE = "Storage location reverted to: %s";
+	private static final String MESSAGE_LOCATION_SET = "Storage location set to: %1$s";
+	private static final String MESSAGE_UNDONE = "Storage location reverted to: %1$s";
 	private String newPathName;
 	private String oldPathName;
 	
