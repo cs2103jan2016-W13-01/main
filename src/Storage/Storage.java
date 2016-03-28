@@ -14,7 +14,7 @@ import java.text.SimpleDateFormat;
 
 public class Storage implements Serializable {
 
-	private static final String STORAGE_FILE = "storage.txt";
+	private static String STORAGE_FILE = "storage.txt";
 	private static File storageFile;
 	private static ArrayList<Task> taskList;
 	private static Logger logger = Logger.getLogger(Storage.class.getName());
@@ -101,6 +101,11 @@ public class Storage implements Serializable {
 		if (!isDeleted) throw new IOException("file not deleted");
 		storageFile.createNewFile(); // create a new empty file with the
 										// same name
+	}
+	
+	public void setPath(String pathName) throws IOException{
+		STORAGE_FILE = pathName;
+		retrieveFile();
 	}
 
 	public static void sortTasks() throws IOException {
