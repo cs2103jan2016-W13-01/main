@@ -1,5 +1,7 @@
 package Parser;
-
+/* @@author A0121535R
+* Parser for setting storage directory
+*/
 import java.util.logging.Level;
 
 import logic.commands.Command;

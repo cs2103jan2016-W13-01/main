@@ -1,5 +1,7 @@
 package Parser;
-
+/* @@author A0121535R
+* Parser for getting an input number
+*/
 public class InputNumParser {
 	
 	private static final String REGEX_SPACE = "\\s";

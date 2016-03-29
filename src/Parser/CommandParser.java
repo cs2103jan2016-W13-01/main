@@ -1,5 +1,7 @@
 package Parser;
-
+/* @@author A0121535R
+* inital parser that sort the input to the respective parser classes
+*/
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
