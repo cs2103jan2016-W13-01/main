@@ -104,6 +104,7 @@ public class Storage implements Serializable {
 	
 	public void setPath(String pathName) throws IOException{
 		STORAGE_FILE = pathName;
+		storageFile.renameTo(new File(pathName));
 		retrieveFile();
 	}
 
