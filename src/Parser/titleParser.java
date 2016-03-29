@@ -16,7 +16,7 @@ public class titleParser {
 	private static final String DDMMYY= "(\\d{4}|\\d{6})";
 	private static final String NO_YEAR_FORMATTED_DATE_REGEX = START + DD + "[-/]" + MM + END;
 	private static final String FORMATTED_DATE_WITH_YEAR_REGEX = START + DD + DATE_SEP + MM + DATE_SEP + YY + END;
-	private static final String FORMATTED_DATE_REGEX = NO_YEAR_FORMATTED_DATE_REGEX + "|" + FORMATTED_DATE_WITH_YEAR_REGEX+"|"+DDMMYY;
+	private static final String FORMATTED_DATE_REGEX = NO_YEAR_FORMATTED_DATE_REGEX + "|" + FORMATTED_DATE_WITH_YEAR_REGEX+"|"+" "+DDMMYY;
 	
 	private static final String MONTHS = "(jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|jun(?:e)?|jul(?:y)?|aug(?:ust)?|sep(?:tember)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)";
 	private static final String DATES = "(\\d?\\d)";
