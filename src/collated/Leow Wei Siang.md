@@ -1,4 +1,6 @@
-// @@author: A0134185H
+# Leow Wei Siang
+###### help\help.txt
+``` txt
 DIAMOND HELP LIST
 
 @begin
@@ -38,3 +40,4 @@ Sorts entries in chronological order
 Command: undo
 Undo the last action
 @end
+```
