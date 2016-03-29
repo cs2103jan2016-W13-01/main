@@ -2,7 +2,7 @@ package logic.commands;
 
 import logic.ExecutedCommands;
 
-/* @@author a0112184r
+/* @@author A0112184R
  * This class contains details for "undo" commands
  */
 public class CommandUndo implements Command {

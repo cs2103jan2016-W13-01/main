@@ -2,7 +2,7 @@ package logic;
 
 import java.util.ArrayList;
 
-/* @@author a0112184r
+/* @@author A0112184R
  * This class contains all the information the Logic send to the UI for displaying
  */
 public class Response {

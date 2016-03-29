@@ -1,4 +1,4 @@
-/* @@author a0112184r
+/* @@author A0112184R
  * enum type containing the possible values for a task's priority
  */
 

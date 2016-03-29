@@ -4,7 +4,7 @@ import java.util.Stack;
 
 import logic.commands.Command;
 
-/* @@author a0112184r
+/* @@author A0112184R
  * This stack contains the executed commands
  * Each time an undo is executed, the top of the stack is popped out and undone
  */

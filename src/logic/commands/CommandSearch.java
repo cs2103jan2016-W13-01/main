@@ -1,6 +1,6 @@
 package logic.commands;
 
-/* @@author a0112184r
+/* @@author A0112184R
  * This class contains details for "search" commands
  */
 public class CommandSearch implements Command {

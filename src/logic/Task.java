@@ -1,4 +1,4 @@
-/* @@author a0112184r
+/* @@author A0112184R
  * This class stores all the information in a task.
  * Fields:
  *     - title: details about the task
