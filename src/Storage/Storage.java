@@ -102,10 +102,14 @@ public class Storage implements Serializable {
 										// same name
 	}
 	
-	public void setPath(String pathName) throws IOException{
+	public static void setPath(String pathName) throws IOException{
 		STORAGE_FILE = pathName;
 		storageFile.renameTo(new File(pathName));
 		retrieveFile();
+	}
+	
+	public static String getPath() {
+		return storageFile.toPath().toString();
 	}
 
 	public static void sortTasks() throws IOException {
