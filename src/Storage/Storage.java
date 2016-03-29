@@ -20,6 +20,7 @@ public class Storage implements Serializable {
 	private static String STORAGE_FILE = "storage.txt";
 	private static File storageFile;
 	private static ArrayList<Task> taskList;
+	private static ArrayList<Integer> indexList;
 	private static Logger logger = Logger.getLogger(Storage.class.getName());
 
 	private Storage() throws IOException, ClassNotFoundException {
@@ -43,12 +44,17 @@ public class Storage implements Serializable {
 	// appends a new line of text at the bottom of the file
 	public static ArrayList<Task> addNewTask(Task newTask) throws IOException {
 
+		int taskCounter;
+		
 		logger.log(Level.INFO, "Adding new Task to the ArrayList");
 		assert (taskList != null) : "taskList not initialized";
 		assert (newTask != null) : "task is null";
+		taskCounter = taskList.size();
 		taskList.add(newTask);
 		saveTaskList();
-		return taskList;
+		indexList.add(taskCounter);
+		
+		return indexList;
 	}
 	// @@author
 	
@@ -64,16 +70,20 @@ public class Storage implements Serializable {
 	
 	// @@author: A0134185H
 	// deletes a line from the file based on line number
-	public static Task deleteTask(int taskNumberToDelete) throws IOException {
+	public static ArrayList<Integer> deleteTask(int taskNumberToDelete) throws IOException {
 
 		assert (taskNumberToDelete > 0);
-		Task deletedTask = null;
+		int deleteIndex = taskNumberToDelete - 1;
 		if (!taskList.isEmpty() && taskNumberToDelete <= taskList.size()) {
 			logger.log(Level.INFO, "Deleting Task from the ArrayList");
-			deletedTask = taskList.remove(taskNumberToDelete - 1);
+			deletedTask = taskList.remove(deleteIndex);
 			saveTaskList();
+			indexList.remove(deleteIndex);
+			for (int i = deleteIndex; i < indexList.size(); i++) {
+				indexList.set(i, indexList.get(i) - 1);
+			}	
 		}
-		return deletedTask;
+		return indexList;
 	}
 	// @@author
 	
@@ -150,8 +160,9 @@ public class Storage implements Serializable {
 		tempStorageFile.renameTo(storageFile);
 	}
 
-	public static ArrayList<Task> searchTask(String keyword) {
+	public static ArrayList<Integer> searchTask(String keyword) {
 
+		ArrayList<Integer> searchIndexList = new ArrayList<Integer>();
 		ArrayList<Task> searchResult = new ArrayList<Task>();
 		String lowerCaseKeyword = keyword.toLowerCase();
 		for (int i = 0; i < taskList.size(); i++) {
@@ -159,9 +170,10 @@ public class Storage implements Serializable {
 			if (taskTitle.toLowerCase().contains(lowerCaseKeyword)) {
 				logger.log(Level.INFO, "Stores all hits in a separate ArrayList");
 				searchResult.add(taskList.get(i));
+				searchIndexList.add(indexList.get(i));
 			}
 		}
-		return searchResult;
+		return searchIndexList;
 	}
 
 	private static BufferedReader initBufferedReader(File textFile) throws FileNotFoundException {
