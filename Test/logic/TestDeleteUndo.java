@@ -1,5 +1,9 @@
 package logic;
 
+/* @@author a0112184r
+ * This class tests the undo method of Delete
+ */
+
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
@@ -13,7 +17,7 @@ import logic.commands.CommandAdd;
 import logic.commands.CommandDelete;
 import logic.commands.CommandUndo;
 
-public class testDeleteUndo {
+public class TestDeleteUndo {
 	
 	@Test
 	public void testAdd() {

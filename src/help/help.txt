@@ -1,0 +1,23 @@
+DIAMOND HELP LIST
+
+Command: add
+Adds a new entry to the list
+Example: add [task title] [time][MM/dd/yyyy]
+
+Command: delete
+Deletes an entry from the list
+Example: delete [task number]
+
+Command: edit
+Edits an existing entry
+Example: edit [task number] [task title] [time][MM/dd/yyyy]
+
+Command: search
+Searches for specific entries using a keyword
+Example: search [keyword]
+
+Command: sort
+Sorts entries in chronological order
+
+Command: undo
+Undo the last action
