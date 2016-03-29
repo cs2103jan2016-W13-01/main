@@ -17,7 +17,7 @@ public class CommandDelete implements Command {
 	private static final String MESSAGE_UNDO_ERROR = "Failed to undo action: delete %1$s";
 	
 	private int taskNumberToDelete;
-	private int taskIndexDeleted;
+	private int deletedTaskIndex;
 	private Task deletedTask;
 	
 	public CommandDelete(int taskNumber) {
@@ -31,8 +31,8 @@ public class CommandDelete implements Command {
 	
 	public String execute() {
 		try {
-			deletedTask = Storage.deleteTask(taskNumberToDelete);
-			taskIndexDeleted = Storage.latestDeletedIndex;
+			deletedTaskIndex = Storage.getIndexList().get(taskNumberToDelete-1);
+			deletedTask = Storage.deleteTask(deletedTaskIndex);
 			if (deletedTask != null) {
 				ExecutedCommands.addCommand(this);
 				return String.format(MESSAGE_TASK_DELETED, deletedTask.toString());
@@ -47,7 +47,7 @@ public class CommandDelete implements Command {
 
 	public String undo() {
 		try {
-			Storage.addNewTask(deletedTask, taskIndexDeleted);
+			Storage.addNewTask(deletedTask, deletedTaskIndex);
 			return String.format(MESSAGE_UNDONE, deletedTask.toString());
 		} catch (IOException e) {
 			return String.format(MESSAGE_UNDO_ERROR, deletedTask.toString());

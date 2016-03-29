@@ -80,21 +80,19 @@ public class Storage {
 	
 	// @@author: A0134185H
 	// deletes a line from the file based on line number
-	public static Task deleteTask(int taskNumberToDelete) throws IOException {
+	public static Task deleteTask(int deleteIndex) throws IOException {
 
-		assert (taskNumberToDelete > 0);
-		int deleteIndex = taskNumberToDelete - 1;
+		assert (deleteIndex >= 0);
 
-		if (!taskList.isEmpty() && taskNumberToDelete <= taskList.size()) {
+		if (!taskList.isEmpty() && deleteIndex <= taskList.size()) {
 			logger.log(Level.INFO, "Deleting Task from the ArrayList");
-			Task deletedTask = taskList.remove(deleteIndex);
+			latestDeletedTask = taskList.remove(deleteIndex);
 			saveTaskList();
-			indexList.remove(deleteIndex);
+			latestDeletedIndex = indexList.indexOf(new Integer(deleteIndex));
+			indexList.remove(latestDeletedIndex);
 			for (int i = deleteIndex; i < indexList.size(); i++) {
 				indexList.set(i, indexList.get(i) - 1);
 			}
-			latestDeletedTask = deletedTask;
-			latestDeletedIndex = deleteIndex;
 		}
 		return latestDeletedTask;
 	}

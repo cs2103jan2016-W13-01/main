@@ -19,6 +19,7 @@ public class CommandEdit implements Command {
 	private static final String MESSAGE_UNDO_ERROR = "Error when undoing action: edit %1$s";
 	
 	private int taskNumberToEdit;
+	private int editedTaskIndex;
 	private Task editedTask;
 	private Task oldTask;
 	
@@ -33,7 +34,8 @@ public class CommandEdit implements Command {
 	
 	public String execute() {
 		try {
-			oldTask = Storage.deleteTask(taskNumberToEdit);
+			editedTaskIndex = Storage.getIndexList().get(taskNumberToEdit-1);
+			oldTask = Storage.deleteTask(editedTaskIndex);
 			if (oldTask != null) {
 				Storage.addNewTask(editedTask, taskNumberToEdit);
 				ExecutedCommands.addCommand(this);
