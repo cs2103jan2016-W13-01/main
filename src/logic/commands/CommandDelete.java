@@ -39,6 +39,7 @@ public class CommandDelete implements Command {
 				return MESSAGE_TASK_NOT_FOUND;
 			}
 		} catch (IOException e) {
+			e.printStackTrace();
 			return MESSAGE_DELETE_ERROR;
 		}
 	}

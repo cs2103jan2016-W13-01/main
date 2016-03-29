@@ -26,7 +26,7 @@ public class EditParser extends GeneralParser {
 		Date date = getDate(inputArgs);
 		//String description = getDescription(inputArgs);
 		Task task = new Task(title,date);
-		cmdDetails = new CommandEdit(cmd,task,inputNum);
+		cmdDetails = new CommandEdit(inputNum,task);
 		
 		return cmdDetails;
 		}

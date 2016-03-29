@@ -1,8 +1,4 @@
-task1
-17:00:00 20160331
-task2
-15:00:00 20160331
-go tutorial
-10:00:00 20160401
-eat lunch
-15:00:00 20160324
+yolo
+18:46:23 20160326
+have lucnh with jim by the beach
+18:46:23 20160327

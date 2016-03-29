@@ -38,6 +38,7 @@ public class CommandAdd implements Command {
 			ExecutedCommands.addCommand(this);
 			return MESSAGE_TASK_ADDED;
 		} catch (IOException e) {
+			e.printStackTrace();
 			return MESSAGE_ADD_ERROR;
 		}
 	}

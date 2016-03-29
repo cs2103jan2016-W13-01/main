@@ -97,8 +97,7 @@ public class Storage implements Serializable {
 	 * @throws IOException
 	 */
 	private static void clearStorageFile() throws IOException {
-		boolean isDeleted = storageFile.delete(); // delete the whole file and
-		if (!isDeleted) throw new IOException("file not deleted");
+		Files.delete(storageFile.toPath()); // delete the whole file and
 		storageFile.createNewFile(); // create a new empty file with the
 										// same name
 	}
@@ -183,6 +182,7 @@ public class Storage implements Serializable {
 				e.printStackTrace();
 			}
 		}
+		br.close();
 		return taskList;
 	}
 
