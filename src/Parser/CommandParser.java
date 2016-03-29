@@ -8,6 +8,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import logic.commands.Command;
+import logic.commands.CommandClear;
+import logic.commands.CommandDisplay;
 import logic.commands.CommandHelp;
 import logic.commands.CommandInvalid;
 import logic.commands.CommandType;
@@ -111,9 +113,12 @@ public class CommandParser {
 				cmdDetails= new CommandDetails(cmd,task,inputNum);
 				break;
 				*/
+			case SET:
+				SetParser setParser = new SetParser();
+				cmdDetails = setParser.parse(inputTokens[1]);
 			case SEARCH:
-				SearchParser sp = new SearchParser();
-				cmdDetails = sp.parse(inputTokens[1]);
+				SearchParser searchP = new SearchParser();
+				cmdDetails = searchP.parse(inputTokens[1]);
 				break;
 			default:
 				cmdDetails = new CommandInvalid();
@@ -127,6 +132,10 @@ public class CommandParser {
 			case HELP:
 				cmdDetails =  new CommandHelp();
 				break;
+			case CLEAR:
+				cmdDetails = new CommandClear();
+			case DISPLAY:
+				cmdDetails = new CommandDisplay();
 			default:
 				cmdDetails = new CommandInvalid();
 			}
@@ -173,6 +182,14 @@ public class CommandParser {
 		case "h":
 		case "help":
 			return CommandType.HELP;
+		case "c":
+		case "clear":
+			return CommandType.CLEAR;
+		case "set":
+			return CommandType.SET;
+		case "dis":
+		case "display":
+			return CommandType.DISPLAY;
 		default:
 			return CommandType.INVALID;
 		}

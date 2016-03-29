@@ -13,18 +13,14 @@ public class SearchParser extends GeneralParser {
 	
 	protected Command parse(String inputArgs){
 		try{
-		CommandType cmd = CommandType.SEARCH;
 		Command cmdDetails =null;
-		String title = getTitle(inputArgs);
-		Date date = null;
-		int inputNum = getInputNum(inputArgs);
-		if(title.equals("")||title==null||inputNum==-1){
-			cmd=CommandType.INVALID;
+		String searchKey = getTitle(inputArgs);
+		
+		if(searchKey.equals("")||searchKey==null){
 			return cmdDetails = new CommandInvalid();
 		}
 		//String description = getDescription(inputTokens[1]);
-		Task task = new Task(title,date);
-		cmdDetails = new CommandSearch(title);
+		cmdDetails = new CommandSearch(searchKey);
 		
 		return cmdDetails;
 		}

@@ -12,9 +12,9 @@ import logic.Task;
 public class CommandDelete implements Command {
 	
 	private static final String MESSAGE_DELETE_ERROR = "Error encountered when deleting task";
-	private static final String MESSAGE_TASK_NOT_FOUND = "Task not found in task list";
-	private static final String MESSAGE_TASK_DELETED = "Task deleted successfully";
-	private static final String MESSAGE_UNDONE = "Action undone: delete %1$s";
+	private static final String MESSAGE_TASK_NOT_FOUND = "Task not found in task list: %1$s";
+	private static final String MESSAGE_TASK_DELETED = "Task deleted: %1$s";
+	private static final String MESSAGE_UNDONE = "Task added back to task list: %1$s";
 	private static final String MESSAGE_UNDO_ERROR = "Failed to undo action: delete %1$s";
 	
 	private int taskNumberToDelete;
@@ -34,9 +34,9 @@ public class CommandDelete implements Command {
 			deletedTask = Storage.deleteTask(taskNumberToDelete);
 			if (deletedTask != null) {
 				ExecutedCommands.addCommand(this);
-				return MESSAGE_TASK_DELETED;
+				return String.format(MESSAGE_TASK_DELETED, deletedTask.toString());
 			} else {
-				return MESSAGE_TASK_NOT_FOUND;
+				return String.format(MESSAGE_TASK_NOT_FOUND, taskNumberToDelete);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
