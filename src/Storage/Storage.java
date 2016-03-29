@@ -31,6 +31,10 @@ public class Storage implements Serializable {
 	public static ArrayList<Task> getTaskList() {
 		return taskList;
 	}
+	
+	public static ArrayList<Integer> getIndexList() {
+		return indexList;
+	}
 
 	public static File retrieveFile() throws IOException {
 		storageFile = new File(STORAGE_FILE);
@@ -42,7 +46,7 @@ public class Storage implements Serializable {
 	}
 
 	// appends a new line of text at the bottom of the file
-	public static ArrayList<Task> addNewTask(Task newTask) throws IOException {
+	public static ArrayList<Integer> addNewTask(Task newTask) throws IOException {
 
 		int taskCounter;
 		
@@ -70,20 +74,22 @@ public class Storage implements Serializable {
 	
 	// @@author: A0134185H
 	// deletes a line from the file based on line number
-	public static ArrayList<Integer> deleteTask(int taskNumberToDelete) throws IOException {
+	public static Task deleteTask(int taskNumberToDelete) throws IOException {
 
 		assert (taskNumberToDelete > 0);
 		int deleteIndex = taskNumberToDelete - 1;
+
 		if (!taskList.isEmpty() && taskNumberToDelete <= taskList.size()) {
 			logger.log(Level.INFO, "Deleting Task from the ArrayList");
-			deletedTask = taskList.remove(deleteIndex);
+			Task deletedTask = taskList.remove(deleteIndex);
 			saveTaskList();
 			indexList.remove(deleteIndex);
 			for (int i = deleteIndex; i < indexList.size(); i++) {
 				indexList.set(i, indexList.get(i) - 1);
-			}	
+			}
+			return deletedTask;
 		}
-		return indexList;
+		return null;
 	}
 	// @@author
 	
