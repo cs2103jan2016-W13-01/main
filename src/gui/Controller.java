@@ -19,13 +19,13 @@ import java.util.ArrayList;
 public class Controller {
     public static DisplayWindow DW;
     
-    // @@author a0112184r
+    // @@author A0112184R
     public static void main(String args[]){
         initialize();
     }
 	// @@author
     
-    /* @@author a0112184r
+    /* @@author A0112184R
      * initialize the display window and all logic's components
      */
 	public static void initialize() {

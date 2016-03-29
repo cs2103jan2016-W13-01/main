@@ -1,6 +1,6 @@
 package logic;
 
-/* @@author a0112184r
+/* @@author A0112184R
  * this class tests the undo method of Add
  */
 import static org.junit.Assert.assertEquals;

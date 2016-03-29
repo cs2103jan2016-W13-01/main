@@ -1,6 +1,6 @@
 package logic;
 
-/* @@author a0112184r
+/* @@author A0112184R
  * This class tests the undo method of Delete
  */
 

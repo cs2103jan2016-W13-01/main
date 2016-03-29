@@ -5,7 +5,7 @@ import java.io.IOException;
 import Storage.Storage;
 import logic.ExecutedCommands;
 import logic.Task;
-/* @@author a0112184r
+/* @@author A0112184R
  * This class encapsulates the "delete" commands from the user.
  */
 public class CommandDelete implements Command {
@@ -17,6 +17,7 @@ public class CommandDelete implements Command {
 	private static final String MESSAGE_UNDO_ERROR = "Failed to undo action: delete %1$s";
 	
 	private int taskNumberToDelete;
+	private int deletedTaskIndex;
 	private Task deletedTask;
 	
 	public CommandDelete(int taskNumber) {
@@ -30,13 +31,16 @@ public class CommandDelete implements Command {
 	
 	public String execute() {
 		try {
-			deletedTask = Storage.deleteTask(taskNumberToDelete);
+			deletedTaskIndex = Storage.getIndexList().get(taskNumberToDelete-1);
+			deletedTask = Storage.deleteTask(deletedTaskIndex);
 			if (deletedTask != null) {
 				ExecutedCommands.addCommand(this);
 				return String.format(MESSAGE_TASK_DELETED, deletedTask.toString());
 			} else {
 				return String.format(MESSAGE_TASK_NOT_FOUND, taskNumberToDelete);
 			}
+		} catch (IndexOutOfBoundsException d) {
+			return String.format(MESSAGE_TASK_NOT_FOUND, taskNumberToDelete);
 		} catch (IOException e) {
 			e.printStackTrace();
 			return MESSAGE_DELETE_ERROR;
@@ -45,7 +49,7 @@ public class CommandDelete implements Command {
 
 	public String undo() {
 		try {
-			Storage.addNewTask(deletedTask, taskNumberToDelete);
+			Storage.addNewTask(deletedTask, deletedTaskIndex);
 			return String.format(MESSAGE_UNDONE, deletedTask.toString());
 		} catch (IOException e) {
 			return String.format(MESSAGE_UNDO_ERROR, deletedTask.toString());

@@ -1,4 +1,4 @@
-/* @@author a0112184r
+/* @@author A0112184R
  * This class stores all the information in a task.
  * Fields:
  *     - title: details about the task
@@ -9,18 +9,10 @@ package logic;
 
 import java.util.Date;
 
-public class Task {
+public class Task extends GenericTask {
 
-	private String title;
 	private Date date;
 	private Priority priority;
-	
-	public String getTitle() {
-		if (title == null) {
-			return "unspecifed title";
-		}
-		return title;
-	}
 	
 	public Date getDate() {
 		if (date == null) {
@@ -33,10 +25,6 @@ public class Task {
 		return priority;
 	}
 	
-	public void setTitle(String newTitle) {
-		title = newTitle; 
-	}
-	
 	public void setDate(Date newDate) {
 		date = newDate;
 	}
@@ -45,22 +33,18 @@ public class Task {
 		priority = newPrio;
 	}
 	
-	public Task(String title, String description, Date date, Priority priority) {
-		this.title = title;
+	public Task(String title, Date date, Priority priority) {
+		super(title);
 		this.date = date;
 		this.priority = priority;
 	}
 	
-	public Task(String title, String description, Date date) {
-		this(title, description, date, Priority.NULL);
-	}
-	
 	public Task(String title, Date date) {
-		this(title, "null", date, Priority.NULL);
+		this(title, date, Priority.NULL);
 	}
 	
 	public Task(String title) {
-		this(title, "null", new Date(), Priority.NULL);
+		this(title, new Date(), Priority.NULL);
 	}
 	
 	public String toString() {

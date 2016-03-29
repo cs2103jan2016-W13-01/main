@@ -8,7 +8,7 @@ import Storage.Storage;
 import logic.commands.Command;
 import logic.commands.CommandQueue;
 
-/* @@author a0112184r
+/* @@author A0112184R
  * Class TaskProcessor
  * This class contains methods to execute all the user commands and issue commands to other components.
  * Key methods so far:
@@ -33,7 +33,7 @@ public class TaskProcessor {
 	}
 	
 	public static ArrayList<String> getListToDisplay() {
-		loadIntoDisplayList(Storage.getTaskList());
+		loadIntoDisplayList(Storage.getTaskList(), Storage.getIndexList());
 		return listToDisplay;
 	}
 	
@@ -59,20 +59,19 @@ public class TaskProcessor {
 	public static void initialize() {
 		listToDisplay = new ArrayList<String>();
 		try {
-			Storage.retrieveFile();
-			ArrayList<Task> taskList = Storage.loadTaskList();
-			loadIntoDisplayList(taskList);
+			Storage.initialize();
+			loadIntoDisplayList(Storage.getTaskList(), Storage.getIndexList());
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
-			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	private static void loadIntoDisplayList(ArrayList<Task> taskList) {
+	private static void loadIntoDisplayList(ArrayList<Task> taskList, ArrayList<Integer> indexList) {
 		listToDisplay.clear();
-		for (Task task: taskList) {
+		for (int i: indexList) {
+			Task task = taskList.get(i);
 			assert task != null : "Some task in the task list is null";
 			listToDisplay.add(task.toString());
 		}

@@ -6,7 +6,7 @@ import Storage.Storage;
 import logic.ExecutedCommands;
 import logic.Task;
 
-/* @@author a0112184r
+/* @@author A0112184R
  * Class CommandAdd: This class encapsulates the "add" commands from the user.
  */
 public class CommandAdd implements Command {

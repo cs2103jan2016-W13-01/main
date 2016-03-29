@@ -7,7 +7,7 @@ import java.io.IOException;
 
 import Storage.Storage;
 
-/* @@author a0112184r
+/* @@author A0112184R
  * This class contains details for "edit" commands
  */
 public class CommandEdit implements Command {
@@ -19,6 +19,7 @@ public class CommandEdit implements Command {
 	private static final String MESSAGE_UNDO_ERROR = "Error when undoing action: edit %1$s";
 	
 	private int taskNumberToEdit;
+	private int editedTaskIndex;
 	private Task editedTask;
 	private Task oldTask;
 	
@@ -33,9 +34,10 @@ public class CommandEdit implements Command {
 	
 	public String execute() {
 		try {
-			oldTask = Storage.deleteTask(taskNumberToEdit);
+			editedTaskIndex = Storage.getIndexList().get(taskNumberToEdit-1);
+			oldTask = Storage.deleteTask(editedTaskIndex);
 			if (oldTask != null) {
-				Storage.addNewTask(editedTask, taskNumberToEdit);
+				Storage.addNewTask(editedTask, editedTaskIndex);
 				ExecutedCommands.addCommand(this);
 				return String.format(MESSAGE_EDITED, editedTask.toString());
 			} else {
@@ -49,8 +51,8 @@ public class CommandEdit implements Command {
 	
 	public String undo() {
 		try {
-			assert (Storage.deleteTask(taskNumberToEdit) != null): "Cannot find edited task";
-			Storage.addNewTask(oldTask, taskNumberToEdit);
+			assert (Storage.deleteTask(editedTaskIndex) != null): "Cannot find edited task";
+			Storage.addNewTask(oldTask, editedTaskIndex);
 			return String.format(MESSAGE_UNDONE, oldTask.toString());
 		} catch (IOException e) {
 			e.printStackTrace();

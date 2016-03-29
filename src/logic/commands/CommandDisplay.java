@@ -1,6 +1,8 @@
 package logic.commands;
 
-/* @@author a0112184r
+import Storage.Storage;
+
+/* @@author A0112184R
  * This class contains details for the "display" commands
  */
 public class CommandDisplay implements Command {
@@ -15,6 +17,8 @@ public class CommandDisplay implements Command {
 	}
 	
 	public String execute() {
+		
+		Storage.displayAllTasks();
 		return MESSAGE_ALL_TASKS;
 	}
 	
