@@ -19,10 +19,15 @@ import java.util.ArrayList;
 public class Controller {
     public static DisplayWindow DW;
     
+    // @@author a0112184r
     public static void main(String args[]){
         initialize();
     }
-	
+	// @@author
+    
+    /* @@author a0112184r
+     * initialize the display window and all logic's components
+     */
 	public static void initialize() {
     	DW = new DisplayWindow();
         DW.setVisible(true);
@@ -30,8 +35,9 @@ public class Controller {
 		TaskProcessor.initialize();
 		displayTasks(TaskProcessor.getListToDisplay());
 	}
-        
-    public static void sendCmd(String command){
+    // @@author    
+    
+	public static void sendCmd(String command){
         DW.clear(); 
         Response response = TaskProcessor.executeInput(command);
         displayFeedback(response);

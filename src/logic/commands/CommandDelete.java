@@ -5,8 +5,7 @@ import java.io.IOException;
 import Storage.Storage;
 import logic.ExecutedCommands;
 import logic.Task;
-/**
- * @author Bao Linh
+/* @@author a0112184r
  * This class encapsulates the "delete" commands from the user.
  */
 public class CommandDelete implements Command {

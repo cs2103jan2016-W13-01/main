@@ -2,6 +2,9 @@ package logic;
 
 import gui.Controller;
 
+/* @@author a0112184r-unused
+ * Reason: we omitted the parallel execution scheme
+ */
 public class Diamond {
 	
 	private static final String MESSAGE_TASK_LIST = "Current task list:";

@@ -1,6 +1,4 @@
-/**
- * enum Priority
- * @author Bao Linh
+/* @@author a0112184r
  * enum type containing the possible values for a task's priority
  */
 

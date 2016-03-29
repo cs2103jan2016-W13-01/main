@@ -7,8 +7,7 @@ import java.io.IOException;
 
 import Storage.Storage;
 
-/**
- * @author Bao Linh
+/* @@author a0112184r
  * This class contains details for "edit" commands
  */
 public class CommandEdit implements Command {

@@ -3,9 +3,9 @@ package logic.commands;
 import java.util.LinkedList;
 import java.util.Queue;
 
-/**
- * @author Bao Linh
+/* @@author a0112184r-unused
  * The commands received from the parser will be queued up here before being executed
+ * reason for unused: we decided to omit the command pattern and will not go for the parallel execution scheme
  */
 public class CommandQueue {
 	

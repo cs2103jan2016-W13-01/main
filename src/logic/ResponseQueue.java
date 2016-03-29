@@ -3,9 +3,9 @@ package logic;
 import java.util.LinkedList;
 import java.util.Queue;
 
-/**
- * @author Bao Linh
+/* @@author a0112184r-unused
  * This class stores the responses for the UI to display
+ * Reason: we omitted the parallel execution scheme
  */
 public class ResponseQueue {
 	

@@ -1,16 +1,19 @@
 package logic.commands;
 
-/**
- * @author Bao Linh
+/* @@author a0112184r
  * This class contains details for the "set location" commands
  */
+import java.io.IOException;
 
 import Storage.Storage;
+import logic.ExecutedCommands;
 
 public class CommandSetLocation implements Command {
 	
 	private static final String MESSAGE_LOCATION_SET = "Storage location set to: %1$s";
 	private static final String MESSAGE_UNDONE = "Storage location reverted to: %1$s";
+	private static final String MESSAGE_SET_ERROR = "Failed to set storage location to: %1$s";
+	
 	private String newPathName;
 	private String oldPathName;
 	
@@ -23,10 +26,24 @@ public class CommandSetLocation implements Command {
 	}
 	
 	public String execute() {
-		return String.format(MESSAGE_LOCATION_SET, newPathName);
+		try {
+			oldPathName = Storage.getPath();
+			Storage.setPath(newPathName);
+			ExecutedCommands.addCommand(this);
+			return String.format(MESSAGE_LOCATION_SET, newPathName);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return String.format(MESSAGE_SET_ERROR, newPathName);
+		}
 	}
 	
 	public String undo() {
-		return String.format(MESSAGE_UNDONE, oldPathName);
+		try {
+			Storage.setPath(oldPathName);
+			return String.format(MESSAGE_UNDONE, oldPathName);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return String.format(MESSAGE_SET_ERROR, oldPathName);
+		}
 	}
 }
