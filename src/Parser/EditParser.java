@@ -14,27 +14,59 @@ public class EditParser extends GeneralParser {
 	protected Command parse(String inputArgs){
 		try{
 		Command cmdDetails=null;
-		CommandType cmd = CommandType.EDIT;
 		int inputNum = getInputNum(inputArgs);
 		boolean checkSize = checkInputArgs(inputArgs,2);
 		if(inputNum==-1||!checkSize){
-			cmd=CommandType.INVALID;
 			return cmdDetails = new  CommandInvalid();
 		}
-		
-		String title = getTitle(inputArgs);
-		Date date = getDate(inputArgs);
+		Task task = getEditTask(inputArgs);
+		if(task ==null){
+			return new CommandInvalid();
+		}
 		//String description = getDescription(inputArgs);
-		Task task = new Task(title,date);
 		cmdDetails = new CommandEdit(inputNum,task);
 		
 		return cmdDetails;
-		}
-		catch(Exception e){
+		} catch(Exception e){
 			e.printStackTrace();
 			CommandParser.parserLogger.log(Level.WARNING, "processing error", e);
 			return new  CommandInvalid();
 		}
 		
 	}
+
+	private Task getEditTask(String inputArgs) {
+		String title;
+		Date date;
+		int titleIndex;
+		Task task;
+		String temp = inputArgs.toLowerCase();
+		int dateIndex = temp.indexOf("d:");
+		if(dateIndex==-1){
+			date=null;
+			titleIndex = temp.indexOf("t:");
+			if(titleIndex==-1){
+				return null;
+			}
+			titleIndex+=2;
+			title = getTitle(inputArgs.substring(titleIndex).trim());
+			task = new Task(title,date);
+		}
+		else{
+		date = getDate(inputArgs.substring(dateIndex));
+
+		titleIndex = temp.indexOf("t:");
+		if(titleIndex==-1){
+			return null;
+		}
+		titleIndex+=2;
+		title = getTitle(inputArgs.substring(titleIndex,dateIndex).trim());
+		
+		task = new Task(title,date);
+		System.out.println(title);
+		System.out.println(date);
+		}
+		return task;
+	}
+
 }
