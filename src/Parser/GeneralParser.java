@@ -1,5 +1,7 @@
 package Parser;
-
+/* @@author A0121535R
+* parser class with the basic methods
+*/
 import java.util.Date;
 
 import logic.commands.Command;

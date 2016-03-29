@@ -1,7 +1,7 @@
 /*
- * The following code to obtain the title is referenced from 
- * https://github.com/CS2103-Aug2015-w15-4j/main.git
- */
+* The following code to obtain the title is referenced from 
+* https://github.com/CS2103-Aug2015-w15-4j/main.git
+*/
 
 package Parser;
 

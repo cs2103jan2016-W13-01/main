@@ -1,5 +1,7 @@
 package Parser;
-
+/* @@author A0121535R
+* Parser for search command
+*/
 import java.util.Date;
 import java.util.logging.Level;
 

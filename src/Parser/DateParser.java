@@ -1,5 +1,7 @@
 package Parser;
-
+/* @@author A0121535R
+* Parser for using natty to get Date
+*/
 import java.util.Date;
 import java.util.List;
 
