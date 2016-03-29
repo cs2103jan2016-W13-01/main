@@ -1,5 +1,8 @@
 package logic;
 
+/* @@author a0112184r
+ * This class tests the delete feature of Logic
+ */
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;

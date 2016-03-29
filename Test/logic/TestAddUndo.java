@@ -1,5 +1,8 @@
 package logic;
 
+/* @@author a0112184r
+ * this class tests the undo method of Add
+ */
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
@@ -12,7 +15,7 @@ import logic.commands.Command;
 import logic.commands.CommandAdd;
 import logic.commands.CommandUndo;
 
-public class testUndoAdd {
+public class TestAddUndo {
 	
 	@Test
 	public void testAdd() {

@@ -12,8 +12,7 @@ import Storage.Storage;
 import logic.commands.Command;
 import logic.commands.CommandAdd;
 
-/**
- * @author Bao Linh
+/* @@author a0112184r
  * This class tests add feature of the Logic
  */
 public class TestAdd {
