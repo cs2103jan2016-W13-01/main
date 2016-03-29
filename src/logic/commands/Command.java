@@ -1,6 +1,6 @@
 package logic.commands;
 
-/* @@author a0112184r
+/* @@author A0112184R
  * This interface represents the commands entered by the user
  */
 public interface Command {

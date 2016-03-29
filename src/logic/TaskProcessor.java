@@ -8,7 +8,7 @@ import Storage.Storage;
 import logic.commands.Command;
 import logic.commands.CommandQueue;
 
-/* @@author a0112184r
+/* @@author A0112184R
  * Class TaskProcessor
  * This class contains methods to execute all the user commands and issue commands to other components.
  * Key methods so far:

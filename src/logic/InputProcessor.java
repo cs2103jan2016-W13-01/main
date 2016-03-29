@@ -4,7 +4,7 @@ import Parser.CommandParser;
 import logic.commands.Command;
 import logic.commands.CommandQueue;
 
-/* @@author a0112184r-unused
+/* @@author A0112184R-unused
  * This class gets the input from the UI and parse it via the Parser, then add it to the CommandQueue
  * Reason: we omitted the parallel execution scheme
  */

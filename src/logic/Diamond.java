@@ -2,7 +2,7 @@ package logic;
 
 import gui.Controller;
 
-/* @@author a0112184r-unused
+/* @@author A0112184R-unused
  * Reason: we omitted the parallel execution scheme
  */
 public class Diamond {

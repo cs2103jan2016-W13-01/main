@@ -7,7 +7,7 @@ import logic.Task;
 
 import Storage.Storage;
 
-/* @@author a0112184r
+/* @@author A0112184R
  * This class contains details for "clear" commands
  */
 public class CommandClear implements Command {

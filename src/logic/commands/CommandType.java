@@ -1,4 +1,4 @@
-/* @@author a0112184r;
+/* @@author A0112184R;
  * enum CommandType: contains possible types for user commands.
  */
 package logic.commands;

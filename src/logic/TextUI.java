@@ -6,7 +6,7 @@ import java.util.Scanner;
 import Parser.CommandParser;
 import logic.commands.Command;
 
-/* @@author a0112184r-unused
+/* @@author A0112184R-unused
  * This class is used to test the program when the GUI was in progress
  * Reason: we do not use it now that we have the GUI
  */
