@@ -2,19 +2,23 @@ DIAMOND HELP LIST
 
 Command: add
 Adds a new entry to the list
-Example: add [task title] [time][MM/dd/yyyy]
+Format: add [task title] [time][MM/dd/yyyy]
+Example: add Lunch with family 1pm 04/01/2016
 
 Command: delete
 Deletes an entry from the list
-Example: delete [task number]
+Format: delete [task number]
+Example: delete 1
 
 Command: edit
 Edits an existing entry
-Example: edit [task number] [task title] [time][MM/dd/yyyy]
+Format: edit [task number] [(new)task title] [(new)time][(new)MM/dd/yyyy]
+Example edit 1 Lunch with family 12.30pm 04/02/2016
 
 Command: search
 Searches for specific entries using a keyword
-Example: search [keyword]
+Format: search [keyword]
+Example: search family
 
 Command: sort
 Sorts entries in chronological order
