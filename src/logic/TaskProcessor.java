@@ -2,6 +2,7 @@ package logic;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
 
 import Parser.CommandParser;
 import Storage.Storage;
@@ -45,6 +46,7 @@ public class TaskProcessor {
 	}
 	
 	public static Response executeInput(String input) {
+		LogicLogger.log(Level.INFO, "Executing input: " + input);
 		Command command = CommandParser.parseInput(input);
 		return executeCommand(command);
 	}
@@ -58,17 +60,22 @@ public class TaskProcessor {
 	
 	public static void initialize() {
 		listToDisplay = new ArrayList<String>();
+		LogicLogger.initialize();
 		try {
+			LogicLogger.log(Level.INFO, "Initializing storage");
 			Storage.initialize();
 			loadIntoDisplayList(Storage.getTaskList(), Storage.getIndexList());
 		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+			LogicLogger.log(Level.SEVERE, "Error when initializing storage:");
+			LogicLogger.log(Level.SEVERE, e.toString());
 		} catch (IOException e) {
-			e.printStackTrace();
+			LogicLogger.log(Level.SEVERE, "Error when initializing storage:");
+			LogicLogger.log(Level.SEVERE, e.toString());
 		}
 	}
 	
 	private static void loadIntoDisplayList(ArrayList<Task> taskList, ArrayList<Integer> indexList) {
+		LogicLogger.log(Level.INFO, "Loading list to display from storage");
 		listToDisplay.clear();
 		for (int i: indexList) {
 			Task task = taskList.get(i);

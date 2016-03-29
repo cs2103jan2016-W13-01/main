@@ -1,9 +1,11 @@
 package logic.commands;
 
 import logic.ExecutedCommands;
+import logic.LogicLogger;
 import logic.Task;
 
 import java.io.IOException;
+import java.util.logging.Level;
 
 import Storage.Storage;
 
@@ -33,18 +35,25 @@ public class CommandEdit implements Command {
 	}
 	
 	public String execute() {
+		LogicLogger.log(Level.INFO, "editing task: " + editedTask.toString() + " in storage");
 		try {
 			editedTaskIndex = Storage.getIndexList().get(taskNumberToEdit-1);
 			oldTask = Storage.deleteTask(editedTaskIndex);
 			if (oldTask != null) {
 				Storage.addNewTask(editedTask, editedTaskIndex);
 				ExecutedCommands.addCommand(this);
+				LogicLogger.log(Level.INFO, "edited successfully");
 				return String.format(MESSAGE_EDITED, editedTask.toString());
 			} else {
+				LogicLogger.log(Level.WARNING, "Task not found");
 				return String.format(MESSAGE_TASK_NOT_FOUND, taskNumberToEdit);
 			}
+		} catch (IndexOutOfBoundsException d) {
+			LogicLogger.log(Level.WARNING, "Task not found");
+			return String.format(MESSAGE_TASK_NOT_FOUND, taskNumberToEdit);
 		} catch (IOException e) {
-			e.printStackTrace();
+			LogicLogger.log(Level.SEVERE, "Error when deleting from storage:");
+			LogicLogger.log(Level.SEVERE, e.toString());
 			return MESSAGE_EDIT_ERROR;
 		}
 	}
