@@ -59,9 +59,8 @@ public class TaskProcessor {
 	public static void initialize() {
 		listToDisplay = new ArrayList<String>();
 		try {
-			Storage.retrieveFile();
-			ArrayList<Task> taskList = Storage.loadTaskList();
-			loadIntoDisplayList(taskList, Storage.getIndexList());
+			Storage.initialize();
+			loadIntoDisplayList(Storage.getTaskList(), Storage.getIndexList());
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

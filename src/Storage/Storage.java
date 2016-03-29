@@ -71,7 +71,7 @@ public class Storage {
 	public static ArrayList<Integer> addNewTask(Task newTask, int taskListPosition) throws IOException {
 
 		logger.log(Level.INFO, "Adding new Task to the ArrayList at position: " + taskListPosition);
-		taskList.add(taskListPosition-1, newTask);
+		taskList.add(taskListPosition, newTask);
 		saveTaskList();
 		displayAllTasks();
 		return indexList;
@@ -179,7 +179,7 @@ public class Storage {
 			Task task = taskList.get(i);
 			if (p.test(task)) {
 				logger.log(Level.INFO, "Stores all hits indices in the indexList");
-				indexList.add(indexList.get(i));
+				indexList.add(i);
 			}
 		}
 		return indexList;
@@ -256,5 +256,16 @@ public class Storage {
 		}
 		bw.close();
 	}
+	
+	public static void initialize() throws ClassNotFoundException, IOException {
+		retrieveFile();
+		loadTaskList();
+		initIndexList();
+	}
 	// @@author
+
+	private static void initIndexList() {
+		indexList = new ArrayList<Integer>();
+		displayAllTasks();
+	}
 }

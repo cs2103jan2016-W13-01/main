@@ -37,7 +37,7 @@ public class CommandEdit implements Command {
 			editedTaskIndex = Storage.getIndexList().get(taskNumberToEdit-1);
 			oldTask = Storage.deleteTask(editedTaskIndex);
 			if (oldTask != null) {
-				Storage.addNewTask(editedTask, taskNumberToEdit);
+				Storage.addNewTask(editedTask, editedTaskIndex);
 				ExecutedCommands.addCommand(this);
 				return String.format(MESSAGE_EDITED, editedTask.toString());
 			} else {
@@ -51,8 +51,8 @@ public class CommandEdit implements Command {
 	
 	public String undo() {
 		try {
-			assert (Storage.deleteTask(taskNumberToEdit) != null): "Cannot find edited task";
-			Storage.addNewTask(oldTask, taskNumberToEdit);
+			assert (Storage.deleteTask(editedTaskIndex) != null): "Cannot find edited task";
+			Storage.addNewTask(oldTask, editedTaskIndex);
 			return String.format(MESSAGE_UNDONE, oldTask.toString());
 		} catch (IOException e) {
 			e.printStackTrace();

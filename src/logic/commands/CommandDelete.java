@@ -39,6 +39,8 @@ public class CommandDelete implements Command {
 			} else {
 				return String.format(MESSAGE_TASK_NOT_FOUND, taskNumberToDelete);
 			}
+		} catch (IndexOutOfBoundsException d) {
+			return String.format(MESSAGE_TASK_NOT_FOUND, taskNumberToDelete);
 		} catch (IOException e) {
 			e.printStackTrace();
 			return MESSAGE_DELETE_ERROR;
