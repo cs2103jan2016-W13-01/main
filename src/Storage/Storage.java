@@ -48,6 +48,7 @@ public class Storage implements Serializable {
 		return taskList;
 	}
 	
+	// @@author a0112184r
 	public static ArrayList<Task> addNewTask(Task newTask, int position) throws IOException {
 
 		logger.log(Level.INFO, "Adding new Task to the ArrayList at position: " + position);
@@ -55,6 +56,7 @@ public class Storage implements Serializable {
 		saveTaskList();
 		return taskList;
 	}
+	// @@author
 
 	// deletes a line from the file based on line number
 	public static Task deleteTask(int taskNumberToDelete) throws IOException {
@@ -69,6 +71,7 @@ public class Storage implements Serializable {
 		return deletedTask;
 	}
 	
+	// @@author a0112184r
 	public static Task deleteTask(Task taskToDelete) throws IOException {
 		
 		assert taskToDelete != null: "Attempt to delete a null task";
@@ -80,6 +83,7 @@ public class Storage implements Serializable {
 		}
 		return taskToDelete;
 	}
+	// @@author
 
 	// deletes all text in the file
 	public static boolean clearAllTasks() {
@@ -93,7 +97,7 @@ public class Storage implements Serializable {
 		}
 	}
 
-	/**
+	/* @@author a0112184r
 	 * @throws IOException
 	 */
 	private static void clearStorageFile() throws IOException {
@@ -101,6 +105,7 @@ public class Storage implements Serializable {
 		storageFile.createNewFile(); // create a new empty file with the
 										// same name
 	}
+	// @@author
 	
 	public static void setPath(String pathName) throws IOException{
 		STORAGE_FILE = pathName;
@@ -108,9 +113,11 @@ public class Storage implements Serializable {
 		retrieveFile();
 	}
 	
+	// @@author a0112184r
 	public static String getPath() {
 		return storageFile.toPath().toString();
 	}
+	// @@author
 
 	public static void sortTasks() throws IOException {
 		File tempStorageFile = new File("tempStorageFile.txt");

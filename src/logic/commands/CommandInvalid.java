@@ -1,7 +1,6 @@
 package logic.commands;
 
-/**
- * @author Bao Linh
+/* @@author a0112184r
  * This class signifies invalid commands
  */
 public class CommandInvalid implements Command {

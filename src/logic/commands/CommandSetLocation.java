@@ -1,7 +1,6 @@
 package logic.commands;
 
-/**
- * @author Bao Linh
+/* @@author a0112184r
  * This class contains details for the "set location" commands
  */
 import java.io.IOException;

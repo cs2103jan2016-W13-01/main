@@ -1,5 +1,4 @@
-/**
- * @author Bao Linh;
+/* @@author a0112184r;
  * enum CommandType: contains possible types for user commands.
  */
 package logic.commands;

@@ -4,9 +4,9 @@ import Parser.CommandParser;
 import logic.commands.Command;
 import logic.commands.CommandQueue;
 
-/**
- * @author Bao Linh
+/* @@author a0112184r-unused
  * This class gets the input from the UI and parse it via the Parser, then add it to the CommandQueue
+ * Reason: we omitted the parallel execution scheme
  */
 public class InputProcessor {
 	

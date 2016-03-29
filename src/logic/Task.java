@@ -1,9 +1,7 @@
-/** Class Task
- * @author Bao Linh
+/* @@author a0112184r
  * This class stores all the information in a task.
  * Fields:
- *     - ID: the unique ID of the task, determined by the Logic
- *     - description: details about the task
+ *     - title: details about the task
  *     - date: date for the task to be done or deadline
  *     - priority: the task's priority
  */

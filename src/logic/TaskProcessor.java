@@ -7,14 +7,14 @@ import Parser.CommandParser;
 import Storage.Storage;
 import logic.commands.Command;
 import logic.commands.CommandQueue;
-/**
- * @author Bao Linh
+
+/* @@author a0112184r
  * Class TaskProcessor
  * This class contains methods to execute all the user commands and issue commands to other components.
- * Methods so far:
- *     - add(task): add the task into the taskList
- *     - delete(task): delete the task from the taskList
- *     - initialize: initialize the taskList as an empty ArrayList
+ * Key methods so far:
+ *     - executeCommand(Command): execute the Command object by calling Command.execute()
+ *     - executeInput(String): execute the input by parsing it and call executeCommand
+ *     - initialize: initialize the Storage and all the components
  */
 public class TaskProcessor {
 	
