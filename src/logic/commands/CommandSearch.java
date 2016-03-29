@@ -1,5 +1,10 @@
 package logic.commands;
 
+import java.util.function.Predicate;
+
+import Storage.Storage;
+import logic.Task;
+
 /* @@author A0112184R
  * This class contains details for "search" commands
  */
@@ -7,6 +12,7 @@ public class CommandSearch implements Command {
 	
 	private static final String MESSAGE_SEARCH_ERROR = "Error encountered when searching for keyword. Please try again.";
 	private static final String MESSAGE_NO_MATCH = "No match found.";
+	private static final String MESSAGE_SEARCH_RESULT = "Search results for %1$s:";
 	
 	private String keyword;
 	
@@ -19,7 +25,16 @@ public class CommandSearch implements Command {
 	}
 	
 	public String execute() {
-		return null;
+		
+		Predicate<Task> searchPredicate = new Predicate<Task>() {
+			public boolean test(Task task) {
+				String titleString = task.getTitle().toLowerCase();
+				return titleString.contains(keyword.toLowerCase());
+			}
+		};
+		
+		Storage.searchTask(searchPredicate);
+		return String.format(MESSAGE_SEARCH_RESULT, keyword);
 	}
 	
 	public String undo() {

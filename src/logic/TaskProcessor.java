@@ -33,7 +33,7 @@ public class TaskProcessor {
 	}
 	
 	public static ArrayList<String> getListToDisplay() {
-		loadIntoDisplayList(Storage.getTaskList());
+		loadIntoDisplayList(Storage.getTaskList(), Storage.getIndexList());
 		return listToDisplay;
 	}
 	
@@ -61,18 +61,18 @@ public class TaskProcessor {
 		try {
 			Storage.retrieveFile();
 			ArrayList<Task> taskList = Storage.loadTaskList();
-			loadIntoDisplayList(taskList);
+			loadIntoDisplayList(taskList, Storage.getIndexList());
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
-			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	private static void loadIntoDisplayList(ArrayList<Task> taskList) {
+	private static void loadIntoDisplayList(ArrayList<Task> taskList, ArrayList<Integer> indexList) {
 		listToDisplay.clear();
-		for (Task task: taskList) {
+		for (int i: indexList) {
+			Task task = taskList.get(i);
 			assert task != null : "Some task in the task list is null";
 			listToDisplay.add(task.toString());
 		}

@@ -3,6 +3,7 @@
 package Storage;
 
 import java.util.*;
+import java.util.function.Predicate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -15,13 +16,16 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 
-public class Storage implements Serializable {
+public class Storage {
 
-	private static String STORAGE_FILE = "storage.txt";
+	private static String storageFileName = "storage.txt";
 	private static File storageFile;
 	private static ArrayList<Task> taskList;
 	private static ArrayList<Integer> indexList;
 	private static Logger logger = Logger.getLogger(Storage.class.getName());
+	
+	public static Task latestDeletedTask;
+	public static int latestDeletedIndex;
 
 	private Storage() throws IOException, ClassNotFoundException {
 		retrieveFile();
@@ -37,7 +41,7 @@ public class Storage implements Serializable {
 	}
 
 	public static File retrieveFile() throws IOException {
-		storageFile = new File(STORAGE_FILE);
+		storageFile = new File(storageFileName);
 		if (!storageFile.exists()) {
 			// Create file if it does not exist
 			storageFile.createNewFile();
@@ -56,19 +60,21 @@ public class Storage implements Serializable {
 		taskCounter = taskList.size();
 		taskList.add(newTask);
 		saveTaskList();
-		indexList.add(taskCounter);
+		//indexList.add(taskCounter);
+		displayAllTasks();
 		
 		return indexList;
 	}
 	// @@author
 	
 	// @@author A0112184R
-	public static ArrayList<Task> addNewTask(Task newTask, int position) throws IOException {
+	public static ArrayList<Integer> addNewTask(Task newTask, int taskListPosition) throws IOException {
 
-		logger.log(Level.INFO, "Adding new Task to the ArrayList at position: " + position);
-		taskList.add(position-1, newTask);
+		logger.log(Level.INFO, "Adding new Task to the ArrayList at position: " + taskListPosition);
+		taskList.add(taskListPosition-1, newTask);
 		saveTaskList();
-		return taskList;
+		displayAllTasks();
+		return indexList;
 	}
 	// @@author
 	
@@ -87,9 +93,10 @@ public class Storage implements Serializable {
 			for (int i = deleteIndex; i < indexList.size(); i++) {
 				indexList.set(i, indexList.get(i) - 1);
 			}
-			return deletedTask;
+			latestDeletedTask = deletedTask;
+			latestDeletedIndex = deleteIndex;
 		}
-		return null;
+		return latestDeletedTask;
 	}
 	// @@author
 	
@@ -113,6 +120,7 @@ public class Storage implements Serializable {
 		try {
 			logger.log(Level.INFO, "Deleting ALL Tasks to the ArrayList");
 			taskList.clear();
+			indexList.clear();
 			clearStorageFile();
 			return true;
 		} catch (IOException e) {
@@ -133,7 +141,7 @@ public class Storage implements Serializable {
 	
 	// @@author: A0134185H
 	public static void setPath(String pathName) throws IOException{
-		STORAGE_FILE = pathName;
+		storageFileName = pathName;
 		storageFile.renameTo(new File(pathName));
 		retrieveFile();
 	}
@@ -166,20 +174,25 @@ public class Storage implements Serializable {
 		tempStorageFile.renameTo(storageFile);
 	}
 
-	public static ArrayList<Integer> searchTask(String keyword) {
+	public static ArrayList<Integer> searchTask(Predicate<Task> p) {
 
-		ArrayList<Integer> searchIndexList = new ArrayList<Integer>();
-		ArrayList<Task> searchResult = new ArrayList<Task>();
-		String lowerCaseKeyword = keyword.toLowerCase();
+		indexList.clear();
 		for (int i = 0; i < taskList.size(); i++) {
-			String taskTitle = taskList.get(i).getTitle();
-			if (taskTitle.toLowerCase().contains(lowerCaseKeyword)) {
-				logger.log(Level.INFO, "Stores all hits in a separate ArrayList");
-				searchResult.add(taskList.get(i));
-				searchIndexList.add(indexList.get(i));
+			Task task = taskList.get(i);
+			if (p.test(task)) {
+				logger.log(Level.INFO, "Stores all hits indices in the indexList");
+				indexList.add(indexList.get(i));
 			}
 		}
-		return searchIndexList;
+		return indexList;
+	}
+	
+	public static ArrayList<Integer> displayAllTasks() {
+		indexList.clear();
+		for (int i = 0; i < taskList.size(); i++) {
+			indexList.add(i);
+		}
+		return indexList;
 	}
 
 	private static BufferedReader initBufferedReader(File textFile) throws FileNotFoundException {
