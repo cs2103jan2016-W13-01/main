@@ -41,5 +41,5 @@ public class AddParserTest {
 		
 		System.out.println(cmdDetails.getTask().getDate()+ " vs "+cmdDetails2.getTask().getDate());	
 	}*/
-
+	}
 }

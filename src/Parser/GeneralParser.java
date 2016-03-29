@@ -14,7 +14,7 @@ public abstract class GeneralParser {
 	
 	
 	protected String getTitle(String input){
-		String title = titleParser.getTitle(input);
+		String title = newTitleParser.getTitle(input);
 		return title;
 	}
 	
