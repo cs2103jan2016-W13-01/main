@@ -273,7 +273,7 @@ public class Storage {
 			try {
 				DateFormat df = new SimpleDateFormat("HH:mm:ss yyyyMMdd", Locale.ENGLISH);
 				Date date;
-				if (dateString.equals("")) {
+				if (dateString.equals("null")) {
 					date = null;
 				} else {
 					date = df.parse(dateString);
@@ -305,7 +305,7 @@ public class Storage {
 			Date date = task.getDate();
 			String dateString;
 			if (date == null) {
-				dateString = "";
+				dateString = "null";
 			} else {
 				dateString = df.format(date);
 			}

@@ -50,7 +50,7 @@ public class CommandAdd implements Command {
 	public String undo() {
 		LogicLogger.log(Level.INFO, "deleting task: " + task.toString() + " from storage");
 		try {
-			Storage.deleteTask(task);
+			Storage.deleteTask(Storage.getTaskList().size() - 1);
 			LogicLogger.log(Level.INFO, "undone successfully");
 			return String.format(MESSAGE_UNDONE, task.toString());
 		} catch (IOException e) {
