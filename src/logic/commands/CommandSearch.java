@@ -1,9 +1,10 @@
+/* @@author A0112184R */
 package logic.commands;
 
 import java.util.function.Predicate;
 
 import Storage.Storage;
-import logic.Task;
+import logic.Tasks.Task;
 
 /* @@author A0112184R
  * This class contains details for "search" commands

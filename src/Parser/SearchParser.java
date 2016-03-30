@@ -5,7 +5,7 @@ package Parser;
 import java.util.Date;
 import java.util.logging.Level;
 
-import logic.Task;
+import logic.Tasks.Task;
 import logic.commands.Command;
 import logic.commands.CommandInvalid;
 import logic.commands.CommandSearch;

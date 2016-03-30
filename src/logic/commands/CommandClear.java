@@ -1,11 +1,11 @@
+/* @@author A0112184R */
 package logic.commands;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-import logic.Task;
-
 import Storage.Storage;
+import logic.Tasks.Task;
 
 /* @@author A0112184R
  * This class contains details for "clear" commands

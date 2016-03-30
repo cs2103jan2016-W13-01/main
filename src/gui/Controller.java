@@ -6,8 +6,6 @@
 package gui;
 
 import logic.ExecutedCommands;
-import logic.InputQueue;
-import logic.ResponseQueue;
 import logic.Response;
 import logic.TaskProcessor;
 
@@ -34,7 +32,6 @@ public class Controller {
 	public static void initialize() {
     	DW = new DisplayWindow();
         DW.setVisible(true);
-		ExecutedCommands.initialize();
 		TaskProcessor.initialize();
 		displayTasks(TaskProcessor.getListToDisplay(), Storage.getFloatBeginOnIndexList());
 	}

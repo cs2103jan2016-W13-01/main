@@ -5,9 +5,11 @@
  *     - date: date for the task to be done or deadline
  *     - priority: the task's priority
  */
-package logic;
+package logic.Tasks;
 
 import java.util.Date;
+
+import logic.Priority;
 
 public class Task extends GenericTask {
 

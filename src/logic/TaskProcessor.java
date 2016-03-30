@@ -1,3 +1,6 @@
+/* @@author A0112184R
+ * 
+ */
 package logic;
 
 import java.io.IOException;
@@ -8,6 +11,7 @@ import Parser.CommandParser;
 import Storage.Storage;
 import logic.commands.Command;
 import logic.commands.CommandQueue;
+import logic.Tasks.*;
 
 /* @@author A0112184R
  * Class TaskProcessor
@@ -59,6 +63,7 @@ public class TaskProcessor {
 	
 	public static void initialize() {
 		listToDisplay = new ArrayList<String>();
+		ExecutedCommands.initialize();
 		LogicLogger.initialize();
 		try {
 			LogicLogger.log(Level.INFO, "Initializing storage");

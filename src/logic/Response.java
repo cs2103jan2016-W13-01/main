@@ -1,10 +1,10 @@
+/* @@author A0112184R
+ * This class contains all the information the Logic send to the UI for displaying
+ */
 package logic;
 
 import java.util.ArrayList;
 
-/* @@author A0112184R
- * This class contains all the information the Logic send to the UI for displaying
- */
 public class Response {
 	
 	private String message;

@@ -7,7 +7,7 @@ import java.util.function.Predicate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import logic.Task;
+import logic.Tasks.*;
 
 import java.io.*;
 import java.nio.file.Files;

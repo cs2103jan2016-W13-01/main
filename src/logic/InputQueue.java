@@ -1,12 +1,12 @@
+/* @@author A0112184R-unused
+ * This class stores the inputs that the UI sends to the Logic
+ * Reason: we omitted the parallel execution scheme
+ */
 package logic;
 
 import java.util.LinkedList;
 import java.util.Queue;
 
-/* @@author A0112184R-unused
- * This class stores the inputs that the UI sends to the Logic
- * Reason: we omitted the parallel execution scheme
- */
 public class InputQueue {
 	
 	private static Queue<String> inputQueue;

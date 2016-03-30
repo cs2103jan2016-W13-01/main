@@ -1,8 +1,9 @@
+/* @@author A0112184R */
 package logic.commands;
 
 import logic.ExecutedCommands;
 import logic.LogicLogger;
-import logic.Task;
+import logic.Tasks.Task;
 
 import java.io.IOException;
 import java.util.logging.Level;
