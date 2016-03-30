@@ -1,14 +1,16 @@
-package logic.Tasks;
-
-import java.util.Date;
+package logic.tasks;
 
 /* @@author A0112184R
  * This class encloses the general task types
  */
-public class GenericTask {
+public abstract class GenericTask implements Comparable<GenericTask> {
 	
 	protected String title;
 	protected boolean done;
+	
+	public abstract TaskType getType();
+	
+	public abstract int compareTo(GenericTask task);
 	
 	public GenericTask(String title) {
 		this.title = title;
@@ -32,13 +34,5 @@ public class GenericTask {
 	public boolean markDone() {
 		done = true;
 		return done;
-	}
-	
-	public GenericTask getInstance(String title, Date date) {
-		if (date == null) {
-			return new GenericTask(title);
-		} else {
-			return new Task(title, date);
-		}
 	}
 }

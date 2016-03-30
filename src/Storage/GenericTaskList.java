@@ -5,7 +5,7 @@ package Storage;
 
 import java.util.ArrayList;
 
-import logic.Tasks.GenericTask;
+import logic.tasks.GenericTask;
 
 /* @@author A0112184R
  * This class contains the lists of specific types of tasks

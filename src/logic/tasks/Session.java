@@ -1,7 +1,7 @@
 /**
  * 
  */
-package logic.Tasks;
+package logic.tasks;
 
 import java.util.Date;
 
@@ -12,6 +12,22 @@ public class Session extends GenericTask {
 	
 	private Date start;
 	private Date end;
+	
+	public TaskType getType() {
+		return TaskType.SESSION;
+	}
+	
+	public int compareTo(GenericTask task) {
+		if (task instanceof Session) {
+			return getStartDate().compareTo(((Session) task).getStartDate());
+		} else if (task instanceof Task) {
+			return getStartDate().compareTo(((Task) task).getDate());
+		} else if (task instanceof RecurringTask) {
+			return 0;
+		} else {
+			return -1;
+		}
+	}
 	
 	public Session(String title, Date startDate, Date endDate) {
 		super(title);

@@ -1,7 +1,7 @@
 /* @@author A0112184R
  * This class contains details for recurring tasks
  */
-package logic.Tasks;
+package logic.tasks;
 
 import java.util.Date;
 
@@ -10,6 +10,22 @@ public class RecurringTask extends GenericTask {
 	private static final int EVERY_DAY = 1;
 	private Date startDate;
 	private int period;
+	
+	public TaskType getType() {
+		return TaskType.RECUR;
+	}
+	
+	public int compareTo(GenericTask task) {
+		if (task instanceof Session) {
+			return getStartDate().compareTo(((Session) task).getStartDate());
+		} else if (task instanceof Task) {
+			return getStartDate().compareTo(((Task) task).getDate());
+		} else if (task instanceof RecurringTask) {
+			return 0;
+		} else {
+			return -1;
+		}
+	}
 	
 	public RecurringTask(String title, Date start, int time) {
 		super(title);

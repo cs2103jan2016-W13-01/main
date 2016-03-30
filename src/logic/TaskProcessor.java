@@ -11,7 +11,7 @@ import Parser.CommandParser;
 import Storage.Storage;
 import logic.commands.Command;
 import logic.commands.CommandQueue;
-import logic.Tasks.*;
+import logic.tasks.*;
 
 /* @@author A0112184R
  * Class TaskProcessor

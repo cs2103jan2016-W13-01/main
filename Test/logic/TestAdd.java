@@ -9,9 +9,9 @@ import java.util.Date;
 import org.junit.Test;
 
 import Storage.Storage;
-import logic.Tasks.Task;
 import logic.commands.Command;
 import logic.commands.CommandAdd;
+import logic.tasks.Task;
 
 /* @@author A0112184R
  * This class tests add feature of the Logic

@@ -3,7 +3,7 @@ package logic.commands;
 
 import logic.ExecutedCommands;
 import logic.LogicLogger;
-import logic.Tasks.Task;
+import logic.tasks.Task;
 
 import java.io.IOException;
 import java.util.logging.Level;

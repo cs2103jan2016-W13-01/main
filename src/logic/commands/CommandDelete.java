@@ -7,7 +7,7 @@ import java.util.logging.Level;
 import Storage.Storage;
 import logic.ExecutedCommands;
 import logic.LogicLogger;
-import logic.Tasks.Task;
+import logic.tasks.Task;
 /* @@author A0112184R
  * This class encapsulates the "delete" commands from the user.
  */

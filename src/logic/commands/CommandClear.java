@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import Storage.Storage;
-import logic.Tasks.Task;
+import logic.tasks.Task;
 
 /* @@author A0112184R
  * This class contains details for "clear" commands

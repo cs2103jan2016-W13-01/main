@@ -7,7 +7,7 @@ import java.util.logging.Level;
 import Storage.Storage;
 import logic.ExecutedCommands;
 import logic.LogicLogger;
-import logic.Tasks.Task;
+import logic.tasks.Task;
 
 /* @@author A0112184R
  * Class CommandAdd: This class encapsulates the "add" commands from the user.

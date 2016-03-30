@@ -3,9 +3,9 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import Parser.DeleteParser;
-import logic.Tasks.Task;
 import logic.commands.Command;
 import logic.commands.CommandType;
+import logic.tasks.Task;
 
 public class DeleteParserTest {
 /*

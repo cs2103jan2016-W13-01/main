@@ -5,11 +5,11 @@ package Parser;
 import java.util.Date;
 import java.util.logging.Level;
 
-import logic.Tasks.Task;
 import logic.commands.Command;
 import logic.commands.CommandInvalid;
 import logic.commands.CommandSearch;
 import logic.commands.CommandType;
+import logic.tasks.Task;
 
 public class SearchParser extends GeneralParser {
 	

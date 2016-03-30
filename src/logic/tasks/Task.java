@@ -5,7 +5,7 @@
  *     - date: date for the task to be done or deadline
  *     - priority: the task's priority
  */
-package logic.Tasks;
+package logic.tasks;
 
 import java.util.Date;
 
@@ -15,6 +15,22 @@ public class Task extends GenericTask {
 
 	private Date date;
 	private Priority priority;
+	
+	public TaskType getType() {
+		return TaskType.NORMAL;
+	}
+	
+	public int compareTo(GenericTask task) {
+		if (task instanceof Session) {
+			return getDate().compareTo(((Session) task).getStartDate());
+		} else if (task instanceof Task) {
+			return getDate().compareTo(((Task) task).getDate());
+		} else if (task instanceof RecurringTask) {
+			return 0;
+		} else {
+			return -1;
+		}
+	}
 	
 	public Date getDate() {
 		return date;
