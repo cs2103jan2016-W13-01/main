@@ -42,7 +42,7 @@ public class Storage implements Serializable {
 	}
 
 	// appends a new line of text at the bottom of the file
-	public static ArrayList<Task> addNewTask(Task newTask) throws IOException {
+	public static ArrayList<Integer> addNewTask(Task newTask) throws IOException {
 
 		int taskCounter;
 		
