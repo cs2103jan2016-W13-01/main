@@ -32,11 +32,11 @@ public class CommandDelete implements Command {
 	}
 	
 	public String execute() {
-		LogicLogger.log(Level.INFO, "deleting task: " + deletedTask.toString() + " from storage");
 		try {
 			deletedTaskIndex = Storage.getIndexList().get(taskNumberToDelete-1);
 			deletedTask = Storage.deleteTask(deletedTaskIndex);
 			if (deletedTask != null) {
+				LogicLogger.log(Level.INFO, "deleting task: " + deletedTask.toString() + " from storage");
 				ExecutedCommands.addCommand(this);
 				LogicLogger.log(Level.INFO, "deleted successfully");
 				return String.format(MESSAGE_TASK_DELETED, deletedTask.toString());

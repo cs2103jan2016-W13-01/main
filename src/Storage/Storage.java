@@ -18,11 +18,16 @@ import java.text.SimpleDateFormat;
 
 public class Storage {
 
-	private static String storageFileName = "storage.txt";
+	private static final String CONFIG_FILE_NAME = "./src/document/config.txt";
+	private static File configFile;
+	
+	private static String storageFileName;
 	private static File storageFile;
 	private static ArrayList<Task> taskList;
 	private static ArrayList<Integer> indexList;
 	private static Logger logger = Logger.getLogger(Storage.class.getName());
+	private static int floatBeginOnTaskList;
+	private static int floatBeginOnIndexList;
 	
 	public static Task latestDeletedTask;
 	public static int latestDeletedIndex;
@@ -39,8 +44,22 @@ public class Storage {
 	public static ArrayList<Integer> getIndexList() {
 		return indexList;
 	}
+	
+	public static int getFloatBegin() {
+		return floatBeginOnTaskList;
+	}
+	
+	public static int getFloatBeginOnIndexList() {
+		return floatBeginOnIndexList;
+	}
 
 	public static File retrieveFile() throws IOException {
+		
+		configFile = new File(CONFIG_FILE_NAME);
+		Scanner sc = new Scanner(configFile);
+		storageFileName = sc.nextLine();
+		sc.close();
+		
 		storageFile = new File(storageFileName);
 		if (!storageFile.exists()) {
 			// Create file if it does not exist
@@ -52,15 +71,17 @@ public class Storage {
 	// appends a new line of text at the bottom of the file
 	public static ArrayList<Integer> addNewTask(Task newTask) throws IOException {
 
-		int taskCounter;
-		
 		logger.log(Level.INFO, "Adding new Task to the ArrayList");
 		assert (taskList != null) : "taskList not initialized";
 		assert (newTask != null) : "task is null";
-		taskCounter = taskList.size();
-		taskList.add(newTask);
+		if (newTask.getDateString().equals("")) {
+			taskList.add(newTask);
+		} else {
+			taskList.add(floatBeginOnTaskList, newTask);
+			floatBeginOnTaskList++;
+		}
 		saveTaskList();
-		//indexList.add(taskCounter);
+		//indexList.add(taskList.size());
 		displayAllTasks();
 		
 		return indexList;
@@ -72,6 +93,9 @@ public class Storage {
 
 		logger.log(Level.INFO, "Adding new Task to the ArrayList at position: " + taskListPosition);
 		taskList.add(taskListPosition, newTask);
+		if (newTask.getDate() != null) {
+			floatBeginOnTaskList++;
+		}
 		saveTaskList();
 		displayAllTasks();
 		return indexList;
@@ -87,10 +111,16 @@ public class Storage {
 		if (!taskList.isEmpty() && deleteIndex <= taskList.size()) {
 			logger.log(Level.INFO, "Deleting Task from the ArrayList");
 			latestDeletedTask = taskList.remove(deleteIndex);
+			if (deleteIndex < floatBeginOnTaskList) {
+				floatBeginOnTaskList--;
+			}
 			saveTaskList();
 			latestDeletedIndex = indexList.indexOf(new Integer(deleteIndex));
 			indexList.remove(latestDeletedIndex);
-			for (int i = deleteIndex; i < indexList.size(); i++) {
+			if (latestDeletedIndex < floatBeginOnIndexList) {
+				floatBeginOnIndexList--;
+			}
+			for (int i = latestDeletedIndex; i < indexList.size(); i++) {
 				indexList.set(i, indexList.get(i) - 1);
 			}
 		}
@@ -139,9 +169,14 @@ public class Storage {
 	
 	// @@author: A0134185H
 	public static void setPath(String pathName) throws IOException{
-		storageFileName = pathName;
-		storageFile.renameTo(new File(pathName));
+		configFile.delete();
+		configFile.createNewFile();
+		BufferedWriter bf = initBufferedWriter(configFile);
+		bf.write(pathName);
+		bf.newLine();
+		bf.close();
 		retrieveFile();
+		saveTaskList();
 	}
 	// @@author
 	
@@ -175,10 +210,18 @@ public class Storage {
 	public static ArrayList<Integer> searchTask(Predicate<Task> p) {
 
 		indexList.clear();
-		for (int i = 0; i < taskList.size(); i++) {
+		int i;
+		logger.log(Level.INFO, "Storing all hits indices in the indexList");
+		for (i = 0; i < floatBeginOnTaskList; i++) {
 			Task task = taskList.get(i);
 			if (p.test(task)) {
-				logger.log(Level.INFO, "Stores all hits indices in the indexList");
+				indexList.add(i);
+			}
+		}
+		floatBeginOnIndexList = indexList.size();
+		for (i = floatBeginOnTaskList; i < taskList.size(); i++) {
+			Task task = taskList.get(i);
+			if (p.test(task)) {
 				indexList.add(i);
 			}
 		}
@@ -190,6 +233,7 @@ public class Storage {
 		for (int i = 0; i < taskList.size(); i++) {
 			indexList.add(i);
 		}
+		floatBeginOnIndexList = floatBeginOnTaskList;
 		return indexList;
 	}
 
@@ -222,12 +266,19 @@ public class Storage {
 		
 		BufferedReader br = initBufferedReader(storageFile);
 		taskList = new ArrayList<Task>();
-		
+		floatBeginOnTaskList = 0;
+			
 		String titleString, dateString;
 		while((titleString = br.readLine()) != null && (dateString = br.readLine()) != null) {
 			try {
 				DateFormat df = new SimpleDateFormat("HH:mm:ss yyyyMMdd", Locale.ENGLISH);
-				Date date = df.parse(dateString);
+				Date date;
+				if (dateString.equals("")) {
+					date = null;
+				} else {
+					date = df.parse(dateString);
+					floatBeginOnTaskList++;
+				}
 				Task task = new Task(titleString.trim(), date);
 				taskList.add(task);
 			} catch (ParseException e) {
@@ -248,9 +299,16 @@ public class Storage {
 		BufferedWriter bw = initBufferedWriter(storageFile);
 		DateFormat df = new SimpleDateFormat("HH:mm:ss yyyyMMdd");
 		for (int i = 0; i < taskList.size(); i++) {
-			bw.write(taskList.get(i).getTitle());
+			Task task = taskList.get(i);
+			bw.write(task.getTitle());
 			bw.newLine();
-			String dateString = df.format(taskList.get(i).getDate());
+			Date date = task.getDate();
+			String dateString;
+			if (date == null) {
+				dateString = "";
+			} else {
+				dateString = df.format(date);
+			}
 			bw.write(dateString);
 			bw.newLine();
 		}

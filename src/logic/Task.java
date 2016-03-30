@@ -15,10 +15,15 @@ public class Task extends GenericTask {
 	private Priority priority;
 	
 	public Date getDate() {
-		if (date == null) {
-			return new Date();
-		}
 		return date;
+	}
+	
+	public String getDateString() {
+		if (date == null) {
+			return "";
+		} else {
+			return date.toString();
+		}
 	}
 	
 	public Priority getPriority() {
@@ -48,19 +53,7 @@ public class Task extends GenericTask {
 	}
 	
 	public String toString() {
-		String dateString;
-		String titleString;
-		if (date != null) {
-			dateString = date.toString();
-		} else {
-			dateString = "unspecified date";
-		}
-		if (title != null) {
-			titleString = title;
-		} else {
-			titleString = "unspecified title";
-		}
-		String result = titleString + " " + dateString;
+		String result = getTitle() + " " + getDateString();
 		return result;
 	}
 	

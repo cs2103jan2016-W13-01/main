@@ -24,7 +24,7 @@ public class TaskProcessor {
 	private static final String MESSAGE_CLEAR_ERROR = "Error encountered when clearing all tasks. Please try again";
 	private static final String MESSAGE_SORT_ERROR = "Error encountered when sorting tasks. Please try again.";
 	*/
-	
+
 	private static ArrayList<String> listToDisplay;
 	
 	public static void main(String[] args) {
@@ -54,8 +54,7 @@ public class TaskProcessor {
 	public static Response executeCommand(Command command) {
 		String message = command.execute();
 		ArrayList<String> taskList = getListToDisplay();
-		Response response = new Response(message, taskList);
-		return response;
+		return new Response(message, taskList, Storage.getFloatBeginOnIndexList());
 	}
 	
 	public static void initialize() {

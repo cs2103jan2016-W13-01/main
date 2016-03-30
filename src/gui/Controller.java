@@ -10,13 +10,16 @@ import logic.InputQueue;
 import logic.ResponseQueue;
 import logic.Response;
 import logic.TaskProcessor;
-        
+
+import Storage.Storage;
+
 import java.util.ArrayList;
 /**
  *
  * @author tfj
  */
 public class Controller {
+	
     public static DisplayWindow DW;
     
     // @@author A0112184R
@@ -33,7 +36,7 @@ public class Controller {
         DW.setVisible(true);
 		ExecutedCommands.initialize();
 		TaskProcessor.initialize();
-		displayTasks(TaskProcessor.getListToDisplay());
+		displayTasks(TaskProcessor.getListToDisplay(), Storage.getFloatBeginOnIndexList());
 	}
     // @@author    
     
@@ -46,8 +49,9 @@ public class Controller {
     public static void displayFeedback(Response response){
            String status = response.getMessage();
            ArrayList<String> tasks = response.getTaskList();
+           int floatBegin = Storage.getFloatBeginOnIndexList();
            displayStatus(status);
-           displayTasks(tasks);
+           displayTasks(tasks, floatBegin);
 		}
     
     public static void displayStatus(String status){
@@ -55,7 +59,7 @@ public class Controller {
     }
     
     
-    public static void displayTasks(ArrayList<String> tasks){
-        DW.displayTaskList(tasks);
+    public static void displayTasks(ArrayList<String> tasks, int floatBegin){
+		DW.displayTaskList(tasks, floatBegin);
     }
 }

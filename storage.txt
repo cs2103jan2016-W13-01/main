@@ -1,14 +1,2 @@
-yolo
-18:46:23 20160326
-hello its me
-09:15:43 20160330
-go somewhere
-02:35:57 20160331
-play dota
-02:36:18 20160404
-go safe
-03:24:20 20160408
-go yolo
-17:00:00 20160430
-be good
-03:21:49 20160409
+do something
+

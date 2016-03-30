@@ -19,7 +19,12 @@ import java.util.GregorianCalendar;
  * @author tfj
  */
 public class DisplayWindow extends javax.swing.JFrame {
-    /**
+    
+	private static final String MESSAGE_NO_TASK = "No tasks to show";
+	private static final String MESSAGE_NORMAL_TASK = "Normal tasks:";
+	private static final String MESSAGE_FLOAT_TASK = "Undecided tasks:";
+	
+	/**
      * Creates new form DisplayWindow
      */
     public DisplayWindow() {
@@ -58,21 +63,40 @@ public class DisplayWindow extends javax.swing.JFrame {
         clock.start();
     }
   
-    void clear() {
+    public void clear() {
         TaskDisplayArea.setText("");
     }
     
-    void displayStatusMsg(String status){
+    public void displayStatusMsg(String status){
         StatusField.setText("");
         StatusField.setText(status);
     }
     
-    void displayTaskList(ArrayList<String> tasks){
-        int size = tasks.size();
-        for (int i = 0; i< size; i++){
-            TaskDisplayArea.append((i+1) + ". " + tasks.get(i) + "\r\n");
+    public void displayTaskList(ArrayList<String> tasks, int floatTaskIndex){
+    	int size = tasks.size();
+    	if (size == 0) {
+    		TaskDisplayArea.append(MESSAGE_NO_TASK);
+    	} else {
+    		if (floatTaskIndex > 0) {
+    			TaskDisplayArea.append(MESSAGE_NORMAL_TASK + "\r\n");
+    			for (int i = 0; i < floatTaskIndex; i++) {
+    				TaskDisplayArea.append((i+1) + ". " + tasks.get(i) + "\r\n");
+    			}
+    		}
+    		if (floatTaskIndex < size) {
+    			TaskDisplayArea.append(MESSAGE_FLOAT_TASK);
+    			for (int i = floatTaskIndex; i < size; i++) {
+    				TaskDisplayArea.append("\r\n" + (i+1) + ". " + tasks.get(i));
+    			}
+    		}
         }
     }
+    
+	private static ArrayList<String> createEmptyList() {
+		ArrayList<String> emptyList = new ArrayList<String>();
+		emptyList.add(MESSAGE_NO_TASK);
+		return emptyList;
+	}
     
     javax.swing.JTextArea getTaskDisplayArea(){
         return TaskDisplayArea;
