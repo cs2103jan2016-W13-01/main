@@ -23,13 +23,13 @@ public class Storage {
 	
 	private static String storageFileName;
 	private static File storageFile;
-	private static ArrayList<Task> taskList;
+	private static ArrayList<Deadline> taskList;
 	private static ArrayList<Integer> indexList;
 	private static Logger logger = Logger.getLogger(Storage.class.getName());
 	private static int floatBeginOnTaskList;
 	private static int floatBeginOnIndexList;
 	
-	public static Task latestDeletedTask;
+	public static Deadline latestDeletedTask;
 	public static int latestDeletedIndex;
 
 	private Storage() throws IOException, ClassNotFoundException {
@@ -37,7 +37,7 @@ public class Storage {
 		taskList = loadTaskList();
 	}
 	
-	public static ArrayList<Task> getTaskList() {
+	public static ArrayList<Deadline> getTaskList() {
 		return taskList;
 	}
 	
@@ -69,7 +69,7 @@ public class Storage {
 	}
 
 	// appends a new line of text at the bottom of the file
-	public static ArrayList<Integer> addNewTask(Task newTask) throws IOException {
+	public static ArrayList<Integer> addNewTask(Deadline newTask) throws IOException {
 
 		logger.log(Level.INFO, "Adding new Task to the ArrayList");
 		assert (taskList != null) : "taskList not initialized";
@@ -89,7 +89,7 @@ public class Storage {
 	// @@author
 	
 	// @@author A0112184R
-	public static ArrayList<Integer> addNewTask(Task newTask, int taskListPosition) throws IOException {
+	public static ArrayList<Integer> addNewTask(Deadline newTask, int taskListPosition) throws IOException {
 
 		logger.log(Level.INFO, "Adding new Task to the ArrayList at position: " + taskListPosition);
 		taskList.add(taskListPosition, newTask);
@@ -104,7 +104,7 @@ public class Storage {
 	
 	// @@author: A0134185H
 	// deletes a line from the file based on line number
-	public static Task deleteTask(int deleteIndex) throws IOException {
+	public static Deadline deleteTask(int deleteIndex) throws IOException {
 
 		assert (deleteIndex >= 0);
 
@@ -129,7 +129,7 @@ public class Storage {
 	// @@author
 	
 	// @@author A0112184R
-	public static Task deleteTask(Task taskToDelete) throws IOException {
+	public static Deadline deleteTask(Deadline taskToDelete) throws IOException {
 		
 		assert taskToDelete != null: "Attempt to delete a null task";
 		if (taskList.contains(taskToDelete)) {
@@ -146,9 +146,11 @@ public class Storage {
 	// deletes all text in the file
 	public static boolean clearAllTasks() {
 		try {
-			logger.log(Level.INFO, "Deleting ALL Tasks to the ArrayList");
+			logger.log(Level.INFO, "Deleting ALL Tasks from the ArrayList");
 			taskList.clear();
 			indexList.clear();
+			floatBeginOnTaskList = 0;
+			floatBeginOnIndexList = 0;
 			clearStorageFile();
 			return true;
 		} catch (IOException e) {
@@ -207,20 +209,20 @@ public class Storage {
 		tempStorageFile.renameTo(storageFile);
 	}
 
-	public static ArrayList<Integer> searchTask(Predicate<Task> p) {
+	public static ArrayList<Integer> searchTask(Predicate<Deadline> p) {
 
 		indexList.clear();
 		int i;
 		logger.log(Level.INFO, "Storing all hits indices in the indexList");
 		for (i = 0; i < floatBeginOnTaskList; i++) {
-			Task task = taskList.get(i);
+			Deadline task = taskList.get(i);
 			if (p.test(task)) {
 				indexList.add(i);
 			}
 		}
 		floatBeginOnIndexList = indexList.size();
 		for (i = floatBeginOnTaskList; i < taskList.size(); i++) {
-			Task task = taskList.get(i);
+			Deadline task = taskList.get(i);
 			if (p.test(task)) {
 				indexList.add(i);
 			}
@@ -249,7 +251,7 @@ public class Storage {
 		return bufferedWriter;
 	}
 
-	public static ArrayList<Task> loadTaskList() throws ClassNotFoundException, IOException {
+	public static ArrayList<Deadline> loadTaskList() throws ClassNotFoundException, IOException {
 
 	/*	taskList = new ArrayList<Task>();
 		BufferedReader br = new BufferedReader(new FileReader(storageFile));
@@ -265,7 +267,7 @@ public class Storage {
 		*/
 		
 		BufferedReader br = initBufferedReader(storageFile);
-		taskList = new ArrayList<Task>();
+		taskList = new ArrayList<Deadline>();
 		floatBeginOnTaskList = 0;
 			
 		String titleString, dateString;
@@ -279,7 +281,7 @@ public class Storage {
 					date = df.parse(dateString);
 					floatBeginOnTaskList++;
 				}
-				Task task = new Task(titleString.trim(), date);
+				Deadline task = new Deadline(titleString.trim(), date);
 				taskList.add(task);
 			} catch (ParseException e) {
 				e.printStackTrace();
@@ -299,7 +301,7 @@ public class Storage {
 		BufferedWriter bw = initBufferedWriter(storageFile);
 		DateFormat df = new SimpleDateFormat("HH:mm:ss yyyyMMdd");
 		for (int i = 0; i < taskList.size(); i++) {
-			Task task = taskList.get(i);
+			Deadline task = taskList.get(i);
 			bw.write(task.getTitle());
 			bw.newLine();
 			Date date = task.getDate();

@@ -7,7 +7,7 @@ import java.util.logging.Level;
 import Storage.Storage;
 import logic.ExecutedCommands;
 import logic.LogicLogger;
-import logic.tasks.Task;
+import logic.tasks.Deadline;
 
 /* @@author A0112184R
  * Class CommandAdd: This class encapsulates the "add" commands from the user.
@@ -19,14 +19,14 @@ public class CommandAdd implements Command {
 	private static final String MESSAGE_UNDONE = "Action undone: add %1$s";
 	private static final String MESSAGE_UNDO_ERROR = "Failed to undo action: add %1$s";
 	
-	private final Task task;
+	private final Deadline task;
 	
-	public CommandAdd(Task task) {
+	public CommandAdd(Deadline task) {
 		assert task != null: "Attempt to create a null task";
 		this.task = task;
 	}
 	
-	public Task getTask() {
+	public Deadline getTask() {
 		return task;
 	}
 	

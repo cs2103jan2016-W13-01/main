@@ -78,11 +78,11 @@ public class TaskProcessor {
 		}
 	}
 	
-	private static void loadIntoDisplayList(ArrayList<Task> taskList, ArrayList<Integer> indexList) {
+	private static void loadIntoDisplayList(ArrayList<Deadline> taskList, ArrayList<Integer> indexList) {
 		LogicLogger.log(Level.INFO, "Loading list to display from storage");
 		listToDisplay.clear();
 		for (int i: indexList) {
-			Task task = taskList.get(i);
+			Deadline task = taskList.get(i);
 			assert task != null : "Some task in the task list is null";
 			listToDisplay.add(task.toString());
 		}

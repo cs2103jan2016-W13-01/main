@@ -5,7 +5,7 @@ import org.junit.Test;
 import Parser.DeleteParser;
 import logic.commands.Command;
 import logic.commands.CommandType;
-import logic.tasks.Task;
+import logic.tasks.Deadline;
 
 public class DeleteParserTest {
 /*

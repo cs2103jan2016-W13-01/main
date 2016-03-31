@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import Storage.Storage;
-import logic.tasks.Task;
+import logic.tasks.Deadline;
 
 /* @@author A0112184R
  * This class contains details for "clear" commands
@@ -15,7 +15,7 @@ public class CommandClear implements Command {
 	private static final String MESSAGE_CLEARED = "All tasks removed";
 	private static final String MESSAGE_UNDONE = "All tasks added back";
 	
-	private ArrayList<Task> oldTaskList;
+	private ArrayList<Deadline> oldTaskList;
 	
 	public CommandType getType() {
 		return CommandType.CLEAR;
@@ -26,8 +26,8 @@ public class CommandClear implements Command {
 	}
 	
 	public String execute() {
-		oldTaskList = new ArrayList<Task>();
-		for (Task task: Storage.getTaskList()) {
+		oldTaskList = new ArrayList<Deadline>();
+		for (Deadline task: Storage.getTaskList()) {
 			oldTaskList.add(task.clone());
 		}
 		Storage.clearAllTasks();
@@ -38,7 +38,7 @@ public class CommandClear implements Command {
 		assert (oldTaskList != null) : "task list is null";
 		String message = null;
 		try {
-			for (Task task: oldTaskList) {
+			for (Deadline task: oldTaskList) {
 				Storage.addNewTask(task);
 			}
 			message = MESSAGE_UNDONE;

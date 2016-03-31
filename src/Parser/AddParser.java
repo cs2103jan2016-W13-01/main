@@ -9,7 +9,7 @@ import logic.commands.Command;
 import logic.commands.CommandAdd;
 import logic.commands.CommandInvalid;
 import logic.commands.CommandType;
-import logic.tasks.Task;
+import logic.tasks.Deadline;
 
 public class AddParser extends GeneralParser {
 	
@@ -18,7 +18,7 @@ public class AddParser extends GeneralParser {
 		String title = getTitle(inputArgs);
 		Date date = getDate(inputArgs);
 		//String description = getDescription(inputArgs);
-		Task task = new Task(title,date);
+		Deadline task = new Deadline(title,date);
 		Command cmdDetails = new CommandAdd(task);
 		
 		return cmdDetails;

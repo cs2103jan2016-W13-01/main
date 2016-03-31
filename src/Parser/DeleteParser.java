@@ -9,7 +9,7 @@ import logic.commands.Command;
 import logic.commands.CommandDelete;
 import logic.commands.CommandInvalid;
 import logic.commands.CommandType;
-import logic.tasks.Task;
+import logic.tasks.Deadline;
 
 public class DeleteParser extends GeneralParser {
 	
@@ -26,7 +26,7 @@ public class DeleteParser extends GeneralParser {
 			return cmdDetails = new CommandInvalid();
 		}
 		//String description = getDescription(inputTokens[1]);
-		Task task = new Task(title,date);
+		Deadline task = new Deadline(title,date);
 		cmdDetails = new CommandDelete(inputNum);
 		
 		return cmdDetails;

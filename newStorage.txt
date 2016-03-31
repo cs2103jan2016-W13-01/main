@@ -1,44 +1,4 @@
-go to school tomorrow
-12:46:25 20160331
-go to work
-12:46:35 20160401
-study for exam next week
-12:46:48 20160406
-present
-12:47:02 20160401
-upload paper tonight
-20:00:00 20160330
-go to work
-12:47:32 20160403
-do tutorial
-12:47:43 20160402
-eat with family
-12:53:28 20160403
-eat with girlend
-12:54:32 20160409
-play dot
-20:00:00 20160331
-normal
-17:00:00 20160404
-watch deadpool
-null
-read a book
-null
-go to Sentosa
-null
-visit grandpa
-null
-go to Malaysia
-null
-wash clothes
-null
-clean room
-null
-learn guitar
-null
-find a pet
-null
-play LOL
-null
-undecided
+talk to boss today
+14:00:00 20160331
+talk to girlend
 null

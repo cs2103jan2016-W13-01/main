@@ -3,7 +3,7 @@ package logic.commands;
 
 import logic.ExecutedCommands;
 import logic.LogicLogger;
-import logic.tasks.Task;
+import logic.tasks.Deadline;
 
 import java.io.IOException;
 import java.util.logging.Level;
@@ -23,10 +23,10 @@ public class CommandEdit implements Command {
 	
 	private int taskNumberToEdit;
 	private int editedTaskIndex;
-	private Task editedTask;
-	private Task oldTask;
+	private Deadline editedTask;
+	private Deadline oldTask;
 	
-	public CommandEdit(int taskNumber,Task task) {
+	public CommandEdit(int taskNumber,Deadline task) {
 		taskNumberToEdit = taskNumber;
 		editedTask = task;
 	}

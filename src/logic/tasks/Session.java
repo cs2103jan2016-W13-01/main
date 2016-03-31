@@ -8,7 +8,7 @@ import java.util.Date;
 /* @@author A0112184R
  * This class contains details for sessions with start and end time
  */
-public class Session extends GenericTask {
+public class Session extends Task {
 	
 	private Date start;
 	private Date end;
@@ -17,11 +17,11 @@ public class Session extends GenericTask {
 		return TaskType.SESSION;
 	}
 	
-	public int compareTo(GenericTask task) {
+	public int compareTo(Task task) {
 		if (task instanceof Session) {
 			return getStartDate().compareTo(((Session) task).getStartDate());
-		} else if (task instanceof Task) {
-			return getStartDate().compareTo(((Task) task).getDate());
+		} else if (task instanceof Deadline) {
+			return getStartDate().compareTo(((Deadline) task).getDate());
 		} else if (task instanceof RecurringTask) {
 			return 0;
 		} else {

@@ -7,7 +7,7 @@ import java.util.logging.Level;
 import Storage.Storage;
 import logic.ExecutedCommands;
 import logic.LogicLogger;
-import logic.tasks.Task;
+import logic.tasks.Deadline;
 /* @@author A0112184R
  * This class encapsulates the "delete" commands from the user.
  */
@@ -21,7 +21,7 @@ public class CommandDelete implements Command {
 	
 	private int taskNumberToDelete;
 	private int deletedTaskIndex;
-	private Task deletedTask;
+	private Deadline deletedTask;
 	
 	public CommandDelete(int taskNumber) {
 		taskNumberToDelete = taskNumber;

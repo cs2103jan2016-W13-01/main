@@ -4,7 +4,7 @@ package logic.commands;
 import java.util.function.Predicate;
 
 import Storage.Storage;
-import logic.tasks.Task;
+import logic.tasks.Deadline;
 
 /* @@author A0112184R
  * This class contains details for "search" commands
@@ -27,8 +27,8 @@ public class CommandSearch implements Command {
 	
 	public String execute() {
 		
-		Predicate<Task> searchPredicate = new Predicate<Task>() {
-			public boolean test(Task task) {
+		Predicate<Deadline> searchPredicate = new Predicate<Deadline>() {
+			public boolean test(Deadline task) {
 				String titleString = task.getTitle().toLowerCase();
 				return titleString.contains(keyword.toLowerCase());
 			}

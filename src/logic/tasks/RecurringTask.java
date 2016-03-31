@@ -5,7 +5,7 @@ package logic.tasks;
 
 import java.util.Date;
 
-public class RecurringTask extends GenericTask {
+public class RecurringTask extends Task {
 	
 	private static final int EVERY_DAY = 1;
 	private Date startDate;
@@ -15,11 +15,11 @@ public class RecurringTask extends GenericTask {
 		return TaskType.RECUR;
 	}
 	
-	public int compareTo(GenericTask task) {
+	public int compareTo(Task task) {
 		if (task instanceof Session) {
 			return getStartDate().compareTo(((Session) task).getStartDate());
-		} else if (task instanceof Task) {
-			return getStartDate().compareTo(((Task) task).getDate());
+		} else if (task instanceof Deadline) {
+			return getStartDate().compareTo(((Deadline) task).getDate());
 		} else if (task instanceof RecurringTask) {
 			return 0;
 		} else {

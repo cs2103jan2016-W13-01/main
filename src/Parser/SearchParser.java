@@ -9,7 +9,7 @@ import logic.commands.Command;
 import logic.commands.CommandInvalid;
 import logic.commands.CommandSearch;
 import logic.commands.CommandType;
-import logic.tasks.Task;
+import logic.tasks.Deadline;
 
 public class SearchParser extends GeneralParser {
 	
