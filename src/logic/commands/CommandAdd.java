@@ -4,10 +4,10 @@ package logic.commands;
 import java.io.IOException;
 import java.util.logging.Level;
 
-import Storage.Storage;
 import logic.ExecutedCommands;
 import logic.LogicLogger;
 import logic.tasks.Deadline;
+import storage.Storage;
 
 /* @@author A0112184R
  * Class CommandAdd: This class encapsulates the "add" commands from the user.

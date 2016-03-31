@@ -44,4 +44,15 @@ public class Session extends Task {
 	public void setEndDate(Date newEnd) {
 		end = newEnd;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Session) {
+			return (((Session) obj).getType() == this.getType())
+					&& ((Session) obj).getTitle().equalsIgnoreCase(this.getTitle())
+					&& ((Session) obj).getStartDate().equals(this.getStartDate())
+					&& ((Session) obj).getEndDate().equals(this.getEndDate());
+		}
+		return false;
+	}
 }

@@ -77,4 +77,14 @@ public class Deadline extends Task {
 		Deadline copiedTask = new Deadline(title, date);
 		return copiedTask;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Deadline) {
+			return (((Deadline) obj).getType() == this.getType())
+					&& ((Deadline) obj).getTitle().equalsIgnoreCase(this.getTitle())
+					&& ((Deadline) obj).getDate().equals(this.getDate());
+		}
+		return false;
+	}
 }

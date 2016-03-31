@@ -5,7 +5,7 @@ import java.util.Date;
 /* @@author A0112184R
  * This class encloses the general task types
  */
-public class Task {
+public class Task implements Cloneable {
 	
 	protected String title;
 	protected boolean done;
@@ -40,5 +40,14 @@ public class Task {
 	public boolean markDone() {
 		done = true;
 		return done;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Task) {
+			return (((Task) obj).getType() == this.getType())
+					&& ((Task) obj).getTitle().equalsIgnoreCase(this.getTitle());
+		}
+		return false;
 	}
 }

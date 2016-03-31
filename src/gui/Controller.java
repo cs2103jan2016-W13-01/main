@@ -8,8 +8,7 @@ package gui;
 import logic.ExecutedCommands;
 import logic.Response;
 import logic.TaskProcessor;
-
-import Storage.Storage;
+import storage.Storage;
 
 import java.util.ArrayList;
 /**

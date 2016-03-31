@@ -4,11 +4,10 @@ package logic.commands;
 import logic.ExecutedCommands;
 import logic.LogicLogger;
 import logic.tasks.Deadline;
+import storage.Storage;
 
 import java.io.IOException;
 import java.util.logging.Level;
-
-import Storage.Storage;
 
 /* @@author A0112184R
  * This class contains details for "edit" commands

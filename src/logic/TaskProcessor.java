@@ -8,10 +8,10 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 
 import Parser.CommandParser;
-import Storage.Storage;
 import logic.commands.Command;
 import logic.commands.CommandQueue;
 import logic.tasks.*;
+import storage.Storage;
 
 /* @@author A0112184R
  * Class TaskProcessor
@@ -19,7 +19,7 @@ import logic.tasks.*;
  * Key methods so far:
  *     - executeCommand(Command): execute the Command object by calling Command.execute()
  *     - executeInput(String): execute the input by parsing it and call executeCommand
- *     - initialize: initialize the Storage and all the components
+ *     - initialize: initialize the storage and all the components
  */
 public class TaskProcessor {
 	

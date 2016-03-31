@@ -3,8 +3,8 @@ package logic.commands;
 
 import java.util.function.Predicate;
 
-import Storage.Storage;
 import logic.tasks.Deadline;
+import storage.Storage;
 
 /* @@author A0112184R
  * This class contains details for "search" commands

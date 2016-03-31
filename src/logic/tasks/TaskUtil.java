@@ -10,7 +10,7 @@ import java.util.Date;
  */
 public class TaskUtil {
 	
-	public class TaskComparator implements Comparator<Task> {
+	public static class TaskComparator implements Comparator<Task> {
 		public int compare(Task task1, Task task2) {
 			Date date1 = task1.getMainDate();
 			Date date2 = task2.getMainDate();

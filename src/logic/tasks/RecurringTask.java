@@ -25,6 +25,7 @@ public class RecurringTask extends Task {
 	public RecurringTask(String title, Date start, Date end, int time) {
 		super(title);
 		startDate = start;
+		endDate = end;
 		period = time;
 	}
 	
@@ -48,6 +49,10 @@ public class RecurringTask extends Task {
 		return startDate;
 	}
 	
+	public Date getEndDate() {
+		return endDate;
+	}
+	
 	public int getPeriod() {
 		return period;
 	}
@@ -58,5 +63,17 @@ public class RecurringTask extends Task {
 	
 	public void setPeriod(int newPeriod) {
 		period = newPeriod;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof RecurringTask) {
+			return (((RecurringTask) obj).getType() == this.getType())
+					&& ((RecurringTask) obj).getTitle().equalsIgnoreCase(this.getTitle())
+					&& ((RecurringTask) obj).getStartDate().equals(this.getStartDate())
+					&& ((Session) obj).getEndDate().equals(this.getEndDate())
+					&& (((RecurringTask) obj).getPeriod() == this.getPeriod());
+		}
+		return false;
 	}
 }

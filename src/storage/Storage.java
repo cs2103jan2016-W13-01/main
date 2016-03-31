@@ -1,6 +1,6 @@
 // @@author: A0134185H
 
-package Storage;
+package storage;
 
 import java.util.*;
 import java.util.function.Predicate;
