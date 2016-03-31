@@ -1,3 +1,9 @@
+package logic.tasks;
+
+import java.util.Date;
+
+import logic.Priority;
+
 /* @@author A0112184R
  * This class stores all the information in a task.
  * Fields:
@@ -5,12 +11,6 @@
  *     - date: date for the task to be done or deadline
  *     - priority: the task's priority
  */
-package logic.tasks;
-
-import java.util.Date;
-
-import logic.Priority;
-
 public class Deadline extends Task {
 
 	private Date date;

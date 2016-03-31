@@ -1,6 +1,3 @@
-/* @@author A0112184R
- * 
- */
 package logic;
 
 import java.io.IOException;

@@ -1,4 +1,3 @@
-/* author A0112184R */
 package storage;
 
 import java.util.Iterator;

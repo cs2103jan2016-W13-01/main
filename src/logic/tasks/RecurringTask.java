@@ -1,10 +1,10 @@
-/* @@author A0112184R
- * This class contains details for recurring tasks
- */
 package logic.tasks;
 
 import java.util.Date;
 
+/* @@author A0112184R
+ * This class contains details for recurring tasks
+ */
 public class RecurringTask extends Task {
 	
 	private static final int EVERY_DAY = 1;

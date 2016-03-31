@@ -1,4 +1,3 @@
-/* @@author A0112184R */
 package logic.tasks;
 
 import java.util.Comparator;

@@ -1,4 +1,3 @@
-/* @@author A0112184R */
 package storage;
 
 import java.util.function.Predicate;
@@ -15,7 +14,26 @@ public class GrandTaskList {
 	private static TaskList<RecurringTask> recurringTaskList;
 	
 	public static void initialize() {
-		
+		floatTaskList = new TaskList<Task>();
+		deadlineList = new TaskList<Deadline>();
+		sessionList = new TaskList<Session>();
+		recurringTaskList = new TaskList<RecurringTask>();
+	}
+	
+	public static TaskList<Task> getFloatList() {
+		return floatTaskList;
+	}
+	
+	public static TaskList<Deadline> getDeadlineList() {
+		return deadlineList;
+	}
+	
+	public static TaskList<Session> getSessionList() {
+		return sessionList;
+	}
+	
+	public static TaskList<RecurringTask> getRecurringList() {
+		return recurringTaskList;
 	}
 	
 	public static boolean addNewTask(Task task) {

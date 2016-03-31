@@ -1,6 +1,3 @@
-/**
- * 
- */
 package logic.tasks;
 
 import java.util.Date;

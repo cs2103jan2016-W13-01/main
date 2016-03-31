@@ -1,4 +1,4 @@
-// @@author: A0134185H
+//@@author: A0134185H
 
 package storage;
 
@@ -14,7 +14,6 @@ import java.nio.file.Files;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-
 
 public class Storage {
 
@@ -86,9 +85,6 @@ public class Storage {
 		
 		return indexList;
 	}
-	// @@author
-	
-	// @@author A0112184R
 	public static ArrayList<Integer> addNewTask(Deadline newTask, int taskListPosition) throws IOException {
 
 		logger.log(Level.INFO, "Adding new Task to the ArrayList at position: " + taskListPosition);
@@ -100,9 +96,7 @@ public class Storage {
 		displayAllTasks();
 		return indexList;
 	}
-	// @@author
-	
-	// @@author: A0134185H
+
 	// deletes a line from the file based on line number
 	public static Deadline deleteTask(int deleteIndex) throws IOException {
 
@@ -126,9 +120,7 @@ public class Storage {
 		}
 		return latestDeletedTask;
 	}
-	// @@author
 	
-	// @@author A0112184R
 	public static Deadline deleteTask(Deadline taskToDelete) throws IOException {
 		
 		assert taskToDelete != null: "Attempt to delete a null task";
@@ -140,9 +132,7 @@ public class Storage {
 		}
 		return taskToDelete;
 	}
-	// @@author
 
-	// @@author: A0134185H
 	// deletes all text in the file
 	public static boolean clearAllTasks() {
 		try {
@@ -157,19 +147,13 @@ public class Storage {
 			return false;
 		}
 	}
-	// @@author
-
-	/* @@author A0112184R
-	 * @throws IOException
-	 */
-	private static void clearStorageFile() throws IOException {
+	
+	static void clearStorageFile() throws IOException {
 		Files.delete(storageFile.toPath()); // delete the whole file and
 		storageFile.createNewFile(); // create a new empty file with the
 										// same name
 	}
-	// @@author
-	
-	// @@author: A0134185H
+
 	public static void setPath(String pathName) throws IOException{
 		configFile.delete();
 		configFile.createNewFile();
@@ -180,15 +164,11 @@ public class Storage {
 		retrieveFile();
 		saveTaskList();
 	}
-	// @@author
 	
-	// @@author A0112184R
 	public static String getPath() {
 		return storageFile.toPath().toString();
 	}
-	// @@author
 
-	// @@author: A0134185H
 	public static void sortTasks() throws IOException {
 		File tempStorageFile = new File("tempStorageFile.txt");
 		BufferedReader sortBufferedReader = initBufferedReader(storageFile);
@@ -322,7 +302,6 @@ public class Storage {
 		loadTaskList();
 		initIndexList();
 	}
-	// @@author
 
 	private static void initIndexList() {
 		indexList = new ArrayList<Integer>();
