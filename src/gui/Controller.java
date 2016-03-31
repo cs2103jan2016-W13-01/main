@@ -21,7 +21,7 @@ public class Controller {
     public static DisplayWindow DW;
     
     // @@author A0112184R
-    public static void main(String args[]){
+    public static void main(String args[]) throws Exception{
         initialize();
     }
 	// @@author
@@ -29,7 +29,7 @@ public class Controller {
     /* @@author A0112184R
      * initialize the display window and all logic's components
      */
-	public static void initialize() {
+	public static void initialize() throws Exception {
     	DW = new DisplayWindow();
         DW.setVisible(true);
 		TaskProcessor.initialize();

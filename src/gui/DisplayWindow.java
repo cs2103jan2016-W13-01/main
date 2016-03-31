@@ -7,13 +7,21 @@ package gui;
 
 import java.awt.Color;
 import java.awt.Toolkit;
-import static java.lang.Thread.sleep;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import javax.swing.KeyStroke; 
+import java.awt.event.InputEvent;  
+import java.awt.event.KeyEvent;
+import java.io.FileReader; 
+import javax.swing.JComponent;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 /**
  *
  * @author tfj
@@ -23,16 +31,45 @@ public class DisplayWindow extends javax.swing.JFrame {
 	private static final String MESSAGE_NO_TASK = "No tasks to show";
 	private static final String MESSAGE_NORMAL_TASK = "Normal tasks:";
 	private static final String MESSAGE_FLOAT_TASK = "Undecided tasks:";
-	
+	private static ArrayList<String> cmd = new ArrayList<String>();
 	/**
      * Creates new form DisplayWindow
+	 * @throws Exception 
      */
-    public DisplayWindow() {
+    public DisplayWindow() throws Exception {
         initComponents();
         setIcon();
         setBgColor();
         displayTime();
+        getCommandStrings();
+        Op2test();
     }
+    
+    private void getCommandStrings() throws Exception{
+    	BufferedReader br = new BufferedReader(new FileReader("Op2Commands.txt"));
+    	try {
+    	    String line = br.readLine();
+    	    while (line != null) {
+    	        cmd.add(line);
+    	        line = br.readLine();
+    	    }
+    	} finally {
+    	    br.close();
+    	}
+    }
+    
+    private void Op2test(){
+        CommandField.registerKeyboardAction(new java.awt.event.ActionListener() {     	  
+            @Override  
+            public void actionPerformed(java.awt.event.ActionEvent e) {  
+            	CommandField.setText(cmd.get(0));
+            	cmd.remove(0);       
+            }  
+        }, KeyStroke.getKeyStroke(KeyEvent.VK_F1, InputEvent.CTRL_DOWN_MASK), JComponent.WHEN_IN_FOCUSED_WINDOW);  	
+    }
+    
+    
+    
     
     private void setIcon() {
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("DiamondIcon.png")));
@@ -339,12 +376,12 @@ public class DisplayWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void CommandFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CommandFieldActionPerformed
-        // TODO add your handling code here:
         String cmd = CommandField.getText();
         CommandField.setText("");
         Controller.sendCmd(cmd);
     }//GEN-LAST:event_CommandFieldActionPerformed
-
+    
+    
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField CommandField;
