@@ -16,20 +16,14 @@ public class Deadline extends Task {
 	private Date date;
 	private Priority priority;
 	
+	@Override
 	public TaskType getType() {
 		return TaskType.NORMAL;
 	}
 	
-	public int compareTo(Task task) {
-		if (task instanceof Session) {
-			return getDate().compareTo(((Session) task).getStartDate());
-		} else if (task instanceof Deadline) {
-			return getDate().compareTo(((Deadline) task).getDate());
-		} else if (task instanceof RecurringTask) {
-			return 0;
-		} else {
-			return -1;
-		}
+	@Override
+	public Date getMainDate() {
+		return date;
 	}
 	
 	public Date getDate() {

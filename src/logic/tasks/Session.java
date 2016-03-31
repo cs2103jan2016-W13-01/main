@@ -13,20 +13,14 @@ public class Session extends Task {
 	private Date start;
 	private Date end;
 	
+	@Override
 	public TaskType getType() {
 		return TaskType.SESSION;
 	}
 	
-	public int compareTo(Task task) {
-		if (task instanceof Session) {
-			return getStartDate().compareTo(((Session) task).getStartDate());
-		} else if (task instanceof Deadline) {
-			return getStartDate().compareTo(((Deadline) task).getDate());
-		} else if (task instanceof RecurringTask) {
-			return 0;
-		} else {
-			return -1;
-		}
+	@Override
+	public Date getMainDate() {
+		return start;
 	}
 	
 	public Session(String title, Date startDate, Date endDate) {

@@ -1,16 +1,22 @@
 package logic.tasks;
 
+import java.util.Date;
+
 /* @@author A0112184R
  * This class encloses the general task types
  */
-public abstract class Task implements Comparable<Task> {
+public class Task {
 	
 	protected String title;
 	protected boolean done;
 	
-	public abstract TaskType getType();
+	public TaskType getType() {
+		return TaskType.FLOAT;
+	}
 	
-	public abstract int compareTo(Task task);
+	public Date getMainDate() {
+		return null;
+	}
 	
 	public Task(String title) {
 		this.title = title;
