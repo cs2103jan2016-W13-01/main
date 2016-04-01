@@ -32,8 +32,12 @@ public class DisplayWindow extends javax.swing.JFrame {
 	private static final String MESSAGE_NO_TASK = "No tasks to show";
 	private static final String MESSAGE_NORMAL_TASK = "Normal tasks:";
 	private static final String MESSAGE_FLOAT_TASK = "Undecided tasks:";
+	private static final String MESSAGE_NO_OLDER_COMMAND = "No more older command";
+	private static final String MESSAGE_NO_NEWER_COMMAND = "No more newer command";
+	private static final String MESSAGE_ERROR_READING_COMMAND = "Error in reading commands";
 	private static ArrayList<String> cmd = new ArrayList<String>();
-
+	private static ArrayList<String> cmdHistory = new ArrayList<String>();
+	private static int numberOfUp = 0;
 	/**
 	 * Creates new form DisplayWindow
 	 *
@@ -45,33 +49,9 @@ public class DisplayWindow extends javax.swing.JFrame {
 		setBgColor();
 		displayTime();
 		getCommandStrings();
-		Op2test();
+		initShortCutKey();
 	}
-
-	private void getCommandStrings() {
-		try {
-			BufferedReader br = new BufferedReader(new FileReader("Op2Commands.txt"));
-			String line = br.readLine();
-			while (line != null) {
-				cmd.add(line);
-				line = br.readLine();
-			}
-			br.close();         
-		} catch (IOException e) {
-			StatusField.setText("Error in reading commands");
-		}
-	}
-
-	private void Op2test() {
-		CommandField.registerKeyboardAction(new java.awt.event.ActionListener() {
-			@Override
-			public void actionPerformed(java.awt.event.ActionEvent e) {
-				CommandField.setText(cmd.get(0));
-				cmd.remove(0);
-			}
-		}, KeyStroke.getKeyStroke(KeyEvent.VK_F1, InputEvent.CTRL_DOWN_MASK), JComponent.WHEN_IN_FOCUSED_WINDOW);
-	}
-
+	
 	private void setIcon() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("DiamondIcon.png")));
 	}
@@ -128,14 +108,57 @@ public class DisplayWindow extends javax.swing.JFrame {
 		}
 	}
 
-	javax.swing.JTextField getCommandField() {
-		return CommandField;
+	private void getCommandStrings() {
+		try {
+			BufferedReader br = new BufferedReader(new FileReader("Op2Commands.txt"));
+			String line = br.readLine();
+			while (line != null) {
+				cmd.add(line);
+				line = br.readLine();
+			}
+			br.close();         
+		} catch (IOException e) {
+			StatusField.setText(MESSAGE_ERROR_READING_COMMAND);
+		}
 	}
 
-	javax.swing.JLabel getStatusField() {
-		return TimeField;
-	}
+	private void initShortCutKey() {
+		CommandField.registerKeyboardAction(new java.awt.event.ActionListener() {
+			@Override
+			public void actionPerformed(java.awt.event.ActionEvent e) {
+				CommandField.setText(cmd.get(0));
+				cmd.remove(0);
+			}
+		}, KeyStroke.getKeyStroke(KeyEvent.VK_F1, InputEvent.CTRL_DOWN_MASK), JComponent.WHEN_IN_FOCUSED_WINDOW);
 
+		CommandField.registerKeyboardAction(new java.awt.event.ActionListener() {
+			@Override
+			public void actionPerformed(java.awt.event.ActionEvent e) {
+				int size = cmdHistory.size();
+				if (size - numberOfUp > 0){
+					CommandField.setText(cmdHistory.get(size - numberOfUp - 1));
+					numberOfUp++;
+				} 
+				else {
+					StatusField.setText(MESSAGE_NO_OLDER_COMMAND);
+				}
+			}
+		}, KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
+		
+		CommandField.registerKeyboardAction(new java.awt.event.ActionListener() {
+			@Override
+			public void actionPerformed(java.awt.event.ActionEvent e) {
+				int size = cmdHistory.size();
+				if ( numberOfUp > 1){
+					CommandField.setText(cmdHistory.get(size - numberOfUp + 1));
+					numberOfUp--;
+				} 
+				else {
+					StatusField.setText(MESSAGE_NO_NEWER_COMMAND);
+				}
+			}
+		}, KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
+	}
 	/**
 	 * This method is called from within the constructor to initialize the form.
 	 * WARNING: Do NOT modify this code. The content of this method is always
@@ -408,6 +431,8 @@ public class DisplayWindow extends javax.swing.JFrame {
 		String cmd = CommandField.getText();
 		CommandField.setText("");
 		Controller.sendCmd(cmd);
+		cmdHistory.add(cmd);
+		numberOfUp = 0;
 	}//GEN-LAST:event_CommandFieldActionPerformed
 
 
