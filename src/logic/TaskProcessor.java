@@ -1,6 +1,3 @@
-/* @@author A0112184R
- * 
- */
 package logic;
 
 import java.io.IOException;
@@ -8,10 +5,10 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 
 import Parser.CommandParser;
-import Storage.Storage;
 import logic.commands.Command;
 import logic.commands.CommandQueue;
-import logic.Tasks.*;
+import logic.tasks.*;
+import storage.Storage;
 
 /* @@author A0112184R
  * Class TaskProcessor
@@ -19,7 +16,7 @@ import logic.Tasks.*;
  * Key methods so far:
  *     - executeCommand(Command): execute the Command object by calling Command.execute()
  *     - executeInput(String): execute the input by parsing it and call executeCommand
- *     - initialize: initialize the Storage and all the components
+ *     - initialize: initialize the storage and all the components
  */
 public class TaskProcessor {
 	
@@ -78,11 +75,11 @@ public class TaskProcessor {
 		}
 	}
 	
-	private static void loadIntoDisplayList(ArrayList<Task> taskList, ArrayList<Integer> indexList) {
+	private static void loadIntoDisplayList(ArrayList<Deadline> taskList, ArrayList<Integer> indexList) {
 		LogicLogger.log(Level.INFO, "Loading list to display from storage");
 		listToDisplay.clear();
 		for (int i: indexList) {
-			Task task = taskList.get(i);
+			Deadline task = taskList.get(i);
 			assert task != null : "Some task in the task list is null";
 			listToDisplay.add(task.toString());
 		}

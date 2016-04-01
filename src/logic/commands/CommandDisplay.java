@@ -1,7 +1,6 @@
-/* @@author A0112184R */
 package logic.commands;
 
-import Storage.Storage;
+import storage.Storage;
 
 /* @@author A0112184R
  * This class contains details for the "display" commands

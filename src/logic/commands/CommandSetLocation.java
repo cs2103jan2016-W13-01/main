@@ -1,4 +1,3 @@
-/* @@author A0112184R */
 package logic.commands;
 
 /* @@author A0112184R
@@ -6,13 +5,13 @@ package logic.commands;
  */
 import java.io.IOException;
 
-import Storage.Storage;
 import logic.ExecutedCommands;
+import storage.Storage;
 
 public class CommandSetLocation implements Command {
 	
-	private static final String MESSAGE_LOCATION_SET = "Storage location set to: %1$s";
-	private static final String MESSAGE_UNDONE = "Storage location reverted to: %1$s";
+	private static final String MESSAGE_LOCATION_SET = "storage location set to: %1$s";
+	private static final String MESSAGE_UNDONE = "storage location reverted to: %1$s";
 	private static final String MESSAGE_SET_ERROR = "Failed to set storage location to: %1$s";
 	
 	private String newPathName;

@@ -1,14 +1,12 @@
-/* @@author A0112184R */
 package logic.commands;
 
 import logic.ExecutedCommands;
 import logic.LogicLogger;
-import logic.Tasks.Task;
+import logic.tasks.Deadline;
+import storage.Storage;
 
 import java.io.IOException;
 import java.util.logging.Level;
-
-import Storage.Storage;
 
 /* @@author A0112184R
  * This class contains details for "edit" commands
@@ -23,10 +21,10 @@ public class CommandEdit implements Command {
 	
 	private int taskNumberToEdit;
 	private int editedTaskIndex;
-	private Task editedTask;
-	private Task oldTask;
+	private Deadline editedTask;
+	private Deadline oldTask;
 	
-	public CommandEdit(int taskNumber,Task task) {
+	public CommandEdit(int taskNumber,Deadline task) {
 		taskNumberToEdit = taskNumber;
 		editedTask = task;
 	}

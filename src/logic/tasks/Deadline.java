@@ -1,3 +1,9 @@
+package logic.tasks;
+
+import java.util.Date;
+
+import logic.Priority;
+
 /* @@author A0112184R
  * This class stores all the information in a task.
  * Fields:
@@ -5,16 +11,20 @@
  *     - date: date for the task to be done or deadline
  *     - priority: the task's priority
  */
-package logic.Tasks;
-
-import java.util.Date;
-
-import logic.Priority;
-
-public class Task extends GenericTask {
+public class Deadline extends Task {
 
 	private Date date;
 	private Priority priority;
+	
+	@Override
+	public TaskType getType() {
+		return TaskType.NORMAL;
+	}
+	
+	@Override
+	public Date getMainDate() {
+		return date;
+	}
 	
 	public Date getDate() {
 		return date;
@@ -40,17 +50,17 @@ public class Task extends GenericTask {
 		priority = newPrio;
 	}
 	
-	public Task(String title, Date date, Priority priority) {
+	public Deadline(String title, Date date, Priority priority) {
 		super(title);
 		this.date = date;
 		this.priority = priority;
 	}
 	
-	public Task(String title, Date date) {
+	public Deadline(String title, Date date) {
 		this(title, date, Priority.NULL);
 	}
 	
-	public Task(String title) {
+	public Deadline(String title) {
 		this(title, new Date(), Priority.NULL);
 	}
 	
@@ -59,12 +69,22 @@ public class Task extends GenericTask {
 		return result;
 	}
 	
-	public boolean equals(Task otherTask) {
+	public boolean equals(Deadline otherTask) {
 		return (getTitle().equals(otherTask.getTitle()) && getDate().equals(otherTask.getDate()));
 	}
 	
-	public Task clone() {
-		Task copiedTask = new Task(title, date);
+	public Deadline clone() {
+		Deadline copiedTask = new Deadline(title, date);
 		return copiedTask;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Deadline) {
+			return (((Deadline) obj).getType() == this.getType())
+					&& ((Deadline) obj).getTitle().equalsIgnoreCase(this.getTitle())
+					&& ((Deadline) obj).getDate().equals(this.getDate());
+		}
+		return false;
 	}
 }

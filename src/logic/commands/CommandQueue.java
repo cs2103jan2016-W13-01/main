@@ -1,4 +1,3 @@
-/* @@author A0112184R */
 package logic.commands;
 
 import java.util.LinkedList;

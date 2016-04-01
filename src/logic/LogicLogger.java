@@ -1,8 +1,8 @@
+package logic;
+
 /* @@author A0112184R
  * Logger for Logic
  */
-package logic;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

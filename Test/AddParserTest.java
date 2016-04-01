@@ -11,7 +11,7 @@ import org.junit.Test;
 import Parser.AddParser;
 import Parser.CommandParser;
 import Parser.DateParser;
-import logic.Tasks.Task;
+import logic.tasks.Deadline;
 /*import logic.commands.Command;
 import logic.commands.CommandType;
 */
