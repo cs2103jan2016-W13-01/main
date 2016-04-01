@@ -1,6 +1,9 @@
 package storage;
 
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+import java.util.function.Predicate;
 
 import logic.tasks.*;
 
@@ -10,13 +13,31 @@ import logic.tasks.*;
 public class StorageController {
 	
 	private static TaskList<Task> displayList;
+	/*
 	private static TaskList<Task> floatList;
 	private static TaskList<Deadline> deadlineList;
 	private static TaskList<Session> sessionList;
 	private static TaskList<RecurringTask> recurringList;
-	
+	*/
 	public static TaskList<Task> getDisplayList() {
 		return displayList;
+	}
+	
+	public static void initialize() throws IOException {
+		GrandTaskList.initialize();
+		Database.initialize();
+	}
+	
+	public static Task deleteByIndex(int index) throws IOException, NoSuchElementException {
+		int counter;
+		Iterator<Task> it = displayList.iterator();
+		Task task = it.next();
+		for (counter = 0; counter < index; counter++) {
+			task = it.next();
+		}
+		displayList.delete(task);
+		deleteTask(task);
+		return task;
 	}
 	
 	public static boolean addNewTask(Task task) throws IOException {
@@ -52,6 +73,23 @@ public class StorageController {
 			result = GrandTaskList.delete(task);
 			Database.saveFloat();
 		}
+		displayList.delete(task);
 		return result;
+	}
+	
+	public static boolean displayAllTasks() {
+		return false;
+	}
+	
+	public static void setPath(String pathName) throws IOException {
+		Database.setPath(pathName);
+	}
+	
+	public static String getPath() {
+		return Database.getPath();
+	}
+	
+	public static void searchTask(Predicate<Task> predicate) {
+		displayList = GrandTaskList.search(predicate);
 	}
 }

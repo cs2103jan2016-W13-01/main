@@ -1,6 +1,6 @@
 package logic.commands;
 
-import storage.Storage;
+import storage.StorageController;
 
 /* @@author A0112184R
  * This class contains details for the "display" commands
@@ -17,8 +17,7 @@ public class CommandDisplay implements Command {
 	}
 	
 	public String execute() {
-		
-		Storage.displayAllTasks();
+		StorageController.displayAllTasks();
 		return MESSAGE_ALL_TASKS;
 	}
 	
