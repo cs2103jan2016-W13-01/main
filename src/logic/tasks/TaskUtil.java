@@ -1,7 +1,10 @@
 package logic.tasks;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.Locale;
 
 /* @@author A0112184R
  * This class contains the getInstance() method to generate a Task object
@@ -25,7 +28,7 @@ public class TaskUtil {
 		}
 	}
 	
-	public Task getInstance(String title, Date startDate, Date endDate, int recurringPeriod) {
+	public static Task getInstance(String title, Date startDate, Date endDate, int recurringPeriod) {
 		if (startDate == null && endDate == null) {
 			return new Task(title);
 		} else if (recurringPeriod > 0) {
@@ -37,15 +40,96 @@ public class TaskUtil {
 		}
 	}
 	
-	public Task getInstance(String title, Date startDate, Date endDate) {
+	public static Task getInstance(String title, Date startDate, Date endDate) {
 		return getInstance(title, startDate, endDate, 0);
 	}
 	
-	public Task getInstance(String title, Date startDate, int recurringPeriod) {
+	public static Task getInstance(String title, Date startDate, int recurringPeriod) {
 		return getInstance(title, startDate, null, recurringPeriod);
 	}
 	
-	public Task getInstance(String title, Date startDate) {
+	public static Task getInstance(String title, Date startDate) {
 		return getInstance(title, startDate, null, 0);
+	}
+	
+	// @@author A0134185H
+	public static Task parseFromStorage(String entry) {
+		
+		String[] parts = entry.split("[\\r\\n]+");
+		String titleString = parts[0].split(":", 2)[1].trim();
+		
+		Date startDate;
+		Date endDate;
+		
+		try {
+			String startDateString = parts[1].split(":", 2)[1].trim();
+			startDate = parseDate(startDateString);
+		} catch (IndexOutOfBoundsException e) {
+			startDate = null;
+		}
+		
+		try {
+			String endDateString = parts[2].split(":", 2)[1].trim();
+			endDate = parseDate(endDateString);
+		} catch (IndexOutOfBoundsException e) {
+			endDate = null;
+		}
+		
+		int period;
+		try {
+			String periodString = parts[3].split(":", 2)[1].trim();
+			period = Integer.parseInt(periodString);
+		} catch (NumberFormatException e) {
+			period = 0;
+		} catch (IndexOutOfBoundsException e) {
+			period = 0;
+		}
+		return getInstance(titleString, startDate, endDate, period);
+	}
+	
+	public static Date parseDate(String dateString) {
+		if (dateString.equals("null")) {
+			return null;
+		} else {
+			SimpleDateFormat format = new SimpleDateFormat("HH:mm yyyyMMdd", Locale.ENGLISH);
+			try {
+				return format.parse(dateString);
+			} catch (ParseException e) {
+				return null;
+			}
+		}
+	}
+	
+	public static String convertFromDate(Date date) {
+		if (date == null) {
+			return "null";
+		} else {
+			SimpleDateFormat format = new SimpleDateFormat("HH:mm yyyyMMdd", Locale.ENGLISH);
+			return format.format(date);
+		}
+	}
+	
+	public static String convertToStorage(Task task) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("title: " + task.getTitle() + "\r\n");
+		String startDateString, endDateString;
+		int period;
+		if (task instanceof RecurringTask) {
+			period = ((RecurringTask) task).getPeriod();
+			endDateString = convertFromDate(((RecurringTask) task).getEndDate());
+			startDateString = convertFromDate(((RecurringTask) task).getStartDate());
+		} else {
+			period = 0;
+			startDateString = convertFromDate(task.getMainDate());
+		}
+		if (task instanceof Session) {
+			endDateString = convertFromDate(((Session) task).getEndDate());
+		} else {
+			endDateString = "null";
+		}
+		sb.append("start: " + startDateString + "\r\n");
+		sb.append("end: " + endDateString + "\r\n");
+		sb.append("recurring period: " + period);
+		return sb.toString();
 	}
 }

@@ -36,28 +36,36 @@ public class GrandTaskList {
 		return recurringTaskList;
 	}
 	
-	public static boolean addNewTask(Task task) {
-		if (task instanceof Deadline) {
-			return deadlineList.add((Deadline) task);
-		} else if (task instanceof Session) {
-			return sessionList.add((Session) task);
-		} else if (task instanceof RecurringTask) {
-			return recurringTaskList.add((RecurringTask) task);
-		} else {
-			return floatTaskList.add(task);
-		}
+	public static boolean add(Task task) {
+		return floatTaskList.add(task);
 	}
 	
-	public static boolean deleteTask(Task task) {
-		if (task instanceof Deadline) {
-			return deadlineList.delete((Deadline) task);
-		} else if (task instanceof Session) {
-			return sessionList.delete((Session) task);
-		} else if (task instanceof RecurringTask) {
-			return recurringTaskList.delete((RecurringTask) task);
-		} else {
-			return floatTaskList.delete(task);
-		}
+	public static boolean add(Deadline task) {
+		return deadlineList.add(task);
+	}
+	
+	public static boolean add(Session task) {
+		return sessionList.add(task);
+	}
+	
+	public static boolean add(RecurringTask task) {
+		return recurringTaskList.add(task);
+	}
+	
+	public static boolean delete(Task task) {
+		return floatTaskList.delete(task);
+	}
+	
+	public static boolean delete(Deadline task) {
+		return deadlineList.delete(task);
+	}
+	
+	public static boolean delete(Session task) {
+		return sessionList.delete(task);
+	}
+	
+	public static boolean delete(RecurringTask task) {
+		return recurringTaskList.delete(task);
 	}
 	
 	public static TaskList<Task> search(Predicate<Task> predicate) {
