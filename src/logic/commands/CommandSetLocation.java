@@ -6,7 +6,7 @@ package logic.commands;
 import java.io.IOException;
 
 import logic.ExecutedCommands;
-import storage.Storage;
+import storage.StorageController;
 
 public class CommandSetLocation implements Command {
 	
@@ -27,8 +27,8 @@ public class CommandSetLocation implements Command {
 	
 	public String execute() {
 		try {
-			oldPathName = Storage.getPath();
-			Storage.setPath(newPathName);
+			oldPathName = StorageController.getPath();
+			StorageController.setPath(newPathName);
 			ExecutedCommands.addCommand(this);
 			return String.format(MESSAGE_LOCATION_SET, newPathName);
 		} catch (IOException e) {
@@ -39,7 +39,7 @@ public class CommandSetLocation implements Command {
 	
 	public String undo() {
 		try {
-			Storage.setPath(oldPathName);
+			StorageController.setPath(oldPathName);
 			return String.format(MESSAGE_UNDONE, oldPathName);
 		} catch (IOException e) {
 			e.printStackTrace();

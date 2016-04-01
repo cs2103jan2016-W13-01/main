@@ -3,9 +3,11 @@ package logic.commands;
 import logic.ExecutedCommands;
 import logic.LogicLogger;
 import logic.tasks.Deadline;
-import storage.Storage;
+import logic.tasks.Task;
+import storage.StorageController;
 
 import java.io.IOException;
+import java.util.NoSuchElementException;
 import java.util.logging.Level;
 
 /* @@author A0112184R
@@ -20,9 +22,8 @@ public class CommandEdit implements Command {
 	private static final String MESSAGE_UNDO_ERROR = "Error when undoing action: edit %1$s";
 	
 	private int taskNumberToEdit;
-	private int editedTaskIndex;
-	private Deadline editedTask;
-	private Deadline oldTask;
+	private Task editedTask;
+	private Task oldTask;
 	
 	public CommandEdit(int taskNumber,Deadline task) {
 		taskNumberToEdit = taskNumber;
@@ -36,18 +37,12 @@ public class CommandEdit implements Command {
 	public String execute() {
 		LogicLogger.log(Level.INFO, "editing task: " + editedTask.toString() + " in storage");
 		try {
-			editedTaskIndex = Storage.getIndexList().get(taskNumberToEdit-1);
-			oldTask = Storage.deleteTask(editedTaskIndex);
-			if (oldTask != null) {
-				Storage.addNewTask(editedTask, editedTaskIndex);
-				ExecutedCommands.addCommand(this);
-				LogicLogger.log(Level.INFO, "edited successfully");
-				return String.format(MESSAGE_EDITED, editedTask.toString());
-			} else {
-				LogicLogger.log(Level.WARNING, "Task not found");
-				return String.format(MESSAGE_TASK_NOT_FOUND, taskNumberToEdit);
-			}
-		} catch (IndexOutOfBoundsException d) {
+			oldTask = StorageController.deleteByIndex(taskNumberToEdit-1);
+			StorageController.addNewTask(editedTask);
+			ExecutedCommands.addCommand(this);
+			LogicLogger.log(Level.INFO, "edited successfully");
+			return String.format(MESSAGE_EDITED, editedTask.toString());
+		} catch (NoSuchElementException d) {
 			LogicLogger.log(Level.WARNING, "Task not found");
 			return String.format(MESSAGE_TASK_NOT_FOUND, taskNumberToEdit);
 		} catch (IOException e) {
@@ -59,8 +54,8 @@ public class CommandEdit implements Command {
 	
 	public String undo() {
 		try {
-			assert (Storage.deleteTask(editedTaskIndex) != null): "Cannot find edited task";
-			Storage.addNewTask(oldTask, editedTaskIndex);
+			StorageController.deleteTask(editedTask);
+			StorageController.addNewTask(oldTask);
 			return String.format(MESSAGE_UNDONE, oldTask.toString());
 		} catch (IOException e) {
 			e.printStackTrace();

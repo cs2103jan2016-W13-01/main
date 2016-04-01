@@ -1,12 +1,13 @@
 package logic.commands;
 
 import java.io.IOException;
+import java.util.NoSuchElementException;
 import java.util.logging.Level;
 
 import logic.ExecutedCommands;
 import logic.LogicLogger;
-import logic.tasks.Deadline;
-import storage.Storage;
+import logic.tasks.Task;
+import storage.StorageController;
 /* @@author A0112184R
  * This class encapsulates the "delete" commands from the user.
  */
@@ -19,8 +20,7 @@ public class CommandDelete implements Command {
 	private static final String MESSAGE_UNDO_ERROR = "Failed to undo action: delete %1$s";
 	
 	private int taskNumberToDelete;
-	private int deletedTaskIndex;
-	private Deadline deletedTask;
+	private Task deletedTask;
 	
 	public CommandDelete(int taskNumber) {
 		taskNumberToDelete = taskNumber;
@@ -33,18 +33,12 @@ public class CommandDelete implements Command {
 	
 	public String execute() {
 		try {
-			deletedTaskIndex = Storage.getIndexList().get(taskNumberToDelete-1);
-			deletedTask = Storage.deleteTask(deletedTaskIndex);
-			if (deletedTask != null) {
-				LogicLogger.log(Level.INFO, "deleting task: " + deletedTask.toString() + " from storage");
-				ExecutedCommands.addCommand(this);
-				LogicLogger.log(Level.INFO, "deleted successfully");
-				return String.format(MESSAGE_TASK_DELETED, deletedTask.toString());
-			} else {
-				LogicLogger.log(Level.WARNING, "Task not found");
-				return String.format(MESSAGE_TASK_NOT_FOUND, taskNumberToDelete);
-			}
-		} catch (IndexOutOfBoundsException d) {
+			deletedTask = StorageController.deleteByIndex(taskNumberToDelete-1);
+			LogicLogger.log(Level.INFO, "deleting task: " + deletedTask.toString() + " from storage");
+			ExecutedCommands.addCommand(this);
+			LogicLogger.log(Level.INFO, "deleted successfully");
+			return String.format(MESSAGE_TASK_DELETED, deletedTask.toString());
+		} catch (NoSuchElementException d) {
 			LogicLogger.log(Level.WARNING, "Task not found");
 			return String.format(MESSAGE_TASK_NOT_FOUND, taskNumberToDelete);
 		} catch (IOException e) {
@@ -55,9 +49,9 @@ public class CommandDelete implements Command {
 	}
 
 	public String undo() {
-		LogicLogger.log(Level.INFO, "adding task: " + deletedTask.toString() + " to storage");
+		LogicLogger.log(Level.INFO, "adding task back: " + deletedTask.toString() + " to storage");
 		try {
-			Storage.addNewTask(deletedTask, deletedTaskIndex);
+			StorageController.addNewTask(deletedTask);
 			LogicLogger.log(Level.INFO, "undone successfully");
 			return String.format(MESSAGE_UNDONE, deletedTask.toString());
 		} catch (IOException e) {

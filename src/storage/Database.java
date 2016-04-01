@@ -26,6 +26,8 @@ public class Database {
 	
 	private static File configFile;
 	
+	private static String storagePath;
+	
 	private static File floatListFile;
 	private static File deadlineListFile;
 	private static File sessionListFile;
@@ -49,14 +51,15 @@ public class Database {
 
 	private static String getStorageDirectory() throws FileNotFoundException {
 		Scanner sc = new Scanner(configFile);
-		String directoryName = sc.nextLine().trim();
+		storagePath = sc.nextLine().trim();
 		sc.close();
-		return directoryName;
+		return storagePath;
 	}
 	
-	private static void initialize() throws IOException {
+	public static void initialize() throws IOException {
 		configFile = initFile(CONFIG_FILE_NAME);
 		retrieveFiles();
+		load();
 	}
 
 	public static void setPath(String pathName) throws IOException{
@@ -68,6 +71,10 @@ public class Database {
 		bf.close();
 		retrieveFiles();
 		save();
+	}
+	
+	public static String getPath() {
+		return storagePath;
 	}
 	
 	public static void clear() throws IOException {
@@ -115,6 +122,29 @@ public class Database {
 	
 	public static void saveRecurring() throws IOException {
 		save(GrandTaskList.getRecurringList(), recurringListFile);
+	}
+	
+	public static void load() throws IOException {
+		loadFloat();
+		loadDeadline();
+		loadSession();
+		loadRecurring();
+	}
+	
+	public static void loadFloat() throws IOException {
+		load(GrandTaskList.getFloatList(), floatListFile);
+	}
+	
+	public static void loadDeadline() throws IOException {
+		load(GrandTaskList.getDeadlineList(), deadlineListFile);
+	}
+	
+	public static void loadSession() throws IOException {
+		load(GrandTaskList.getSessionList(), sessionListFile);
+	}
+	
+	public static void loadRecurring() throws IOException {
+		load(GrandTaskList.getRecurringList(), recurringListFile);
 	}
 
 	@SuppressWarnings("unchecked")
