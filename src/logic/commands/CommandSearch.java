@@ -10,8 +10,6 @@ import storage.StorageController;
  */
 public class CommandSearch implements Command {
 	
-	private static final String MESSAGE_SEARCH_ERROR = "Error encountered when searching for keyword. Please try again.";
-	private static final String MESSAGE_NO_MATCH = "No match found.";
 	private static final String MESSAGE_SEARCH_RESULT = "Search results for %1$s:";
 	
 	private String keyword;

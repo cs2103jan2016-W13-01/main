@@ -96,7 +96,7 @@ public class DisplayWindow extends javax.swing.JFrame {
 		StatusField.setText(status);
 	}
 
-	public void displayTaskList(ArrayList<String> tasks, int floatTaskIndex) {
+	public void displayTaskList(ArrayList<String> tasks) {
 		int size = tasks.size();
 		DefaultTableModel model = (DefaultTableModel) TaskTable.getModel();
 		if (size == 0) {

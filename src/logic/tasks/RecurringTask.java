@@ -66,6 +66,15 @@ public class RecurringTask extends Task {
 	}
 	
 	@Override
+	public String toString() {
+		if (endDate == null) {
+			return getTitle() + getDateString(startDate) + "every " + period + " days";
+		} else {
+			return getTitle() + getDateString(startDate) + "-" + getDateString(endDate) + "every " + period + " days";
+		}
+	}
+	
+	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof RecurringTask) {
 			return (((RecurringTask) obj).getType() == this.getType())

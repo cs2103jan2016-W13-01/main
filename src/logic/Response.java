@@ -15,7 +15,7 @@ public class Response {
 	}
 	
 	
-	public Response(String msg, ArrayList<String> list, int index) {
+	public Response(String msg, ArrayList<String> list) {
 		message = msg;
 		taskList = list;
 	}
