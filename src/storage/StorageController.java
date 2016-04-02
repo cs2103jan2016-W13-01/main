@@ -1,7 +1,7 @@
 package storage;
 
 import java.io.IOException;
-import java.util.Iterator;
+import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.function.Predicate;
 
@@ -12,73 +12,53 @@ import logic.tasks.*;
  */
 public class StorageController {
 	
-	private static TaskList<Task> displayList;
+	private static ArrayList<Task> displayList;
 	/*
 	private static TaskList<Task> floatList;
 	private static TaskList<Deadline> deadlineList;
 	private static TaskList<Session> sessionList;
 	private static TaskList<RecurringTask> recurringList;
 	*/
-	public static TaskList<Task> getDisplayList() {
+	public static ArrayList<Task> getDisplayList() {
 		return displayList;
 	}
 	
 	public static void initialize() throws IOException {
+		displayList = new ArrayList<Task>();
 		GrandTaskList.initialize();
 		Database.initialize();
+		loadDisplayList();
+	}
+	
+	public static void loadDisplayList() {
+		for (Task task: GrandTaskList.getTotalList()) {
+			displayList.add(task);
+		}
 	}
 	
 	public static Task deleteByIndex(int index) throws IOException, NoSuchElementException {
-		int counter;
-		Iterator<Task> it = displayList.iterator();
-		Task task = it.next();
-		for (counter = 0; counter < index; counter++) {
-			task = it.next();
-		}
-		displayList.delete(task);
+		Task task = displayList.remove(index);
 		deleteTask(task);
 		return task;
 	}
 	
 	public static boolean addNewTask(Task task) throws IOException {
-		boolean result;
-		if (task instanceof Deadline) {
-			result = GrandTaskList.add((Deadline) task);
-			Database.saveDeadline();
-		} else if (task instanceof Session) {
-			result = GrandTaskList.add((Session) task);
-			Database.saveSession();
-		} else if (task instanceof RecurringTask) {
-			result = GrandTaskList.add((RecurringTask) task);
-			Database.saveRecurring();
-		} else {
-			result = GrandTaskList.add(task);
-			Database.saveFloat();
-		}
+		boolean result = GrandTaskList.addNewTask(task);
+		displayAllTasks();
 		return result;
 	}
 	
 	public static boolean deleteTask(Task task) throws IOException {
-		boolean result;
-		if (task instanceof Deadline) {
-			result = GrandTaskList.delete((Deadline) task);
-			Database.saveDeadline();
-		} else if (task instanceof Session) {
-			result = GrandTaskList.delete((Session) task);
-			Database.saveSession();
-		} else if (task instanceof RecurringTask) {
-			result = GrandTaskList.delete((RecurringTask) task);
-			Database.saveRecurring();
-		} else {
-			result = GrandTaskList.delete(task);
-			Database.saveFloat();
-		}
-		displayList.delete(task);
+		boolean result = GrandTaskList.deleteTask(task);
+		displayList.remove(task);
 		return result;
 	}
 	
-	public static boolean displayAllTasks() {
-		return false;
+	public static void displayAllTasks() {
+		for (Task task: GrandTaskList.getNoRecurringList()) {
+			displayList.add(task);
+		}
+		
 	}
 	
 	public static void setPath(String pathName) throws IOException {

@@ -8,7 +8,7 @@ import Parser.CommandParser;
 import logic.commands.Command;
 import logic.commands.CommandQueue;
 import logic.tasks.*;
-import storage.Storage;
+import storage.StorageController;
 
 /* @@author A0112184R
  * Class TaskProcessor
@@ -16,7 +16,7 @@ import storage.Storage;
  * Key methods so far:
  *     - executeCommand(Command): execute the Command object by calling Command.execute()
  *     - executeInput(String): execute the input by parsing it and call executeCommand
- *     - initialize: initialize the storage and all the components
+ *     - initialize: initialize the StorageController and all the components
  */
 public class TaskProcessor {
 	
@@ -35,7 +35,7 @@ public class TaskProcessor {
 	}
 	
 	public static ArrayList<String> getListToDisplay() {
-		loadIntoDisplayList(Storage.getTaskList(), Storage.getIndexList());
+		loadIntoDisplayList(StorageController.getDisplayList());
 		return listToDisplay;
 	}
 	
@@ -55,7 +55,7 @@ public class TaskProcessor {
 	public static Response executeCommand(Command command) {
 		String message = command.execute();
 		ArrayList<String> taskList = getListToDisplay();
-		return new Response(message, taskList, Storage.getFloatBeginOnIndexList());
+		return new Response(message, taskList);
 	}
 	
 	public static void initialize() {
@@ -63,23 +63,19 @@ public class TaskProcessor {
 		ExecutedCommands.initialize();
 		LogicLogger.initialize();
 		try {
-			LogicLogger.log(Level.INFO, "Initializing storage");
-			Storage.initialize();
-			loadIntoDisplayList(Storage.getTaskList(), Storage.getIndexList());
-		} catch (ClassNotFoundException e) {
-			LogicLogger.log(Level.SEVERE, "Error when initializing storage:");
-			LogicLogger.log(Level.SEVERE, e.toString());
+			LogicLogger.log(Level.INFO, "Initializing StorageController");
+			StorageController.initialize();
+			loadIntoDisplayList(StorageController.getDisplayList());
 		} catch (IOException e) {
-			LogicLogger.log(Level.SEVERE, "Error when initializing storage:");
-			LogicLogger.log(Level.SEVERE, e.toString());
+			LogicLogger.log(Level.SEVERE, "Error when initializing StorageController");
+			e.printStackTrace();
 		}
 	}
 	
-	private static void loadIntoDisplayList(ArrayList<Deadline> taskList, ArrayList<Integer> indexList) {
-		LogicLogger.log(Level.INFO, "Loading list to display from storage");
+	private static void loadIntoDisplayList(ArrayList<Task> taskList) {
+		LogicLogger.log(Level.INFO, "Loading list to display from StorageController");
 		listToDisplay.clear();
-		for (int i: indexList) {
-			Deadline task = taskList.get(i);
+		for (Task task: taskList) {
 			assert task != null : "Some task in the task list is null";
 			listToDisplay.add(task.toString());
 		}

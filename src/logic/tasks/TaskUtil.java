@@ -12,6 +12,8 @@ import java.util.Locale;
  */
 public class TaskUtil {
 	
+	private static final String FIELD_SEPARATOR = ";";
+
 	public static class TaskComparator implements Comparator<Task> {
 		public int compare(Task task1, Task task2) {
 			Date date1 = task1.getMainDate();
@@ -55,7 +57,10 @@ public class TaskUtil {
 	// @@author A0134185H
 	public static Task parseFromStorage(String entry) {
 		
-		String[] parts = entry.split("[\\r\\n]+");
+		String[] parts = entry.split(FIELD_SEPARATOR);
+		for (String str: parts) {
+			System.out.println(str);
+		}
 		String titleString = parts[0].split(":", 2)[1].trim();
 		
 		Date startDate;
@@ -111,7 +116,7 @@ public class TaskUtil {
 	
 	public static String convertToStorage(Task task) {
 		StringBuilder sb = new StringBuilder();
-		sb.append("title: " + task.getTitle() + "\r\n");
+		sb.append("title: " + task.getTitle() + FIELD_SEPARATOR + "\r\n");
 		String startDateString, endDateString;
 		int period;
 		if (task instanceof RecurringTask) {
@@ -127,9 +132,9 @@ public class TaskUtil {
 		} else {
 			endDateString = "null";
 		}
-		sb.append("start: " + startDateString + "\r\n");
-		sb.append("end: " + endDateString + "\r\n");
-		sb.append("recurring period: " + period);
+		sb.append("start: " + startDateString + FIELD_SEPARATOR + "\r\n");
+		sb.append("end: " + endDateString + FIELD_SEPARATOR + "\r\n");
+		sb.append("recurring period: " + period + FIELD_SEPARATOR + "\r\n");
 		return sb.toString();
 	}
 }

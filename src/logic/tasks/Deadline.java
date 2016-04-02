@@ -30,14 +30,6 @@ public class Deadline extends Task {
 		return date;
 	}
 	
-	public String getDateString() {
-		if (date == null) {
-			return "";
-		} else {
-			return date.toString();
-		}
-	}
-	
 	public Priority getPriority() {
 		return priority;
 	}
@@ -64,8 +56,9 @@ public class Deadline extends Task {
 		this(title, new Date(), Priority.NULL);
 	}
 	
+	@Override
 	public String toString() {
-		String result = getTitle() + " " + getDateString();
+		String result = getTitle() + " " + getDateString(date);
 		return result;
 	}
 	

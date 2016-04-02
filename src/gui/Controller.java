@@ -5,10 +5,8 @@
  */
 package gui;
 
-import logic.ExecutedCommands;
 import logic.Response;
 import logic.TaskProcessor;
-import storage.Storage;
 
 import java.util.ArrayList;
 /**
@@ -32,7 +30,7 @@ public class Controller {
     	DW = new DisplayWindow();
         DW.setVisible(true);
 		TaskProcessor.initialize();
-		displayTasks(TaskProcessor.getListToDisplay(), Storage.getFloatBeginOnIndexList());
+		displayTasks(TaskProcessor.getListToDisplay());
 	}
     // @@author    
     
@@ -45,9 +43,8 @@ public class Controller {
     public static void displayFeedback(Response response){
            String status = response.getMessage();
            ArrayList<String> tasks = response.getTaskList();
-           int floatBegin = Storage.getFloatBeginOnIndexList();
            displayStatus(status);
-           displayTasks(tasks, floatBegin);
+           displayTasks(tasks);
 		}
     
     public static void displayStatus(String status){
@@ -55,7 +52,7 @@ public class Controller {
     }
     
     
-    public static void displayTasks(ArrayList<String> tasks, int floatBegin){
-		DW.displayTaskList(tasks, floatBegin);
+    public static void displayTasks(ArrayList<String> tasks){
+		DW.displayTaskList(tasks);
     }
 }

@@ -43,6 +43,11 @@ public class Session extends Task {
 	}
 	
 	@Override
+	public String toString() {
+		return getTitle() + getDateString(start) + getDateString(end);
+	}
+	
+	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof Session) {
 			return (((Session) obj).getType() == this.getType())

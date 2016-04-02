@@ -1,5 +1,6 @@
 package storage;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -54,6 +55,15 @@ public class TaskList<T extends Task> implements Iterable<T> {
 	}
 	
 	public TaskList<Task> search(TaskList<Task> results, Predicate<Task> predicate) {
+		for (T task: taskList) {
+			if (predicate.test(task)) {
+				results.add(task);
+			}
+		}
+		return results;
+	}
+
+	public ArrayList<Task> search(ArrayList<Task> results, Predicate<Task> predicate) {
 		for (T task: taskList) {
 			if (predicate.test(task)) {
 				results.add(task);

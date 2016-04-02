@@ -9,6 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Scanner;
+import java.util.logging.Level;
 
 import logic.tasks.*;
 
@@ -18,6 +19,7 @@ import logic.tasks.*;
 public class Database {
 	
 	private static final String CONFIG_FILE_NAME = "./src/document/config.txt";
+	private static final String DIRECTORY_NAME = "%s/data";
 	private static final String FLOAT_LIST_FILE_NAME = "%s/data/floatList.txt";
 	private static final String DEADLINE_LIST_FILE_NAME = "%s/data/deadlineList.txt";
 	private static final String SESSION_LIST_FILE_NAME = "%s/data/sessionList.txt";
@@ -35,13 +37,23 @@ public class Database {
 	
 	public static void retrieveFiles() throws IOException {
 		String directoryName = getStorageDirectory();
-		floatListFile = initFile(String.format(directoryName, FLOAT_LIST_FILE_NAME));
-		deadlineListFile = initFile(String.format(directoryName, DEADLINE_LIST_FILE_NAME));
-		sessionListFile = initFile(String.format(directoryName, SESSION_LIST_FILE_NAME));
-		recurringListFile = initFile(String.format(directoryName, RECURRING_LIST_FILE_NAME));
+		File data = new File(String.format(DIRECTORY_NAME, directoryName));
+		if (!data.exists()) {
+			StorageLogger.log(Level.INFO, "Creating storage folder");
+			if (data.mkdirs()) {
+				StorageLogger.log(Level.INFO, "Storage folder created");
+			} else {
+				StorageLogger.log(Level.SEVERE, "Storage folder not created");
+			}
+		}
+		floatListFile = initFile(String.format(FLOAT_LIST_FILE_NAME, directoryName));
+		deadlineListFile = initFile(String.format(DEADLINE_LIST_FILE_NAME, directoryName));
+		sessionListFile = initFile(String.format(SESSION_LIST_FILE_NAME, directoryName));
+		recurringListFile = initFile(String.format(RECURRING_LIST_FILE_NAME, directoryName));
 	}
 	
-	private static File initFile(String filename) throws IOException {
+	static File initFile(String filename) throws IOException {
+		StorageLogger.log(Level.INFO, "Initializing file: " + filename);
 		File result = new File(filename);
 		if (!result.exists()) {
 			result.createNewFile();
@@ -51,12 +63,18 @@ public class Database {
 
 	private static String getStorageDirectory() throws FileNotFoundException {
 		Scanner sc = new Scanner(configFile);
-		storagePath = sc.nextLine().trim();
+		String storagePath;
+		if (sc.hasNextLine()) {
+			storagePath = sc.nextLine().trim();
+		} else {
+			storagePath = ".";
+		}
 		sc.close();
 		return storagePath;
 	}
 	
 	public static void initialize() throws IOException {
+		StorageLogger.initialize();
 		configFile = initFile(CONFIG_FILE_NAME);
 		retrieveFiles();
 		load();

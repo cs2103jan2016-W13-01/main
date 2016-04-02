@@ -1,5 +1,7 @@
 package storage;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.function.Predicate;
 
 import logic.tasks.*;
@@ -36,40 +38,75 @@ public class GrandTaskList {
 		return recurringTaskList;
 	}
 	
-	public static boolean add(Task task) {
-		return floatTaskList.add(task);
-	}
-	
-	public static boolean add(Deadline task) {
-		return deadlineList.add(task);
-	}
-	
-	public static boolean add(Session task) {
-		return sessionList.add(task);
-	}
-	
-	public static boolean add(RecurringTask task) {
-		return recurringTaskList.add(task);
-	}
-	
-	public static boolean delete(Task task) {
-		return floatTaskList.delete(task);
-	}
-	
-	public static boolean delete(Deadline task) {
-		return deadlineList.delete(task);
-	}
-	
-	public static boolean delete(Session task) {
-		return sessionList.delete(task);
-	}
-	
-	public static boolean delete(RecurringTask task) {
-		return recurringTaskList.delete(task);
-	}
-	
-	public static TaskList<Task> search(Predicate<Task> predicate) {
+	public static TaskList<Task> getTotalList() {
 		TaskList<Task> results = new TaskList<Task>();
+		for (Task task: deadlineList) {
+			results.add(task);
+		}
+		for (Task task: sessionList) {
+			results.add(task);
+		}
+		for (Task task: recurringTaskList) {
+			results.add(task);
+		}
+		for (Task task: floatTaskList) {
+			results.add(task);
+		}
+		return results;
+	}
+	
+	public static TaskList<Task> getNoRecurringList() {
+		TaskList<Task> results = new TaskList<Task>();
+		for (Task task: deadlineList) {
+			results.add(task);
+		}
+		for (Task task: sessionList) {
+			results.add(task);
+		}
+		for (Task task: floatTaskList) {
+			results.add(task);
+		}
+		return results;
+	}
+	
+	public static boolean addNewTask(Task task) throws IOException {
+		boolean result;
+		if (task instanceof Deadline) {
+			result = deadlineList.add((Deadline) task);
+			Database.saveDeadline();
+		} else if (task instanceof Session) {
+			result = sessionList.add((Session) task);
+			Database.saveSession();
+		} else if (task instanceof RecurringTask) {
+			result = recurringTaskList.add((RecurringTask) task);
+			Database.saveRecurring();
+		} else {
+			result = floatTaskList.add(task);
+			Database.saveFloat();
+		}
+		return result;
+	}
+	
+	public static boolean deleteTask(Task task) throws IOException {
+		boolean result;
+		if (task instanceof Deadline) {
+			result = deadlineList.delete((Deadline) task);
+			Database.saveDeadline();
+		} else if (task instanceof Session) {
+			result = sessionList.delete((Session) task);
+			Database.saveSession();
+		} else if (task instanceof RecurringTask) {
+			result = recurringTaskList.delete((RecurringTask) task);
+			Database.saveRecurring();
+		} else {
+			result = floatTaskList.delete(task);
+			Database.saveFloat();
+		}
+		return result;
+	}
+	
+	public static ArrayList<Task> search(Predicate<Task> predicate) {
+		ArrayList<Task> results = new ArrayList<Task>();
 		deadlineList.search(results, predicate);
 		sessionList.search(results, predicate);
 		recurringTaskList.search(results, predicate);

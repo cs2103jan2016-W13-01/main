@@ -1,5 +1,6 @@
 package logic.tasks;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /* @@author A0112184R
@@ -9,6 +10,7 @@ public class Task implements Cloneable {
 	
 	protected String title;
 	protected boolean done;
+	protected static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 	
 	public TaskType getType() {
 		return TaskType.FLOAT;
@@ -43,11 +45,24 @@ public class Task implements Cloneable {
 	}
 	
 	@Override
+	public String toString() {
+		return getTitle();
+	}
+	
+	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof Task) {
 			return (((Task) obj).getType() == this.getType())
 					&& ((Task) obj).getTitle().equalsIgnoreCase(this.getTitle());
 		}
 		return false;
+	}
+	
+	protected static String getDateString(Date date) {
+		if (date == null) {
+			return "null";
+		} else {
+			return DATE_FORMAT.format(date);
+		}
 	}
 }
