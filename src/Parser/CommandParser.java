@@ -19,8 +19,6 @@ import logic.commands.CommandUndo;
 
 public class CommandParser {
 
-	private static final String REGEX_SPACE = "\\s+";
-
 	public static Logger parserLogger = Logger.getLogger(CommandParser.class.getName());
 	public ArrayList<String> list;
 	public static SimpleDateFormat sdf;
@@ -148,7 +146,7 @@ public class CommandParser {
 
 	private static String[] getToken(String input) {
 		input = input.trim();
-		input=input.replaceAll(REGEX_SPACE," ");
+		input=input.replaceAll(Regex.REGEX_SPACE," ");
 		String[] inputTokens = input.split(" ",2); 
 		return inputTokens;
 	}
