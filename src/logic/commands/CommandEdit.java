@@ -25,7 +25,7 @@ public class CommandEdit implements Command {
 	private Task editedTask;
 	private Task oldTask;
 	
-	public CommandEdit(int taskNumber,Deadline task) {
+	public CommandEdit(int taskNumber,Task task) {
 		taskNumberToEdit = taskNumber;
 		editedTask = task;
 	}

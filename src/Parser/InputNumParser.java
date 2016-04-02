@@ -14,10 +14,10 @@ public class InputNumParser {
 			num=Integer.parseInt(inputNum);
 		}
 		catch(Exception e){
-			num=-1;
+			num=0;
 		}
 		if(num<1){
-			num=-1;
+			num=0;
 		}
 		return num;
 	}

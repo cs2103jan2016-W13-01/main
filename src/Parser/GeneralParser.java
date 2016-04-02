@@ -42,10 +42,20 @@ public abstract class GeneralParser {
 		return true;
 	}
 	
+	protected Task createTask(String title, Date[] dates, Priority tag, int recurringPeriod) {
+		if (dates.length == 0) {
+			return TaskUtil.getInstance(title, null);
+		} else if (dates.length == 1) {
+			return TaskUtil.getInstance(title, dates[0], recurringPeriod);
+		} else {
+			return TaskUtil.getInstance(title, dates[0], dates[1], recurringPeriod);
+		}
+	}
 	
-	
+	/*
 	protected Task createTask(String title, Date[] dates, Priority tag, int isRecurring){
 		Task task=null;
+		System.out.println(dates.length);
 		if(isRecurring==1){
 			task = createRecurringTask(title,dates,tag,isRecurring);
 		}
@@ -79,8 +89,8 @@ public abstract class GeneralParser {
 		}
 		return task;
 	}
-
-
+	
+	
 	private Task createDeadlineTask(String title, Date[] dates, Priority tag) {
 		Deadline task;
 		if(dates.length==1){
@@ -99,7 +109,7 @@ public abstract class GeneralParser {
 		
 		return task;
 	}
-	
+	*/
 	protected Priority getTag(String inputArgs) {
 		
 		return Priority.NULL;

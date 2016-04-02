@@ -186,11 +186,12 @@ public class Database {
 	}
 	
 	public static <T extends Task> void save(TaskList<T> list, File file) throws IOException {
+		clearFile(file);
 		BufferedWriter bw = initBufferedWriter(file);
 		for (T task: list) {
 			bw.write("{\r\n");
 			bw.write(TaskUtil.convertToStorage(task));
-			bw.write("\r\n}");
+			bw.write("}\r\n");
 		}
 		bw.close();
 	}

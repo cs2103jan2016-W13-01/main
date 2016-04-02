@@ -16,7 +16,7 @@ public class DeleteParser extends GeneralParser {
 		Command cmdDetails =null;
 		int inputNum = getInputNum(inputArgs);
 		boolean checkSize = checkInputArgs(inputArgs,1);
-		if(inputNum==-1||!checkSize){
+		if(inputNum<1||!checkSize){
 			return cmdDetails = new CommandInvalid();
 		}
 		cmdDetails = new CommandDelete(inputNum);
