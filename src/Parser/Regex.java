@@ -16,9 +16,9 @@ static final String MONTH_DATE_REGEX = "(?<=\\s|^)" + MONTHNAME + "\\s" + DATES 
 static final String DATE_MONTH_YEAR_REGEX = "(?<=\\s|^)" + DATES + "\\s" + MONTHNAME + "?\\s?" + YEAR + "(?=\\s|$)";
 static final String MONTH_DATE_YEAR_REGEX = "(?<=\\s|^)" + MONTHNAME + "\\s" + DATES + "?\\s?" + YEAR + "(?=\\s|$)";
 
-static final String TMR_REGEX = "((today|tmr|tomorrow).*(?=\\s|$))";
+static final String TMR_REGEX = "((today?|tmr?|tomorrow?).*(?=\\s|$))";
 
-static final String DAYNAME = "(wk?|week?|month?|mon(?:day)?|tue(?:day)?|wed(?:nesday)?|thur(?:sday)?|fri(?:day)?|sat(?:urday)?|sun(?:day)?)";
+static final String DAYNAME = "(week?|month?|mon(?:day)?|tue(?:sday)?|wed(?:nesday)?|thur(?:sday)?|fri(?:day)?|sat(?:urday)?|sun(?:day)?)";
 static final String TWELVE_HR_REGEX = "([0-9]?[0-9])([.:][0-9][0-9])?\\s?(am|pm)?(\\s?(?:-|to|until|til|till)\\s?([0-9]?[0-9])([.:][0-9][0-9])?\\s?)?(am|pm)(?=\\s|$)";
 static final String TWENTYFOUR_HR_REGEX = "(([0-9]?[0-9])[:]([0-9][0-9]))\\s?[?:h|H]?\\s?((?:-|to|until|til|till)?\\s?(([0-9]?[0-9])[:]([0-9][0-9])))?\\s?[?:h|H]?(?=\\s|$)";
 

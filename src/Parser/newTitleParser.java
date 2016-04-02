@@ -18,7 +18,7 @@ public class newTitleParser {
 	//static final String INFORMAL_DATE="("+Regex.MISC_REGEX + Regex.DAYNAME +"|"+Regex.DAYNAME+")";
 	
 	static final String NOT_TITLE_REGEX = "("+ FIRST_DATE_REGEX +"|"+ SECOND_DATE_REGEX +"|"+ MISC_FIRST_DATE_REGEX +"|"+ MISC_SECOND_DATE_REGEX +"|"+
-			FIRST_DAY_REGEX +"|"+ SECOND_DAY_REGEX +"|"+ MISC_NUMBERED_DATE_REGEX +"|"+ NUMBERED_DATE_REGEX +"|"+ TIME_REGEX+"|"+MISC_TIME_REGEX +")";
+			FIRST_DAY_REGEX +"|"+ SECOND_DAY_REGEX +"|"+ MISC_NUMBERED_DATE_REGEX +"|"+ NUMBERED_DATE_REGEX +"|"+ TIME_REGEX+"|"+MISC_TIME_REGEX +"|"+Regex.TMR_REGEX+")";
 	
 	public static String getTitle(String inputArgs) {
 		
@@ -30,7 +30,7 @@ public class newTitleParser {
 		System.out.println(inputArgs);
 		*/
 		String[] strTok = inputArgs.split(NOT_TITLE_REGEX,2);
-		System.out.println(strTok[0]);
+		System.out.println("title parsed = "+strTok[0]);
 		return strTok[0].trim();
 		/*inputArgs =inputArgs.replaceAll(FIRST_DATE_REGEX,"");
 		System.out.println(inputArgs);
