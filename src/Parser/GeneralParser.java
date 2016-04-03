@@ -1,10 +1,13 @@
 package Parser;
+import java.util.Calendar;
 /* @@author A0121535R
 * parser class with the basic methods
 */
-import java.util.Date;
 
+import logic.Priority;
 import logic.commands.Command;
+import logic.tasks.Task;
+import logic.tasks.TaskUtil;
 
 public abstract class GeneralParser {
 	
@@ -14,13 +17,13 @@ public abstract class GeneralParser {
 	
 	
 	protected String getTitle(String input){
-		String title = titleParser.getTitle(input);
+		String title = newTitleParser.getTitle(input);
 		return title;
 	}
 	
-	protected Date getDate(String input){
-		Date date = DateParser.getDate(input);
-		return date;
+	protected Calendar[] getDateArray(String input){
+		Calendar[] dates = DateParser.getDates(input);
+		return dates;
 	}
 
 	protected int getInputNum(String inputArgs) {
@@ -34,6 +37,83 @@ public abstract class GeneralParser {
 			return false;
 		}
 		return true;
+	}
+	
+	protected Task createTask(String title, Calendar[] dates, Priority tag, int recurringPeriod) {
+		if (dates.length == 0) {
+			return TaskUtil.getInstance(title, null);
+		} else if (dates.length == 1) {
+			return TaskUtil.getInstance(title, dates[0], recurringPeriod);
+		} else {
+			return TaskUtil.getInstance(title, dates[0], dates[1], recurringPeriod);
+		}
+	}
+	
+	/*
+	protected Task createTask(String title, Date[] dates, Priority tag, int isRecurring){
+		Task task=null;
+		System.out.println(dates.length);
+		if(isRecurring==1){
+			task = createRecurringTask(title,dates,tag,isRecurring);
+		}
+		else{
+			task = createNonRecurringTask(title,dates,tag);
+		}
+		return task;
+	}
+
+
+	private Task createNonRecurringTask(String title, Date[] dates, Priority tag) {
+		Task task = null;
+		if(dates.length==1||dates.length==0){
+			task = createDeadlineTask(title,dates,tag);
+		}
+		else if(dates.length==2){
+			task = createSessionTask(title,dates,tag);
+		}
+		return task;
+	}
+
+
+	private Task createRecurringTask(String title, Date[] dates, Priority tag, int isRecurring) {
+		RecurringTask task = null;
+		if(dates.length==1||dates.length==0){
+			task = (RecurringTask) TaskUtil.getInstance(title,dates[0],isRecurring);
+			
+		}
+		else if(dates.length==2){
+			task =(RecurringTask) TaskUtil.getInstance(title,dates[0],dates[1],isRecurring);
+		}
+		return task;
+	}
+	
+	
+	private Task createDeadlineTask(String title, Date[] dates, Priority tag) {
+		Deadline task;
+		if(dates.length==1){
+		task = (Deadline) TaskUtil.getInstance(title, dates[0]);
+		}
+		else{
+		task = (Deadline) TaskUtil.getInstance(title, null);	
+		}
+		task.setPriority(tag);
+		return task;
+	}
+
+
+	private Task createSessionTask(String title, Date[] dates, Priority tag) {
+		Session task = (Session) TaskUtil.getInstance(title,dates[0],dates[1]);
+		
+		return task;
+	}
+	*/
+	protected static Priority getTag(String inputArgs) {
+		
+		return Priority.NULL;
+	}
+	protected static int getRecurring(String inputArgs){
+		return 0;
+		
 	}
 	
 	/*

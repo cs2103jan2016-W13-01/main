@@ -11,8 +11,7 @@ import org.junit.Test;
 import Parser.AddParser;
 import Parser.CommandParser;
 import Parser.DateParser;
-
-import logic.Task;
+import logic.tasks.Deadline;
 /*import logic.commands.Command;
 import logic.commands.CommandType;
 */
@@ -41,5 +40,5 @@ public class AddParserTest {
 		
 		System.out.println(cmdDetails.getTask().getDate()+ " vs "+cmdDetails2.getTask().getDate());	
 	}*/
-
+	}
 }

@@ -1,3 +1,7 @@
+/* @@author A0112184R-unused
+ * This class is used to test the program when the GUI was in progress
+ * Reason: we do not use it now that we have the GUI
+ */
 package logic;
 
 import java.util.ArrayList;
@@ -6,10 +10,6 @@ import java.util.Scanner;
 import Parser.CommandParser;
 import logic.commands.Command;
 
-/* @@author A0112184R-unused
- * This class is used to test the program when the GUI was in progress
- * Reason: we do not use it now that we have the GUI
- */
 public class TextUI {
 	
 	private static Scanner sc;

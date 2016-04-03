@@ -1,11 +1,14 @@
 package logic.commands;
 
 import logic.ExecutedCommands;
-import logic.Task;
+import logic.LogicLogger;
+import logic.tasks.Deadline;
+import logic.tasks.Task;
+import storage.StorageController;
 
 import java.io.IOException;
-
-import Storage.Storage;
+import java.util.NoSuchElementException;
+import java.util.logging.Level;
 
 /* @@author A0112184R
  * This class contains details for "edit" commands
@@ -32,25 +35,27 @@ public class CommandEdit implements Command {
 	}
 	
 	public String execute() {
+		LogicLogger.log(Level.INFO, "editing task: " + editedTask.toString() + " in storage");
 		try {
-			oldTask = Storage.deleteTask(taskNumberToEdit);
-			if (oldTask != null) {
-				Storage.addNewTask(editedTask, taskNumberToEdit);
-				ExecutedCommands.addCommand(this);
-				return String.format(MESSAGE_EDITED, editedTask.toString());
-			} else {
-				return String.format(MESSAGE_TASK_NOT_FOUND, taskNumberToEdit);
-			}
+			oldTask = StorageController.deleteByIndex(taskNumberToEdit-1);
+			StorageController.addNewTask(editedTask);
+			ExecutedCommands.addCommand(this);
+			LogicLogger.log(Level.INFO, "edited successfully");
+			return String.format(MESSAGE_EDITED, editedTask.toString());
+		} catch (NoSuchElementException d) {
+			LogicLogger.log(Level.WARNING, "Task not found");
+			return String.format(MESSAGE_TASK_NOT_FOUND, taskNumberToEdit);
 		} catch (IOException e) {
-			e.printStackTrace();
+			LogicLogger.log(Level.SEVERE, "Error when deleting from storage:");
+			LogicLogger.log(Level.SEVERE, e.toString());
 			return MESSAGE_EDIT_ERROR;
 		}
 	}
 	
 	public String undo() {
 		try {
-			assert (Storage.deleteTask(taskNumberToEdit) != null): "Cannot find edited task";
-			Storage.addNewTask(oldTask, taskNumberToEdit);
+			StorageController.deleteTask(editedTask);
+			StorageController.addNewTask(oldTask);
 			return String.format(MESSAGE_UNDONE, oldTask.toString());
 		} catch (IOException e) {
 			e.printStackTrace();

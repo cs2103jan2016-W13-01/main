@@ -1,4 +1,4 @@
-# a0112184runused
+# A0112184Runused
 ###### src\logic\commands\CommandQueue.java
 ``` java
  * The commands received from the parser will be queued up here before being executed
@@ -66,6 +66,12 @@ public class Diamond {
  * This class gets the input from the UI and parse it via the Parser, then add it to the CommandQueue
  * Reason: we omitted the parallel execution scheme
  */
+package logic;
+
+import Parser.CommandParser;
+import logic.commands.Command;
+import logic.commands.CommandQueue;
+
 public class InputProcessor {
 	
 	public static void getAndParseInput() {
@@ -92,6 +98,11 @@ public class InputProcessor {
  * This class stores the inputs that the UI sends to the Logic
  * Reason: we omitted the parallel execution scheme
  */
+package logic;
+
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class InputQueue {
 	
 	private static Queue<String> inputQueue;
@@ -118,6 +129,11 @@ public class InputQueue {
  * This class stores the responses for the UI to display
  * Reason: we omitted the parallel execution scheme
  */
+package logic;
+
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class ResponseQueue {
 	
 	private static Queue<Response> responseQueue;
@@ -144,6 +160,14 @@ public class ResponseQueue {
  * This class is used to test the program when the GUI was in progress
  * Reason: we do not use it now that we have the GUI
  */
+package logic;
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+import Parser.CommandParser;
+import logic.commands.Command;
+
 public class TextUI {
 	
 	private static Scanner sc;

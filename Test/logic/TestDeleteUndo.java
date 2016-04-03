@@ -11,17 +11,18 @@ import java.util.Date;
 
 import org.junit.Test;
 
-import Storage.Storage;
 import logic.commands.Command;
 import logic.commands.CommandAdd;
 import logic.commands.CommandDelete;
 import logic.commands.CommandUndo;
+import logic.tasks.Deadline;
+import storage.Storage;
 
 public class TestDeleteUndo {
 	
 	@Test
 	public void testAdd() {
-		Task task = new Task("go tutorial", new Date());
+		Deadline task = new Deadline("go tutorial", new Date());
 		Command commandAdd = new CommandAdd(task);
 		TaskProcessor.initialize();
 		Storage.clearAllTasks();

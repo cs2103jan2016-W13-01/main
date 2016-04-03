@@ -2,11 +2,13 @@ package logic;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
 
 import Parser.CommandParser;
-import Storage.Storage;
 import logic.commands.Command;
 import logic.commands.CommandQueue;
+import logic.tasks.*;
+import storage.StorageController;
 
 /* @@author A0112184R
  * Class TaskProcessor
@@ -14,7 +16,7 @@ import logic.commands.CommandQueue;
  * Key methods so far:
  *     - executeCommand(Command): execute the Command object by calling Command.execute()
  *     - executeInput(String): execute the input by parsing it and call executeCommand
- *     - initialize: initialize the Storage and all the components
+ *     - initialize: initialize the StorageController and all the components
  */
 public class TaskProcessor {
 	
@@ -23,7 +25,7 @@ public class TaskProcessor {
 	private static final String MESSAGE_CLEAR_ERROR = "Error encountered when clearing all tasks. Please try again";
 	private static final String MESSAGE_SORT_ERROR = "Error encountered when sorting tasks. Please try again.";
 	*/
-	
+
 	private static ArrayList<String> listToDisplay;
 	
 	public static void main(String[] args) {
@@ -33,7 +35,7 @@ public class TaskProcessor {
 	}
 	
 	public static ArrayList<String> getListToDisplay() {
-		loadIntoDisplayList(Storage.getTaskList());
+		loadIntoDisplayList(StorageController.getDisplayList());
 		return listToDisplay;
 	}
 	
@@ -45,6 +47,7 @@ public class TaskProcessor {
 	}
 	
 	public static Response executeInput(String input) {
+		LogicLogger.log(Level.INFO, "Executing input: " + input);
 		Command command = CommandParser.parseInput(input);
 		return executeCommand(command);
 	}
@@ -52,25 +55,25 @@ public class TaskProcessor {
 	public static Response executeCommand(Command command) {
 		String message = command.execute();
 		ArrayList<String> taskList = getListToDisplay();
-		Response response = new Response(message, taskList);
-		return response;
+		return new Response(message, taskList);
 	}
 	
 	public static void initialize() {
 		listToDisplay = new ArrayList<String>();
+		ExecutedCommands.initialize();
+		LogicLogger.initialize();
 		try {
-			Storage.retrieveFile();
-			ArrayList<Task> taskList = Storage.loadTaskList();
-			loadIntoDisplayList(taskList);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-			
+			LogicLogger.log(Level.INFO, "Initializing StorageController");
+			StorageController.initialize();
+			loadIntoDisplayList(StorageController.getDisplayList());
 		} catch (IOException e) {
+			LogicLogger.log(Level.SEVERE, "Error when initializing StorageController");
 			e.printStackTrace();
 		}
 	}
 	
 	private static void loadIntoDisplayList(ArrayList<Task> taskList) {
+		LogicLogger.log(Level.INFO, "Loading list to display from StorageController");
 		listToDisplay.clear();
 		for (Task task: taskList) {
 			assert task != null : "Some task in the task list is null";

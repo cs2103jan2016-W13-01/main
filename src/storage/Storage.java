@@ -1,12 +1,13 @@
-// @@author: A0134185H
+//@@author: A0134185H
 
-package Storage;
+package storage;
 
 import java.util.*;
+import java.util.function.Predicate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import logic.Task;
+import logic.tasks.*;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -14,26 +15,51 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
+public class Storage {
 
-public class Storage implements Serializable {
-
-	private static String STORAGE_FILE = "storage.txt";
+	private static final String CONFIG_FILE_NAME = "./src/document/config.txt";
+	private static File configFile;
+	
+	private static String storageFileName;
 	private static File storageFile;
-	private static ArrayList<Task> taskList;
+	private static ArrayList<Deadline> taskList;
 	private static ArrayList<Integer> indexList;
 	private static Logger logger = Logger.getLogger(Storage.class.getName());
+	private static int floatBeginOnTaskList;
+	private static int floatBeginOnIndexList;
+	
+	public static Deadline latestDeletedTask;
+	public static int latestDeletedIndex;
 
 	private Storage() throws IOException, ClassNotFoundException {
 		retrieveFile();
 		taskList = loadTaskList();
 	}
 	
-	public static ArrayList<Task> getTaskList() {
+	public static ArrayList<Deadline> getTaskList() {
 		return taskList;
+	}
+	
+	public static ArrayList<Integer> getIndexList() {
+		return indexList;
+	}
+	
+	public static int getFloatBegin() {
+		return floatBeginOnTaskList;
+	}
+	
+	public static int getFloatBeginOnIndexList() {
+		return floatBeginOnIndexList;
 	}
 
 	public static File retrieveFile() throws IOException {
-		storageFile = new File(STORAGE_FILE);
+		
+		configFile = new File(CONFIG_FILE_NAME);
+		Scanner sc = new Scanner(configFile);
+		storageFileName = sc.nextLine();
+		sc.close();
+		
+		storageFile = new File(storageFileName);
 		if (!storageFile.exists()) {
 			// Create file if it does not exist
 			storageFile.createNewFile();
@@ -42,53 +68,64 @@ public class Storage implements Serializable {
 	}
 
 	// appends a new line of text at the bottom of the file
+<<<<<<< HEAD:src/Storage/Storage.java
 	public static ArrayList<Integer> addNewTask(Task newTask) throws IOException {
+=======
+	public static ArrayList<Integer> addNewTask(Deadline newTask) throws IOException {
+>>>>>>> db62cdf23ac4ee1c89c10432c6a7ce47ac83eab4:src/storage/Storage.java
 
-		int taskCounter;
-		
 		logger.log(Level.INFO, "Adding new Task to the ArrayList");
 		assert (taskList != null) : "taskList not initialized";
 		assert (newTask != null) : "task is null";
-		taskCounter = taskList.size();
-		taskList.add(newTask);
+		if (newTask.getDateString().equals("")) {
+			taskList.add(newTask);
+		} else {
+			taskList.add(floatBeginOnTaskList, newTask);
+			floatBeginOnTaskList++;
+		}
 		saveTaskList();
-		indexList.add(taskCounter);
+		//indexList.add(taskList.size());
+		displayAllTasks();
 		
 		return indexList;
 	}
-	// @@author
-	
-	// @@author A0112184R
-	public static ArrayList<Task> addNewTask(Task newTask, int position) throws IOException {
+	public static ArrayList<Integer> addNewTask(Deadline newTask, int taskListPosition) throws IOException {
 
-		logger.log(Level.INFO, "Adding new Task to the ArrayList at position: " + position);
-		taskList.add(position-1, newTask);
-		saveTaskList();
-		return taskList;
-	}
-	// @@author
-	
-	// @@author: A0134185H
-	// deletes a line from the file based on line number
-	public static ArrayList<Integer> deleteTask(int taskNumberToDelete) throws IOException {
-
-		assert (taskNumberToDelete > 0);
-		int deleteIndex = taskNumberToDelete - 1;
-		if (!taskList.isEmpty() && taskNumberToDelete <= taskList.size()) {
-			logger.log(Level.INFO, "Deleting Task from the ArrayList");
-			deletedTask = taskList.remove(deleteIndex);
-			saveTaskList();
-			indexList.remove(deleteIndex);
-			for (int i = deleteIndex; i < indexList.size(); i++) {
-				indexList.set(i, indexList.get(i) - 1);
-			}	
+		logger.log(Level.INFO, "Adding new Task to the ArrayList at position: " + taskListPosition);
+		taskList.add(taskListPosition, newTask);
+		if (newTask.getDate() != null) {
+			floatBeginOnTaskList++;
 		}
+		saveTaskList();
+		displayAllTasks();
 		return indexList;
 	}
-	// @@author
+
+	// deletes a line from the file based on line number
+	public static Deadline deleteTask(int deleteIndex) throws IOException {
+
+		assert (deleteIndex >= 0);
+
+		if (!taskList.isEmpty() && deleteIndex <= taskList.size()) {
+			logger.log(Level.INFO, "Deleting Task from the ArrayList");
+			latestDeletedTask = taskList.remove(deleteIndex);
+			if (deleteIndex < floatBeginOnTaskList) {
+				floatBeginOnTaskList--;
+			}
+			saveTaskList();
+			latestDeletedIndex = indexList.indexOf(new Integer(deleteIndex));
+			indexList.remove(latestDeletedIndex);
+			if (latestDeletedIndex < floatBeginOnIndexList) {
+				floatBeginOnIndexList--;
+			}
+			for (int i = latestDeletedIndex; i < indexList.size(); i++) {
+				indexList.set(i, indexList.get(i) - 1);
+			}
+		}
+		return latestDeletedTask;
+	}
 	
-	// @@author A0112184R
-	public static Task deleteTask(Task taskToDelete) throws IOException {
+	public static Deadline deleteTask(Deadline taskToDelete) throws IOException {
 		
 		assert taskToDelete != null: "Attempt to delete a null task";
 		if (taskList.contains(taskToDelete)) {
@@ -99,47 +136,43 @@ public class Storage implements Serializable {
 		}
 		return taskToDelete;
 	}
-	// @@author
 
-	// @@author: A0134185H
 	// deletes all text in the file
 	public static boolean clearAllTasks() {
 		try {
-			logger.log(Level.INFO, "Deleting ALL Tasks to the ArrayList");
+			logger.log(Level.INFO, "Deleting ALL Tasks from the ArrayList");
 			taskList.clear();
+			indexList.clear();
+			floatBeginOnTaskList = 0;
+			floatBeginOnIndexList = 0;
 			clearStorageFile();
 			return true;
 		} catch (IOException e) {
 			return false;
 		}
 	}
-	// @@author
-
-	/* @@author A0112184R
-	 * @throws IOException
-	 */
-	private static void clearStorageFile() throws IOException {
+	
+	static void clearStorageFile() throws IOException {
 		Files.delete(storageFile.toPath()); // delete the whole file and
 		storageFile.createNewFile(); // create a new empty file with the
 										// same name
 	}
-	// @@author
-	
-	// @@author: A0134185H
+
 	public static void setPath(String pathName) throws IOException{
-		STORAGE_FILE = pathName;
-		storageFile.renameTo(new File(pathName));
+		configFile.delete();
+		configFile.createNewFile();
+		BufferedWriter bf = initBufferedWriter(configFile);
+		bf.write(pathName);
+		bf.newLine();
+		bf.close();
 		retrieveFile();
+		saveTaskList();
 	}
-	// @@author
 	
-	// @@author A0112184R
 	public static String getPath() {
 		return storageFile.toPath().toString();
 	}
-	// @@author
 
-	// @@author: A0134185H
 	public static void sortTasks() throws IOException {
 		File tempStorageFile = new File("tempStorageFile.txt");
 		BufferedReader sortBufferedReader = initBufferedReader(storageFile);
@@ -160,20 +193,34 @@ public class Storage implements Serializable {
 		tempStorageFile.renameTo(storageFile);
 	}
 
-	public static ArrayList<Integer> searchTask(String keyword) {
+	public static ArrayList<Integer> searchTask(Predicate<Deadline> p) {
 
-		ArrayList<Integer> searchIndexList = new ArrayList<Integer>();
-		ArrayList<Task> searchResult = new ArrayList<Task>();
-		String lowerCaseKeyword = keyword.toLowerCase();
-		for (int i = 0; i < taskList.size(); i++) {
-			String taskTitle = taskList.get(i).getTitle();
-			if (taskTitle.toLowerCase().contains(lowerCaseKeyword)) {
-				logger.log(Level.INFO, "Stores all hits in a separate ArrayList");
-				searchResult.add(taskList.get(i));
-				searchIndexList.add(indexList.get(i));
+		indexList.clear();
+		int i;
+		logger.log(Level.INFO, "Storing all hits indices in the indexList");
+		for (i = 0; i < floatBeginOnTaskList; i++) {
+			Deadline task = taskList.get(i);
+			if (p.test(task)) {
+				indexList.add(i);
 			}
 		}
-		return searchIndexList;
+		floatBeginOnIndexList = indexList.size();
+		for (i = floatBeginOnTaskList; i < taskList.size(); i++) {
+			Deadline task = taskList.get(i);
+			if (p.test(task)) {
+				indexList.add(i);
+			}
+		}
+		return indexList;
+	}
+	
+	public static ArrayList<Integer> displayAllTasks() {
+		indexList.clear();
+		for (int i = 0; i < taskList.size(); i++) {
+			indexList.add(i);
+		}
+		floatBeginOnIndexList = floatBeginOnTaskList;
+		return indexList;
 	}
 
 	private static BufferedReader initBufferedReader(File textFile) throws FileNotFoundException {
@@ -188,7 +235,7 @@ public class Storage implements Serializable {
 		return bufferedWriter;
 	}
 
-	public static ArrayList<Task> loadTaskList() throws ClassNotFoundException, IOException {
+	public static ArrayList<Deadline> loadTaskList() throws ClassNotFoundException, IOException {
 
 	/*	taskList = new ArrayList<Task>();
 		BufferedReader br = new BufferedReader(new FileReader(storageFile));
@@ -204,14 +251,21 @@ public class Storage implements Serializable {
 		*/
 		
 		BufferedReader br = initBufferedReader(storageFile);
-		taskList = new ArrayList<Task>();
-		
+		taskList = new ArrayList<Deadline>();
+		floatBeginOnTaskList = 0;
+			
 		String titleString, dateString;
 		while((titleString = br.readLine()) != null && (dateString = br.readLine()) != null) {
 			try {
 				DateFormat df = new SimpleDateFormat("HH:mm:ss yyyyMMdd", Locale.ENGLISH);
-				Date date = df.parse(dateString);
-				Task task = new Task(titleString.trim(), date);
+				Date date;
+				if (dateString.equals("null")) {
+					date = null;
+				} else {
+					date = df.parse(dateString);
+					floatBeginOnTaskList++;
+				}
+				Deadline task = new Deadline(titleString.trim(), date);
 				taskList.add(task);
 			} catch (ParseException e) {
 				e.printStackTrace();
@@ -231,13 +285,30 @@ public class Storage implements Serializable {
 		BufferedWriter bw = initBufferedWriter(storageFile);
 		DateFormat df = new SimpleDateFormat("HH:mm:ss yyyyMMdd");
 		for (int i = 0; i < taskList.size(); i++) {
-			bw.write(taskList.get(i).getTitle());
+			Deadline task = taskList.get(i);
+			bw.write(task.getTitle());
 			bw.newLine();
-			String dateString = df.format(taskList.get(i).getDate());
+			Date date = task.getDate();
+			String dateString;
+			if (date == null) {
+				dateString = "null";
+			} else {
+				dateString = df.format(date);
+			}
 			bw.write(dateString);
 			bw.newLine();
 		}
 		bw.close();
 	}
-	// @@author
+	
+	public static void initialize() throws ClassNotFoundException, IOException {
+		retrieveFile();
+		loadTaskList();
+		initIndexList();
+	}
+
+	private static void initIndexList() {
+		indexList = new ArrayList<Integer>();
+		displayAllTasks();
+	}
 }

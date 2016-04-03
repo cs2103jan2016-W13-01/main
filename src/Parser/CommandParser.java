@@ -1,7 +1,7 @@
 package Parser;
 /* @@author A0121535R
-* inital parser that sort the input to the respective parser classes
-*/
+ * inital parser that sort the input to the respective parser classes
+ */
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -18,13 +18,11 @@ import logic.commands.CommandType;
 import logic.commands.CommandUndo;
 
 public class CommandParser {
-	
-	private static final String REGEX_SPACE = "\\s+";
-	
+
 	public static Logger parserLogger = Logger.getLogger(CommandParser.class.getName());
 	public ArrayList<String> list;
 	public static SimpleDateFormat sdf;
-	
+
 	public static CommandParser cmdParser;
 	FileHandler fh; 
 
@@ -33,20 +31,20 @@ public class CommandParser {
 		sdf = new SimpleDateFormat("ddMMyyyy HHmm");
 		sdf.setLenient(false);
 		FileHandler fh = new FileHandler("./log/MyLogFile.txt");  
-	    parserLogger.addHandler(fh);
+		parserLogger.addHandler(fh);
 		System.out.println("where is my log file "+getClass().getClassLoader().getResource("logging.properties"));
 		parserLogger.log(Level.INFO, "log starting");
-		
+
 	}
 
-	
+
 	public static CommandParser getInstance() throws SecurityException, IOException{
 		if (cmdParser == null){
 			cmdParser= new CommandParser();
 		}
 		return cmdParser;
 	}
-	
+
 	/**for add
 	 * Requires input format <add> <title> <date> 
 	 * for e.g add meet at john's house at next wednesday
@@ -77,28 +75,23 @@ public class CommandParser {
 		String[] inputTokens = getToken(input);
 		CommandType cmd = getCmdType(inputTokens[0]);
 		Command cmdDetails=null;
-		
+
 		if(inputTokens.length==2){
 			switch(cmd){
-			
+
 			case ADD:
 				AddParser ap = new AddParser();
-				cmdDetails = ap.parse(inputTokens[1]);
-				break;
-				
-				
+				return cmdDetails = ap.parse(inputTokens[1]);
+
 			case DELETE:
 				DeleteParser dp = new DeleteParser();
-				cmdDetails = dp.parse(inputTokens[1]);
-				break;
-				
-				
+				return cmdDetails = dp.parse(inputTokens[1]);
+
 			case EDIT:
 				EditParser ep = new EditParser();
-				cmdDetails = ep.parse(inputTokens[1]);
-				break;
+				return cmdDetails = ep.parse(inputTokens[1]);
 
-			/*	
+				/*	
 			case MARK:
 				inputNum = getInputNum(inputTokens);
 				if(inputNum==-1){
@@ -106,7 +99,7 @@ public class CommandParser {
 				}
 				cmdDetails= new CommandDetails(cmd,task,inputNum);
 				break;
-				
+
 			case UNMARK:
 				inputNum = getInputNum(inputTokens);
 				if(inputNum==-1){
@@ -114,44 +107,46 @@ public class CommandParser {
 				}
 				cmdDetails= new CommandDetails(cmd,task,inputNum);
 				break;
-				*/
+				 */
 			case SET:
 				SetParser setParser = new SetParser();
-				cmdDetails = setParser.parse(inputTokens[1]);
+				return cmdDetails = setParser.parse(inputTokens[1]);
+				
 			case SEARCH:
 				SearchParser searchP = new SearchParser();
-				cmdDetails = searchP.parse(inputTokens[1]);
-				break;
+				return cmdDetails = searchP.parse(inputTokens[1]);
+	
 			default:
-				cmdDetails = new CommandInvalid();
+				return cmdDetails = new CommandInvalid();
 			}
 		}
 		else if(inputTokens.length==1){
 			switch(cmd){			
 			case UNDO:
-				cmdDetails = new CommandUndo();
-				break;
+				return cmdDetails = new CommandUndo();
+
 			case HELP:
-				cmdDetails =  new CommandHelp();
-				break;
+				return cmdDetails =  new CommandHelp();
+	
 			case CLEAR:
-				cmdDetails = new CommandClear();
+				return cmdDetails = new CommandClear();
+
 			case DISPLAY:
-				cmdDetails = new CommandDisplay();
+				return cmdDetails = new CommandDisplay();
+	
 			default:
-				cmdDetails = new CommandInvalid();
+				return cmdDetails = new CommandInvalid();
 			}
 		}
 		else{
-			cmdDetails = new CommandInvalid();
+			return cmdDetails = new CommandInvalid();
 		}
-		return cmdDetails;
 	}
 
 
 	private static String[] getToken(String input) {
 		input = input.trim();
-		input=input.replaceAll(REGEX_SPACE," ");
+		input=input.replaceAll(Regex.REGEX_SPACE," ");
 		String[] inputTokens = input.split(" ",2); 
 		return inputTokens;
 	}
