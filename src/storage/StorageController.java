@@ -3,7 +3,6 @@ package storage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.NoSuchElementException;
 import java.util.function.Predicate;
 
 import logic.tasks.*;
@@ -85,6 +84,34 @@ public class StorageController {
 	public static void displayAllTasks() {
 		displayList.clear();
 		for (Task task: GrandTaskList.getNoRecurringList()) {
+			displayList.add(task);
+		}
+	}
+	
+	public static void displayFloatTasks() {
+		displayList.clear();
+		for (Task task: GrandTaskList.getFloatList()) {
+			displayList.add(task);
+		}
+	}
+	
+	public static void displayDeadlines() {
+		displayList.clear();
+		for (Task task: GrandTaskList.getDeadlineList()) {
+			displayList.add(task);
+		}
+	}
+	
+	public static void displaySessions() {
+		displayList.clear();
+		for (Task task: GrandTaskList.getSessionList()) {
+			displayList.add(task);
+		}
+	}
+	
+	public static void displayRecurring() {
+		displayList.clear();
+		for (Task task: GrandTaskList.getRecurringList()) {
 			displayList.add(task);
 		}
 	}
