@@ -37,21 +37,48 @@ public class StorageController {
 		}
 	}
 	
-	public static Task deleteByIndex(int index) throws IOException, NoSuchElementException {
+	public static Task deleteByIndex(int index) throws IOException {
 		Task task = displayList.remove(index);
 		deleteTask(task);
 		return task;
 	}
 	
+	public static Task markDoneByIndex(int index) throws IOException {
+		Task task = displayList.remove(index);
+		markDone(task);
+		return task;
+	}
+	
+	public static Task unmarkDoneByIndex(int index) throws IOException {
+		Task task = displayList.remove(index);
+		unmarkDone(task);
+		return task;
+	}
+	
 	public static boolean addNewTask(Task task) throws IOException {
+		displayList.clear();
 		boolean result = GrandTaskList.addNewTask(task);
-		displayAllTasks();
+		displayList.add(task);
 		return result;
 	}
 	
 	public static boolean deleteTask(Task task) throws IOException {
 		boolean result = GrandTaskList.deleteTask(task);
 		displayList.remove(task);
+		return result;
+	}
+	
+	public static boolean markDone(Task task) throws IOException {
+		displayList.clear();
+		boolean result = GrandTaskList.markDone(task);
+		displayList.remove(task);
+		return result;
+	}
+	
+	public static boolean unmarkDone(Task task) throws IOException {
+		displayList.clear();
+		boolean result = GrandTaskList.unmarkDone(task);
+		displayList.add(task);
 		return result;
 	}
 	
@@ -84,6 +111,8 @@ public class StorageController {
 	}
 	
 	public static void searchTask(Predicate<Task> predicate) {
-		displayList = GrandTaskList.search(predicate);
+		for (Task task: GrandTaskList.search(predicate)) {
+			displayList.add(task);
+		}
 	}
 }
