@@ -2,6 +2,7 @@ package storage;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.NoSuchElementException;
 import java.util.function.Predicate;
 
@@ -57,6 +58,12 @@ public class StorageController {
 	public static void displayAllTasks() {
 		displayList.clear();
 		for (Task task: GrandTaskList.getNoRecurringList()) {
+			displayList.add(task);
+		}
+	}
+	
+	public static void displayTasksOnDate(Calendar date) {
+		for (Task task: GrandTaskList.getTasksOnDate(date)) {
 			displayList.add(task);
 		}
 	}

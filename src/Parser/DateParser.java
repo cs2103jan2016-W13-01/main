@@ -7,6 +7,8 @@ import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang.time.DateUtils;
+
 public class DateParser {
 
 	static final String START_DATE_KEYWORD = "(" + "((?<=\\s|^)(at?|from?))?" + ")";
@@ -51,7 +53,7 @@ public class DateParser {
 		Calendar[] result = new Calendar[dates.length];
 		for (int i=0; i<dates.length; i++) {
 			Calendar cal = Calendar.getInstance();
-			cal.setTime(dates[i]);
+			cal.setTime(DateUtils.truncate(dates[i], Calendar.SECOND));
 			result[i] = cal;
 		}
 		return result;

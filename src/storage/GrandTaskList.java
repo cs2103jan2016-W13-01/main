@@ -2,7 +2,10 @@ package storage;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.function.Predicate;
+
+import org.apache.commons.lang.time.DateUtils;
 
 import logic.tasks.*;
 /* @@author A0112184R
@@ -112,5 +115,25 @@ public class GrandTaskList {
 		recurringTaskList.search(results, predicate);
 		floatTaskList.search(results, predicate);
 		return results;
+	}
+	
+	public static TaskList<Task> getTasksOnDate(Calendar date) {
+		TaskList<Task> result = new TaskList<Task>();
+		for (Task task: deadlineList) {
+			if (DateUtils.isSameDay(task.getMainDate(), date)) {
+				result.add(task);
+			}
+		}
+		for (Task task: sessionList) {
+			if (DateUtils.isSameDay(task.getMainDate(), date)) {
+				result.add(task);
+			}
+		}
+		for (RecurringTask task: recurringTaskList) {
+			if (task.willOccur(date)) {
+				result.add(task.generate(date));
+			}
+		}
+		return result;
 	}
 }
