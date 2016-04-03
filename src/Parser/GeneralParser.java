@@ -1,14 +1,11 @@
 package Parser;
+import java.util.Calendar;
 /* @@author A0121535R
 * parser class with the basic methods
 */
-import java.util.Date;
 
 import logic.Priority;
 import logic.commands.Command;
-import logic.tasks.Deadline;
-import logic.tasks.RecurringTask;
-import logic.tasks.Session;
 import logic.tasks.Task;
 import logic.tasks.TaskUtil;
 
@@ -24,8 +21,8 @@ public abstract class GeneralParser {
 		return title;
 	}
 	
-	protected Date[] getDateArray(String input){
-		Date[] dates = DateParser.getDates(input);
+	protected Calendar[] getDateArray(String input){
+		Calendar[] dates = DateParser.getDates(input);
 		return dates;
 	}
 
@@ -42,7 +39,7 @@ public abstract class GeneralParser {
 		return true;
 	}
 	
-	protected Task createTask(String title, Date[] dates, Priority tag, int recurringPeriod) {
+	protected Task createTask(String title, Calendar[] dates, Priority tag, int recurringPeriod) {
 		if (dates.length == 0) {
 			return TaskUtil.getInstance(title, null);
 		} else if (dates.length == 1) {
@@ -110,11 +107,11 @@ public abstract class GeneralParser {
 		return task;
 	}
 	*/
-	protected Priority getTag(String inputArgs) {
+	protected static Priority getTag(String inputArgs) {
 		
 		return Priority.NULL;
 	}
-	protected int getRecurring(String inputArgs){
+	protected static int getRecurring(String inputArgs){
 		return 0;
 		
 	}

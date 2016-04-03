@@ -2,8 +2,8 @@ package logic.tasks;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.Locale;
 
 /* @@author A0112184R
@@ -16,8 +16,8 @@ public class TaskUtil {
 
 	public static class TaskComparator implements Comparator<Task> {
 		public int compare(Task task1, Task task2) {
-			Date date1 = task1.getMainDate();
-			Date date2 = task2.getMainDate();
+			Calendar date1 = task1.getMainDate();
+			Calendar date2 = task2.getMainDate();
 			if (date1 == null && date2 == null) {
 				return task1.getTitle().compareToIgnoreCase(task2.getTitle());
 			} else if (date1 == null) {
@@ -30,7 +30,7 @@ public class TaskUtil {
 		}
 	}
 	
-	public static Task getInstance(String title, Date startDate, Date endDate, int recurringPeriod) {
+	public static Task getInstance(String title, Calendar startDate, Calendar endDate, int recurringPeriod) {
 		if (startDate == null && endDate == null) {
 			return new Task(title);
 		} else if (recurringPeriod > 0) {
@@ -42,15 +42,15 @@ public class TaskUtil {
 		}
 	}
 	
-	public static Task getInstance(String title, Date startDate, Date endDate) {
+	public static Task getInstance(String title, Calendar startDate, Calendar endDate) {
 		return getInstance(title, startDate, endDate, 0);
 	}
 	
-	public static Task getInstance(String title, Date startDate, int recurringPeriod) {
+	public static Task getInstance(String title, Calendar startDate, int recurringPeriod) {
 		return getInstance(title, startDate, null, recurringPeriod);
 	}
 	
-	public static Task getInstance(String title, Date startDate) {
+	public static Task getInstance(String title, Calendar startDate) {
 		return getInstance(title, startDate, null, 0);
 	}
 	
@@ -63,8 +63,8 @@ public class TaskUtil {
 		}
 		String titleString = parts[0].split(":", 2)[1].trim();
 		
-		Date startDate;
-		Date endDate;
+		Calendar startDate;
+		Calendar endDate;
 		
 		try {
 			String startDateString = parts[1].split(":", 2)[1].trim();
@@ -92,25 +92,27 @@ public class TaskUtil {
 		return getInstance(titleString, startDate, endDate, period);
 	}
 	
-	public static Date parseDate(String dateString) {
+	public static Calendar parseDate(String dateString) {
 		if (dateString.equals("null")) {
 			return null;
 		} else {
+			Calendar cal = Calendar.getInstance();
 			SimpleDateFormat format = new SimpleDateFormat("HH:mm yyyyMMdd", Locale.ENGLISH);
 			try {
-				return format.parse(dateString);
+				cal.setTime(format.parse(dateString));
+				return cal;
 			} catch (ParseException e) {
 				return null;
 			}
 		}
 	}
 	
-	public static String convertFromDate(Date date) {
+	public static String convertFromDate(Calendar date) {
 		if (date == null) {
 			return "null";
 		} else {
 			SimpleDateFormat format = new SimpleDateFormat("HH:mm yyyyMMdd", Locale.ENGLISH);
-			return format.format(date);
+			return format.format(date.getTime());
 		}
 	}
 	

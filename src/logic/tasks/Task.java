@@ -1,7 +1,7 @@
 package logic.tasks;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.Calendar;
 
 /* @@author A0112184R
  * This class encloses the general task types
@@ -16,7 +16,7 @@ public class Task implements Cloneable {
 		return TaskType.FLOAT;
 	}
 	
-	public Date getMainDate() {
+	public Calendar getMainDate() {
 		return null;
 	}
 	
@@ -58,11 +58,11 @@ public class Task implements Cloneable {
 		return false;
 	}
 	
-	protected static String getDateString(Date date) {
+	protected static String getDateString(Calendar date) {
 		if (date == null) {
 			return "null";
 		} else {
-			return DATE_FORMAT.format(date);
+			return DATE_FORMAT.format(date.getTime());
 		}
 	}
 }

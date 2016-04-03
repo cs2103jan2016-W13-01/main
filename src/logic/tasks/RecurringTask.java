@@ -1,6 +1,6 @@
 package logic.tasks;
 
-import java.util.Date;
+import java.util.Calendar;
 
 /* @@author A0112184R
  * This class contains details for recurring tasks
@@ -8,8 +8,8 @@ import java.util.Date;
 public class RecurringTask extends Task {
 	
 	private static final int EVERY_DAY = 1;
-	private Date startDate;
-	private Date endDate;
+	private Calendar startDate;
+	private Calendar endDate;
 	private int period;
 	
 	@Override
@@ -18,38 +18,38 @@ public class RecurringTask extends Task {
 	}
 	
 	@Override
-	public Date getMainDate() {
+	public Calendar getMainDate() {
 		return null;
 	}
 	
-	public RecurringTask(String title, Date start, Date end, int time) {
+	public RecurringTask(String title, Calendar start, Calendar end, int time) {
 		super(title);
 		startDate = start;
 		endDate = end;
 		period = time;
 	}
 	
-	public RecurringTask(String title, Date start, Date end) {
+	public RecurringTask(String title, Calendar start, Calendar end) {
 		this(title, start, end, EVERY_DAY);
 	}
 	
-	public RecurringTask(String title, Date start, int time) {
+	public RecurringTask(String title, Calendar start, int time) {
 		this(title, start, null, time);
 	}
 	
 	public RecurringTask(String title, int time) {
-		this(title, new Date(), time);
+		this(title, Calendar.getInstance(), time);
 	}
 	
 	public RecurringTask(String title) {
-		this(title, new Date(), EVERY_DAY);
+		this(title, Calendar.getInstance(), EVERY_DAY);
 	}
 	
-	public Date getStartDate() {
+	public Calendar getStartDate() {
 		return startDate;
 	}
 	
-	public Date getEndDate() {
+	public Calendar getEndDate() {
 		return endDate;
 	}
 	
@@ -57,7 +57,7 @@ public class RecurringTask extends Task {
 		return period;
 	}
 	
-	public void setStartDate(Date newDate) {
+	public void setStartDate(Calendar newDate) {
 		startDate = newDate;
 	}
 	
@@ -68,9 +68,9 @@ public class RecurringTask extends Task {
 	@Override
 	public String toString() {
 		if (endDate == null) {
-			return getTitle() + getDateString(startDate) + "every " + period + " days";
+			return getTitle() + " " + getDateString(startDate) + "every " + period + " days";
 		} else {
-			return getTitle() + getDateString(startDate) + "-" + getDateString(endDate) + "every " + period + " days";
+			return getTitle() + " " + getDateString(startDate) + " - " + getDateString(endDate) + "every " + period + " days";
 		}
 	}
 	

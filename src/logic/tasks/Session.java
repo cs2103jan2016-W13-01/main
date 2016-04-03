@@ -1,14 +1,14 @@
 package logic.tasks;
 
-import java.util.Date;
+import java.util.Calendar;
 
 /* @@author A0112184R
  * This class contains details for sessions with start and end time
  */
 public class Session extends Task {
 	
-	private Date start;
-	private Date end;
+	private Calendar start;
+	private Calendar end;
 	
 	@Override
 	public TaskType getType() {
@@ -16,35 +16,35 @@ public class Session extends Task {
 	}
 	
 	@Override
-	public Date getMainDate() {
+	public Calendar getMainDate() {
 		return start;
 	}
 	
-	public Session(String title, Date startDate, Date endDate) {
+	public Session(String title, Calendar startDate, Calendar endDate) {
 		super(title);
 		start = startDate;
 		end = endDate;
 	}
 	
-	public Date getStartDate() {
+	public Calendar getStartDate() {
 		return start;
 	}
 	
-	public Date getEndDate() {
+	public Calendar getEndDate() {
 		return end;
 	}
 	
-	public void setStartDate(Date newStart) {
+	public void setStartDate(Calendar newStart) {
 		start = newStart;
 	}
 	
-	public void setEndDate(Date newEnd) {
+	public void setEndDate(Calendar newEnd) {
 		end = newEnd;
 	}
 	
 	@Override
 	public String toString() {
-		return getTitle() + getDateString(start) + getDateString(end);
+		return getTitle() + " " + getDateString(start) + " - " + getDateString(end);
 	}
 	
 	@Override

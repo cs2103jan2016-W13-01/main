@@ -59,7 +59,13 @@ public class StorageController {
 		for (Task task: GrandTaskList.getNoRecurringList()) {
 			displayList.add(task);
 		}
-		
+	}
+	
+	public static void clearDisplayedTasks() throws IOException {
+		for (Task task: displayList) {
+			GrandTaskList.deleteTask(task);
+		}
+		displayList.clear();
 	}
 	
 	public static void setPath(String pathName) throws IOException {

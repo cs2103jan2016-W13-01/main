@@ -1,6 +1,6 @@
 package logic.tasks;
 
-import java.util.Date;
+import java.util.Calendar;
 
 import logic.Priority;
 
@@ -8,12 +8,12 @@ import logic.Priority;
  * This class stores all the information in a task.
  * Fields:
  *     - title: details about the task
- *     - date: date for the task to be done or deadline
+ *     - date: Calendar for the task to be done or deadline
  *     - priority: the task's priority
  */
 public class Deadline extends Task {
 
-	private Date date;
+	private Calendar date;
 	private Priority priority;
 	
 	@Override
@@ -22,11 +22,11 @@ public class Deadline extends Task {
 	}
 	
 	@Override
-	public Date getMainDate() {
+	public Calendar getMainDate() {
 		return date;
 	}
 	
-	public Date getDate() {
+	public Calendar getDate() {
 		return date;
 	}
 	
@@ -34,7 +34,7 @@ public class Deadline extends Task {
 		return priority;
 	}
 	
-	public void setDate(Date newDate) {
+	public void setDate(Calendar newDate) {
 		date = newDate;
 	}
 	
@@ -42,18 +42,18 @@ public class Deadline extends Task {
 		priority = newPrio;
 	}
 	
-	public Deadline(String title, Date date, Priority priority) {
+	public Deadline(String title, Calendar date, Priority priority) {
 		super(title);
 		this.date = date;
 		this.priority = priority;
 	}
 	
-	public Deadline(String title, Date date) {
+	public Deadline(String title, Calendar date) {
 		this(title, date, Priority.NULL);
 	}
 	
 	public Deadline(String title) {
-		this(title, new Date(), Priority.NULL);
+		this(title, Calendar.getInstance(), Priority.NULL);
 	}
 	
 	@Override
