@@ -80,4 +80,17 @@ public class TaskProcessor {
 			listToDisplay.add(TaskUtil.toString(task));
 		}
 	}
+	
+	public static ArrayList<String[]> getTimelineList() {
+		ArrayList<String[]> result = new ArrayList<String[]>();
+		for (Task task: StorageController.getTimelineList()) {
+			String[] pentuple = TaskUtil.toStringArray(task);
+			String[] triple = new String[3];
+			for (int i=0; i<3; i++) {
+				triple[i] = pentuple[i+1];
+			}
+			result.add(triple);
+		}
+		return result;
+	}
 }

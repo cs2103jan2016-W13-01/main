@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.function.Predicate;
 
+import org.apache.commons.lang.time.DateUtils;
+
 import logic.tasks.*;
 
 /* @@author A0112184R
@@ -146,5 +148,21 @@ public class StorageController {
 		for (Task task: GrandTaskList.search(predicate)) {
 			displayList.add(task);
 		}
+	}
+	
+	public static ArrayList<Task> getTimelineList() {
+		ArrayList<Task> result = new ArrayList<Task>();
+		for (Task task: GrandTaskList.getNoRecurringList()) {
+			Calendar date = task.getMainDate();
+			Calendar nextOneMonth = Calendar.getInstance();
+			nextOneMonth.add(Calendar.DATE, 30);
+			if (date != null
+				&& DateUtils.truncatedCompareTo(date,
+						nextOneMonth,
+						Calendar.DATE) < 0) {
+				result.add(task);
+			}
+		}
+		return result;
 	}
 }

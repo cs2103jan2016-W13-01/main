@@ -103,7 +103,9 @@ public class DisplayWindow extends javax.swing.JFrame {
 			statusField.setText(MESSAGE_NO_TASK);
 		} else {
 			for (int i = 0; i < size; i++) {
-				model.addRow(new Object[]{(i + 1), tasks.get(i), "", ""});
+				String entryString = (i+1) + ";" + tasks.get(i);
+				String[] entry = entryString.split(";");
+				model.addRow(entry);
 			}
 		}
 	}
@@ -295,7 +297,7 @@ public class DisplayWindow extends javax.swing.JFrame {
             allTaskTable.getColumnModel().getColumn(5).setPreferredWidth(200);
         }
 
-        jLabel3.setText("jLabel3");
+        jLabel3.setText("");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);

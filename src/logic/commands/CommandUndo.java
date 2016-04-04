@@ -23,8 +23,7 @@ public class CommandUndo implements Command {
 		if (!ExecutedCommands.isEmpty()) {
 			Command lastExecutedCommand = ExecutedCommands.getLatestCommand();
 			LogicLogger.log(Level.INFO, "Undoing action");
-			lastExecutedCommand.undo();
-			return MESSAGE_COMMAND_UNDONE;
+			return lastExecutedCommand.undo();
 		} else {
 			LogicLogger.log(Level.INFO, "No action to undo");
 			return MESSAGE_NO_COMMAND;
