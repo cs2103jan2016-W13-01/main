@@ -1,53 +1,119 @@
 package Parser;
-import java.util.Calendar;
 /* @@author A0121535R
  * parser that obtains the different date Strings then use natty parser to parse
  */
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang.time.DateUtils;
 
+
 public class DateParser {
 
 	static final String START_DATE_KEYWORD = "(" + "((?<=\\s|^)(at?|from?))?" + ")";
 	static final String CONNECT_DATE_KEYWORD =  "(to |till |until )";
 
+	static final String ALL_DATE_REGEX = "("+ newTitleParser.FIRST_DATE_REGEX +"|"+ newTitleParser.SECOND_DATE_REGEX +"|"+ newTitleParser.MISC_FIRST_DATE_REGEX +"|"+ newTitleParser.MISC_SECOND_DATE_REGEX +"|"+
+			newTitleParser.FIRST_DAY_REGEX +"|"+ newTitleParser.SECOND_DAY_REGEX +"|"+ newTitleParser.MISC_NUMBERED_DATE_REGEX +"|"+ newTitleParser.NUMBERED_DATE_REGEX +"|"+newTitleParser.MISC_TIME_REGEX +"|"+Regex.TMR_REGEX+")";
 	static final String DATE_KEYWORD = "("+START_DATE_KEYWORD + newTitleParser.NOT_TITLE_REGEX+"|"+newTitleParser.NOT_TITLE_REGEX+")";
 	
 	public static Calendar[] getDates(String input) {
 		System.out.println("this is input to getDates "+input);
+		ArrayList<String> dateList = new ArrayList<String>();
+		ArrayList<String> timeList = new ArrayList<String>();
+		
+		
+		Pattern r = Pattern.compile(ALL_DATE_REGEX);
+		Matcher m = r.matcher(input);	
+		
+		while (m.find( )) {
+			System.out.println("Found DATE value: " + m.group() );
+			dateList.add(m.group());
+		} 
+		
+		 r = Pattern.compile(Regex.TIME_REGEX);
+		 m = r.matcher(input);	
+		
+		while (m.find( )) {
+			System.out.println("Found TIME value: " + m.group() );
+			timeList.add(m.group());
+		} 
 
-		Pattern r = Pattern.compile(DATE_KEYWORD);
-		Matcher m = r.matcher(input);
-		if (m.find( )) {
-			System.out.println("Found value: " + m.group(0) );
-			System.out.println("found value2: "+ m.group(1));
-		} else {
-			System.out.println("NO MATCH");
-			return convertFromDate(new Date[0]);
-		}
-
-		String[] datesToken = m.group(0).split(CONNECT_DATE_KEYWORD,2);
 		try{
-			if(datesToken.length==2){
+			String startTime="";
+			String endTime="";
+			if(dateList.size()==2){
 				Date[] dates = new Date[2];
-				dates[0]=NattyDateParser.getDate(datesToken[0]);
-				dates[1]=NattyDateParser.getDate(datesToken[1]);
-				return convertFromDate(dates);
+				if(timeList.size()==2){
+					startTime = timeList.get(0)+" "+dateList.get(0);
+					endTime= timeList.get(1) +" "+dateList.get(1);
+					dates[0]=NattyDateParser.getDate(startTime);
+					dates[1]=NattyDateParser.getDate(endTime);
+					
+				}
+				else if(timeList.size()==0){
+					startTime = dateList.get(0);
+					endTime = dateList.get(1);
+					dates[0]=NattyDateParser.getDate(startTime);
+					dates[1]=NattyDateParser.getDate(endTime);
+				}
+				else{
+					startTime = timeList.get(0)+" "+dateList.get(0);
+					endTime= timeList.get(0) +" "+dateList.get(1);
+					dates[0]=NattyDateParser.getDate(startTime);
+					dates[1]=NattyDateParser.getDate(endTime);
+					
+				}
+				return convertFromDate(dates); 
+			}
+			else if(dateList.size()==0){
+				if(timeList.size()==2){
+					Date[] dates = new Date[2];
+					startTime = timeList.get(0);
+					endTime= timeList.get(1);
+					dates[0]=NattyDateParser.getDate(startTime);
+					dates[1]=NattyDateParser.getDate(endTime);
+					return convertFromDate(dates); 
+				}
+				else if(timeList.size()==0){
+					return convertFromDate(new Date[0]);
+				}
+				else{
+					Date[] dates = new Date[1];
+					startTime = timeList.get(0);
+					dates[0]=NattyDateParser.getDate(startTime);
+					return convertFromDate(dates); 
+				}
 			}
 			else {
-				Date[] dates = new Date[1];
-				System.out.println("this is size "+datesToken.length);
-				System.out.println("DATETOKEN = "+datesToken[0]);
-				dates[0]=NattyDateParser.getDate(datesToken[0]);
-				return convertFromDate(dates);
+				if(timeList.size()==2){
+					Date[] dates = new Date[2];
+					startTime = timeList.get(0)+" "+dateList.get(0);
+					endTime= timeList.get(1) +" "+dateList.get(0);
+					dates[0]=NattyDateParser.getDate(startTime);
+					dates[1]=NattyDateParser.getDate(endTime);
+					return convertFromDate(dates); 
+				}
+				else if(timeList.size()==0){
+					Date[] dates = new Date[1];
+					startTime = dateList.get(0);
+					dates[0]=NattyDateParser.getDate(startTime);
+					return convertFromDate(dates); 
+				}
+				else{
+					Date[] dates = new Date[1];
+					startTime = timeList.get(0)+" "+dateList.get(0);
+					dates[0]=NattyDateParser.getDate(startTime);
+					return convertFromDate(dates); 
+				}
 			}
 		}catch(NullPointerException e){
 			return convertFromDate(new Date[0]);
 		}
-
+	
 	}
 	
 	public static Calendar[] convertFromDate(Date[] dates) {
