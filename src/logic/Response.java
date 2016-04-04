@@ -9,6 +9,7 @@ public class Response {
 	
 	private String message;
 	private ArrayList<String> taskList;
+	private String type;
         
         public Response() {
 	
@@ -18,6 +19,7 @@ public class Response {
 	public Response(String msg, ArrayList<String> list) {
 		message = msg;
 		taskList = list;
+		type = "incomplete";
 	}
 	
 	public Response(String msg) {
@@ -53,5 +55,14 @@ public class Response {
 			}
 		}
 		return sb.toString();
+	}
+
+
+	public String getType() {
+		return type;
+	}
+	
+	public void setType(String newType) {
+		type = newType;
 	}
 }
