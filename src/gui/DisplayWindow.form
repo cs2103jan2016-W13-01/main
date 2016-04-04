@@ -207,17 +207,17 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jTabbedPane1" alignment="0" max="32767" attributes="0"/>
+                      <Component id="taskTabbedPane" alignment="0" max="32767" attributes="0"/>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jTabbedPane1" min="-2" pref="316" max="-2" attributes="0"/>
+                      <Component id="taskTabbedPane" min="-2" pref="316" max="-2" attributes="0"/>
                   </Group>
                 </DimensionLayout>
               </Layout>
               <SubComponents>
-                <Container class="javax.swing.JTabbedPane" name="jTabbedPane1">
+                <Container class="javax.swing.JTabbedPane" name="taskTabbedPane">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Trebuchet MS" size="18" style="1"/>
@@ -394,32 +394,32 @@
                                 <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                                   <TableColumnModel selectionModel="2">
                                     <Column maxWidth="-1" minWidth="-1" prefWidth="70" resizable="true">
-                                      <Title/>
+                                      <Title value="No."/>
                                       <Editor/>
                                       <Renderer/>
                                     </Column>
                                     <Column maxWidth="-1" minWidth="-1" prefWidth="100" resizable="true">
-                                      <Title/>
+                                      <Title value="Status"/>
                                       <Editor/>
                                       <Renderer/>
                                     </Column>
                                     <Column maxWidth="-1" minWidth="-1" prefWidth="500" resizable="true">
-                                      <Title/>
+                                      <Title value="Title"/>
                                       <Editor/>
                                       <Renderer/>
                                     </Column>
                                     <Column maxWidth="-1" minWidth="-1" prefWidth="200" resizable="true">
-                                      <Title/>
+                                      <Title value="Starting Time/Deadline"/>
                                       <Editor/>
                                       <Renderer/>
                                     </Column>
                                     <Column maxWidth="-1" minWidth="-1" prefWidth="200" resizable="true">
-                                      <Title/>
+                                      <Title value="Ending Time/ Deadline"/>
                                       <Editor/>
                                       <Renderer/>
                                     </Column>
                                     <Column maxWidth="-1" minWidth="-1" prefWidth="200" resizable="true">
-                                      <Title/>
+                                      <Title value="Repeating"/>
                                       <Editor/>
                                       <Renderer/>
                                     </Column>
