@@ -17,7 +17,7 @@ public class TextUI {
 	public static void main(String[] args) {
 		sc = new Scanner(System.in);
 		initialize();
-		while (sc.hasNextLine()) {
+		while (true) {
 			String input = sc.nextLine();
 			Command command = CommandParser.parseInput(input);
 			Response response = TaskProcessor.executeCommand(command);
@@ -41,7 +41,7 @@ public class TextUI {
 		System.out.println(message);
 	}
 	
-	public static void displayTaskList(ArrayList<String[]> taskList) {
+	public static void displayTaskList(ArrayList<String> taskList) {
 		if (taskList != null) {
 			if (!taskList.isEmpty()) {
 				int lineNum = 0;
@@ -56,6 +56,11 @@ public class TextUI {
 		} else {
 			System.out.println("Task list not loaded");
 		}
+	}
+	
+	public static void getInput() {
+		String input = sc.nextLine();
+		InputQueue.addInput(input);
 	}
 	
 	public static void initialize() {

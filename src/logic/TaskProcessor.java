@@ -26,7 +26,7 @@ public class TaskProcessor {
 	private static final String MESSAGE_SORT_ERROR = "Error encountered when sorting tasks. Please try again.";
 	*/
 
-	private static ArrayList<String[]> listToDisplay;
+	private static ArrayList<String> listToDisplay;
 	
 	public static void main(String[] args) {
 		while (true) {
@@ -34,7 +34,7 @@ public class TaskProcessor {
 		}
 	}
 	
-	public static ArrayList<String[]> getListToDisplay() {
+	public static ArrayList<String> getListToDisplay() {
 		loadIntoDisplayList(StorageController.getDisplayList());
 		return listToDisplay;
 	}
@@ -54,12 +54,12 @@ public class TaskProcessor {
 
 	public static Response executeCommand(Command command) {
 		String message = command.execute();
-		ArrayList<String[]> taskList = getListToDisplay();
+		ArrayList<String> taskList = getListToDisplay();
 		return new Response(message, taskList);
 	}
 	
 	public static void initialize() {
-		listToDisplay = new ArrayList<String[]>();
+		listToDisplay = new ArrayList<String>();
 		ExecutedCommands.initialize();
 		LogicLogger.initialize();
 		try {
@@ -77,7 +77,7 @@ public class TaskProcessor {
 		listToDisplay.clear();
 		for (Task task: taskList) {
 			assert task != null : "Some task in the task list is null";
-			listToDisplay.add(TaskUtil.toStringArray(task));
+			listToDisplay.add(task.toString());
 		}
 	}
 }
