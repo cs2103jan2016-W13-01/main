@@ -1,6 +1,13 @@
 List of commands that fails:
+
 add go to library from 04/05/2016 12:00 to 04/05/2016 17:00
 reason: the date parser appears to only read the first word after keyword "from" and ignore the rest.
 console output:
 Found value: from 04/05/2016
 found value2: from 04/05/2016
+
+add go to lecture 04/05/2016 10am
+reason: the date parser cannot recognize the time "10am" and returned the current time.
+console output:
+Found value: 04/05/2016
+found value2: 04/05/2016
