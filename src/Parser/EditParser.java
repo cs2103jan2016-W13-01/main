@@ -22,8 +22,9 @@ public class EditParser extends GeneralParser {
 			String[] inputTokens = inputArgs.split(Regex.REGEX_SPACE,2);
 			int inputNum = getInputNum(inputTokens[0]);
 
-			Task task = getEditTask(inputArgs);
+			Task task = getEditTask(inputTokens[1]);
 			if(task ==null){
+			
 				return new CommandInvalid();
 			}
 			//String description = getDescription(inputArgs);
@@ -40,6 +41,9 @@ public class EditParser extends GeneralParser {
 
 	private Task getEditTask(String inputArgs) {
 		String title = getTitle(inputArgs);
+		if(title==""){
+			title=null;
+		}
 		Calendar[] date = getDateArray(inputArgs);
 		Priority tag = getTag(inputArgs);
 		int recurring = getRecurring(inputArgs);
