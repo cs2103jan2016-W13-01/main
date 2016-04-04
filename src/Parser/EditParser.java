@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
 
+import logic.Priority;
 import logic.commands.Command;
 import logic.commands.CommandEdit;
 import logic.commands.CommandInvalid;
@@ -21,8 +22,9 @@ public class EditParser extends GeneralParser {
 			String[] inputTokens = inputArgs.split(Regex.REGEX_SPACE,2);
 			int inputNum = getInputNum(inputTokens[0]);
 
-			Task task = getEditTask(inputArgs);
+			Task task = getEditTask(inputTokens[1]);
 			if(task ==null){
+			
 				return new CommandInvalid();
 			}
 			//String description = getDescription(inputArgs);
@@ -38,35 +40,14 @@ public class EditParser extends GeneralParser {
 	}
 
 	private Task getEditTask(String inputArgs) {
-
-		int titleIndex;
-		Task task;
-		Calendar[] cal;
-		String temp = inputArgs.toLowerCase();
-		int dateIndex = temp.indexOf("d:");
-		if(dateIndex==-1){
-			cal = new Calendar[0];
-			titleIndex = temp.indexOf("t:");
-			if(titleIndex==-1){
-				return null;
-			}
-			titleIndex+=2;
-			String title = getTitle(inputArgs.substring(titleIndex).trim());
-			task = new Task(title,cal);
+		String title = getTitle(inputArgs);
+		if(title==""){
+			title=null;
 		}
-		else{
-			String dateString = inputArgs.substring(dateIndex+=2);
-			cal = getDateArray(dateString);
-			titleIndex = temp.indexOf("t:");
-			if(titleIndex==-1){
-				task = new Task(null,cal);
-			}
-			titleIndex+=2;
-			String title = getTitle(inputArgs.substring(titleIndex,dateIndex).trim());
-
-			task = new Task(title,cal);
-			System.out.println(title);
-		}
+		Calendar[] date = getDateArray(inputArgs);
+		Priority tag = getTag(inputArgs);
+		int recurring = getRecurring(inputArgs);
+		Task task = createTask(title,date,tag,recurring);
 		return task;
 	}
 

@@ -14,9 +14,11 @@ import logic.commands.CommandClear;
 import logic.commands.CommandDisplay;
 import logic.commands.CommandHelp;
 import logic.commands.CommandInvalid;
+import logic.commands.CommandMark;
 import logic.commands.CommandRedo;
 import logic.commands.CommandType;
 import logic.commands.CommandUndo;
+import logic.commands.CommandUnmark;
 
 public class CommandParser {
 
@@ -73,10 +75,13 @@ public class CommandParser {
 	 * inputformat <undo>
 	 */
 	public static Command parseInput(String input) {
+		Command displayDetails = getDisplayCommand(input);
+		if(!displayDetails.getType().equals(CommandType.INVALID)){
+			return displayDetails;
+		}
 		String[] inputTokens = getToken(input);
 		CommandType cmd = getCmdType(inputTokens[0]);
-		Command cmdDetails=null;
-
+		Command cmdDetails;
 		if(inputTokens.length==2){
 			switch(cmd){
 
@@ -92,23 +97,20 @@ public class CommandParser {
 					EditParser ep = new EditParser();
 					return cmdDetails = ep.parse(inputTokens[1]);
 
-					/*	
-			case MARK:
-				inputNum = getInputNum(inputTokens);
-				if(inputNum==-1){
-					cmd=CommandType.INVALID;
-				}
-				cmdDetails= new CommandDetails(cmd,task,inputNum);
-				break;
+				case MARK:
+					int inputNum = getInputNum(inputTokens[1]);
+					if(inputNum==-1){
+						cmd=CommandType.INVALID;
+					}
+					return cmdDetails= new CommandMark(inputNum);
 
-			case UNMARK:
-				inputNum = getInputNum(inputTokens);
-				if(inputNum==-1){
-					cmd=CommandType.INVALID;
-				}
-				cmdDetails= new CommandDetails(cmd,task,inputNum);
-				break;
-					 */
+				case UNMARK:
+					inputNum = getInputNum(inputTokens[1]);
+					if(inputNum==-1){
+						cmd=CommandType.INVALID;
+					}
+					return cmdDetails= new CommandUnmark(inputNum);
+
 				case SET:
 					SetParser setParser = new SetParser();
 					return cmdDetails = setParser.parse(inputTokens[1]);
@@ -125,7 +127,7 @@ public class CommandParser {
 			switch(cmd){
 				case REDO:
 					return cmdDetails = new CommandRedo();
-					
+
 				case UNDO:
 					return cmdDetails = new CommandUndo();
 
@@ -145,6 +147,69 @@ public class CommandParser {
 		else{
 			return cmdDetails = new CommandInvalid();
 		}
+	}
+
+
+	private static int getInputNum(String input) {
+		int num =-1;
+		try{
+			num = Integer.parseInt(input);
+			return num;
+		}catch(NumberFormatException e){
+			num=-1;
+			return num;
+		}
+	}
+
+
+	private static Command getDisplayCommand(String input) {
+		input=input.toLowerCase();
+		String returnString="";
+		switch(input){
+			case "all":
+				returnString="all";
+				break;
+			case "float":
+			case "undecided":
+			case "floating":
+				returnString="float";
+				break;
+			case "deadline":
+			case "normal":
+			case "norm":
+				returnString="deadline";
+				break;
+			case "session":
+			case "event":
+				returnString="session";
+				break;
+			case "repeating":
+			case "routine":
+			case "recurring":
+			case "repeat":
+			case "recur":
+				returnString="repeat";
+				break;
+			case"done":
+			case "completed":
+			case "finished":
+				returnString="done";
+				break;
+			case "undone":
+			case "uncompleted":
+			case "unfinished":
+			case "pending":
+				returnString="undone";	
+				break;
+			case "past":
+				returnString ="past";
+				break;
+			default:
+				return new CommandInvalid();
+		}
+		CommandDisplay cmdDisplay = new CommandDisplay(returnString);
+		return cmdDisplay;
+
 	}
 
 
