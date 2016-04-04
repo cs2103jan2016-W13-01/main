@@ -14,126 +14,138 @@ import logic.tasks.*;
  */
 public class StorageController {
 	
-	private static ArrayList<Task> displayList;
-	/*
-	private static TaskList<Task> floatList;
-	private static TaskList<Deadline> deadlineList;
-	private static TaskList<Session> sessionList;
-	private static TaskList<RecurringTask> recurringList;
-	*/
-	public static ArrayList<Task> getDisplayList() {
-		return displayList;
+	private static ArrayList<IndexedTaskList<Task>> taskListCollection;
+	
+	private static final int INDEX_DISPLAY = 0;
+	private static final int INDEX_UPCOMING = 1;
+	private static final int INDEX_UNDONE = 2;
+	private static final int INDEX_DONE = 3;
+	private static final int INDEX_ALL = 4;
+	
+	public static ArrayList<Task> gettaskListCollection.get(INDEX_DISPLAY)() {
+		return taskListCollection.get(INDEX_DISPLAY);
 	}
 	
-	public static void initialize() throws IOException {
-		displayList = new ArrayList<Task>();
+	public static void initialize() throws IOException {		
 		GrandTaskList.initialize();
 		Database.initialize();
-		loadDisplayList();
+		taskListCollection = new ArrayList<IndexedTaskList<Task>>();
+		taskListCollection.add(INDEX_DISPLAY, new IndexedTaskList<Task>("custom"));
+		taskListCollection.add(INDEX_ALL, new IndexedTaskList<Task>("all"));
+		taskListCollection.add(INDEX_UPCOMING, new IndexedTaskList<Task>("upcoming"));
+		loadtaskListCollection.get(INDEX_DISPLAY)();
 	}
 	
-	public static void loadDisplayList() {
+	public static void loadtaskListCollection.get(INDEX_DISPLAY)() {
 		for (Task task: GrandTaskList.getTotalList()) {
-			displayList.add(task);
+			taskListCollection.get(INDEX_DISPLAY).add(task);
 		}
 	}
 	
 	public static Task deleteByIndex(int index) throws IOException {
-		Task task = displayList.remove(index);
+		Task task = taskListCollection.get(INDEX_DISPLAY).remove(index);
 		deleteTask(task);
 		return task;
 	}
 	
 	public static Task markDoneByIndex(int index) throws IOException {
-		Task task = displayList.remove(index);
+		Task task = taskListCollection.get(INDEX_DISPLAY).remove(index);
 		markDone(task);
 		return task;
 	}
 	
 	public static Task unmarkDoneByIndex(int index) throws IOException {
-		Task task = displayList.remove(index);
+		Task task = taskListCollection.get(INDEX_DISPLAY).remove(index);
 		unmarkDone(task);
 		return task;
 	}
 	
 	public static boolean addNewTask(Task task) throws IOException {
-		displayList.clear();
+		taskListCollection.get(INDEX_DISPLAY).clear();
 		boolean result = GrandTaskList.addNewTask(task);
-		displayList.add(task);
+		taskListCollection.get(INDEX_DISPLAY).add(task);
 		return result;
 	}
 	
 	public static boolean deleteTask(Task task) throws IOException {
 		boolean result = GrandTaskList.deleteTask(task);
-		displayList.remove(task);
+		taskListCollection.get(INDEX_DISPLAY).remove(task);
 		return result;
 	}
 	
 	public static boolean markDone(Task task) throws IOException {
-		displayList.clear();
+		taskListCollection.get(INDEX_DISPLAY).clear();
 		boolean result = GrandTaskList.markDone(task);
-		displayList.remove(task);
+		taskListCollection.get(INDEX_DISPLAY).remove(task);
 		return result;
 	}
 	
 	public static boolean unmarkDone(Task task) throws IOException {
-		displayList.clear();
+		taskListCollection.get(INDEX_DISPLAY).clear();
 		boolean result = GrandTaskList.unmarkDone(task);
-		displayList.add(task);
+		taskListCollection.get(INDEX_DISPLAY).add(task);
 		return result;
 	}
 	
-	public static void displayAllTasks() {
-		displayList.clear();
+	public static <T extends Task> IndexedTaskList<T> convertFromSorted(SortedTaskList<T> list, String name) {
+		IndexedTaskList<T> result = new IndexedTaskList<T>(name);
+		for (T task: list) {
+			result.add(task);
+		}
+		return result;
+	}
+	
+	public static void getAllTasks() {
+		taskListCollection.get(INDEX_DISPLAY).clear();
 		for (Task task: GrandTaskList.getNoRecurringList()) {
-			displayList.add(task);
+			taskListCollection.get(INDEX_DISPLAY).add(task);
 		}
 	}
 	
 	public static void displayFloatTasks() {
-		displayList.clear();
+		taskListCollection.get(INDEX_DISPLAY).clear();
 		for (Task task: GrandTaskList.getFloatList()) {
-			displayList.add(task);
+			taskListCollection.get(INDEX_DISPLAY).add(task);
 		}
 	}
 	
 	public static void displayDeadlines() {
-		displayList.clear();
+		taskListCollection.get(INDEX_DISPLAY).clear();
 		for (Task task: GrandTaskList.getDeadlineList()) {
-			displayList.add(task);
+			taskListCollection.get(INDEX_DISPLAY).add(task);
 		}
 	}
 	
 	public static void displaySessions() {
-		displayList.clear();
+		taskListCollection.get(INDEX_DISPLAY).clear();
 		for (Task task: GrandTaskList.getSessionList()) {
-			displayList.add(task);
+			taskListCollection.get(INDEX_DISPLAY).add(task);
 		}
 	}
 	
 	public static void displayRecurring() {
-		displayList.clear();
+		taskListCollection.get(INDEX_DISPLAY).clear();
 		for (Task task: GrandTaskList.getRecurringList()) {
-			displayList.add(task);
+			taskListCollection.get(INDEX_DISPLAY).add(task);
 		}
 	}
 	
 	public static void displayTasksOnDate(Calendar date) {
 		for (Task task: GrandTaskList.getTasksOnDate(date)) {
-			displayList.add(task);
+			taskListCollection.get(INDEX_DISPLAY).add(task);
 		}
 	}
 	
 	public static void clearDisplayedTasks() throws IOException {
-		for (Task task: displayList) {
+		for (Task task: taskListCollection.get(INDEX_DISPLAY)) {
 			GrandTaskList.deleteTask(task);
 		}
-		displayList.clear();
+		taskListCollection.get(INDEX_DISPLAY).clear();
 	}
 	
 	public static void clearAllTasks() throws IOException {
 		GrandTaskList.clearAll();
-		displayList.clear();
+		taskListCollection.get(INDEX_DISPLAY).clear();
 	}
 	
 	public static void setPath(String pathName) throws IOException {
@@ -146,7 +158,7 @@ public class StorageController {
 	
 	public static void searchTask(Predicate<Task> predicate) {
 		for (Task task: GrandTaskList.search(predicate)) {
-			displayList.add(task);
+			taskListCollection.get(INDEX_DISPLAY).add(task);
 		}
 	}
 	

@@ -179,7 +179,7 @@ public class Database {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static <T extends Task> void load(TaskList<T> list, File file) throws IOException {
+	public static <T extends Task> void load(SortedTaskList<T> list, File file) throws IOException {
 		
 		BufferedReader br = initBufferedReader(file);
 		String begin;
@@ -198,7 +198,7 @@ public class Database {
 		br.close();
 	}
 	
-	public static <T extends Task> void save(TaskList<T> list, File file) throws IOException {
+	public static <T extends Task> void save(SortedTaskList<T> list, File file) throws IOException {
 		clearFile(file);
 		BufferedWriter bw = initBufferedWriter(file);
 		for (T task: list) {
