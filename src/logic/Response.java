@@ -8,14 +8,9 @@ import java.util.ArrayList;
 public class Response {
 	
 	private String message;
-	private ArrayList<String> taskList;
-        
-        public Response() {
+	private ArrayList<String[]> taskList;	
 	
-	}
-	
-	
-	public Response(String msg, ArrayList<String> list) {
+	public Response(String msg, ArrayList<String[]> list) {
 		message = msg;
 		taskList = list;
 	}
@@ -24,7 +19,7 @@ public class Response {
 		message = msg;
 	}
 	
-	public Response(ArrayList<String> list) {
+	public Response(ArrayList<String[]> list) {
 		taskList = list;
 	}
 	
@@ -32,7 +27,7 @@ public class Response {
 		return message;
 	}
 	
-	public ArrayList<String> getTaskList() {
+	public ArrayList<String[]> getTaskList() {
 		return taskList;
 	}
 	
@@ -47,9 +42,11 @@ public class Response {
 			sb.append("\r\n");
 			sb.append("null");
 		} else {
-			for (String str: taskList) {
+			for (String[] strs: taskList) {
 				sb.append("\r\n");
-				sb.append(str);
+				for (String str: strs) {
+					sb.append(str + ";");
+				}
 			}
 		}
 		return sb.toString();

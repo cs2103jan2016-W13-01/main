@@ -139,4 +139,26 @@ public class TaskUtil {
 		sb.append("recurring period: " + period + FIELD_SEPARATOR + "\r\n");
 		return sb.toString();
 	}
+	
+	public static String[] toStringArray(Task task) {
+		String isDoneString = task.isDone() ? "complete" : "incomplete";
+		String titleString = task.getTitle();
+		String startString = convertFromDate(task.getMainDate());
+		String endString;
+		if (task instanceof Session) {
+			endString = convertFromDate(((Session) task).getEndDate());
+		} else if (task instanceof RecurringTask) {
+			endString = convertFromDate(((RecurringTask) task).getEndDate());
+		} else {
+			endString = "null";
+		}
+		String periodString;
+		if (task instanceof RecurringTask) {
+			periodString = Integer.toString(((RecurringTask) task).getPeriod());
+		} else {
+			periodString = "null";
+		}
+		String[] result = {isDoneString, titleString, startString, endString, periodString};
+		return result;
+	}
 }
