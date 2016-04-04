@@ -30,7 +30,7 @@ public class Controller {
     	DW = new DisplayWindow();
         DW.setVisible(true);
 		TaskProcessor.initialize();
-		displayTasks(TaskProcessor.getListToDisplay());
+		displayTasks(TaskProcessor.getListToDisplay(), "all");
 	}
     // @@author    
     
@@ -43,8 +43,9 @@ public class Controller {
     public static void displayFeedback(Response response){
            String status = response.getMessage();
            ArrayList<String> tasks = response.getTaskList();
+           String type = response.getType();
            displayStatus(status);
-           displayTasks(tasks);
+           displayTasks(tasks, type);
 		}
     
     public static void displayStatus(String status){
@@ -52,7 +53,14 @@ public class Controller {
     }
     
     
-    public static void displayTasks(ArrayList<String> tasks){
-		DW.displayTaskList(tasks);
+    public static void displayTasks(ArrayList<String> tasks, String type){
+        if (type.equals("all"))
+		DW.displayAllTaskList(tasks);
+        else if (type.equals("upcoming"))
+		DW.displayUpcomingTaskList(tasks);
+        else if (type.equals("completed"))
+		DW.displayCompletedTaskList(tasks);        
+        else if (type.equals("pending"))
+		DW.displayPendingTaskList(tasks);   
     }
 }

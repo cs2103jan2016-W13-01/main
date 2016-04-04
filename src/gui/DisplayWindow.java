@@ -96,7 +96,8 @@ public class DisplayWindow extends javax.swing.JFrame {
 		statusField.setText(status);
 	}
 
-	public void displayTaskList(ArrayList<String> tasks) {
+	public void displayAllTaskList(ArrayList<String> tasks) {
+		taskTabbedPane.setSelectedIndex(0);            
 		int size = tasks.size();
 		DefaultTableModel model = (DefaultTableModel) allTaskTable.getModel();
 		if (size == 0) {
@@ -109,7 +110,48 @@ public class DisplayWindow extends javax.swing.JFrame {
 			}
 		}
 	}
-
+	public void displayUpcomingTaskList(ArrayList<String> tasks) {
+		taskTabbedPane.setSelectedIndex(1);
+		int size = tasks.size();                
+		DefaultTableModel model = (DefaultTableModel) allTaskTable.getModel();
+		if (size == 0) {
+			statusField.setText(MESSAGE_NO_TASK);
+		} else {
+			for (int i = 0; i < size; i++) {
+				String entryString = (i+1) + ";" + tasks.get(i);
+				String[] entry = entryString.split(";");
+				model.addRow(entry);
+			}
+		}
+	}        
+	public void displayCompletedTaskList(ArrayList<String> tasks) {
+		taskTabbedPane.setSelectedIndex(2);
+		int size = tasks.size();
+                DefaultTableModel model = (DefaultTableModel) allTaskTable.getModel();
+		if (size == 0) {
+			statusField.setText(MESSAGE_NO_TASK);
+		} else {
+			for (int i = 0; i < size; i++) {
+				String entryString = (i+1) + ";" + tasks.get(i);
+				String[] entry = entryString.split(";");
+				model.addRow(entry);
+			}
+		}
+	}          
+	public void displayPendingTaskList(ArrayList<String> tasks) {
+		taskTabbedPane.setSelectedIndex(3);
+		int size = tasks.size();
+                DefaultTableModel model = (DefaultTableModel) allTaskTable.getModel();
+		if (size == 0) {
+			statusField.setText(MESSAGE_NO_TASK);
+		} else {
+			for (int i = 0; i < size; i++) {
+				String entryString = (i+1) + ";" + tasks.get(i);
+				String[] entry = entryString.split(";");
+				model.addRow(entry);
+			}
+		}
+	}  
 	private void getCommandStrings() {
 		try {
 			BufferedReader br = new BufferedReader(new FileReader("Op2Commands.txt"));
@@ -177,11 +219,10 @@ public class DisplayWindow extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        taskTabbedPane = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         allTaskTable = new javax.swing.JTable();
-        jLabel3 = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         upComingTaskTable = new javax.swing.JTable();
@@ -251,7 +292,7 @@ public class DisplayWindow extends javax.swing.JFrame {
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder(""), "Task List", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Comic Sans MS", 1, 12))); // NOI18N
         jPanel4.setRequestFocusEnabled(false);
 
-        jTabbedPane1.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
+        taskTabbedPane.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
 
         jScrollPane2.setBackground(new java.awt.Color(255, 255, 255));
         jScrollPane2.setOpaque(true);
@@ -297,30 +338,18 @@ public class DisplayWindow extends javax.swing.JFrame {
             allTaskTable.getColumnModel().getColumn(5).setPreferredWidth(200);
         }
 
-        jLabel3.setText("");
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(1144, Short.MAX_VALUE)
-                .addComponent(jLabel3)
-                .addGap(56, 56, 56))
-            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1234, Short.MAX_VALUE))
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1234, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(86, 86, 86)
-                .addComponent(jLabel3)
-                .addContainerGap(181, Short.MAX_VALUE))
-            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 281, Short.MAX_VALUE))
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 281, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("All tasks", jPanel2);
+        taskTabbedPane.addTab("All tasks", jPanel2);
 
         jScrollPane3.setBackground(new java.awt.Color(255, 255, 255));
         jScrollPane3.setOpaque(true);
@@ -359,11 +388,17 @@ public class DisplayWindow extends javax.swing.JFrame {
         upComingTaskTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         if (upComingTaskTable.getColumnModel().getColumnCount() > 0) {
             upComingTaskTable.getColumnModel().getColumn(0).setPreferredWidth(70);
+            upComingTaskTable.getColumnModel().getColumn(0).setHeaderValue("No.");
             upComingTaskTable.getColumnModel().getColumn(1).setPreferredWidth(100);
+            upComingTaskTable.getColumnModel().getColumn(1).setHeaderValue("Status");
             upComingTaskTable.getColumnModel().getColumn(2).setPreferredWidth(500);
+            upComingTaskTable.getColumnModel().getColumn(2).setHeaderValue("Title");
             upComingTaskTable.getColumnModel().getColumn(3).setPreferredWidth(200);
+            upComingTaskTable.getColumnModel().getColumn(3).setHeaderValue("Starting Time/Deadline");
             upComingTaskTable.getColumnModel().getColumn(4).setPreferredWidth(200);
+            upComingTaskTable.getColumnModel().getColumn(4).setHeaderValue("Ending Time/ Deadline");
             upComingTaskTable.getColumnModel().getColumn(5).setPreferredWidth(200);
+            upComingTaskTable.getColumnModel().getColumn(5).setHeaderValue("Repeating");
         }
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
@@ -381,7 +416,7 @@ public class DisplayWindow extends javax.swing.JFrame {
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 281, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Upcoming", jPanel8);
+        taskTabbedPane.addTab("Upcoming", jPanel8);
 
         jScrollPane4.setBackground(new java.awt.Color(255, 255, 255));
         jScrollPane4.setOpaque(true);
@@ -442,7 +477,7 @@ public class DisplayWindow extends javax.swing.JFrame {
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 281, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Completed", jPanel9);
+        taskTabbedPane.addTab("Completed", jPanel9);
 
         jScrollPane5.setBackground(new java.awt.Color(255, 255, 255));
         jScrollPane5.setOpaque(true);
@@ -503,7 +538,7 @@ public class DisplayWindow extends javax.swing.JFrame {
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 281, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Pending", jPanel10);
+        taskTabbedPane.addTab("Pending", jPanel10);
 
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
         jPanel11.setLayout(jPanel11Layout);
@@ -516,7 +551,7 @@ public class DisplayWindow extends javax.swing.JFrame {
             .addGap(0, 281, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("Help", jPanel11);
+        taskTabbedPane.addTab("Help", jPanel11);
 
         javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
         jPanel12.setLayout(jPanel12Layout);
@@ -529,17 +564,17 @@ public class DisplayWindow extends javax.swing.JFrame {
             .addGap(0, 281, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("Option", jPanel12);
+        taskTabbedPane.addTab("Option", jPanel12);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addComponent(taskTabbedPane)
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(taskTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         commandField.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
@@ -676,7 +711,6 @@ public class DisplayWindow extends javax.swing.JFrame {
     private javax.swing.JTextField commandField;
     private javax.swing.JTable completedTaskTable;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JPanel jPanel1;
@@ -695,10 +729,10 @@ public class DisplayWindow extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable pendingTaskTable;
     private javax.swing.JLabel statusField;
+    private javax.swing.JTabbedPane taskTabbedPane;
     private javax.swing.JLabel timeField;
     private javax.swing.JTable upComingTaskTable;
     // End of variables declaration//GEN-END:variables
