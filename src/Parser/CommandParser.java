@@ -14,6 +14,7 @@ import logic.commands.CommandClear;
 import logic.commands.CommandDisplay;
 import logic.commands.CommandHelp;
 import logic.commands.CommandInvalid;
+import logic.commands.CommandRedo;
 import logic.commands.CommandType;
 import logic.commands.CommandUndo;
 
@@ -79,19 +80,19 @@ public class CommandParser {
 		if(inputTokens.length==2){
 			switch(cmd){
 
-			case ADD:
-				AddParser ap = new AddParser();
-				return cmdDetails = ap.parse(inputTokens[1]);
+				case ADD:
+					AddParser ap = new AddParser();
+					return cmdDetails = ap.parse(inputTokens[1]);
 
-			case DELETE:
-				DeleteParser dp = new DeleteParser();
-				return cmdDetails = dp.parse(inputTokens[1]);
+				case DELETE:
+					DeleteParser dp = new DeleteParser();
+					return cmdDetails = dp.parse(inputTokens[1]);
 
-			case EDIT:
-				EditParser ep = new EditParser();
-				return cmdDetails = ep.parse(inputTokens[1]);
+				case EDIT:
+					EditParser ep = new EditParser();
+					return cmdDetails = ep.parse(inputTokens[1]);
 
-				/*	
+					/*	
 			case MARK:
 				inputNum = getInputNum(inputTokens);
 				if(inputNum==-1){
@@ -107,35 +108,38 @@ public class CommandParser {
 				}
 				cmdDetails= new CommandDetails(cmd,task,inputNum);
 				break;
-				 */
-			case SET:
-				SetParser setParser = new SetParser();
-				return cmdDetails = setParser.parse(inputTokens[1]);
-				
-			case SEARCH:
-				SearchParser searchP = new SearchParser();
-				return cmdDetails = searchP.parse(inputTokens[1]);
-	
-			default:
-				return cmdDetails = new CommandInvalid();
+					 */
+				case SET:
+					SetParser setParser = new SetParser();
+					return cmdDetails = setParser.parse(inputTokens[1]);
+
+				case SEARCH:
+					SearchParser searchP = new SearchParser();
+					return cmdDetails = searchP.parse(inputTokens[1]);
+
+				default:
+					return cmdDetails = new CommandInvalid();
 			}
 		}
 		else if(inputTokens.length==1){
-			switch(cmd){			
-			case UNDO:
-				return cmdDetails = new CommandUndo();
+			switch(cmd){
+				case REDO:
+					return cmdDetails = new CommandRedo();
+					
+				case UNDO:
+					return cmdDetails = new CommandUndo();
 
-			case HELP:
-				return cmdDetails =  new CommandHelp();
-	
-			case CLEAR:
-				return cmdDetails = new CommandClear();
+				case HELP:
+					return cmdDetails =  new CommandHelp();
 
-			case DISPLAY:
-				return cmdDetails = new CommandDisplay();
-	
-			default:
-				return cmdDetails = new CommandInvalid();
+				case CLEAR:
+					return cmdDetails = new CommandClear();
+
+				case DISPLAY:
+					return cmdDetails = new CommandDisplay();
+
+				default:
+					return cmdDetails = new CommandInvalid();
 			}
 		}
 		else{
@@ -155,40 +159,43 @@ public class CommandParser {
 	private static CommandType getCmdType(String string) {
 		string = string.toLowerCase();
 		switch (string) {
-		case "a":
-		case "add":
-			return CommandType.ADD;
-		case "d":
-		case "delete":
-			return CommandType.DELETE;
-		case "u":
-		case "undo":
-			return CommandType.UNDO;
-		case "m":
-		case "mark":
-			return CommandType.MARK;
-		case "um":
-		case "unmark":
-			return CommandType.UNMARK;
-		case "e":
-		case "edit":
-			return CommandType.EDIT;
-		case "s":
-		case "search":
-			return CommandType.SEARCH;
-		case "h":
-		case "help":
-			return CommandType.HELP;
-		case "c":
-		case "clear":
-			return CommandType.CLEAR;
-		case "set":
-			return CommandType.SET;
-		case "dis":
-		case "display":
-			return CommandType.DISPLAY;
-		default:
-			return CommandType.INVALID;
+			case "a":
+			case "add":
+				return CommandType.ADD;
+			case "d":
+			case "delete":
+				return CommandType.DELETE;
+			case "u":
+			case "undo":
+				return CommandType.UNDO;
+			case "r":
+			case "redo":
+				return CommandType.REDO;
+			case "m":
+			case "mark":
+				return CommandType.MARK;
+			case "um":
+			case "unmark":
+				return CommandType.UNMARK;
+			case "e":
+			case "edit":
+				return CommandType.EDIT;
+			case "s":
+			case "search":
+				return CommandType.SEARCH;
+			case "h":
+			case "help":
+				return CommandType.HELP;
+			case "c":
+			case "clear":
+				return CommandType.CLEAR;
+			case "set":
+				return CommandType.SET;
+			case "dis":
+			case "display":
+				return CommandType.DISPLAY;
+			default:
+				return CommandType.INVALID;
 		}
 	}
 }

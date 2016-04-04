@@ -12,13 +12,13 @@ public class newTitleParser {
 	static final String SECOND_DATE_REGEX="("+Regex.MISC_REGEX+ Regex.DATE_MONTH_REGEX+ "|" + Regex.MISC_REGEX+Regex.MONTH_DATE_REGEX  +")";
 	static final String MISC_SECOND_DATE_REGEX = "("+Regex.MISC_REGEX+ Regex.DATE_MONTH_YEAR_REGEX+ "|" +Regex.MISC_REGEX+ Regex.MONTH_DATE_YEAR_REGEX  +")";
 	static final String FIRST_DAY_REGEX="("+ Regex.MISC_REGEX+Regex.TMR_REGEX+  "(?=\\s|$)"+ ")";
-	static final String TIME_REGEX = "(" + Regex.TWELVE_HR_REGEX + "|" + Regex.TWENTYFOUR_HR_REGEX + ")";
+	
 	static final String MISC_TIME_REGEX = "("+Regex.MISC_REGEX + Regex.TWELVE_HR_REGEX + "|" + Regex.MISC_REGEX+ Regex.TWENTYFOUR_HR_REGEX + ")";
 	static final String SECOND_DAY_REGEX="("+ Regex.MISC_REGEX + Regex.DAYNAME+"(?=\\s|$)"+"|"+Regex.DAYNAME+ "(?=\\s|$)"  +")";
 	//static final String INFORMAL_DATE="("+Regex.MISC_REGEX + Regex.DAYNAME +"|"+Regex.DAYNAME+")";
 	
 	static final String NOT_TITLE_REGEX = "("+ FIRST_DATE_REGEX +"|"+ SECOND_DATE_REGEX +"|"+ MISC_FIRST_DATE_REGEX +"|"+ MISC_SECOND_DATE_REGEX +"|"+
-			FIRST_DAY_REGEX +"|"+ SECOND_DAY_REGEX +"|"+ MISC_NUMBERED_DATE_REGEX +"|"+ NUMBERED_DATE_REGEX +"|"+ TIME_REGEX+"|"+MISC_TIME_REGEX +"|"+Regex.TMR_REGEX+")";
+			FIRST_DAY_REGEX +"|"+ SECOND_DAY_REGEX +"|"+ MISC_NUMBERED_DATE_REGEX +"|"+ NUMBERED_DATE_REGEX +"|"+ Regex.TIME_REGEX+"|"+MISC_TIME_REGEX +"|"+Regex.TMR_REGEX+")";
 	
 	public static String getTitle(String inputArgs) {
 		
