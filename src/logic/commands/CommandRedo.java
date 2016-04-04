@@ -8,7 +8,7 @@ import logic.UndoneCommands;
 /* @@author A0112184R
  *
  */
-public class CommandRedo {
+public class CommandRedo implements Command {
 	
 	private static final String MESSAGE_NO_COMMAND = "No undone commands";
 
