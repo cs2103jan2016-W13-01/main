@@ -12,43 +12,43 @@ import logic.tasks.*;
  */
 public class GrandTaskList {
 	
-	private static SortedTaskList<Task> floatTaskList;
-	private static SortedTaskList<Deadline> deadlineList;
-	private static SortedTaskList<Session> sessionList;
-	private static SortedTaskList<RecurringTask> recurringTaskList;
+	private static TaskList<Task> floatTaskList;
+	private static TaskList<Deadline> deadlineList;
+	private static TaskList<Session> sessionList;
+	private static TaskList<RecurringTask> recurringTaskList;
 	
-	private static SortedTaskList<Task> doneTaskList;
+	private static TaskList<Task> doneTaskList;
 	
 	public static void initialize() {
-		floatTaskList = new SortedTaskList<Task>();
-		deadlineList = new SortedTaskList<Deadline>();
-		sessionList = new SortedTaskList<Session>();
-		recurringTaskList = new SortedTaskList<RecurringTask>();
-		doneTaskList = new SortedTaskList<Task>();
+		floatTaskList = new TaskList<Task>();
+		deadlineList = new TaskList<Deadline>();
+		sessionList = new TaskList<Session>();
+		recurringTaskList = new TaskList<RecurringTask>();
+		doneTaskList = new TaskList<Task>();
 	}
 	
-	public static SortedTaskList<Task> getFloatList() {
+	public static TaskList<Task> getFloatList() {
 		return floatTaskList;
 	}
 	
-	public static SortedTaskList<Deadline> getDeadlineList() {
+	public static TaskList<Deadline> getDeadlineList() {
 		return deadlineList;
 	}
 	
-	public static SortedTaskList<Session> getSessionList() {
+	public static TaskList<Session> getSessionList() {
 		return sessionList;
 	}
 	
-	public static SortedTaskList<RecurringTask> getRecurringList() {
+	public static TaskList<RecurringTask> getRecurringList() {
 		return recurringTaskList;
 	}
 	
-	public static SortedTaskList<Task> getDoneList() {
+	public static TaskList<Task> getDoneList() {
 		return doneTaskList;
 	}
 	
-	public static SortedTaskList<Task> getTotalList() {
-		SortedTaskList<Task> results = new SortedTaskList<Task>();
+	public static TaskList<Task> getTotalList() {
+		TaskList<Task> results = new TaskList<Task>();
 		deadlineList.merge(results);
 		sessionList.merge(results);
 		recurringTaskList.merge(results);
@@ -57,16 +57,16 @@ public class GrandTaskList {
 		return results;
 	}
 	
-	public static SortedTaskList<Task> getNoRecurringList() {
-		SortedTaskList<Task> results = new SortedTaskList<Task>();
+	public static TaskList<Task> getNoRecurringList() {
+		TaskList<Task> results = new TaskList<Task>();
 		deadlineList.merge(results);
 		sessionList.merge(results);
 		floatTaskList.merge(results);
 		return results;
 	}
 	
-	public static SortedTaskList<Task> getUnDoneList() {
-		SortedTaskList<Task> results = new SortedTaskList<Task>();
+	public static TaskList<Task> getUnDoneList() {
+		TaskList<Task> results = new TaskList<Task>();
 		deadlineList.merge(results);
 		sessionList.merge(results);
 		floatTaskList.merge(results);
@@ -124,7 +124,7 @@ public class GrandTaskList {
 	}
 	
 	public static TaskList<Task> search(Predicate<Task> predicate) {
-		TaskList<Task> results = new SortedTaskList<Task>();
+		TaskList<Task> results = new TaskList<Task>();
 		deadlineList.search(results, predicate);
 		sessionList.search(results, predicate);
 		recurringTaskList.search(results, predicate);
@@ -132,8 +132,8 @@ public class GrandTaskList {
 		return results;
 	}
 	
-	public static SortedTaskList<Task> getTasksOnDate(Calendar date) {
-		SortedTaskList<Task> result = new SortedTaskList<Task>();
+	public static TaskList<Task> getTasksOnDate(Calendar date) {
+		TaskList<Task> result = new TaskList<Task>();
 		for (Task task: deadlineList) {
 			if (DateUtils.isSameDay(task.getMainDate(), date)) {
 				result.add(task);
