@@ -13,6 +13,7 @@ public class DateParser {
 
 	static final String START_DATE_KEYWORD = "(" + "((?<=\\s|^)(at?|from?))?" + ")";
 	static final String CONNECT_DATE_KEYWORD =  "(to |till |until )";
+
 	static final String DATE_KEYWORD = "("+START_DATE_KEYWORD + newTitleParser.NOT_TITLE_REGEX+"|"+newTitleParser.NOT_TITLE_REGEX+")";
 	
 	public static Calendar[] getDates(String input) {
