@@ -77,4 +77,8 @@ public class TaskList<T extends Task> implements Iterable<T> {
 			result.add(task);
 		}
 	}
+	
+	public void clear() {
+		taskList.clear();
+	}
 }

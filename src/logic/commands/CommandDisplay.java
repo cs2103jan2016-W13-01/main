@@ -27,6 +27,10 @@ public class CommandDisplay implements Command {
 		criteria = word;
 	}
 	
+	public CommandDisplay() {
+		criteria = "all";
+	}
+	
 	public String execute() {
 		if (criteria.equals("all")) {
 			StorageController.displayAllTasks();

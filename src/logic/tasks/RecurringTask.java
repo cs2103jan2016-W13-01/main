@@ -9,9 +9,15 @@ import org.apache.commons.lang.time.DateUtils;
  */
 public class RecurringTask extends Task {
 	
+	private static final String DAILY = "every day";
+	private static final String WEEKLY = "every week";
+	private static final String MONTHLY = "every month";
+	private static final String YEARLY = "every year";
+	private static final String PERIODLY = "every %s day";
 	private static final int EVERY_DAY = 1;
 	private static final int EVERY_YEAR = -2;
 	private static final int EVERY_MONTH = -1;
+	private static final int EVERY_WEEK = 7;
 	private Calendar startDate;
 	private Calendar endDate;
 	private int period;
@@ -59,6 +65,20 @@ public class RecurringTask extends Task {
 	
 	public int getPeriod() {
 		return period;
+	}
+	
+	public String getPeriodString() {
+		if (period == EVERY_YEAR) {
+			return YEARLY;
+		} else if (period == EVERY_MONTH) {
+			return MONTHLY;
+		} else if (period == EVERY_WEEK) {
+			return WEEKLY;
+		} else if (period == EVERY_DAY) {
+			return DAILY;
+		} else {
+			return String.format(PERIODLY, period);
+		}
 	}
 	
 	public void setStartDate(Calendar newDate) {

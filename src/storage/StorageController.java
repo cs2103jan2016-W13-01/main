@@ -129,6 +129,11 @@ public class StorageController {
 		displayList.clear();
 	}
 	
+	public static void clearAllTasks() throws IOException {
+		GrandTaskList.clearAll();
+		displayList.clear();
+	}
+	
 	public static void setPath(String pathName) throws IOException {
 		Database.setPath(pathName);
 	}

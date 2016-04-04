@@ -1,9 +1,11 @@
-/* @@author A0112184R-unused
+/* @@author A0112184R
  * This class is used to test the program when the GUI was in progress
- * Reason: we do not use it now that we have the GUI
  */
 package logic;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -17,44 +19,58 @@ public class TextUI {
 	public static void main(String[] args) {
 		sc = new Scanner(System.in);
 		initialize();
-		while (true) {
+		while (sc.hasNextLine()) {
 			String input = sc.nextLine();
-			Command command = CommandParser.parseInput(input);
-			Response response = TaskProcessor.executeCommand(command);
-			displayResponse(response);
+			Response response = executeInput(input);
+			displayResponse(response, System.out);
 		}
+		sc.close();
 	}
 	
-	public static void getAndDisplay() {
-		Response response = ResponseQueue.getResponse();
-		displayResponse(response);
+	public static void mainFileToFile(File inputFile, File outputFile) throws FileNotFoundException {
+		sc = new Scanner(inputFile);
+		PrintStream pr = new PrintStream(outputFile);
+		initialize();
+		while (sc.hasNextLine()) {
+			String input = sc.nextLine();
+			Response response = executeInput(input);
+			displayResponse(response, pr);
+		}
+		sc.close();
+		pr.close();
+	}
+
+	private static Response executeInput(String input) {
+		Command command = CommandParser.parseInput(input);
+		Response response = TaskProcessor.executeCommand(command);
+		return response;
 	}
 	
-	public static void displayResponse(Response response) {
+	public static void displayResponse(Response response, PrintStream printer) {
 		if (response != null) {
-			displayMessage(response.getMessage());
-			displayTaskList(response.getTaskList());
+			displayMessage(response.getMessage(), printer);
+			displayTaskList(response.getTaskList(), printer);
 		}
 	}
 	
-	public static void displayMessage(String message) {
-		System.out.println(message);
+	public static void displayMessage(String message, PrintStream printer) {
+		printer.println(message);
 	}
 	
-	public static void displayTaskList(ArrayList<String> taskList) {
+	public static void displayTaskList(ArrayList<String> taskList, PrintStream printer) {
 		if (taskList != null) {
 			if (!taskList.isEmpty()) {
 				int lineNum = 0;
 				for (String task: taskList) {
 					lineNum++;
-					System.out.print(lineNum + ". ");
-					System.out.println(task);
+					printer.print(lineNum + ". ");
+					printer.println(task);
 				}
 			} else {
-				System.out.println("No tasks to show");
+				printer.println("No tasks to show");
 			}
 		} else {
-			System.out.println("Task list not loaded");
+			printer.println("Task list not loaded");
 		}
 	}
 	

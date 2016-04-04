@@ -14,5 +14,12 @@
 	<classpathentry kind="lib" path="libs/commons-lang-2.6-javadoc.jar"/>
 	<classpathentry kind="lib" path="libs/commons-lang-2.6-sources.jar"/>
 	<classpathentry kind="lib" path="libs/commons-lang-2.6.jar"/>
+	<classpathentry kind="lib" path="libs/junit-addons-1.4.jar"/>
+	<classpathentry kind="lib" path="libs/src.jar"/>
+	<classpathentry kind="lib" path="libs/commons-io-2.4-javadoc.jar"/>
+	<classpathentry kind="lib" path="libs/commons-io-2.4-sources.jar"/>
+	<classpathentry kind="lib" path="libs/commons-io-2.4-test-sources.jar"/>
+	<classpathentry kind="lib" path="libs/commons-io-2.4-tests.jar"/>
+	<classpathentry kind="lib" path="libs/commons-io-2.4.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

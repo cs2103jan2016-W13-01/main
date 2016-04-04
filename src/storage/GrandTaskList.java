@@ -151,4 +151,20 @@ public class GrandTaskList {
 		}
 		return result;
 	}
+	
+	public static void clearIncomplete() {
+		deadlineList.clear();
+		sessionList.clear();
+		recurringTaskList.clear();
+		floatTaskList.clear();
+	}
+	
+	public static void clearAll() throws IOException {
+		deadlineList.clear();
+		sessionList.clear();
+		recurringTaskList.clear();
+		floatTaskList.clear();
+		doneTaskList.clear();
+		Database.clear();
+	}
 }
