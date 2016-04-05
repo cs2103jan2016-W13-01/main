@@ -55,6 +55,10 @@ public class StorageController {
 		}
 	}
 	
+	public static Task getIndex(int index) {
+		return displayList.get(index);
+	}
+	
 	public static Task deleteByIndex(int index) throws IOException {
 		Task task = displayList.get(index);
 		deleteTask(task);

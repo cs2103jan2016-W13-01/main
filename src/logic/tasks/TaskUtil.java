@@ -97,7 +97,26 @@ public class TaskUtil {
 		} catch (IndexOutOfBoundsException e) {
 			period = 0;
 		}
-		return getInstance(titleString, startDate, endDate, period);
+		
+		boolean isDone;
+		try {
+			String statusString = parts[4].split(":", 2)[1].trim();
+			isDone = statusString.equals("completed");
+		} catch (IndexOutOfBoundsException e) {
+			isDone = false;
+		}
+		
+		boolean isRecurrence;
+		try {
+			String isRecurrenceString = parts[5].split(":", 2)[1].trim();
+			isRecurrence = isRecurrenceString.equals("true");
+		} catch (IndexOutOfBoundsException e) {
+			isRecurrence = false;
+		}
+		Task result = getInstance(titleString, startDate, endDate, period);
+		result.setDone(isDone);
+		result.setRecurrence(isRecurrence);
+		return result;
 	}
 	
 	public static Calendar parseDate(String dateString) {
@@ -127,24 +146,26 @@ public class TaskUtil {
 	public static String convertToStorage(Task task) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("title: " + task.getTitle() + FIELD_SEPARATOR + "\r\n");
-		String startDateString, endDateString;
+		String startDateString, endDateString, statusString, isRecurrenceString;
+		startDateString = convertFromDate(task.getMainDate());
+		statusString = (task.isDone())? "completed":"incomplete";
+		isRecurrenceString = (task.isRecurrence())? "true":"false";
 		int period;
 		if (task instanceof RecurringTask) {
 			period = ((RecurringTask) task).getPeriod();
 			endDateString = convertFromDate(((RecurringTask) task).getEndDate());
-			startDateString = convertFromDate(((RecurringTask) task).getStartDate());
-		} else {
-			period = 0;
-			startDateString = convertFromDate(task.getMainDate());
-		}
-		if (task instanceof Session) {
+		} else if (task instanceof Session) {
 			endDateString = convertFromDate(((Session) task).getEndDate());
+			period = 0;
 		} else {
 			endDateString = "null";
+			period = 0;
 		}
 		sb.append("start: " + startDateString + FIELD_SEPARATOR + "\r\n");
 		sb.append("end: " + endDateString + FIELD_SEPARATOR + "\r\n");
 		sb.append("recurring period: " + period + FIELD_SEPARATOR + "\r\n");
+		sb.append("status: " + statusString + FIELD_SEPARATOR + "\r\n");
+		sb.append("is recurrence: " + isRecurrenceString + FIELD_SEPARATOR + "\r\n");
 		return sb.toString();
 	}
 	

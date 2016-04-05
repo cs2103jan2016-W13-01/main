@@ -30,11 +30,12 @@ public class CommandMark implements Command {
 	
 	public String execute() {
 		try {
-			task = StorageController.markDoneByIndex(taskNumber-1);
+			task = StorageController.getIndex(taskNumber-1);
 			if (task.isDone()) {
 				return MESSAGE_TASK_DONE;
 			}
 			task.markDone();
+			StorageController.markDoneByIndex(taskNumber-1);
 			ExecutedCommands.addCommand(this);
 			return String.format(MESSAGE_TASK_MARKED, task.toString());
 		} catch (IOException e) {

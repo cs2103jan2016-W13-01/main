@@ -30,10 +30,11 @@ public class CommandUnmark implements Command {
 	
 	public String execute() {
 		try {
-			task = StorageController.unmarkDoneByIndex(taskNumber-1);
+			task = StorageController.getIndex(taskNumber-1);
 			if (!task.isDone()) {
 				return MESSAGE_TASK_NOT_DONE;
 			}
+			StorageController.unmarkDoneByIndex(taskNumber-1);
 			task.unmark();
 			ExecutedCommands.addCommand(this);
 			return String.format(MESSAGE_TASK_UNMARKED, task.toString());

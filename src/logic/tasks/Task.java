@@ -90,4 +90,8 @@ public class Task implements Cloneable {
 			return DATE_FORMAT.format(date.getTime());
 		}
 	}
+
+	public void setDone(boolean isDone) {
+		done = isDone;
+	}
 }
