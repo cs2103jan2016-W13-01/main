@@ -1,6 +1,0 @@
-{
-title: meet june in school;
-start: 10:00 20160421;
-end: 11:00 20160421;
-recurring period: 0;
-}

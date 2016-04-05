@@ -18,16 +18,22 @@ public class TaskUtil {
 
 	public static class TaskComparator implements Comparator<Task> {
 		public int compare(Task task1, Task task2) {
+			int dateComp;
 			Calendar date1 = task1.getMainDate();
 			Calendar date2 = task2.getMainDate();
 			if (date1 == null && date2 == null) {
-				return task1.getTitle().compareToIgnoreCase(task2.getTitle());
+				dateComp = task1.getTitle().compareToIgnoreCase(task2.getTitle());
 			} else if (date1 == null) {
-				return 1;
+				dateComp = 1;
 			} else if (date2 == null) {
-				return -1;
+				dateComp -1;
 			} else {
-				return date1.compareTo(date2);
+				dateComp = date1.compareTo(date2);
+			}
+			if (dateComp != 0) {
+				return dateComp;
+			} else {
+				return task1.getTitle().compareToIgnoreCase(task2.getTitle());
 			}
 		}
 	}
