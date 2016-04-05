@@ -68,7 +68,11 @@ public class Storage {
 	}
 
 	// appends a new line of text at the bottom of the file
+<<<<<<< HEAD:src/Storage/Storage.java
+	public static ArrayList<Integer> addNewTask(Task newTask) throws IOException {
+=======
 	public static ArrayList<Integer> addNewTask(Deadline newTask) throws IOException {
+>>>>>>> db62cdf23ac4ee1c89c10432c6a7ce47ac83eab4:src/storage/Storage.java
 
 		logger.log(Level.INFO, "Adding new Task to the ArrayList");
 		assert (taskList != null) : "taskList not initialized";
