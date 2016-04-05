@@ -11,7 +11,9 @@ import logic.TaskProcessor;
 import java.util.ArrayList;
 /**
  *
- * @author tfj
+ * @@author A0129845U
+ * The controller is to receive message from the user input in gui and 
+ * connect to other components
  */
 public class Controller {
 	
