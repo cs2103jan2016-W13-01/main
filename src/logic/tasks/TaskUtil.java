@@ -35,7 +35,7 @@ public class TaskUtil {
 	public static Task getInstance(String title, Calendar startDate, Calendar endDate, int recurringPeriod) {
 		if (startDate == null && endDate == null) {
 			return new Task(title);
-		} else if (recurringPeriod > 0) {
+		} else if (recurringPeriod != 0) {
 			return new RecurringTask(title, startDate, endDate, recurringPeriod);
 		} else if (endDate == null){
 			return new Deadline(title, startDate);
