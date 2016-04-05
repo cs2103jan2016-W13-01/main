@@ -97,7 +97,7 @@ public class StorageController {
 	
 	public static void displayAllTasks() {
 		displayList.clear();
-		for (Task task: GrandTaskList.getNoRecurringList()) {
+		for (Task task: GrandTaskList.getTotalList()) {
 			displayList.add(task);
 		}
 	}

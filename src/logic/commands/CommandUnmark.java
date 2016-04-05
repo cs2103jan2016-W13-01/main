@@ -16,6 +16,7 @@ public class CommandUnmark implements Command {
 	private static final String MESSAGE_TASK_NOT_DONE = "Task is already not done";
 	private static final String MESSAGE_TASK_UNMARKED = "Task is unmarked: %s";
 	private static final String MESSAGE_UNMARK_ERROR = "Error: failed to unmark task";
+	private static final String MESSAGE_TASK_NOT_FOUND = "Task number %s not found in task list";
 	private int taskNumber;
 	private Task task;
 	
@@ -29,7 +30,7 @@ public class CommandUnmark implements Command {
 	
 	public String execute() {
 		try {
-			task = StorageController.unmarkDoneByIndex(taskNumber);
+			task = StorageController.unmarkDoneByIndex(taskNumber-1);
 			if (!task.isDone()) {
 				return MESSAGE_TASK_NOT_DONE;
 			}
@@ -39,6 +40,8 @@ public class CommandUnmark implements Command {
 		} catch (IOException e) {
 			e.printStackTrace();
 			return MESSAGE_UNMARK_ERROR;
+		} catch (IndexOutOfBoundsException e) {
+			return String.format(MESSAGE_TASK_NOT_FOUND, taskNumber);
 		}
 	}
 	
