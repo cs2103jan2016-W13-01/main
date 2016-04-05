@@ -34,14 +34,14 @@ public class DisplayWindow extends javax.swing.JFrame {
 	private static final String MESSAGE_NO_OLDER_COMMAND = "No more older command";
 	private static final String MESSAGE_NO_NEWER_COMMAND = "No more newer command";
 	private static final String MESSAGE_ERROR_READING_COMMAND = "Error in reading commands";
-        private static final String COMMAND_DISPLAY_INCOMPLETE_TASK_LIST = "display incomplete";
-        private static final String COMMAND_DISPLAY_UPCOMING_TASK_LIST = "display upcoming";     
-        private static final String COMMAND_DISPLAY_COMPLETED_TASK_LIST = "display completed";
-        private static final String COMMAND_DISPLAY_ALL_TASK_LIST = "display all";
-        private static ArrayList<String> cmd = new ArrayList<String>();
+	private static final String COMMAND_DISPLAY_INCOMPLETE_TASK_LIST = "display incomplete";
+	private static final String COMMAND_DISPLAY_UPCOMING_TASK_LIST = "display upcoming";     
+	private static final String COMMAND_DISPLAY_COMPLETED_TASK_LIST = "display completed";
+	private static final String COMMAND_DISPLAY_ALL_TASK_LIST = "display all";
+	private static ArrayList<String> cmd = new ArrayList<String>();
 	private static ArrayList<String> cmdHistory = new ArrayList<String>();
 	private static int numberOfUp = 0;
-        private static int tabIndex;
+	private static int tabIndex;
 	/**
 	 * Creates new form DisplayWindow
 	 *
@@ -54,9 +54,9 @@ public class DisplayWindow extends javax.swing.JFrame {
 		displayTime();
 		getCommandStrings();
 		initShortCutKey();
-                tabIndex = 0;
+		tabIndex = 0;
 	}
-	
+
 	private void setIcon() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("DiamondIcon.png")));
 	}
@@ -87,24 +87,24 @@ public class DisplayWindow extends javax.swing.JFrame {
 	}
 
 	public void clear() {
-            DefaultTableModel model;
-            switch (tabIndex) {
-            case 0:
-                model = (DefaultTableModel) incompleteTaskTable.getModel();
-                break;
-            case 1:
-                model = (DefaultTableModel) upcomingTaskTable.getModel();
-                break;
-            case 2:   
-                model = (DefaultTableModel) completedTaskTable.getModel();
-                break;
-            case 3:
-                model = (DefaultTableModel) allTaskTable.getModel();
-                break;
-            default:
-                model = (DefaultTableModel) incompleteTaskTable.getModel();
-                break;                
-        }
+		DefaultTableModel model;
+		switch (tabIndex) {
+			case 0:
+				model = (DefaultTableModel) incompleteTaskTable.getModel();
+				break;
+			case 1:
+				model = (DefaultTableModel) upcomingTaskTable.getModel();
+				break;
+			case 2:   
+				model = (DefaultTableModel) completedTaskTable.getModel();
+				break;
+			case 3:
+				model = (DefaultTableModel) allTaskTable.getModel();
+				break;
+			default:
+				model = (DefaultTableModel) incompleteTaskTable.getModel();
+				break;                
+		}
 		int size = model.getRowCount();
 		if (size > 0){
 			for (int i = 0; i < size; i++) {
@@ -128,7 +128,7 @@ public class DisplayWindow extends javax.swing.JFrame {
 			String[] entry = entryString.split(";");
 			model.addRow(entry);
 		}
-                tabIndex = 0;
+		tabIndex = 0;
 	}
 	public void displayUpcomingTaskList(ArrayList<String> tasks) {
 		taskTabbedPane.setSelectedIndex(1);
@@ -140,32 +140,32 @@ public class DisplayWindow extends javax.swing.JFrame {
 			String[] entry = entryString.split(";");
 			model.addRow(entry);
 		}
-                tabIndex = 1;                
+		tabIndex = 1;                
 	}        
 	public void displayCompletedTaskList(ArrayList<String> tasks) {
 		taskTabbedPane.setSelectedIndex(2);
 		int size = tasks.size();
-                DefaultTableModel model = (DefaultTableModel) completedTaskTable.getModel();
-                model.setRowCount(0);
+		DefaultTableModel model = (DefaultTableModel) completedTaskTable.getModel();
+		model.setRowCount(0);
 		for (int i = 0; i < size; i++) {
 			String entryString = (i+1) + ";" + tasks.get(i);
 			String[] entry = entryString.split(";");
 			model.addRow(entry);
 		}
-                tabIndex = 2;
-        }          
+		tabIndex = 2;
+	}          
 	public void displayAllTaskList(ArrayList<String> tasks) {
 		taskTabbedPane.setSelectedIndex(3);
 		int size = tasks.size();
-                DefaultTableModel model = (DefaultTableModel) allTaskTable.getModel();
-                model.setRowCount(0);
+		DefaultTableModel model = (DefaultTableModel) allTaskTable.getModel();
+		model.setRowCount(0);
 		for (int i = 0; i < size; i++) {
 			String entryString = (i+1) + ";" + tasks.get(i);
 			String[] entry = entryString.split(";");
 			model.addRow(entry);
 		}
-                tabIndex = 3;	
-        }  
+		tabIndex = 3;	
+	}  
 	private void getCommandStrings() {
 		try {
 			BufferedReader br = new BufferedReader(new FileReader("Op2Commands.txt"));
@@ -184,26 +184,26 @@ public class DisplayWindow extends javax.swing.JFrame {
 		commandField.registerKeyboardAction(new java.awt.event.ActionListener() {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
-            		Thread clock = new Thread() {
-			@Override
-			public void run() {
-                            String command = cmd.get(0);
-                            String display = "";
-                            int length = command.length();                                
-                            try {
-				for (int i =0; i< length; i++) {
-                                    char temp = command.charAt(i);
-                                    display = display + temp;                        
-                                    commandField.setText(display);        
-                                    sleep(50);
+				Thread clock = new Thread() {
+					@Override
+					public void run() {
+						String command = cmd.get(0);
+						String display = "";
+						int length = command.length();                                
+						try {
+							for (int i =0; i< length; i++) {
+								char temp = command.charAt(i);
+								display = display + temp;                        
+								commandField.setText(display);        
+								sleep(50);
+							}
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
 					}
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-                                }
-                            }
-                        };
-                        clock.start();     
-			cmd.remove(0);
+				};
+				clock.start();     
+				cmd.remove(0);
 			}
 		}, KeyStroke.getKeyStroke(KeyEvent.VK_F1, InputEvent.CTRL_DOWN_MASK), JComponent.WHEN_IN_FOCUSED_WINDOW);
 
@@ -220,7 +220,7 @@ public class DisplayWindow extends javax.swing.JFrame {
 				}
 			}
 		}, KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
-		
+
 		commandField.registerKeyboardAction(new java.awt.event.ActionListener() {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -234,535 +234,535 @@ public class DisplayWindow extends javax.swing.JFrame {
 				}
 			}
 		}, KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
-                
+
 		commandField.registerKeyboardAction(new java.awt.event.ActionListener() {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
-                            Controller.sendCmd("undo");
+				Controller.sendCmd("undo");
 			}
 		}, KeyStroke.getKeyStroke(KeyEvent.VK_Z, InputEvent.CTRL_DOWN_MASK), JComponent.WHEN_IN_FOCUSED_WINDOW);
-                
-                commandField.registerKeyboardAction(new java.awt.event.ActionListener() {
+
+		commandField.registerKeyboardAction(new java.awt.event.ActionListener() {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
-                            Controller.sendCmd(COMMAND_DISPLAY_INCOMPLETE_TASK_LIST);
+				Controller.sendCmd(COMMAND_DISPLAY_INCOMPLETE_TASK_LIST);
 			}
 		}, KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
-                
-                commandField.registerKeyboardAction(new java.awt.event.ActionListener() {
+
+		commandField.registerKeyboardAction(new java.awt.event.ActionListener() {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
-                            Controller.sendCmd(COMMAND_DISPLAY_UPCOMING_TASK_LIST);
+				Controller.sendCmd(COMMAND_DISPLAY_UPCOMING_TASK_LIST);
 			}
 		}, KeyStroke.getKeyStroke(KeyEvent.VK_F2, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);   
-                
-                commandField.registerKeyboardAction(new java.awt.event.ActionListener() {
+
+		commandField.registerKeyboardAction(new java.awt.event.ActionListener() {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
-                            Controller.sendCmd(COMMAND_DISPLAY_COMPLETED_TASK_LIST);
+				Controller.sendCmd(COMMAND_DISPLAY_COMPLETED_TASK_LIST);
 			}
 		}, KeyStroke.getKeyStroke(KeyEvent.VK_F3, 0), JComponent.WHEN_IN_FOCUSED_WINDOW); 
-                
-                commandField.registerKeyboardAction(new java.awt.event.ActionListener() {
+
+		commandField.registerKeyboardAction(new java.awt.event.ActionListener() {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
-                            Controller.sendCmd(COMMAND_DISPLAY_ALL_TASK_LIST);
+				Controller.sendCmd(COMMAND_DISPLAY_ALL_TASK_LIST);
 			}
 		}, KeyStroke.getKeyStroke(KeyEvent.VK_F4, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);                 
-        }
+	}
 	/**
 	 * This method is called from within the constructor to initialize the form.
 	 * WARNING: Do NOT modify this code. The content of this method is always
 	 * regenerated by the Form Editor.
 	 */
 	@SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+	// <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+	private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jPanel1 = new javax.swing.JPanel();
-        jLayeredPane1 = new javax.swing.JLayeredPane();
-        jPanel3 = new javax.swing.JPanel();
-        jPanel5 = new javax.swing.JPanel();
-        jPanel4 = new javax.swing.JPanel();
-        taskTabbedPane = new javax.swing.JTabbedPane();
-        jPanel2 = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        incompleteTaskTable = new javax.swing.JTable();
-        jPanel8 = new javax.swing.JPanel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        upcomingTaskTable = new javax.swing.JTable();
-        jPanel9 = new javax.swing.JPanel();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        completedTaskTable = new javax.swing.JTable();
-        jPanel10 = new javax.swing.JPanel();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        allTaskTable = new javax.swing.JTable();
-        jPanel11 = new javax.swing.JPanel();
-        jPanel12 = new javax.swing.JPanel();
-        commandField = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
-        jPanel6 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        timeField = new javax.swing.JLabel();
-        statusField = new javax.swing.JLabel();
+		jScrollPane1 = new javax.swing.JScrollPane();
+		jTable1 = new javax.swing.JTable();
+		jPanel1 = new javax.swing.JPanel();
+		jLayeredPane1 = new javax.swing.JLayeredPane();
+		jPanel3 = new javax.swing.JPanel();
+		jPanel5 = new javax.swing.JPanel();
+		jPanel4 = new javax.swing.JPanel();
+		taskTabbedPane = new javax.swing.JTabbedPane();
+		jPanel2 = new javax.swing.JPanel();
+		jScrollPane2 = new javax.swing.JScrollPane();
+		incompleteTaskTable = new javax.swing.JTable();
+		jPanel8 = new javax.swing.JPanel();
+		jScrollPane3 = new javax.swing.JScrollPane();
+		upcomingTaskTable = new javax.swing.JTable();
+		jPanel9 = new javax.swing.JPanel();
+		jScrollPane4 = new javax.swing.JScrollPane();
+		completedTaskTable = new javax.swing.JTable();
+		jPanel10 = new javax.swing.JPanel();
+		jScrollPane5 = new javax.swing.JScrollPane();
+		allTaskTable = new javax.swing.JTable();
+		jPanel11 = new javax.swing.JPanel();
+		jPanel12 = new javax.swing.JPanel();
+		commandField = new javax.swing.JTextField();
+		jLabel4 = new javax.swing.JLabel();
+		jPanel6 = new javax.swing.JPanel();
+		jLabel1 = new javax.swing.JLabel();
+		timeField = new javax.swing.JLabel();
+		statusField = new javax.swing.JLabel();
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane1.setViewportView(jTable1);
+		jTable1.setModel(new javax.swing.table.DefaultTableModel(
+				new Object [][] {
+					{null, null, null, null},
+					{null, null, null, null},
+					{null, null, null, null},
+					{null, null, null, null}
+				},
+				new String [] {
+						"Title 1", "Title 2", "Title 3", "Title 4"
+				}
+				));
+		jScrollPane1.setViewportView(jTable1);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 232, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 235, Short.MAX_VALUE)
-        );
+		javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+		jPanel1.setLayout(jPanel1Layout);
+		jPanel1Layout.setHorizontalGroup(
+				jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGap(0, 232, Short.MAX_VALUE)
+				);
+		jPanel1Layout.setVerticalGroup(
+				jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGap(0, 235, Short.MAX_VALUE)
+				);
 
-        javax.swing.GroupLayout jLayeredPane1Layout = new javax.swing.GroupLayout(jLayeredPane1);
-        jLayeredPane1.setLayout(jLayeredPane1Layout);
-        jLayeredPane1Layout.setHorizontalGroup(
-            jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
-        jLayeredPane1Layout.setVerticalGroup(
-            jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
+		javax.swing.GroupLayout jLayeredPane1Layout = new javax.swing.GroupLayout(jLayeredPane1);
+		jLayeredPane1.setLayout(jLayeredPane1Layout);
+		jLayeredPane1Layout.setHorizontalGroup(
+				jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGap(0, 100, Short.MAX_VALUE)
+				);
+		jLayeredPane1Layout.setVerticalGroup(
+				jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGap(0, 100, Short.MAX_VALUE)
+				);
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Diamond");
-        setBackground(new java.awt.Color(255, 255, 255));
-        setFont(new java.awt.Font("DejaVu Serif", 1, 12)); // NOI18N
-        setForeground(java.awt.Color.white);
-        setIconImages(null);
+		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+		setTitle("Diamond");
+		setBackground(new java.awt.Color(255, 255, 255));
+		setFont(new java.awt.Font("DejaVu Serif", 1, 12)); // NOI18N
+		setForeground(java.awt.Color.white);
+		setIconImages(null);
 
-        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel3.setRequestFocusEnabled(false);
+		jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+		jPanel3.setRequestFocusEnabled(false);
 
-        jPanel5.setBackground(new java.awt.Color(255, 255, 255));
+		jPanel5.setBackground(new java.awt.Color(255, 255, 255));
 
-        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder(""), "Task List", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Comic Sans MS", 1, 12))); // NOI18N
-        jPanel4.setRequestFocusEnabled(false);
+		jPanel4.setBackground(new java.awt.Color(255, 255, 255));
+		jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder(""), "Task List", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Comic Sans MS", 1, 12))); // NOI18N
+		jPanel4.setRequestFocusEnabled(false);
 
-        taskTabbedPane.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
+		taskTabbedPane.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
 
-        jScrollPane2.setBackground(new java.awt.Color(255, 255, 255));
-        jScrollPane2.setOpaque(true);
+		jScrollPane2.setBackground(new java.awt.Color(255, 255, 255));
+		jScrollPane2.setOpaque(true);
 
-        incompleteTaskTable.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
-        incompleteTaskTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
+		incompleteTaskTable.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
+		incompleteTaskTable.setModel(new javax.swing.table.DefaultTableModel(
+				new Object [][] {
 
-            },
-            new String [] {
-                "No.", "Status", "Title", "Starting Time/Deadline", "Ending Time/ Deadline", "Repeating"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
-            };
+				},
+				new String [] {
+						"No.", "Status", "Title", "Starting Time/Deadline", "Ending Time/ Deadline", "Repeating"
+				}
+				) {
+			Class[] types = new Class [] {
+					java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+			};
+			boolean[] canEdit = new boolean [] {
+					false, false, false, false, false, false
+			};
 
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
+			public Class getColumnClass(int columnIndex) {
+				return types [columnIndex];
+			}
 
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        incompleteTaskTable.setToolTipText("");
-        incompleteTaskTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_LAST_COLUMN);
-        incompleteTaskTable.setColumnSelectionAllowed(true);
-        incompleteTaskTable.setFillsViewportHeight(true);
-        incompleteTaskTable.setFocusable(false);
-        incompleteTaskTable.setGridColor(new java.awt.Color(255, 255, 255));
-        incompleteTaskTable.setSelectionBackground(new java.awt.Color(255, 255, 255));
-        jScrollPane2.setViewportView(incompleteTaskTable);
-        incompleteTaskTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-        if (incompleteTaskTable.getColumnModel().getColumnCount() > 0) {
-            incompleteTaskTable.getColumnModel().getColumn(0).setPreferredWidth(70);
-            incompleteTaskTable.getColumnModel().getColumn(1).setPreferredWidth(100);
-            incompleteTaskTable.getColumnModel().getColumn(2).setPreferredWidth(500);
-            incompleteTaskTable.getColumnModel().getColumn(3).setPreferredWidth(200);
-            incompleteTaskTable.getColumnModel().getColumn(4).setPreferredWidth(200);
-            incompleteTaskTable.getColumnModel().getColumn(5).setPreferredWidth(200);
-        }
+			public boolean isCellEditable(int rowIndex, int columnIndex) {
+				return canEdit [columnIndex];
+			}
+		});
+		incompleteTaskTable.setToolTipText("");
+		incompleteTaskTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_LAST_COLUMN);
+		incompleteTaskTable.setColumnSelectionAllowed(true);
+		incompleteTaskTable.setFillsViewportHeight(true);
+		incompleteTaskTable.setFocusable(false);
+		incompleteTaskTable.setGridColor(new java.awt.Color(255, 255, 255));
+		incompleteTaskTable.setSelectionBackground(new java.awt.Color(255, 255, 255));
+		jScrollPane2.setViewportView(incompleteTaskTable);
+		incompleteTaskTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+		if (incompleteTaskTable.getColumnModel().getColumnCount() > 0) {
+			incompleteTaskTable.getColumnModel().getColumn(0).setPreferredWidth(70);
+			incompleteTaskTable.getColumnModel().getColumn(1).setPreferredWidth(100);
+			incompleteTaskTable.getColumnModel().getColumn(2).setPreferredWidth(500);
+			incompleteTaskTable.getColumnModel().getColumn(3).setPreferredWidth(200);
+			incompleteTaskTable.getColumnModel().getColumn(4).setPreferredWidth(200);
+			incompleteTaskTable.getColumnModel().getColumn(5).setPreferredWidth(200);
+		}
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1234, Short.MAX_VALUE)
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 281, Short.MAX_VALUE)
-        );
+		javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+		jPanel2.setLayout(jPanel2Layout);
+		jPanel2Layout.setHorizontalGroup(
+				jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1234, Short.MAX_VALUE)
+				);
+		jPanel2Layout.setVerticalGroup(
+				jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 281, Short.MAX_VALUE)
+				);
 
-        taskTabbedPane.addTab("Incomplete", jPanel2);
+		taskTabbedPane.addTab("Incomplete", jPanel2);
 
-        jScrollPane3.setBackground(new java.awt.Color(255, 255, 255));
-        jScrollPane3.setOpaque(true);
+		jScrollPane3.setBackground(new java.awt.Color(255, 255, 255));
+		jScrollPane3.setOpaque(true);
 
-        upcomingTaskTable.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
-        upcomingTaskTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
+		upcomingTaskTable.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
+		upcomingTaskTable.setModel(new javax.swing.table.DefaultTableModel(
+				new Object [][] {
 
-            },
-            new String [] {
-                "No.", "Status", "Title", "Starting Time/Deadline", "Ending Time/ Deadline", "Repeating"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
-            };
+				},
+				new String [] {
+						"No.", "Status", "Title", "Starting Time/Deadline", "Ending Time/ Deadline", "Repeating"
+				}
+				) {
+			Class[] types = new Class [] {
+					java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+			};
+			boolean[] canEdit = new boolean [] {
+					false, false, false, false, false, false
+			};
 
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
+			public Class getColumnClass(int columnIndex) {
+				return types [columnIndex];
+			}
 
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        upcomingTaskTable.setToolTipText("");
-        upcomingTaskTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_LAST_COLUMN);
-        upcomingTaskTable.setFillsViewportHeight(true);
-        upcomingTaskTable.setFocusable(false);
-        upcomingTaskTable.setGridColor(new java.awt.Color(255, 255, 255));
-        upcomingTaskTable.setSelectionBackground(new java.awt.Color(255, 255, 255));
-        jScrollPane3.setViewportView(upcomingTaskTable);
-        upcomingTaskTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-        if (upcomingTaskTable.getColumnModel().getColumnCount() > 0) {
-            upcomingTaskTable.getColumnModel().getColumn(0).setPreferredWidth(70);
-            upcomingTaskTable.getColumnModel().getColumn(0).setHeaderValue("No.");
-            upcomingTaskTable.getColumnModel().getColumn(1).setPreferredWidth(100);
-            upcomingTaskTable.getColumnModel().getColumn(1).setHeaderValue("Status");
-            upcomingTaskTable.getColumnModel().getColumn(2).setPreferredWidth(500);
-            upcomingTaskTable.getColumnModel().getColumn(2).setHeaderValue("Title");
-            upcomingTaskTable.getColumnModel().getColumn(3).setPreferredWidth(200);
-            upcomingTaskTable.getColumnModel().getColumn(3).setHeaderValue("Starting Time/Deadline");
-            upcomingTaskTable.getColumnModel().getColumn(4).setPreferredWidth(200);
-            upcomingTaskTable.getColumnModel().getColumn(4).setHeaderValue("Ending Time/ Deadline");
-            upcomingTaskTable.getColumnModel().getColumn(5).setPreferredWidth(200);
-            upcomingTaskTable.getColumnModel().getColumn(5).setHeaderValue("Repeating");
-        }
+			public boolean isCellEditable(int rowIndex, int columnIndex) {
+				return canEdit [columnIndex];
+			}
+		});
+		upcomingTaskTable.setToolTipText("");
+		upcomingTaskTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_LAST_COLUMN);
+		upcomingTaskTable.setFillsViewportHeight(true);
+		upcomingTaskTable.setFocusable(false);
+		upcomingTaskTable.setGridColor(new java.awt.Color(255, 255, 255));
+		upcomingTaskTable.setSelectionBackground(new java.awt.Color(255, 255, 255));
+		jScrollPane3.setViewportView(upcomingTaskTable);
+		upcomingTaskTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+		if (upcomingTaskTable.getColumnModel().getColumnCount() > 0) {
+			upcomingTaskTable.getColumnModel().getColumn(0).setPreferredWidth(70);
+			upcomingTaskTable.getColumnModel().getColumn(0).setHeaderValue("No.");
+			upcomingTaskTable.getColumnModel().getColumn(1).setPreferredWidth(100);
+			upcomingTaskTable.getColumnModel().getColumn(1).setHeaderValue("Status");
+			upcomingTaskTable.getColumnModel().getColumn(2).setPreferredWidth(500);
+			upcomingTaskTable.getColumnModel().getColumn(2).setHeaderValue("Title");
+			upcomingTaskTable.getColumnModel().getColumn(3).setPreferredWidth(200);
+			upcomingTaskTable.getColumnModel().getColumn(3).setHeaderValue("Starting Time/Deadline");
+			upcomingTaskTable.getColumnModel().getColumn(4).setPreferredWidth(200);
+			upcomingTaskTable.getColumnModel().getColumn(4).setHeaderValue("Ending Time/ Deadline");
+			upcomingTaskTable.getColumnModel().getColumn(5).setPreferredWidth(200);
+			upcomingTaskTable.getColumnModel().getColumn(5).setHeaderValue("Repeating");
+		}
 
-        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
-        jPanel8.setLayout(jPanel8Layout);
-        jPanel8Layout.setHorizontalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1234, Short.MAX_VALUE)
-            .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 1234, Short.MAX_VALUE))
-        );
-        jPanel8Layout.setVerticalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 281, Short.MAX_VALUE)
-            .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 281, Short.MAX_VALUE))
-        );
+		javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+		jPanel8.setLayout(jPanel8Layout);
+		jPanel8Layout.setHorizontalGroup(
+				jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGap(0, 1234, Short.MAX_VALUE)
+				.addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+						.addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 1234, Short.MAX_VALUE))
+				);
+		jPanel8Layout.setVerticalGroup(
+				jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGap(0, 281, Short.MAX_VALUE)
+				.addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+						.addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 281, Short.MAX_VALUE))
+				);
 
-        taskTabbedPane.addTab("Upcoming", jPanel8);
+		taskTabbedPane.addTab("Upcoming", jPanel8);
 
-        jScrollPane4.setBackground(new java.awt.Color(255, 255, 255));
-        jScrollPane4.setOpaque(true);
+		jScrollPane4.setBackground(new java.awt.Color(255, 255, 255));
+		jScrollPane4.setOpaque(true);
 
-        completedTaskTable.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
-        completedTaskTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
+		completedTaskTable.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
+		completedTaskTable.setModel(new javax.swing.table.DefaultTableModel(
+				new Object [][] {
 
-            },
-            new String [] {
-                "No.", "Status", "Title", "Starting Time/Deadline", "Ending Time/ Deadline", "Repeating"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
-            };
+				},
+				new String [] {
+						"No.", "Status", "Title", "Starting Time/Deadline", "Ending Time/ Deadline", "Repeating"
+				}
+				) {
+			Class[] types = new Class [] {
+					java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+			};
+			boolean[] canEdit = new boolean [] {
+					false, false, false, false, false, false
+			};
 
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
+			public Class getColumnClass(int columnIndex) {
+				return types [columnIndex];
+			}
 
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        completedTaskTable.setToolTipText("");
-        completedTaskTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_LAST_COLUMN);
-        completedTaskTable.setFillsViewportHeight(true);
-        completedTaskTable.setFocusable(false);
-        completedTaskTable.setGridColor(new java.awt.Color(255, 255, 255));
-        completedTaskTable.setSelectionBackground(new java.awt.Color(255, 255, 255));
-        jScrollPane4.setViewportView(completedTaskTable);
-        completedTaskTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-        if (completedTaskTable.getColumnModel().getColumnCount() > 0) {
-            completedTaskTable.getColumnModel().getColumn(0).setPreferredWidth(70);
-            completedTaskTable.getColumnModel().getColumn(1).setPreferredWidth(100);
-            completedTaskTable.getColumnModel().getColumn(2).setPreferredWidth(500);
-            completedTaskTable.getColumnModel().getColumn(3).setPreferredWidth(200);
-            completedTaskTable.getColumnModel().getColumn(4).setPreferredWidth(200);
-            completedTaskTable.getColumnModel().getColumn(5).setPreferredWidth(200);
-        }
+			public boolean isCellEditable(int rowIndex, int columnIndex) {
+				return canEdit [columnIndex];
+			}
+		});
+		completedTaskTable.setToolTipText("");
+		completedTaskTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_LAST_COLUMN);
+		completedTaskTable.setFillsViewportHeight(true);
+		completedTaskTable.setFocusable(false);
+		completedTaskTable.setGridColor(new java.awt.Color(255, 255, 255));
+		completedTaskTable.setSelectionBackground(new java.awt.Color(255, 255, 255));
+		jScrollPane4.setViewportView(completedTaskTable);
+		completedTaskTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+		if (completedTaskTable.getColumnModel().getColumnCount() > 0) {
+			completedTaskTable.getColumnModel().getColumn(0).setPreferredWidth(70);
+			completedTaskTable.getColumnModel().getColumn(1).setPreferredWidth(100);
+			completedTaskTable.getColumnModel().getColumn(2).setPreferredWidth(500);
+			completedTaskTable.getColumnModel().getColumn(3).setPreferredWidth(200);
+			completedTaskTable.getColumnModel().getColumn(4).setPreferredWidth(200);
+			completedTaskTable.getColumnModel().getColumn(5).setPreferredWidth(200);
+		}
 
-        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
-        jPanel9.setLayout(jPanel9Layout);
-        jPanel9Layout.setHorizontalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1234, Short.MAX_VALUE)
-            .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 1234, Short.MAX_VALUE))
-        );
-        jPanel9Layout.setVerticalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 281, Short.MAX_VALUE)
-            .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 281, Short.MAX_VALUE))
-        );
+		javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
+		jPanel9.setLayout(jPanel9Layout);
+		jPanel9Layout.setHorizontalGroup(
+				jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGap(0, 1234, Short.MAX_VALUE)
+				.addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+						.addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 1234, Short.MAX_VALUE))
+				);
+		jPanel9Layout.setVerticalGroup(
+				jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGap(0, 281, Short.MAX_VALUE)
+				.addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+						.addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 281, Short.MAX_VALUE))
+				);
 
-        taskTabbedPane.addTab("Completed", jPanel9);
+		taskTabbedPane.addTab("Completed", jPanel9);
 
-        jScrollPane5.setBackground(new java.awt.Color(255, 255, 255));
-        jScrollPane5.setOpaque(true);
+		jScrollPane5.setBackground(new java.awt.Color(255, 255, 255));
+		jScrollPane5.setOpaque(true);
 
-        allTaskTable.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
-        allTaskTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
+		allTaskTable.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
+		allTaskTable.setModel(new javax.swing.table.DefaultTableModel(
+				new Object [][] {
 
-            },
-            new String [] {
-                "No.", "Status", "Title", "Starting Time/Deadline", "Ending Time/ Deadline", "Repeating"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
-            };
+				},
+				new String [] {
+						"No.", "Status", "Title", "Starting Time/Deadline", "Ending Time/ Deadline", "Repeating"
+				}
+				) {
+			Class[] types = new Class [] {
+					java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+			};
+			boolean[] canEdit = new boolean [] {
+					false, false, false, false, false, false
+			};
 
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
+			public Class getColumnClass(int columnIndex) {
+				return types [columnIndex];
+			}
 
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        allTaskTable.setToolTipText("");
-        allTaskTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_LAST_COLUMN);
-        allTaskTable.setFillsViewportHeight(true);
-        allTaskTable.setFocusable(false);
-        allTaskTable.setGridColor(new java.awt.Color(255, 255, 255));
-        allTaskTable.setSelectionBackground(new java.awt.Color(255, 255, 255));
-        jScrollPane5.setViewportView(allTaskTable);
-        allTaskTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-        if (allTaskTable.getColumnModel().getColumnCount() > 0) {
-            allTaskTable.getColumnModel().getColumn(0).setPreferredWidth(70);
-            allTaskTable.getColumnModel().getColumn(1).setPreferredWidth(100);
-            allTaskTable.getColumnModel().getColumn(2).setPreferredWidth(500);
-            allTaskTable.getColumnModel().getColumn(3).setPreferredWidth(200);
-            allTaskTable.getColumnModel().getColumn(4).setPreferredWidth(200);
-            allTaskTable.getColumnModel().getColumn(5).setPreferredWidth(200);
-        }
+			public boolean isCellEditable(int rowIndex, int columnIndex) {
+				return canEdit [columnIndex];
+			}
+		});
+		allTaskTable.setToolTipText("");
+		allTaskTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_LAST_COLUMN);
+		allTaskTable.setFillsViewportHeight(true);
+		allTaskTable.setFocusable(false);
+		allTaskTable.setGridColor(new java.awt.Color(255, 255, 255));
+		allTaskTable.setSelectionBackground(new java.awt.Color(255, 255, 255));
+		jScrollPane5.setViewportView(allTaskTable);
+		allTaskTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+		if (allTaskTable.getColumnModel().getColumnCount() > 0) {
+			allTaskTable.getColumnModel().getColumn(0).setPreferredWidth(70);
+			allTaskTable.getColumnModel().getColumn(1).setPreferredWidth(100);
+			allTaskTable.getColumnModel().getColumn(2).setPreferredWidth(500);
+			allTaskTable.getColumnModel().getColumn(3).setPreferredWidth(200);
+			allTaskTable.getColumnModel().getColumn(4).setPreferredWidth(200);
+			allTaskTable.getColumnModel().getColumn(5).setPreferredWidth(200);
+		}
 
-        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
-        jPanel10.setLayout(jPanel10Layout);
-        jPanel10Layout.setHorizontalGroup(
-            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1234, Short.MAX_VALUE)
-            .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 1234, Short.MAX_VALUE))
-        );
-        jPanel10Layout.setVerticalGroup(
-            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 281, Short.MAX_VALUE)
-            .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 281, Short.MAX_VALUE))
-        );
+		javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
+		jPanel10.setLayout(jPanel10Layout);
+		jPanel10Layout.setHorizontalGroup(
+				jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGap(0, 1234, Short.MAX_VALUE)
+				.addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+						.addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 1234, Short.MAX_VALUE))
+				);
+		jPanel10Layout.setVerticalGroup(
+				jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGap(0, 281, Short.MAX_VALUE)
+				.addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+						.addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 281, Short.MAX_VALUE))
+				);
 
-        taskTabbedPane.addTab("All tasks", jPanel10);
+		taskTabbedPane.addTab("All tasks", jPanel10);
 
-        javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
-        jPanel11.setLayout(jPanel11Layout);
-        jPanel11Layout.setHorizontalGroup(
-            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1234, Short.MAX_VALUE)
-        );
-        jPanel11Layout.setVerticalGroup(
-            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 281, Short.MAX_VALUE)
-        );
+		javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
+		jPanel11.setLayout(jPanel11Layout);
+		jPanel11Layout.setHorizontalGroup(
+				jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGap(0, 1234, Short.MAX_VALUE)
+				);
+		jPanel11Layout.setVerticalGroup(
+				jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGap(0, 281, Short.MAX_VALUE)
+				);
 
-        taskTabbedPane.addTab("Help", jPanel11);
+		taskTabbedPane.addTab("Help", jPanel11);
 
-        javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
-        jPanel12.setLayout(jPanel12Layout);
-        jPanel12Layout.setHorizontalGroup(
-            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1234, Short.MAX_VALUE)
-        );
-        jPanel12Layout.setVerticalGroup(
-            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 281, Short.MAX_VALUE)
-        );
+		javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
+		jPanel12.setLayout(jPanel12Layout);
+		jPanel12Layout.setHorizontalGroup(
+				jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGap(0, 1234, Short.MAX_VALUE)
+				);
+		jPanel12Layout.setVerticalGroup(
+				jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGap(0, 281, Short.MAX_VALUE)
+				);
 
-        taskTabbedPane.addTab("Option", jPanel12);
+		taskTabbedPane.addTab("Option", jPanel12);
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(taskTabbedPane)
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(taskTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
+		javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+		jPanel4.setLayout(jPanel4Layout);
+		jPanel4Layout.setHorizontalGroup(
+				jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addComponent(taskTabbedPane)
+				);
+		jPanel4Layout.setVerticalGroup(
+				jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addComponent(taskTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
+				);
 
-        commandField.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
-        commandField.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-        commandField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                commandFieldActionPerformed(evt);
-            }
-        });
+		commandField.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
+		commandField.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+		commandField.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				commandFieldActionPerformed(evt);
+			}
+		});
 
-        jLabel4.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
-        jLabel4.setText("Please Enter Your Inputs Below:");
+		jLabel4.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
+		jLabel4.setText("Please Enter Your Inputs Below:");
 
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(commandField)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 573, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 54, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(commandField, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
+		javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+		jPanel5.setLayout(jPanel5Layout);
+		jPanel5Layout.setHorizontalGroup(
+				jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+				.addGroup(jPanel5Layout.createSequentialGroup()
+						.addContainerGap()
+						.addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+								.addComponent(commandField)
+								.addGroup(jPanel5Layout.createSequentialGroup()
+										.addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 573, javax.swing.GroupLayout.PREFERRED_SIZE)
+										.addGap(0, 0, Short.MAX_VALUE)))
+						.addContainerGap())
+				);
+		jPanel5Layout.setVerticalGroup(
+				jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGroup(jPanel5Layout.createSequentialGroup()
+						.addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+						.addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 54, Short.MAX_VALUE)
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+						.addComponent(commandField, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+						.addContainerGap())
+				);
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(61, 61, 61))
-        );
+		javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+		jPanel3.setLayout(jPanel3Layout);
+		jPanel3Layout.setHorizontalGroup(
+				jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGroup(jPanel3Layout.createSequentialGroup()
+						.addContainerGap()
+						.addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addContainerGap())
+				);
+		jPanel3Layout.setVerticalGroup(
+				jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+						.addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+						.addGap(61, 61, 61))
+				);
 
-        jPanel6.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel6.setRequestFocusEnabled(false);
+		jPanel6.setBackground(new java.awt.Color(255, 255, 255));
+		jPanel6.setRequestFocusEnabled(false);
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gui/DiamondIcon.png"))); // NOI18N
-        jLabel1.setRequestFocusEnabled(false);
+		jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gui/DiamondIcon.png"))); // NOI18N
+		jLabel1.setRequestFocusEnabled(false);
 
-        timeField.setFont(new java.awt.Font("Comic Sans MS", 1, 18)); // NOI18N
-        timeField.setName("timeField"); // NOI18N
-        timeField.setRequestFocusEnabled(false);
+		timeField.setFont(new java.awt.Font("Comic Sans MS", 1, 18)); // NOI18N
+		timeField.setName("timeField"); // NOI18N
+		timeField.setRequestFocusEnabled(false);
 
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(34, 34, 34)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(timeField, javax.swing.GroupLayout.PREFERRED_SIZE, 553, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(timeField, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
+		javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+		jPanel6.setLayout(jPanel6Layout);
+		jPanel6Layout.setHorizontalGroup(
+				jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGroup(jPanel6Layout.createSequentialGroup()
+						.addGap(34, 34, 34)
+						.addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+						.addComponent(timeField, javax.swing.GroupLayout.PREFERRED_SIZE, 553, javax.swing.GroupLayout.PREFERRED_SIZE)
+						.addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+				);
+		jPanel6Layout.setVerticalGroup(
+				jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+						.addGap(0, 0, Short.MAX_VALUE)
+						.addComponent(timeField, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
+				.addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+						.addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+						.addContainerGap())
+				);
 
-        statusField.setBackground(new java.awt.Color(255, 255, 255));
-        statusField.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
-        statusField.setText("Welcome To Diamond!");
-        statusField.setRequestFocusEnabled(false);
+		statusField.setBackground(new java.awt.Color(255, 255, 255));
+		statusField.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
+		statusField.setText("Welcome To Diamond!");
+		statusField.setRequestFocusEnabled(false);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 634, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(statusField, javax.swing.GroupLayout.PREFERRED_SIZE, 417, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(statusField, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 475, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
+		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+		getContentPane().setLayout(layout);
+		layout.setHorizontalGroup(
+				layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGroup(layout.createSequentialGroup()
+						.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+								.addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addGroup(layout.createSequentialGroup()
+										.addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 634, javax.swing.GroupLayout.PREFERRED_SIZE)
+										.addGap(0, 0, Short.MAX_VALUE)))
+						.addContainerGap())
+				.addGroup(layout.createSequentialGroup()
+						.addContainerGap()
+						.addComponent(statusField, javax.swing.GroupLayout.PREFERRED_SIZE, 417, javax.swing.GroupLayout.PREFERRED_SIZE)
+						.addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+				);
+		layout.setVerticalGroup(
+				layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGroup(layout.createSequentialGroup()
+						.addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+						.addComponent(statusField, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+						.addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 475, javax.swing.GroupLayout.PREFERRED_SIZE))
+				);
 
-        pack();
-    }// </editor-fold>//GEN-END:initComponents
+		pack();
+	}// </editor-fold>//GEN-END:initComponents
 
 	private void commandFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_commandFieldActionPerformed
 		// TODO add your handling code here:
@@ -774,34 +774,34 @@ public class DisplayWindow extends javax.swing.JFrame {
 	}//GEN-LAST:event_commandFieldActionPerformed
 
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTable allTaskTable;
-    private javax.swing.JTextField commandField;
-    private javax.swing.JTable completedTaskTable;
-    private javax.swing.JTable incompleteTaskTable;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLayeredPane jLayeredPane1;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel10;
-    private javax.swing.JPanel jPanel11;
-    private javax.swing.JPanel jPanel12;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel8;
-    private javax.swing.JPanel jPanel9;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JLabel statusField;
-    private javax.swing.JTabbedPane taskTabbedPane;
-    private javax.swing.JLabel timeField;
-    private javax.swing.JTable upcomingTaskTable;
-    // End of variables declaration//GEN-END:variables
+	// Variables declaration - do not modify//GEN-BEGIN:variables
+	private javax.swing.JTable allTaskTable;
+	private javax.swing.JTextField commandField;
+	private javax.swing.JTable completedTaskTable;
+	private javax.swing.JTable incompleteTaskTable;
+	private javax.swing.JLabel jLabel1;
+	private javax.swing.JLabel jLabel4;
+	private javax.swing.JLayeredPane jLayeredPane1;
+	private javax.swing.JPanel jPanel1;
+	private javax.swing.JPanel jPanel10;
+	private javax.swing.JPanel jPanel11;
+	private javax.swing.JPanel jPanel12;
+	private javax.swing.JPanel jPanel2;
+	private javax.swing.JPanel jPanel3;
+	private javax.swing.JPanel jPanel4;
+	private javax.swing.JPanel jPanel5;
+	private javax.swing.JPanel jPanel6;
+	private javax.swing.JPanel jPanel8;
+	private javax.swing.JPanel jPanel9;
+	private javax.swing.JScrollPane jScrollPane1;
+	private javax.swing.JScrollPane jScrollPane2;
+	private javax.swing.JScrollPane jScrollPane3;
+	private javax.swing.JScrollPane jScrollPane4;
+	private javax.swing.JScrollPane jScrollPane5;
+	private javax.swing.JTable jTable1;
+	private javax.swing.JLabel statusField;
+	private javax.swing.JTabbedPane taskTabbedPane;
+	private javax.swing.JLabel timeField;
+	private javax.swing.JTable upcomingTaskTable;
+	// End of variables declaration//GEN-END:variables
 }
