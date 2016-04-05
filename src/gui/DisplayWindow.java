@@ -23,9 +23,8 @@ import java.io.IOException;
 import static java.lang.Thread.sleep;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author tfj
+/* @@author A0129845U
+ * The DisplayWindow is to initialize the GUI created
  */
 public class DisplayWindow extends javax.swing.JFrame {
 
@@ -35,9 +34,14 @@ public class DisplayWindow extends javax.swing.JFrame {
 	private static final String MESSAGE_NO_OLDER_COMMAND = "No more older command";
 	private static final String MESSAGE_NO_NEWER_COMMAND = "No more newer command";
 	private static final String MESSAGE_ERROR_READING_COMMAND = "Error in reading commands";
-	private static ArrayList<String> cmd = new ArrayList<String>();
+        private static final String COMMAND_DISPLAY_INCOMPLETE_TASK_LIST = "display incomplete";
+        private static final String COMMAND_DISPLAY_UPCOMING_TASK_LIST = "display upcoming";     
+        private static final String COMMAND_DISPLAY_COMPLETED_TASK_LIST = "display completed";
+        private static final String COMMAND_DISPLAY_ALL_TASK_LIST = "display all";
+        private static ArrayList<String> cmd = new ArrayList<String>();
 	private static ArrayList<String> cmdHistory = new ArrayList<String>();
 	private static int numberOfUp = 0;
+        private static int tabIndex;
 	/**
 	 * Creates new form DisplayWindow
 	 *
@@ -50,6 +54,7 @@ public class DisplayWindow extends javax.swing.JFrame {
 		displayTime();
 		getCommandStrings();
 		initShortCutKey();
+                tabIndex = 0;
 	}
 	
 	private void setIcon() {
@@ -82,7 +87,24 @@ public class DisplayWindow extends javax.swing.JFrame {
 	}
 
 	public void clear() {
-		DefaultTableModel model = (DefaultTableModel) incompleteTaskTable.getModel();
+            DefaultTableModel model;
+            switch (tabIndex) {
+            case 0:
+                model = (DefaultTableModel) incompleteTaskTable.getModel();
+                break;
+            case 1:
+                model = (DefaultTableModel) upcomingTaskTable.getModel();
+                break;
+            case 2:   
+                model = (DefaultTableModel) completedTaskTable.getModel();
+                break;
+            case 3:
+                model = (DefaultTableModel) allTaskTable.getModel();
+                break;
+            default:
+                model = (DefaultTableModel) incompleteTaskTable.getModel();
+                break;                
+        }
 		int size = model.getRowCount();
 		if (size > 0){
 			for (int i = 0; i < size; i++) {
@@ -106,17 +128,19 @@ public class DisplayWindow extends javax.swing.JFrame {
 			String[] entry = entryString.split(";");
 			model.addRow(entry);
 		}
+                tabIndex = 0;
 	}
 	public void displayUpcomingTaskList(ArrayList<String> tasks) {
 		taskTabbedPane.setSelectedIndex(1);
 		int size = tasks.size();                
-		DefaultTableModel model = (DefaultTableModel) upComingTaskTable.getModel();
+		DefaultTableModel model = (DefaultTableModel) upcomingTaskTable.getModel();
 		model.setRowCount(0);
 		for (int i = 0; i < size; i++) {
 			String entryString = (i+1) + ";" + tasks.get(i);
 			String[] entry = entryString.split(";");
 			model.addRow(entry);
 		}
+                tabIndex = 1;                
 	}        
 	public void displayCompletedTaskList(ArrayList<String> tasks) {
 		taskTabbedPane.setSelectedIndex(2);
@@ -128,7 +152,8 @@ public class DisplayWindow extends javax.swing.JFrame {
 			String[] entry = entryString.split(";");
 			model.addRow(entry);
 		}
-	}          
+                tabIndex = 2;
+        }          
 	public void displayAllTaskList(ArrayList<String> tasks) {
 		taskTabbedPane.setSelectedIndex(3);
 		int size = tasks.size();
@@ -139,7 +164,8 @@ public class DisplayWindow extends javax.swing.JFrame {
 			String[] entry = entryString.split(";");
 			model.addRow(entry);
 		}
-	}  
+                tabIndex = 3;	
+        }  
 	private void getCommandStrings() {
 		try {
 			BufferedReader br = new BufferedReader(new FileReader("Op2Commands.txt"));
@@ -158,8 +184,26 @@ public class DisplayWindow extends javax.swing.JFrame {
 		commandField.registerKeyboardAction(new java.awt.event.ActionListener() {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
-				commandField.setText(cmd.get(0));
-				cmd.remove(0);
+            		Thread clock = new Thread() {
+			@Override
+			public void run() {
+                            String command = cmd.get(0);
+                            String display = "";
+                            int length = command.length();                                
+                            try {
+				for (int i =0; i< length; i++) {
+                                    char temp = command.charAt(i);
+                                    display = display + temp;                        
+                                    commandField.setText(display);        
+                                    sleep(50);
+					}
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+                                }
+                            }
+                        };
+                        clock.start();     
+			cmd.remove(0);
 			}
 		}, KeyStroke.getKeyStroke(KeyEvent.VK_F1, InputEvent.CTRL_DOWN_MASK), JComponent.WHEN_IN_FOCUSED_WINDOW);
 
@@ -190,7 +234,42 @@ public class DisplayWindow extends javax.swing.JFrame {
 				}
 			}
 		}, KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
-	}
+                
+		commandField.registerKeyboardAction(new java.awt.event.ActionListener() {
+			@Override
+			public void actionPerformed(java.awt.event.ActionEvent e) {
+                            Controller.sendCmd("undo");
+			}
+		}, KeyStroke.getKeyStroke(KeyEvent.VK_Z, InputEvent.CTRL_DOWN_MASK), JComponent.WHEN_IN_FOCUSED_WINDOW);
+                
+                commandField.registerKeyboardAction(new java.awt.event.ActionListener() {
+			@Override
+			public void actionPerformed(java.awt.event.ActionEvent e) {
+                            Controller.sendCmd(COMMAND_DISPLAY_INCOMPLETE_TASK_LIST);
+			}
+		}, KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
+                
+                commandField.registerKeyboardAction(new java.awt.event.ActionListener() {
+			@Override
+			public void actionPerformed(java.awt.event.ActionEvent e) {
+                            Controller.sendCmd(COMMAND_DISPLAY_UPCOMING_TASK_LIST);
+			}
+		}, KeyStroke.getKeyStroke(KeyEvent.VK_F2, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);   
+                
+                commandField.registerKeyboardAction(new java.awt.event.ActionListener() {
+			@Override
+			public void actionPerformed(java.awt.event.ActionEvent e) {
+                            Controller.sendCmd(COMMAND_DISPLAY_COMPLETED_TASK_LIST);
+			}
+		}, KeyStroke.getKeyStroke(KeyEvent.VK_F3, 0), JComponent.WHEN_IN_FOCUSED_WINDOW); 
+                
+                commandField.registerKeyboardAction(new java.awt.event.ActionListener() {
+			@Override
+			public void actionPerformed(java.awt.event.ActionEvent e) {
+                            Controller.sendCmd(COMMAND_DISPLAY_ALL_TASK_LIST);
+			}
+		}, KeyStroke.getKeyStroke(KeyEvent.VK_F4, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);                 
+        }
 	/**
 	 * This method is called from within the constructor to initialize the form.
 	 * WARNING: Do NOT modify this code. The content of this method is always
@@ -213,7 +292,7 @@ public class DisplayWindow extends javax.swing.JFrame {
         incompleteTaskTable = new javax.swing.JTable();
         jPanel8 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        upComingTaskTable = new javax.swing.JTable();
+        upcomingTaskTable = new javax.swing.JTable();
         jPanel9 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         completedTaskTable = new javax.swing.JTable();
@@ -295,7 +374,7 @@ public class DisplayWindow extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false, false
@@ -311,6 +390,7 @@ public class DisplayWindow extends javax.swing.JFrame {
         });
         incompleteTaskTable.setToolTipText("");
         incompleteTaskTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_LAST_COLUMN);
+        incompleteTaskTable.setColumnSelectionAllowed(true);
         incompleteTaskTable.setFillsViewportHeight(true);
         incompleteTaskTable.setFocusable(false);
         incompleteTaskTable.setGridColor(new java.awt.Color(255, 255, 255));
@@ -337,13 +417,13 @@ public class DisplayWindow extends javax.swing.JFrame {
             .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 281, Short.MAX_VALUE)
         );
 
-        taskTabbedPane.addTab("Incomeplete", jPanel2);
+        taskTabbedPane.addTab("Incompelete", jPanel2);
 
         jScrollPane3.setBackground(new java.awt.Color(255, 255, 255));
         jScrollPane3.setOpaque(true);
 
-        upComingTaskTable.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
-        upComingTaskTable.setModel(new javax.swing.table.DefaultTableModel(
+        upcomingTaskTable.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
+        upcomingTaskTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -366,27 +446,27 @@ public class DisplayWindow extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        upComingTaskTable.setToolTipText("");
-        upComingTaskTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_LAST_COLUMN);
-        upComingTaskTable.setFillsViewportHeight(true);
-        upComingTaskTable.setFocusable(false);
-        upComingTaskTable.setGridColor(new java.awt.Color(255, 255, 255));
-        upComingTaskTable.setSelectionBackground(new java.awt.Color(255, 255, 255));
-        jScrollPane3.setViewportView(upComingTaskTable);
-        upComingTaskTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-        if (upComingTaskTable.getColumnModel().getColumnCount() > 0) {
-            upComingTaskTable.getColumnModel().getColumn(0).setPreferredWidth(70);
-            upComingTaskTable.getColumnModel().getColumn(0).setHeaderValue("No.");
-            upComingTaskTable.getColumnModel().getColumn(1).setPreferredWidth(100);
-            upComingTaskTable.getColumnModel().getColumn(1).setHeaderValue("Status");
-            upComingTaskTable.getColumnModel().getColumn(2).setPreferredWidth(500);
-            upComingTaskTable.getColumnModel().getColumn(2).setHeaderValue("Title");
-            upComingTaskTable.getColumnModel().getColumn(3).setPreferredWidth(200);
-            upComingTaskTable.getColumnModel().getColumn(3).setHeaderValue("Starting Time/Deadline");
-            upComingTaskTable.getColumnModel().getColumn(4).setPreferredWidth(200);
-            upComingTaskTable.getColumnModel().getColumn(4).setHeaderValue("Ending Time/ Deadline");
-            upComingTaskTable.getColumnModel().getColumn(5).setPreferredWidth(200);
-            upComingTaskTable.getColumnModel().getColumn(5).setHeaderValue("Repeating");
+        upcomingTaskTable.setToolTipText("");
+        upcomingTaskTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_LAST_COLUMN);
+        upcomingTaskTable.setFillsViewportHeight(true);
+        upcomingTaskTable.setFocusable(false);
+        upcomingTaskTable.setGridColor(new java.awt.Color(255, 255, 255));
+        upcomingTaskTable.setSelectionBackground(new java.awt.Color(255, 255, 255));
+        jScrollPane3.setViewportView(upcomingTaskTable);
+        upcomingTaskTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        if (upcomingTaskTable.getColumnModel().getColumnCount() > 0) {
+            upcomingTaskTable.getColumnModel().getColumn(0).setPreferredWidth(70);
+            upcomingTaskTable.getColumnModel().getColumn(0).setHeaderValue("No.");
+            upcomingTaskTable.getColumnModel().getColumn(1).setPreferredWidth(100);
+            upcomingTaskTable.getColumnModel().getColumn(1).setHeaderValue("Status");
+            upcomingTaskTable.getColumnModel().getColumn(2).setPreferredWidth(500);
+            upcomingTaskTable.getColumnModel().getColumn(2).setHeaderValue("Title");
+            upcomingTaskTable.getColumnModel().getColumn(3).setPreferredWidth(200);
+            upcomingTaskTable.getColumnModel().getColumn(3).setHeaderValue("Starting Time/Deadline");
+            upcomingTaskTable.getColumnModel().getColumn(4).setPreferredWidth(200);
+            upcomingTaskTable.getColumnModel().getColumn(4).setHeaderValue("Ending Time/ Deadline");
+            upcomingTaskTable.getColumnModel().getColumn(5).setPreferredWidth(200);
+            upcomingTaskTable.getColumnModel().getColumn(5).setHeaderValue("Repeating");
         }
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
@@ -722,6 +802,6 @@ public class DisplayWindow extends javax.swing.JFrame {
     private javax.swing.JLabel statusField;
     private javax.swing.JTabbedPane taskTabbedPane;
     private javax.swing.JLabel timeField;
-    private javax.swing.JTable upComingTaskTable;
+    private javax.swing.JTable upcomingTaskTable;
     // End of variables declaration//GEN-END:variables
 }
