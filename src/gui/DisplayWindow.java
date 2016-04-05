@@ -417,7 +417,7 @@ public class DisplayWindow extends javax.swing.JFrame {
             .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 281, Short.MAX_VALUE)
         );
 
-        taskTabbedPane.addTab("Incompelete", jPanel2);
+        taskTabbedPane.addTab("Incomplete", jPanel2);
 
         jScrollPane3.setBackground(new java.awt.Color(255, 255, 255));
         jScrollPane3.setOpaque(true);
