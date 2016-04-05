@@ -7,7 +7,7 @@ public class newTitleParser {
 	static final String FORMATTED_DATE_WITH_YEAR_REGEX = Regex.START + Regex.DAY + Regex.DATE_SEP + Regex.MONTH + Regex.DATE_SEP + Regex.YEAR + Regex.END;
 	static final String NUMBERED_DATE_REGEX = NO_YEAR_FORMATTED_DATE_REGEX + "|" + FORMATTED_DATE_WITH_YEAR_REGEX;
 	static final String MISC_NUMBERED_DATE_REGEX = Regex.MISC_REGEX+NO_YEAR_FORMATTED_DATE_REGEX + "|" + Regex.MISC_REGEX+FORMATTED_DATE_WITH_YEAR_REGEX;
-	static final String FIRST_DATE_REGEX = "("+ Regex.DATE_MONTH_YEAR_REGEX+ "|" + Regex.MONTH_DATE_YEAR_REGEX  +")";
+	static final String FIRST_DATE_REGEX = "("+ Regex.DATE_MONTH_YEAR_REGEX+ "|" + Regex.MONTH_DATE_YEAR_REGEX+"|"+Regex.MONTH_DATE_REGEX+"|"+Regex.DATE_MONTH_REGEX+")";
 	static final String MISC_FIRST_DATE_REGEX = "("+ Regex.DATE_MONTH_YEAR_REGEX+ "|" + Regex.MONTH_DATE_YEAR_REGEX  +")";
 	static final String SECOND_DATE_REGEX="("+Regex.MISC_REGEX+ Regex.DATE_MONTH_REGEX+ "|" + Regex.MISC_REGEX+Regex.MONTH_DATE_REGEX  +")";
 	static final String MISC_SECOND_DATE_REGEX = "("+Regex.MISC_REGEX+ Regex.DATE_MONTH_YEAR_REGEX+ "|" +Regex.MISC_REGEX+ Regex.MONTH_DATE_YEAR_REGEX  +")";
