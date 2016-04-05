@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.function.Predicate;
 
-import org.apache.commons.lang.time.DateUtils;
-
 import logic.tasks.*;
+import storage.Database;
+import storage.TaskList;
 /* @@author A0112184R
  *
  */
@@ -65,7 +65,7 @@ public class GrandTaskList {
 		return results;
 	}
 	
-	public static TaskList<Task> getUnDoneList() {
+	public static TaskList<Task> getUndoneList() {
 		TaskList<Task> results = new TaskList<Task>();
 		deadlineList.merge(results);
 		sessionList.merge(results);
@@ -74,6 +74,46 @@ public class GrandTaskList {
 		return results;
 	}
 	
+	public static TaskList<Task> getListByName(String name) {
+		if (name.equals("all")) {
+			return getTotalList();
+		} else if (name.equals("upcoming")) {
+			return getUpcomingList();
+		} else if (name.equals("completed")) {
+			return getDoneList();
+		} else if (name.equals("incomplete")) {
+			return getUndoneList();
+		} else {
+			return new TaskList<Task>();
+		}
+	}
+	
+	public static TaskList<Task> getUpcomingList() {
+		return getUpComingList(1);
+	}
+	
+	public static TaskList<Task> getUpComingList(int numDays) {
+		Calendar date = Calendar.getInstance();
+		TaskList<Task> result = new TaskList<Task>();
+		for (Task task: deadlineList) {
+			if (TaskUtil.isWithinNDays(task, date, numDays)) {
+				result.add(task);
+			}
+		}
+		for (Task task: sessionList) {
+			if (TaskUtil.isWithinNDays(task, date, numDays)) {
+				result.add(task);
+			}
+		}
+		for (RecurringTask task: recurringTaskList) {
+			Task instance = task.generate(date);
+			if (TaskUtil.isWithinNDays(task, date, numDays)) {
+				result.add(instance);
+			}
+		}
+		return result;
+	}
+
 	public static boolean addNewTask(Task task) throws IOException {
 		boolean result;
 		if (task instanceof Deadline) {
@@ -120,6 +160,7 @@ public class GrandTaskList {
 	public static boolean unmarkDone(Task task) throws IOException {
 		boolean result = doneTaskList.delete(task);
 		addNewTask(task);
+		Database.saveDone();
 		return result;
 	}
 	
@@ -135,12 +176,12 @@ public class GrandTaskList {
 	public static TaskList<Task> getTasksOnDate(Calendar date) {
 		TaskList<Task> result = new TaskList<Task>();
 		for (Task task: deadlineList) {
-			if (DateUtils.isSameDay(task.getMainDate(), date)) {
+			if (TaskUtil.willOccur(task, date)) {
 				result.add(task);
 			}
 		}
 		for (Task task: sessionList) {
-			if (DateUtils.isSameDay(task.getMainDate(), date)) {
+			if (TaskUtil.willOccur(task, date)) {
 				result.add(task);
 			}
 		}

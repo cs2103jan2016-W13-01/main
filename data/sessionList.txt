@@ -1,0 +1,6 @@
+{
+title: play go with lord Hai;
+start: 10:00 20160411;
+end: 12:00 20160405;
+recurring period: 0;
+}

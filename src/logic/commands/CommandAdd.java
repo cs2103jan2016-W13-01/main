@@ -5,7 +5,6 @@ import java.util.logging.Level;
 
 import logic.ExecutedCommands;
 import logic.LogicLogger;
-import logic.TaskProcessor;
 import logic.tasks.Task;
 import storage.StorageController;
 
@@ -38,7 +37,7 @@ public class CommandAdd implements Command {
 		LogicLogger.log(Level.INFO, "adding task: " + task.toString() + " to storage");
 		try {
 			StorageController.addNewTask(task);
-			TaskProcessor.setTabType("incomplete");
+			StorageController.setTabType("incomplete");
 			ExecutedCommands.addCommand(this);
 			LogicLogger.log(Level.INFO, "added successfully");
 			return MESSAGE_TASK_ADDED;
