@@ -38,7 +38,7 @@ public class CommandDelete implements Command {
 			ExecutedCommands.addCommand(this);
 			LogicLogger.log(Level.INFO, "deleted successfully");
 			return String.format(MESSAGE_TASK_DELETED, deletedTask.toString());
-		} catch (NoSuchElementException d) {
+		} catch (IndexOutOfBoundsException d) {
 			LogicLogger.log(Level.WARNING, "Task not found");
 			return String.format(MESSAGE_TASK_NOT_FOUND, taskNumberToDelete);
 		} catch (IOException e) {
