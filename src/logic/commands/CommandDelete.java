@@ -52,6 +52,7 @@ public class CommandDelete implements Command {
 		LogicLogger.log(Level.INFO, "adding task back: " + deletedTask.toString() + " to storage");
 		try {
 			StorageController.addNewTask(deletedTask);
+			StorageController.setTabType("incomplete");
 			LogicLogger.log(Level.INFO, "undone successfully");
 			return String.format(MESSAGE_UNDONE, deletedTask.toString());
 		} catch (IOException e) {

@@ -27,7 +27,6 @@ public class TaskProcessor {
 	*/
 
 	private static ArrayList<String> listToDisplay;
-	private static String tabType;
 	
 	public static void main(String[] args) {
 		while (true) {
@@ -38,14 +37,6 @@ public class TaskProcessor {
 	public static ArrayList<String> getListToDisplay() {
 		loadIntoDisplayList(StorageController.getDisplayList());
 		return listToDisplay;
-	}
-	
-	public static String getTabNuber() {
-		return tabType;
-	}
-	
-	public static void setTabType(String newTab) {
-		tabType = newTab;
 	}
 	
 	public static void getAndExecuteCommand() {
@@ -64,12 +55,13 @@ public class TaskProcessor {
 	public static Response executeCommand(Command command) {
 		String message = command.execute();
 		ArrayList<String> taskList = getListToDisplay();
-		return new Response(message, tabType, taskList);
+		return new Response(message, StorageController.getTabType(), taskList);
 	}
 	
 	public static void initialize() {
 		listToDisplay = new ArrayList<String>();
 		ExecutedCommands.initialize();
+		UndoneCommands.initialize();
 		LogicLogger.initialize();
 		try {
 			LogicLogger.log(Level.INFO, "Initializing StorageController");

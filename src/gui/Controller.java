@@ -15,7 +15,7 @@ import java.util.ArrayList;
  */
 public class Controller {
 	
-    private static final String PENDING = "pending";
+    private static final String INCOMPLETE = "incomplete";
 	private static final String COMPLETED = "completed";
 	private static final String UPCOMING = "upcoming";
 	private static final String ALL = "all";
@@ -34,7 +34,7 @@ public class Controller {
     	DW = new DisplayWindow();
         DW.setVisible(true);
 		TaskProcessor.initialize();
-		displayTasks(TaskProcessor.getListToDisplay(), ALL);
+		displayTasks(TaskProcessor.getListToDisplay(), INCOMPLETE);
 	}
     // @@author    
     
@@ -64,7 +64,7 @@ public class Controller {
 		DW.displayUpcomingTaskList(tasks);
         else if (type.equals(COMPLETED))
 		DW.displayCompletedTaskList(tasks);        
-        else if (type.equals(PENDING))
+        else if (type.equals(INCOMPLETE))
 		DW.displayPendingTaskList(tasks);   
     }
 }

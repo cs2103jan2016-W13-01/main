@@ -2,7 +2,6 @@ package logic.commands;
 
 import java.util.Calendar;
 
-import logic.TaskProcessor;
 import logic.tasks.TaskUtil;
 import storage.StorageController;
 
@@ -34,7 +33,6 @@ public class CommandDisplay implements Command {
 	
 	public String execute() {
 		if (criteria.equals("all")) {
-			TaskProcessor.setTabType("all");
 			StorageController.displayAllTasks();
 			return MESSAGE_ALL_TASKS;
 		} else if (criteria.equals("float")) {
