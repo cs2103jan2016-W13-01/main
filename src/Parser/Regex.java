@@ -18,7 +18,7 @@ static final String MONTH_DATE_YEAR_REGEX = "(?<=\\s|^)" + MONTHNAME +REGEX_SPAC
 
 static final String TMR_REGEX = "(today?|tmr?|tomorrow?)";
 
-static final String DAYNAME = "(week?|month?|mon(?:day)?|tue(?:sday)?|wed(?:nesday)?|thur(?:sday)?|fri(?:day)?|sat(?:urday)?|sun(?:day)?)";
+static final String DAYNAME = "(next week?|next month?|mon(?:day)?|tue(?:sday)?|wed(?:nesday)?|thur(?:sday)?|fri(?:day)?|sat(?:urday)?|sun(?:day)?)";
 static final String TWELVE_HR_REGEX = "([0-9]?[0-9])([.:][0-9][0-9])?\\s?(am|pm)";
 static final String TWENTYFOUR_HR_REGEX = "(([0-9]?[0-9])[:]([0-9][0-9]))\\s?[?:h|H]?";
 
