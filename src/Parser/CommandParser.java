@@ -164,6 +164,7 @@ public class CommandParser {
 		String returnString="";
 		switch(input){
 			case "all":
+			case "":
 				returnString="all";
 				break;
 			case "float":
@@ -185,17 +186,23 @@ public class CommandParser {
 			case "recurring":
 			case "repeat":
 			case "recur":
-				returnString="repeat";
+				returnString="recurring";
 				break;
-			case"done":
+			case "done":
 			case "completed":
 			case "finished":
 				returnString="done";
+				break;
+			case "upcoming":
+			case "coming":
+				returnString="upcoming";
 				break;
 			case "undone":
 			case "uncompleted":
 			case "unfinished":
 			case "pending":
+			case "incomplete":
+			case "in progress":
 				returnString="undone";	
 				break;
 			case "past":

@@ -11,6 +11,8 @@ public class Task implements Cloneable {
 	protected String title;
 	protected boolean done;
 	protected static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+	protected boolean isRecurrence;
+	protected RecurringTask parent;
 	
 	public TaskType getType() {
 		return TaskType.FLOAT;
@@ -23,6 +25,8 @@ public class Task implements Cloneable {
 	public Task(String title) {
 		this.title = title;
 		done = false;
+		isRecurrence = false;
+		parent = null;
 	}
 	
 	public String getTitle() {
@@ -47,6 +51,22 @@ public class Task implements Cloneable {
 	public boolean unmark() {
 		done = false;
 		return done;
+	}
+	
+	public boolean isRecurrence() {
+		return isRecurrence;
+	}
+	
+	public void setRecurrence(boolean recur) {
+		isRecurrence = recur;
+	}
+	
+	public RecurringTask getParent() {
+		return parent;
+	}
+	
+	public void setParent(RecurringTask task) {
+		parent = task;
 	}
 	
 	@Override

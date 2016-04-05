@@ -89,27 +89,15 @@ public class GrandTaskList {
 	}
 	
 	public static TaskList<Task> getUpcomingList() {
-		return getUpComingList(1);
+		return getUpComingList(2);
 	}
 	
 	public static TaskList<Task> getUpComingList(int numDays) {
 		Calendar date = Calendar.getInstance();
 		TaskList<Task> result = new TaskList<Task>();
-		for (Task task: deadlineList) {
-			if (TaskUtil.isWithinNDays(task, date, numDays)) {
-				result.add(task);
-			}
-		}
-		for (Task task: sessionList) {
-			if (TaskUtil.isWithinNDays(task, date, numDays)) {
-				result.add(task);
-			}
-		}
-		for (RecurringTask task: recurringTaskList) {
-			Task instance = task.generate(date);
-			if (TaskUtil.isWithinNDays(task, date, numDays)) {
-				result.add(instance);
-			}
+		for (int i=0; i<numDays; i++) {
+			date.add(Calendar.DATE, 1);
+			getTasksOnDate(date).merge(result);
 		}
 		return result;
 	}
@@ -153,13 +141,22 @@ public class GrandTaskList {
 	public static boolean markDone(Task task) throws IOException {
 		boolean result = deleteTask(task);
 		doneTaskList.add(task);
+		task.markDone();
+		if (task.isRecurrence()) {
+			task.getParent().addException(task.getMainDate());
+		}
 		Database.saveDone();
 		return result;
 	}
 	
 	public static boolean unmarkDone(Task task) throws IOException {
 		boolean result = doneTaskList.delete(task);
-		addNewTask(task);
+		if (task.isRecurrence()) {
+			task.getParent().removeException(task.getMainDate());
+		} else {
+			addNewTask(task);
+			task.unmark();
+		}
 		Database.saveDone();
 		return result;
 	}
