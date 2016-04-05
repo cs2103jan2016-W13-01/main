@@ -2,7 +2,7 @@ package Parser;
 /* @@author A0121535R
 * parser that obtains the title
 */
-public class newTitleParser {
+public class TitleParser {
 	static final String NO_YEAR_FORMATTED_DATE_REGEX = Regex.START + Regex.DAY + "[-/]" + Regex.MONTH + Regex.END;
 	static final String FORMATTED_DATE_WITH_YEAR_REGEX = Regex.START + Regex.DAY + Regex.DATE_SEP + Regex.MONTH + Regex.DATE_SEP + Regex.YEAR + Regex.END;
 	static final String NUMBERED_DATE_REGEX = NO_YEAR_FORMATTED_DATE_REGEX + "|" + FORMATTED_DATE_WITH_YEAR_REGEX;

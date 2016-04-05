@@ -5,7 +5,7 @@
 
 package Parser;
 
-public class titleParser {
+public class temptitleParser {
 
 	static final String START = "(?<=^|\\s)";
 	static final String END = "(?=\\s|$)";
