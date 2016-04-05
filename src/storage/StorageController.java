@@ -3,8 +3,9 @@ package storage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.NoSuchElementException;
 import java.util.function.Predicate;
+
+import org.apache.commons.lang.time.DateUtils;
 
 import logic.tasks.*;
 
@@ -37,15 +38,28 @@ public class StorageController {
 		}
 	}
 	
-	public static Task deleteByIndex(int index) throws IOException, NoSuchElementException {
+	public static Task deleteByIndex(int index) throws IOException {
 		Task task = displayList.remove(index);
 		deleteTask(task);
 		return task;
 	}
 	
+	public static Task markDoneByIndex(int index) throws IOException {
+		Task task = displayList.remove(index);
+		markDone(task);
+		return task;
+	}
+	
+	public static Task unmarkDoneByIndex(int index) throws IOException {
+		Task task = displayList.remove(index);
+		unmarkDone(task);
+		return task;
+	}
+	
 	public static boolean addNewTask(Task task) throws IOException {
+		displayList.clear();
 		boolean result = GrandTaskList.addNewTask(task);
-		displayAllTasks();
+		displayList.add(task);
 		return result;
 	}
 	
@@ -55,9 +69,51 @@ public class StorageController {
 		return result;
 	}
 	
+	public static boolean markDone(Task task) throws IOException {
+		displayList.clear();
+		boolean result = GrandTaskList.markDone(task);
+		displayList.remove(task);
+		return result;
+	}
+	
+	public static boolean unmarkDone(Task task) throws IOException {
+		displayList.clear();
+		boolean result = GrandTaskList.unmarkDone(task);
+		displayList.add(task);
+		return result;
+	}
+	
 	public static void displayAllTasks() {
 		displayList.clear();
 		for (Task task: GrandTaskList.getNoRecurringList()) {
+			displayList.add(task);
+		}
+	}
+	
+	public static void displayFloatTasks() {
+		displayList.clear();
+		for (Task task: GrandTaskList.getFloatList()) {
+			displayList.add(task);
+		}
+	}
+	
+	public static void displayDeadlines() {
+		displayList.clear();
+		for (Task task: GrandTaskList.getDeadlineList()) {
+			displayList.add(task);
+		}
+	}
+	
+	public static void displaySessions() {
+		displayList.clear();
+		for (Task task: GrandTaskList.getSessionList()) {
+			displayList.add(task);
+		}
+	}
+	
+	public static void displayRecurring() {
+		displayList.clear();
+		for (Task task: GrandTaskList.getRecurringList()) {
 			displayList.add(task);
 		}
 	}
@@ -75,6 +131,11 @@ public class StorageController {
 		displayList.clear();
 	}
 	
+	public static void clearAllTasks() throws IOException {
+		GrandTaskList.clearAll();
+		displayList.clear();
+	}
+	
 	public static void setPath(String pathName) throws IOException {
 		Database.setPath(pathName);
 	}
@@ -84,6 +145,24 @@ public class StorageController {
 	}
 	
 	public static void searchTask(Predicate<Task> predicate) {
-		displayList = GrandTaskList.search(predicate);
+		for (Task task: GrandTaskList.search(predicate)) {
+			displayList.add(task);
+		}
+	}
+	
+	public static ArrayList<Task> getTimelineList() {
+		ArrayList<Task> result = new ArrayList<Task>();
+		for (Task task: GrandTaskList.getNoRecurringList()) {
+			Calendar date = task.getMainDate();
+			Calendar nextOneMonth = Calendar.getInstance();
+			nextOneMonth.add(Calendar.DATE, 30);
+			if (date != null
+				&& DateUtils.truncatedCompareTo(date,
+						nextOneMonth,
+						Calendar.DATE) < 0) {
+				result.add(task);
+			}
+		}
+		return result;
 	}
 }

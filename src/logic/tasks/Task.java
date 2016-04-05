@@ -44,6 +44,11 @@ public class Task implements Cloneable {
 		return done;
 	}
 	
+	public boolean unmark() {
+		done = false;
+		return done;
+	}
+	
 	@Override
 	public String toString() {
 		return getTitle();

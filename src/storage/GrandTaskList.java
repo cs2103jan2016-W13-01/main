@@ -1,7 +1,6 @@
 package storage;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.function.Predicate;
 
@@ -18,11 +17,14 @@ public class GrandTaskList {
 	private static TaskList<Session> sessionList;
 	private static TaskList<RecurringTask> recurringTaskList;
 	
+	private static TaskList<Task> doneTaskList;
+	
 	public static void initialize() {
 		floatTaskList = new TaskList<Task>();
 		deadlineList = new TaskList<Deadline>();
 		sessionList = new TaskList<Session>();
 		recurringTaskList = new TaskList<RecurringTask>();
+		doneTaskList = new TaskList<Task>();
 	}
 	
 	public static TaskList<Task> getFloatList() {
@@ -41,34 +43,34 @@ public class GrandTaskList {
 		return recurringTaskList;
 	}
 	
+	public static TaskList<Task> getDoneList() {
+		return doneTaskList;
+	}
+	
 	public static TaskList<Task> getTotalList() {
 		TaskList<Task> results = new TaskList<Task>();
-		for (Task task: deadlineList) {
-			results.add(task);
-		}
-		for (Task task: sessionList) {
-			results.add(task);
-		}
-		for (Task task: recurringTaskList) {
-			results.add(task);
-		}
-		for (Task task: floatTaskList) {
-			results.add(task);
-		}
+		deadlineList.merge(results);
+		sessionList.merge(results);
+		recurringTaskList.merge(results);
+		floatTaskList.merge(results);
+		doneTaskList.merge(results);
 		return results;
 	}
 	
 	public static TaskList<Task> getNoRecurringList() {
 		TaskList<Task> results = new TaskList<Task>();
-		for (Task task: deadlineList) {
-			results.add(task);
-		}
-		for (Task task: sessionList) {
-			results.add(task);
-		}
-		for (Task task: floatTaskList) {
-			results.add(task);
-		}
+		deadlineList.merge(results);
+		sessionList.merge(results);
+		floatTaskList.merge(results);
+		return results;
+	}
+	
+	public static TaskList<Task> getUnDoneList() {
+		TaskList<Task> results = new TaskList<Task>();
+		deadlineList.merge(results);
+		sessionList.merge(results);
+		floatTaskList.merge(results);
+		recurringTaskList.merge(results);
 		return results;
 	}
 	
@@ -108,8 +110,21 @@ public class GrandTaskList {
 		return result;
 	}
 	
-	public static ArrayList<Task> search(Predicate<Task> predicate) {
-		ArrayList<Task> results = new ArrayList<Task>();
+	public static boolean markDone(Task task) throws IOException {
+		boolean result = deleteTask(task);
+		doneTaskList.add(task);
+		Database.saveDone();
+		return result;
+	}
+	
+	public static boolean unmarkDone(Task task) throws IOException {
+		boolean result = doneTaskList.delete(task);
+		addNewTask(task);
+		return result;
+	}
+	
+	public static TaskList<Task> search(Predicate<Task> predicate) {
+		TaskList<Task> results = new TaskList<Task>();
 		deadlineList.search(results, predicate);
 		sessionList.search(results, predicate);
 		recurringTaskList.search(results, predicate);
@@ -135,5 +150,21 @@ public class GrandTaskList {
 			}
 		}
 		return result;
+	}
+	
+	public static void clearIncomplete() {
+		deadlineList.clear();
+		sessionList.clear();
+		recurringTaskList.clear();
+		floatTaskList.clear();
+	}
+	
+	public static void clearAll() throws IOException {
+		deadlineList.clear();
+		sessionList.clear();
+		recurringTaskList.clear();
+		floatTaskList.clear();
+		doneTaskList.clear();
+		Database.clear();
 	}
 }

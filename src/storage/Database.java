@@ -23,8 +23,8 @@ public class Database {
 	private static final String FLOAT_LIST_FILE_NAME = "%s/data/floatList.txt";
 	private static final String DEADLINE_LIST_FILE_NAME = "%s/data/deadlineList.txt";
 	private static final String SESSION_LIST_FILE_NAME = "%s/data/sessionList.txt";
-	private static final String RECURRING_LIST_FILE_NAME = "%s/data/recurringFileName.txt";
-	
+	private static final String RECURRING_LIST_FILE_NAME = "%s/data/recurringList.txt";
+	private static final String DONE_LIST_FILE_NAME = "%s/data/doneList.txt";
 	
 	private static File configFile;
 	
@@ -34,6 +34,7 @@ public class Database {
 	private static File deadlineListFile;
 	private static File sessionListFile;
 	private static File recurringListFile;
+	private static File doneListFile;
 	
 	public static void retrieveFiles() throws IOException {
 		String directoryName = getStorageDirectory();
@@ -50,6 +51,7 @@ public class Database {
 		deadlineListFile = initFile(String.format(DEADLINE_LIST_FILE_NAME, directoryName));
 		sessionListFile = initFile(String.format(SESSION_LIST_FILE_NAME, directoryName));
 		recurringListFile = initFile(String.format(RECURRING_LIST_FILE_NAME, directoryName));
+		doneListFile = initFile(String.format(DONE_LIST_FILE_NAME, directoryName));
 	}
 	
 	static File initFile(String filename) throws IOException {
@@ -100,6 +102,7 @@ public class Database {
 		clearFile(deadlineListFile);
 		clearFile(sessionListFile);
 		clearFile(recurringListFile);
+		clearFile(doneListFile);
 	}
 	
 	public static void clearFile(File file) throws IOException {
@@ -124,6 +127,7 @@ public class Database {
 		saveDeadline();
 		saveSession();
 		saveRecurring();
+		saveDone();
 	}
 	
 	public static void saveFloat() throws IOException {
@@ -142,11 +146,16 @@ public class Database {
 		save(GrandTaskList.getRecurringList(), recurringListFile);
 	}
 	
+	public static void saveDone() throws IOException {
+		save(GrandTaskList.getDoneList(), doneListFile);
+	}
+	
 	public static void load() throws IOException {
 		loadFloat();
 		loadDeadline();
 		loadSession();
 		loadRecurring();
+		loadDone();
 	}
 	
 	public static void loadFloat() throws IOException {
@@ -163,6 +172,10 @@ public class Database {
 	
 	public static void loadRecurring() throws IOException {
 		load(GrandTaskList.getRecurringList(), recurringListFile);
+	}
+	
+	public static void loadDone() throws IOException {
+		load(GrandTaskList.getDoneList(), doneListFile);
 	}
 
 	@SuppressWarnings("unchecked")

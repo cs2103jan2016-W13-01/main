@@ -15,7 +15,11 @@ import java.util.ArrayList;
  */
 public class Controller {
 	
-    public static DisplayWindow DW;
+    private static final String PENDING = "pending";
+	private static final String COMPLETED = "completed";
+	private static final String UPCOMING = "upcoming";
+	private static final String ALL = "all";
+	public static DisplayWindow DW;
     
     // @@author A0112184R
     public static void main(String args[]) throws Exception{
@@ -30,7 +34,7 @@ public class Controller {
     	DW = new DisplayWindow();
         DW.setVisible(true);
 		TaskProcessor.initialize();
-		displayTasks(TaskProcessor.getListToDisplay());
+		displayTasks(TaskProcessor.getListToDisplay(), ALL);
 	}
     // @@author    
     
@@ -43,8 +47,9 @@ public class Controller {
     public static void displayFeedback(Response response){
            String status = response.getMessage();
            ArrayList<String> tasks = response.getTaskList();
+           String type = response.getType();
            displayStatus(status);
-           displayTasks(tasks);
+           displayTasks(tasks, type);
 		}
     
     public static void displayStatus(String status){
@@ -52,7 +57,14 @@ public class Controller {
     }
     
     
-    public static void displayTasks(ArrayList<String> tasks){
-		DW.displayTaskList(tasks);
+    public static void displayTasks(ArrayList<String> tasks, String type){
+        if (type.equals(ALL))
+		DW.displayAllTaskList(tasks);
+        else if (type.equals(UPCOMING))
+		DW.displayUpcomingTaskList(tasks);
+        else if (type.equals(COMPLETED))
+		DW.displayCompletedTaskList(tasks);        
+        else if (type.equals(PENDING))
+		DW.displayPendingTaskList(tasks);   
     }
 }

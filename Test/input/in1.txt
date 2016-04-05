@@ -1,0 +1,7 @@
+add go to library
+add go to gym
+add go to lecture 04/05/2016 10am
+add submit paper 04/12/2016 11:59pm
+display
+delete 3
+delete 2

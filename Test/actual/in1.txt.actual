@@ -1,0 +1,20 @@
+Task added successfully
+1. incomplete; go to library; null; null; null
+Task added successfully
+1. incomplete; go to gym; null; null; null
+Task added successfully
+1. incomplete; go to lecture; 10:00 20160405; null; null
+Task added successfully
+1. incomplete; submit paper; 23:59 20160412; null; null
+All tasks are displayed below:
+1. incomplete; go to lecture; 10:00 20160405; null; null
+2. incomplete; submit paper; 23:59 20160412; null; null
+3. incomplete; go to gym; null; null; null
+4. incomplete; go to library; null; null; null
+Task deleted: go to gym
+1. incomplete; go to lecture; 10:00 20160405; null; null
+2. incomplete; submit paper; 23:59 20160412; null; null
+3. incomplete; go to library; null; null; null
+Task deleted: submit paper 12/04/2016 23:59
+1. incomplete; go to lecture; 10:00 20160405; null; null
+2. incomplete; go to library; null; null; null

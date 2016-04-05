@@ -1,10 +1,12 @@
 package Parser;
+import java.util.Calendar;
 /* @@author A0121535R
-* Parser for editing a task
-*/
+ * Parser for editing a task
+ */
 import java.util.Date;
 import java.util.logging.Level;
 
+import logic.Priority;
 import logic.commands.Command;
 import logic.commands.CommandEdit;
 import logic.commands.CommandInvalid;
@@ -13,59 +15,39 @@ import logic.tasks.Deadline;
 import logic.tasks.Task;
 
 public class EditParser extends GeneralParser {
-	
+
 	protected Command parse(String inputArgs){
 		try{
-		Command cmdDetails=null;
-		String[] inputTokens = inputArgs.split(Regex.REGEX_SPACE,2);
-		int inputNum = getInputNum(inputTokens[0]);
-	
-		Task task = getEditTask(inputArgs);
-		if(task ==null){
-			return new CommandInvalid();
-		}
-		//String description = getDescription(inputArgs);
-		cmdDetails = new CommandEdit(inputNum,task);
-		
-		return cmdDetails;
+			Command cmdDetails=null;
+			String[] inputTokens = inputArgs.split(Regex.REGEX_SPACE,2);
+			int inputNum = getInputNum(inputTokens[0]);
+
+			Task task = getEditTask(inputTokens[1]);
+			if(task ==null){
+			
+				return new CommandInvalid();
+			}
+			//String description = getDescription(inputArgs);
+			cmdDetails = new CommandEdit(inputNum,task);
+
+			return cmdDetails;
 		} catch(Exception e){
 			e.printStackTrace();
 			CommandParser.parserLogger.log(Level.WARNING, "processing error", e);
 			return new  CommandInvalid();
 		}
-		
+
 	}
 
-	private Deadline getEditTask(String inputArgs) {
-		
-		int titleIndex;
-		Deadline task;
-		String temp = inputArgs.toLowerCase();
-		int dateIndex = temp.indexOf("d:");
-		if(dateIndex==-1){
-			date=null;
-			titleIndex = temp.indexOf("t:");
-			if(titleIndex==-1){
-				return null;
-			}
-			titleIndex+=2;
-			title = getTitle(inputArgs.substring(titleIndex).trim());
-			task = new Deadline(title,date);
+	private Task getEditTask(String inputArgs) {
+		String title = getTitle(inputArgs);
+		if(title==""){
+			title=null;
 		}
-		else{
-		date = getDate(inputArgs.substring(dateIndex));
-
-		titleIndex = temp.indexOf("t:");
-		if(titleIndex==-1){
-			return null;
-		}
-		titleIndex+=2;
-		title = getTitle(inputArgs.substring(titleIndex,dateIndex).trim());
-		
-		task = new Deadline(title,date);
-		System.out.println(title);
-		System.out.println(date);
-		}
+		Calendar[] date = getDateArray(inputArgs);
+		Priority tag = getTag(inputArgs);
+		int recurring = getRecurring(inputArgs);
+		Task task = createTask(title,date,tag,recurring);
 		return task;
 	}
 

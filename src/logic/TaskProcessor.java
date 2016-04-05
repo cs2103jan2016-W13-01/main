@@ -27,6 +27,7 @@ public class TaskProcessor {
 	*/
 
 	private static ArrayList<String> listToDisplay;
+	private static String tabType;
 	
 	public static void main(String[] args) {
 		while (true) {
@@ -37,6 +38,14 @@ public class TaskProcessor {
 	public static ArrayList<String> getListToDisplay() {
 		loadIntoDisplayList(StorageController.getDisplayList());
 		return listToDisplay;
+	}
+	
+	public static String getTabNuber() {
+		return tabType;
+	}
+	
+	public static void setTabType(String newTab) {
+		tabType = newTab;
 	}
 	
 	public static void getAndExecuteCommand() {
@@ -55,7 +64,7 @@ public class TaskProcessor {
 	public static Response executeCommand(Command command) {
 		String message = command.execute();
 		ArrayList<String> taskList = getListToDisplay();
-		return new Response(message, taskList);
+		return new Response(message, tabType, taskList);
 	}
 	
 	public static void initialize() {
@@ -77,7 +86,20 @@ public class TaskProcessor {
 		listToDisplay.clear();
 		for (Task task: taskList) {
 			assert task != null : "Some task in the task list is null";
-			listToDisplay.add(task.toString());
+			listToDisplay.add(TaskUtil.toString(task));
 		}
+	}
+	
+	public static ArrayList<String[]> getTimelineList() {
+		ArrayList<String[]> result = new ArrayList<String[]>();
+		for (Task task: StorageController.getTimelineList()) {
+			String[] pentuple = TaskUtil.toStringArray(task);
+			String[] triple = new String[3];
+			for (int i=0; i<3; i++) {
+				triple[i] = pentuple[i+1];
+			}
+			result.add(triple);
+		}
+		return result;
 	}
 }

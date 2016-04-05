@@ -71,4 +71,14 @@ public class TaskList<T extends Task> implements Iterable<T> {
 		}
 		return results;
 	}
+	
+	public void merge(TaskList<Task> result) {
+		for (Task task: taskList) {
+			result.add(task);
+		}
+	}
+	
+	public void clear() {
+		taskList.clear();
+	}
 }
