@@ -60,13 +60,19 @@ public class Controller {
     
     
     public static void displayTasks(ArrayList<String> tasks, String type){
-        if (type.equals(ALL))
-		DW.displayAllTaskList(tasks);
-        else if (type.equals(UPCOMING))
-		DW.displayUpcomingTaskList(tasks);
-        else if (type.equals(COMPLETED))
-		DW.displayCompletedTaskList(tasks);        
-        else if (type.equals(INCOMPLETE))
-		DW.displayPendingTaskList(tasks);   
+        switch (type) {
+            case ALL:
+                DW.displayAllTaskList(tasks);
+                break;
+            case UPCOMING:
+                DW.displayUpcomingTaskList(tasks);
+                break;
+            case COMPLETED:   
+                DW.displayCompletedTaskList(tasks);
+                break;
+            case INCOMPLETE:
+                DW.displayIncompleteTaskList(tasks);
+                break;
+        }
     }
 }

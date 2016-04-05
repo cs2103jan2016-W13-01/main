@@ -766,10 +766,10 @@ public class DisplayWindow extends javax.swing.JFrame {
 
 	private void commandFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_commandFieldActionPerformed
 		// TODO add your handling code here:
-		String cmd = commandField.getText();
+		String command = commandField.getText();
 		commandField.setText("");
-		Controller.sendCmd(cmd);
-		cmdHistory.add(cmd);
+		Controller.sendCmd(command);
+		cmdHistory.add(command);
 		numberOfUp = 0;
 	}//GEN-LAST:event_commandFieldActionPerformed
 
