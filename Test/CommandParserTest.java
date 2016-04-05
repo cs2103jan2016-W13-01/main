@@ -3,6 +3,7 @@ import static org.junit.Assert.*;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
 
@@ -11,16 +12,29 @@ import org.junit.Test;
 import Parser.AddParser;
 import Parser.CommandParser;
 import Parser.DateParser;
+import logic.commands.Command;
+import logic.commands.CommandAdd;
 import logic.tasks.Deadline;
+import logic.tasks.RecurringTask;
 /*import logic.commands.Command;
 import logic.commands.CommandType;
 */
-public class AddParserTest {
+public class CommandParserTest {
 
 	@Test
 	public void test() throws ParseException, SecurityException, IOException {
-	/*	AddParser ap = new AddParser();
+	AddParser ap = new AddParser();
 		CommandParser cp = new CommandParser();
+		 CommandAdd cmd = (CommandAdd) ap.parse("meet august in school every day 2pm to 3 pm" );
+		 RecurringTask rt = (RecurringTask) cmd.getTask();
+		 Calendar date1 = rt.getStartDate();
+		 Calendar date2 = rt.getEndDate();
+		System.out.println("period = "+rt.getPeriod());
+		System.out.println("date 1 = "+ date1.get(Calendar.HOUR) + " " +date1.get(Calendar.DATE) );
+		System.out.println("date 2 = "+ date2.get(Calendar.HOUR) + " " +date2.get(Calendar.DATE) );
+		
+		
+		/*
 		CommandParser.parserLogger.log(Level.INFO, "End of logging");
 
 		SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
