@@ -16,6 +16,7 @@ public class CommandMark implements Command {
 	private static final String MESSAGE_TASK_DONE = "Task is already done";
 	private static final String MESSAGE_TASK_UNMARKED = "Task is unmarked: %s";
 	private static final String MESSAGE_UNMARK_ERROR = "Error: failed to unmark task";
+	private static final String MESSAGE_TASK_NOT_FOUND = "Task not found: %s";
 	private int taskNumber;
 	private Task task;
 	
@@ -39,6 +40,8 @@ public class CommandMark implements Command {
 		} catch (IOException e) {
 			e.printStackTrace();
 			return MESSAGE_MARK_ERROR;
+		} catch (IndexOutOfBoundsException d) {
+			return String.format(MESSAGE_TASK_NOT_FOUND, taskNumber);
 		}
 	}
 	

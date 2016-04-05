@@ -1,0 +1,6 @@
+add dinner with family
+add buy presents for dennis
+delete 0
+delete 3
+undo
+delete 2
