@@ -32,7 +32,7 @@ public class RecurringTask extends Task {
 	
 	@Override
 	public Calendar getMainDate() {
-		return null;
+		return startDate;
 	}
 	
 	public RecurringTask(String title, Calendar start, Calendar end, int time) {

@@ -118,9 +118,16 @@ public class DateParser {
 	public static Calendar[] convertFromDate(Date[] dates) {
 		Calendar[] result = new Calendar[dates.length];
 		for (int i=0; i<dates.length; i++) {
-			Calendar cal = Calendar.getInstance();
-			cal.setTime(DateUtils.truncate(dates[i], Calendar.SECOND));
+			Calendar cal;
+			Date date = dates[i];
+			if (date != null) {
+				cal = Calendar.getInstance();
+				cal.setTime(DateUtils.truncate(date, Calendar.SECOND));
+			} else {
+				cal = null;
+			}
 			result[i] = cal;
+			System.out.println(cal);
 		}
 		return result;
 	}
