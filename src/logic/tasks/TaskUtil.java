@@ -26,7 +26,7 @@ public class TaskUtil {
 			} else if (date1 == null) {
 				dateComp = 1;
 			} else if (date2 == null) {
-				dateComp -1;
+				dateComp = -1;
 			} else {
 				dateComp = date1.compareTo(date2);
 			}
