@@ -1,44 +1,40 @@
-go to school tomorrow
-12:46:25 20160331
-go to work
-12:46:35 20160401
-study for exam next week
-12:46:48 20160406
-present
-12:47:02 20160401
-upload paper tonight
-20:00:00 20160330
-go to work
-12:47:32 20160403
-do tutorial
-12:47:43 20160402
-eat with family
-12:53:28 20160403
-eat with girlend
-12:54:32 20160409
-play dot
-20:00:00 20160331
-normal
-17:00:00 20160404
-watch deadpool
-null
-read a book
-null
-go to Sentosa
-null
-visit grandpa
-null
-go to Malaysia
-null
-wash clothes
-null
-clean room
-null
-learn guitar
-null
-find a pet
-null
-play LOL
-null
-undecided
-null
+Lunch with family
+12:30:00 20160330
+Project meeting with Diamond team
+15:00:00 20160401
+Buy groceries at Fairprice
+19:00:00 20160401
+Buy gifts for Dennis' birthday  tommorow
+10:00:00 20160330
+Study session at CLB
+13:00:00 20160402
+Meetup with secondary school classmates
+18:15:00 20160407
+Guitar lesson
+16:00:00 20160404
+Fishing with family
+08:00:00 20160404
+Send laptop for repairs
+15:00:00 20160408
+Teach tuition
+10:00:00 20160402
+Finish up report
+23:59:00 20160407
+Buy a new handphone
+20:00:00 20160402
+Dinner with CCA mates
+19:00:00 20160408
+Submit CS assignment
+16:00:00 20160331
+Clean up room
+09:00:00 20160416
+Buy new clothes
+13:00:00 20160416
+Submit project manual
+23:59:00 20160411
+Software demo
+13:00:00 20160330
+Lecture quiz
+18:00:00 20160331
+Japanese 4 Finals
+18:00:00 20160414

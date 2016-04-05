@@ -82,7 +82,7 @@ public class DisplayWindow extends javax.swing.JFrame {
 	}
 
 	public void clear() {
-		DefaultTableModel model = (DefaultTableModel) allTaskTable.getModel();
+		DefaultTableModel model = (DefaultTableModel) incompleteTaskTable.getModel();
 		int size = model.getRowCount();
 		if (size > 0){
 			for (int i = 0; i < size; i++) {
@@ -96,10 +96,10 @@ public class DisplayWindow extends javax.swing.JFrame {
 		statusField.setText(status);
 	}
 
-	public void displayAllTaskList(ArrayList<String> tasks) {
+	public void displayIncompleteTaskList(ArrayList<String> tasks) {
 		taskTabbedPane.setSelectedIndex(0);            
 		int size = tasks.size();
-		DefaultTableModel model = (DefaultTableModel) allTaskTable.getModel();
+		DefaultTableModel model = (DefaultTableModel) incompleteTaskTable.getModel();
 		model.setRowCount(0);
 		for (int i = 0; i < size; i++) {
 			String entryString = (i+1) + ";" + tasks.get(i);
@@ -121,19 +121,19 @@ public class DisplayWindow extends javax.swing.JFrame {
 	public void displayCompletedTaskList(ArrayList<String> tasks) {
 		taskTabbedPane.setSelectedIndex(2);
 		int size = tasks.size();
-        DefaultTableModel model = (DefaultTableModel) completedTaskTable.getModel();
-        model.setRowCount(0);
+                DefaultTableModel model = (DefaultTableModel) completedTaskTable.getModel();
+                model.setRowCount(0);
 		for (int i = 0; i < size; i++) {
 			String entryString = (i+1) + ";" + tasks.get(i);
 			String[] entry = entryString.split(";");
 			model.addRow(entry);
 		}
 	}          
-	public void displayPendingTaskList(ArrayList<String> tasks) {
+	public void displayAllTaskList(ArrayList<String> tasks) {
 		taskTabbedPane.setSelectedIndex(3);
 		int size = tasks.size();
-        DefaultTableModel model = (DefaultTableModel) incompleteTaskTable.getModel();
-        model.setRowCount(0);
+                DefaultTableModel model = (DefaultTableModel) allTaskTable.getModel();
+                model.setRowCount(0);
 		for (int i = 0; i < size; i++) {
 			String entryString = (i+1) + ";" + tasks.get(i);
 			String[] entry = entryString.split(";");
@@ -210,7 +210,7 @@ public class DisplayWindow extends javax.swing.JFrame {
         taskTabbedPane = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        allTaskTable = new javax.swing.JTable();
+        incompleteTaskTable = new javax.swing.JTable();
         jPanel8 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         upComingTaskTable = new javax.swing.JTable();
@@ -219,7 +219,7 @@ public class DisplayWindow extends javax.swing.JFrame {
         completedTaskTable = new javax.swing.JTable();
         jPanel10 = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
-        incompleteTaskTable = new javax.swing.JTable();
+        allTaskTable = new javax.swing.JTable();
         jPanel11 = new javax.swing.JPanel();
         jPanel12 = new javax.swing.JPanel();
         commandField = new javax.swing.JTextField();
@@ -285,8 +285,8 @@ public class DisplayWindow extends javax.swing.JFrame {
         jScrollPane2.setBackground(new java.awt.Color(255, 255, 255));
         jScrollPane2.setOpaque(true);
 
-        allTaskTable.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
-        allTaskTable.setModel(new javax.swing.table.DefaultTableModel(
+        incompleteTaskTable.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
+        incompleteTaskTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -309,21 +309,21 @@ public class DisplayWindow extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        allTaskTable.setToolTipText("");
-        allTaskTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_LAST_COLUMN);
-        allTaskTable.setFillsViewportHeight(true);
-        allTaskTable.setFocusable(false);
-        allTaskTable.setGridColor(new java.awt.Color(255, 255, 255));
-        allTaskTable.setSelectionBackground(new java.awt.Color(255, 255, 255));
-        jScrollPane2.setViewportView(allTaskTable);
-        allTaskTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-        if (allTaskTable.getColumnModel().getColumnCount() > 0) {
-            allTaskTable.getColumnModel().getColumn(0).setPreferredWidth(70);
-            allTaskTable.getColumnModel().getColumn(1).setPreferredWidth(100);
-            allTaskTable.getColumnModel().getColumn(2).setPreferredWidth(500);
-            allTaskTable.getColumnModel().getColumn(3).setPreferredWidth(200);
-            allTaskTable.getColumnModel().getColumn(4).setPreferredWidth(200);
-            allTaskTable.getColumnModel().getColumn(5).setPreferredWidth(200);
+        incompleteTaskTable.setToolTipText("");
+        incompleteTaskTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_LAST_COLUMN);
+        incompleteTaskTable.setFillsViewportHeight(true);
+        incompleteTaskTable.setFocusable(false);
+        incompleteTaskTable.setGridColor(new java.awt.Color(255, 255, 255));
+        incompleteTaskTable.setSelectionBackground(new java.awt.Color(255, 255, 255));
+        jScrollPane2.setViewportView(incompleteTaskTable);
+        incompleteTaskTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        if (incompleteTaskTable.getColumnModel().getColumnCount() > 0) {
+            incompleteTaskTable.getColumnModel().getColumn(0).setPreferredWidth(70);
+            incompleteTaskTable.getColumnModel().getColumn(1).setPreferredWidth(100);
+            incompleteTaskTable.getColumnModel().getColumn(2).setPreferredWidth(500);
+            incompleteTaskTable.getColumnModel().getColumn(3).setPreferredWidth(200);
+            incompleteTaskTable.getColumnModel().getColumn(4).setPreferredWidth(200);
+            incompleteTaskTable.getColumnModel().getColumn(5).setPreferredWidth(200);
         }
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -337,7 +337,7 @@ public class DisplayWindow extends javax.swing.JFrame {
             .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 281, Short.MAX_VALUE)
         );
 
-        taskTabbedPane.addTab("All tasks", jPanel2);
+        taskTabbedPane.addTab("Incomeplete", jPanel2);
 
         jScrollPane3.setBackground(new java.awt.Color(255, 255, 255));
         jScrollPane3.setOpaque(true);
@@ -470,8 +470,8 @@ public class DisplayWindow extends javax.swing.JFrame {
         jScrollPane5.setBackground(new java.awt.Color(255, 255, 255));
         jScrollPane5.setOpaque(true);
 
-        incompleteTaskTable.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
-        incompleteTaskTable.setModel(new javax.swing.table.DefaultTableModel(
+        allTaskTable.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
+        allTaskTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -494,21 +494,21 @@ public class DisplayWindow extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        incompleteTaskTable.setToolTipText("");
-        incompleteTaskTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_LAST_COLUMN);
-        incompleteTaskTable.setFillsViewportHeight(true);
-        incompleteTaskTable.setFocusable(false);
-        incompleteTaskTable.setGridColor(new java.awt.Color(255, 255, 255));
-        incompleteTaskTable.setSelectionBackground(new java.awt.Color(255, 255, 255));
-        jScrollPane5.setViewportView(incompleteTaskTable);
-        incompleteTaskTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-        if (incompleteTaskTable.getColumnModel().getColumnCount() > 0) {
-            incompleteTaskTable.getColumnModel().getColumn(0).setPreferredWidth(70);
-            incompleteTaskTable.getColumnModel().getColumn(1).setPreferredWidth(100);
-            incompleteTaskTable.getColumnModel().getColumn(2).setPreferredWidth(500);
-            incompleteTaskTable.getColumnModel().getColumn(3).setPreferredWidth(200);
-            incompleteTaskTable.getColumnModel().getColumn(4).setPreferredWidth(200);
-            incompleteTaskTable.getColumnModel().getColumn(5).setPreferredWidth(200);
+        allTaskTable.setToolTipText("");
+        allTaskTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_LAST_COLUMN);
+        allTaskTable.setFillsViewportHeight(true);
+        allTaskTable.setFocusable(false);
+        allTaskTable.setGridColor(new java.awt.Color(255, 255, 255));
+        allTaskTable.setSelectionBackground(new java.awt.Color(255, 255, 255));
+        jScrollPane5.setViewportView(allTaskTable);
+        allTaskTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        if (allTaskTable.getColumnModel().getColumnCount() > 0) {
+            allTaskTable.getColumnModel().getColumn(0).setPreferredWidth(70);
+            allTaskTable.getColumnModel().getColumn(1).setPreferredWidth(100);
+            allTaskTable.getColumnModel().getColumn(2).setPreferredWidth(500);
+            allTaskTable.getColumnModel().getColumn(3).setPreferredWidth(200);
+            allTaskTable.getColumnModel().getColumn(4).setPreferredWidth(200);
+            allTaskTable.getColumnModel().getColumn(5).setPreferredWidth(200);
         }
 
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
@@ -526,7 +526,7 @@ public class DisplayWindow extends javax.swing.JFrame {
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 281, Short.MAX_VALUE))
         );
 
-        taskTabbedPane.addTab("Incomplete", jPanel10);
+        taskTabbedPane.addTab("All tasks", jPanel10);
 
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
         jPanel11.setLayout(jPanel11Layout);
@@ -698,6 +698,7 @@ public class DisplayWindow extends javax.swing.JFrame {
     private javax.swing.JTable allTaskTable;
     private javax.swing.JTextField commandField;
     private javax.swing.JTable completedTaskTable;
+    private javax.swing.JTable incompleteTaskTable;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLayeredPane jLayeredPane1;
@@ -718,7 +719,6 @@ public class DisplayWindow extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTable incompleteTaskTable;
     private javax.swing.JLabel statusField;
     private javax.swing.JTabbedPane taskTabbedPane;
     private javax.swing.JLabel timeField;

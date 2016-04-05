@@ -229,8 +229,8 @@
                     <Container class="javax.swing.JPanel" name="jPanel2">
                       <Constraints>
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-                          <JTabbedPaneConstraints tabName="All tasks">
-                            <Property name="tabTitle" type="java.lang.String" value="All tasks"/>
+                          <JTabbedPaneConstraints tabName="Incomeplete">
+                            <Property name="tabTitle" type="java.lang.String" value="Incomeplete"/>
                           </JTabbedPaneConstraints>
                         </Constraint>
                       </Constraints>
@@ -263,7 +263,7 @@
 
                           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                           <SubComponents>
-                            <Component class="javax.swing.JTable" name="allTaskTable">
+                            <Component class="javax.swing.JTable" name="incompleteTaskTable">
                               <Properties>
                                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                                   <Font name="Trebuchet MS" size="14" style="1"/>
@@ -556,8 +556,8 @@
                     <Container class="javax.swing.JPanel" name="jPanel10">
                       <Constraints>
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-                          <JTabbedPaneConstraints tabName="Pending">
-                            <Property name="tabTitle" type="java.lang.String" value="Pending"/>
+                          <JTabbedPaneConstraints tabName="All tasks">
+                            <Property name="tabTitle" type="java.lang.String" value="All tasks"/>
                           </JTabbedPaneConstraints>
                         </Constraint>
                       </Constraints>
@@ -596,7 +596,7 @@
 
                           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                           <SubComponents>
-                            <Component class="javax.swing.JTable" name="pendingTaskTable">
+                            <Component class="javax.swing.JTable" name="allTaskTable">
                               <Properties>
                                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                                   <Font name="Trebuchet MS" size="14" style="1"/>
