@@ -16,9 +16,9 @@ public class DateParser {
 	static final String START_DATE_KEYWORD = "(" + "((?<=\\s|^)(at?|from?))?" + ")";
 	static final String CONNECT_DATE_KEYWORD =  "(to |till |until )";
 
-	static final String ALL_DATE_REGEX = "("+ newTitleParser.FIRST_DATE_REGEX +"|"+ newTitleParser.SECOND_DATE_REGEX +"|"+ newTitleParser.MISC_FIRST_DATE_REGEX +"|"+ newTitleParser.MISC_SECOND_DATE_REGEX +"|"+
-			newTitleParser.FIRST_DAY_REGEX +"|"+ newTitleParser.SECOND_DAY_REGEX +"|"+ newTitleParser.MISC_NUMBERED_DATE_REGEX +"|"+ newTitleParser.NUMBERED_DATE_REGEX +"|"+newTitleParser.MISC_TIME_REGEX +"|"+Regex.TMR_REGEX+")";
-	static final String DATE_KEYWORD = "("+START_DATE_KEYWORD + newTitleParser.NOT_TITLE_REGEX+"|"+newTitleParser.NOT_TITLE_REGEX+")";
+	static final String ALL_DATE_REGEX = "("+ TitleParser.FIRST_DATE_REGEX +"|"+ TitleParser.SECOND_DATE_REGEX +"|"+ TitleParser.MISC_FIRST_DATE_REGEX +"|"+ TitleParser.MISC_SECOND_DATE_REGEX +"|"+
+			TitleParser.FIRST_DAY_REGEX +"|"+ TitleParser.SECOND_DAY_REGEX +"|"+ TitleParser.MISC_NUMBERED_DATE_REGEX +"|"+ TitleParser.NUMBERED_DATE_REGEX +"|"+TitleParser.MISC_TIME_REGEX +"|"+Regex.TMR_REGEX+")";
+	static final String DATE_KEYWORD = "("+START_DATE_KEYWORD + TitleParser.NOT_TITLE_REGEX+"|"+TitleParser.NOT_TITLE_REGEX+")";
 
 	public static Calendar[] getDates(String input) {
 		System.out.println("this is input to getDates "+input);

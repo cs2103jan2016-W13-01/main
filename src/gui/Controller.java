@@ -11,11 +11,13 @@ import logic.TaskProcessor;
 import java.util.ArrayList;
 /**
  *
- * @author tfj
+ * @@author A0129845U
+ * The controller is to receive message from the user input in gui and 
+ * connect to other components
  */
 public class Controller {
 	
-    private static final String PENDING = "pending";
+    private static final String INCOMPLETE = "incomplete";
 	private static final String COMPLETED = "completed";
 	private static final String UPCOMING = "upcoming";
 	private static final String ALL = "all";
@@ -34,7 +36,7 @@ public class Controller {
     	DW = new DisplayWindow();
         DW.setVisible(true);
 		TaskProcessor.initialize();
-		displayTasks(TaskProcessor.getListToDisplay(), ALL);
+		displayTasks(TaskProcessor.getListToDisplay(), INCOMPLETE);
 	}
     // @@author    
     
@@ -58,13 +60,19 @@ public class Controller {
     
     
     public static void displayTasks(ArrayList<String> tasks, String type){
-        if (type.equals(ALL))
-		DW.displayAllTaskList(tasks);
-        else if (type.equals(UPCOMING))
-		DW.displayUpcomingTaskList(tasks);
-        else if (type.equals(COMPLETED))
-		DW.displayCompletedTaskList(tasks);        
-        else if (type.equals(PENDING))
-		DW.displayPendingTaskList(tasks);   
+        switch (type) {
+            case ALL:
+                DW.displayAllTaskList(tasks);
+                break;
+            case UPCOMING:
+                DW.displayUpcomingTaskList(tasks);
+                break;
+            case COMPLETED:   
+                DW.displayCompletedTaskList(tasks);
+                break;
+            case INCOMPLETE:
+                DW.displayIncompleteTaskList(tasks);
+                break;
+        }
     }
 }

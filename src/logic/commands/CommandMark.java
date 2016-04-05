@@ -47,6 +47,7 @@ public class CommandMark implements Command {
 			assert (task != null): "Task is null";
 			assert (task.isDone()): "Task is somehow not done";
 			StorageController.unmarkDone(task);
+			StorageController.setTabType("incomplete");
 			task.unmark();
 			return String.format(MESSAGE_TASK_UNMARKED, task.toString());
 		} catch (IOException e) {

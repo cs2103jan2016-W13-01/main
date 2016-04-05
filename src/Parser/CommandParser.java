@@ -75,10 +75,6 @@ public class CommandParser {
 	 * inputformat <undo>
 	 */
 	public static Command parseInput(String input) {
-		Command displayDetails = getDisplayCommand(input);
-		if(!displayDetails.getType().equals(CommandType.INVALID)){
-			return displayDetails;
-		}
 		String[] inputTokens = getToken(input);
 		CommandType cmd = getCmdType(inputTokens[0]);
 		Command cmdDetails;
@@ -119,6 +115,10 @@ public class CommandParser {
 					SearchParser searchP = new SearchParser();
 					return cmdDetails = searchP.parse(inputTokens[1]);
 
+				case DISPLAY:
+					return cmdDetails = getDisplayCommand(inputTokens[1]);
+	
+
 				default:
 					return cmdDetails = new CommandInvalid();
 			}
@@ -136,9 +136,6 @@ public class CommandParser {
 
 				case CLEAR:
 					return cmdDetails = new CommandClear();
-
-				case DISPLAY:
-					return cmdDetails = new CommandDisplay();
 
 				default:
 					return cmdDetails = new CommandInvalid();

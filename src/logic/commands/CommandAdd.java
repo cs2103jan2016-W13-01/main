@@ -37,6 +37,7 @@ public class CommandAdd implements Command {
 		LogicLogger.log(Level.INFO, "adding task: " + task.toString() + " to storage");
 		try {
 			StorageController.addNewTask(task);
+			StorageController.setTabType("incomplete");
 			ExecutedCommands.addCommand(this);
 			LogicLogger.log(Level.INFO, "added successfully");
 			return MESSAGE_TASK_ADDED;

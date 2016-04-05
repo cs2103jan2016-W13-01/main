@@ -15,14 +15,30 @@ import logic.tasks.*;
 public class StorageController {
 	
 	private static ArrayList<Task> displayList;
-	/*
-	private static TaskList<Task> floatList;
-	private static TaskList<Deadline> deadlineList;
-	private static TaskList<Session> sessionList;
-	private static TaskList<RecurringTask> recurringList;
-	*/
+	private static String tabType;
+	
 	public static ArrayList<Task> getDisplayList() {
 		return displayList;
+	}
+	
+	public static String getTabType() {
+		return tabType;
+	}
+	
+	public static void setTabType(String newTab) {
+		if (newTab.equals("all")) {
+			displayAllTasks();
+			tabType = newTab;
+		} else if (newTab.equals("incomplete")) {
+			displayUndoneList();
+			tabType = newTab;
+		} else if (newTab.equals("completed")) {
+			displayDoneList();
+			tabType = newTab;
+		} else if (newTab.equals("upcoming")) {
+			displayUpcomingList();
+			tabType = newTab;
+		}
 	}
 	
 	public static void initialize() throws IOException {
@@ -30,36 +46,35 @@ public class StorageController {
 		GrandTaskList.initialize();
 		Database.initialize();
 		loadDisplayList();
+		setTabType("incomplete");
 	}
 	
 	public static void loadDisplayList() {
-		for (Task task: GrandTaskList.getTotalList()) {
+		for (Task task: GrandTaskList.getUndoneList()) {
 			displayList.add(task);
 		}
 	}
 	
 	public static Task deleteByIndex(int index) throws IOException {
-		Task task = displayList.remove(index);
+		Task task = displayList.get(index);
 		deleteTask(task);
 		return task;
 	}
 	
 	public static Task markDoneByIndex(int index) throws IOException {
-		Task task = displayList.remove(index);
+		Task task = displayList.get(index);
 		markDone(task);
 		return task;
 	}
 	
 	public static Task unmarkDoneByIndex(int index) throws IOException {
-		Task task = displayList.remove(index);
+		Task task = displayList.get(index);
 		unmarkDone(task);
 		return task;
 	}
 	
 	public static boolean addNewTask(Task task) throws IOException {
-		displayList.clear();
 		boolean result = GrandTaskList.addNewTask(task);
-		displayList.add(task);
 		return result;
 	}
 	
@@ -70,16 +85,13 @@ public class StorageController {
 	}
 	
 	public static boolean markDone(Task task) throws IOException {
-		displayList.clear();
 		boolean result = GrandTaskList.markDone(task);
 		displayList.remove(task);
 		return result;
 	}
 	
 	public static boolean unmarkDone(Task task) throws IOException {
-		displayList.clear();
 		boolean result = GrandTaskList.unmarkDone(task);
-		displayList.add(task);
 		return result;
 	}
 	
@@ -119,7 +131,29 @@ public class StorageController {
 	}
 	
 	public static void displayTasksOnDate(Calendar date) {
+		displayList.clear();
 		for (Task task: GrandTaskList.getTasksOnDate(date)) {
+			displayList.add(task);
+		}
+	}
+	
+	public static void displayUndoneList() {
+		displayList.clear();
+		for (Task task: GrandTaskList.getUndoneList()) {
+			displayList.add(task);
+		}
+	}
+	
+	public static void displayUpcomingList() {
+		displayList.clear();
+		for (Task task: GrandTaskList.getUpcomingList()) {
+			displayList.add(task);
+		}
+	}
+	
+	public static void displayDoneList() {
+		displayList.clear();
+		for (Task task: GrandTaskList.getDoneList()) {
 			displayList.add(task);
 		}
 	}

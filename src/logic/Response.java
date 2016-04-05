@@ -11,10 +11,12 @@ public class Response {
 	private ArrayList<String> taskList;
 	private String type;
         
-        public Response() {
 	
+	public Response(String msg, String tabType, ArrayList<String> list) {
+		message = msg;
+		taskList = list;
+		type = tabType;
 	}
-	
 	
 	public Response(String msg, ArrayList<String> list) {
 		message = msg;

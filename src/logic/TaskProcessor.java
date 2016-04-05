@@ -55,12 +55,13 @@ public class TaskProcessor {
 	public static Response executeCommand(Command command) {
 		String message = command.execute();
 		ArrayList<String> taskList = getListToDisplay();
-		return new Response(message, taskList);
+		return new Response(message, StorageController.getTabType(), taskList);
 	}
 	
 	public static void initialize() {
 		listToDisplay = new ArrayList<String>();
 		ExecutedCommands.initialize();
+		UndoneCommands.initialize();
 		LogicLogger.initialize();
 		try {
 			LogicLogger.log(Level.INFO, "Initializing StorageController");
