@@ -28,9 +28,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class DisplayWindow extends javax.swing.JFrame {
 
-	private static final String MESSAGE_NO_TASK = "No tasks to show";
-	private static final String MESSAGE_NORMAL_TASK = "Normal tasks:";
-	private static final String MESSAGE_FLOAT_TASK = "Undecided tasks:";
+	private static final String DIAMOND_ICON_FILE = "/gui/DiamondIcon.png";
 	private static final String MESSAGE_NO_OLDER_COMMAND = "No more older command";
 	private static final String MESSAGE_NO_NEWER_COMMAND = "No more newer command";
 	private static final String MESSAGE_ERROR_READING_COMMAND = "Error in reading commands";
@@ -58,7 +56,7 @@ public class DisplayWindow extends javax.swing.JFrame {
 	}
 
 	private void setIcon() {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/gui/DiamondIcon.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource(DIAMOND_ICON_FILE)));
 	}
 
 	private void setBgColor() {
@@ -701,7 +699,7 @@ public class DisplayWindow extends javax.swing.JFrame {
 		jPanel6.setBackground(new java.awt.Color(255, 255, 255));
 		jPanel6.setRequestFocusEnabled(false);
 
-		jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gui/DiamondIcon.png"))); // NOI18N
+		jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource(DIAMOND_ICON_FILE))); // NOI18N
 		jLabel1.setRequestFocusEnabled(false);
 
 		timeField.setFont(new java.awt.Font("Comic Sans MS", 1, 18)); // NOI18N
