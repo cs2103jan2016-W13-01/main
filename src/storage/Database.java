@@ -106,7 +106,7 @@ public class Database {
 	}
 	
 	public static void clearFile(File file) throws IOException {
-		Files.delete(file.toPath()); // delete the whole file and
+		file.delete(); // delete the whole file and
 		file.createNewFile(); // create a new empty file with the same name
 	}
 
