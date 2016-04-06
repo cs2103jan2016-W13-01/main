@@ -7,6 +7,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import logic.Priority;
 import logic.commands.Command;
+import logic.commands.CommandType;
 import logic.tasks.Task;
 import logic.tasks.TaskUtil;
 
@@ -16,8 +17,8 @@ public abstract class GeneralParser {
 	protected abstract Command parse(String inputArgs);
 
 
-	protected String getTitle(String input){
-		String title = TitleParser.getTitle(input);
+	protected String getTitle(String input, CommandType cmdType){
+		String title = TitleParser.getParsedTitle(input,cmdType);
 		return title;
 	}
 
@@ -40,6 +41,7 @@ public abstract class GeneralParser {
 	}
 
 	protected Task createTask(String title, Calendar[] dates, Priority tag, int recurringPeriod) {
+		System.out.println("Recurring! "+recurringPeriod);
 		if (dates.length == 0) {
 			return TaskUtil.getInstance(title, null);
 		} else if (dates.length == 1) {
@@ -47,6 +49,7 @@ public abstract class GeneralParser {
 				return TaskUtil.getInstance(title, dates[0]);
 			}
 			else{
+		
 				return TaskUtil.getInstance(title, dates[0],null,recurringPeriod);
 			}
 		} else {
@@ -61,12 +64,6 @@ public abstract class GeneralParser {
 	
 	protected static int getRecurring(String inputArgs){
 		inputArgs = inputArgs.toLowerCase();
-
-		int num = getCustomPeriod(inputArgs);
-
-		if(num!=0){
-			return num;
-		}
 
 		if(inputArgs.contains("every day")){
 			return 1;

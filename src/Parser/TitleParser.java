@@ -1,4 +1,7 @@
 package Parser;
+
+import logic.commands.CommandType;
+
 /* @@author A0121535R
  * parser that obtains the title
  */
@@ -19,16 +22,22 @@ public class TitleParser {
 	static final String NOT_TITLE_REGEX = "("+ Regex.RECURRING_REGEX +"|"+ FIRST_DATE_REGEX +"|"+ SECOND_DATE_REGEX +"|"+ MISC_FIRST_DATE_REGEX +"|"+ MISC_SECOND_DATE_REGEX +"|"+
 			FIRST_DAY_REGEX +"|"+ SECOND_DAY_REGEX +"|"+ MISC_NUMBERED_DATE_REGEX +"|"+ NUMBERED_DATE_REGEX +"|"+ Regex.TIME_REGEX+"|"+MISC_TIME_REGEX +"|"+Regex.TMR_REGEX+")";
 
-	public static String getTitle(String inputArgs) {
+	public static String getParsedTitle(String inputArgs,CommandType cmdType) {
 
 		if (inputArgs == null) {
 			return null;
 		}
+		if(cmdType.equals(CommandType.ADD)){
 		String title = getAbsoluteTitle(inputArgs);
 		if(title == null){
 			title = getCustomTitle(inputArgs);
 		}
 		return title;
+		}
+		else{
+			String title = getAbsoluteTitle(inputArgs);
+			return title;
+		}
 	}
 
 	private static String getCustomTitle(String inputArgs) {
@@ -43,7 +52,7 @@ public class TitleParser {
 		if(absIndexStart>=0){
 			int absIndexEnd = inputArgs.indexOf("\"",absIndexStart+1);
 			if(absIndexEnd >absIndexStart && absIndexEnd>=0){
-				String title = inputArgs.substring(absIndexStart, absIndexEnd);
+				String title = inputArgs.substring(absIndexStart+1, absIndexEnd);
 				title = title.trim();
 				return title;
 			}

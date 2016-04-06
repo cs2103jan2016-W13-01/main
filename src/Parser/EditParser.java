@@ -3,15 +3,12 @@ import java.util.Calendar;
 /* @@author A0121535R
  * Parser for editing a task
  */
-import java.util.Date;
 import java.util.logging.Level;
-
 import logic.Priority;
 import logic.commands.Command;
 import logic.commands.CommandEdit;
 import logic.commands.CommandInvalid;
 import logic.commands.CommandType;
-import logic.tasks.Deadline;
 import logic.tasks.Task;
 
 public class EditParser extends GeneralParser {
@@ -24,12 +21,9 @@ public class EditParser extends GeneralParser {
 
 			Task task = getEditTask(inputTokens[1]);
 			if(task ==null){
-			
 				return new CommandInvalid();
 			}
-			//String description = getDescription(inputArgs);
 			cmdDetails = new CommandEdit(inputNum,task);
-
 			return cmdDetails;
 		} catch(Exception e){
 			e.printStackTrace();
@@ -40,10 +34,7 @@ public class EditParser extends GeneralParser {
 	}
 
 	private Task getEditTask(String inputArgs) {
-		String title = getTitle(inputArgs);
-		if(title.trim().equals("")){
-			title=null;
-		}
+		String title = getTitle(inputArgs,CommandType.EDIT);
 		Calendar[] date = getDateArray(inputArgs);
 		Priority tag = getTag(inputArgs);
 		int recurring = getRecurring(inputArgs);

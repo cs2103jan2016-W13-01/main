@@ -27,11 +27,16 @@ public class Regex {
 	static final String DAY = "(\\d?\\d)";
 	static final String MONTH = "(\\d?\\d)";
 	static final String DATE_SEP = "[-/]";
-
-	static final String PERIOD_DAY_REGEX = "("+" every " +"\\d+"+" day(?:s) "+")";
-	static final String PERIOD_WEEK_REGEX = "("+" every " +"\\d+"+" week(?:s) "+")";
-	static final String PERIOD_MONTH_REGEX = "("+" every " +"\\d+"+" month(?:s) "+")";
-	static final String PERIOD_YEAR_REGEX = "("+" every " +"\\d+"+" year(?:s) "+")";
+/*
+	static final String PERIOD_DAY_REGEX = "every "+"(\\d+?)"+" day(?:s)" + END;
+	static final String PERIOD_WEEK_REGEX ="every " +"(\\d+?)"+" week(?:s)" + END;
+	static final String PERIOD_MONTH_REGEX ="every " +"(\\d+?)"+" month(?:s)" + END;
+	static final String PERIOD_YEAR_REGEX ="every " +"(\\d+?)"+" year(?:s)" + END;
+	*/
+	static final String PERIOD_DAY_REGEX = "every"+REGEX_SPACE+"day" + END;
+	static final String PERIOD_WEEK_REGEX ="every"+REGEX_SPACE+"week" + END;
+	static final String PERIOD_MONTH_REGEX ="every"+REGEX_SPACE+"month" + END;
+	static final String PERIOD_YEAR_REGEX ="every"+REGEX_SPACE+"year" + END;
 	static final String NUM_REGEX = "(\\d+)";
 	static final String RECURRING_REGEX= PERIOD_DAY_REGEX+ "|" +PERIOD_WEEK_REGEX +"|"+PERIOD_MONTH_REGEX+"|"+PERIOD_YEAR_REGEX;
 
