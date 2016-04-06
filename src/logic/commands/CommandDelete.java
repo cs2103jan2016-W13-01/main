@@ -1,10 +1,7 @@
 package logic.commands;
 
 import java.io.IOException;
-<<<<<<< HEAD
-=======
 
->>>>>>> 9a9e865c0749c398f03055730beb5bde91c3517a
 import java.util.logging.Level;
 
 import logic.ExecutedCommands;
