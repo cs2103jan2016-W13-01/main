@@ -36,7 +36,9 @@ public class DisplayWindow extends javax.swing.JFrame {
 	private static final String COMMAND_DISPLAY_UPCOMING_TASK_LIST = "display upcoming";     
 	private static final String COMMAND_DISPLAY_COMPLETED_TASK_LIST = "display completed";
 	private static final String COMMAND_DISPLAY_ALL_TASK_LIST = "display all";
-	private static ArrayList<String> cmd = new ArrayList<String>();
+	private static final String COMMAND_DISPLAY_HELP = "display help";
+	private static final String COMMAND_DISPLAY_OPTION = "display option";
+        private static ArrayList<String> cmd = new ArrayList<String>();
 	private static ArrayList<String> cmdHistory = new ArrayList<String>();
 	private static int numberOfUp = 0;
 	private static int tabIndex;
@@ -164,7 +166,22 @@ public class DisplayWindow extends javax.swing.JFrame {
 		}
 		tabIndex = 3;	
 	}  
-	private void getCommandStrings() {
+	
+        public void displayHelpField(ArrayList<String> tasks) {
+		taskTabbedPane.setSelectedIndex(4);
+		int size = tasks.size();
+		for (int i = 0; i < size; i++) {
+                    helpField.append(tasks.get(i));
+		}
+		tabIndex = 4;	
+	}  
+        
+        public void displayOptionField(ArrayList<String> tasks) {
+		taskTabbedPane.setSelectedIndex(5);
+		tabIndex = 5;	
+	}  
+	
+        private void getCommandStrings() {
 		try {
 			BufferedReader br = new BufferedReader(new FileReader("Op2Commands.txt"));
 			String line = br.readLine();
@@ -266,7 +283,21 @@ public class DisplayWindow extends javax.swing.JFrame {
 			public void actionPerformed(java.awt.event.ActionEvent e) {
 				Controller.sendCmd(COMMAND_DISPLAY_ALL_TASK_LIST);
 			}
-		}, KeyStroke.getKeyStroke(KeyEvent.VK_F4, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);                 
+		}, KeyStroke.getKeyStroke(KeyEvent.VK_F4, 0), JComponent.WHEN_IN_FOCUSED_WINDOW); 
+		
+                commandField.registerKeyboardAction(new java.awt.event.ActionListener() {
+			@Override
+			public void actionPerformed(java.awt.event.ActionEvent e) {
+				Controller.sendCmd(COMMAND_DISPLAY_HELP);
+			}
+		}, KeyStroke.getKeyStroke(KeyEvent.VK_F5, 0), JComponent.WHEN_IN_FOCUSED_WINDOW); 
+		
+                commandField.registerKeyboardAction(new java.awt.event.ActionListener() {
+			@Override
+			public void actionPerformed(java.awt.event.ActionEvent e) {
+				Controller.sendCmd(COMMAND_DISPLAY_OPTION);
+			}
+		}, KeyStroke.getKeyStroke(KeyEvent.VK_F6, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);                 
 	}
 	/**
 	 * This method is called from within the constructor to initialize the form.
