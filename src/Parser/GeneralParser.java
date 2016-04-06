@@ -64,7 +64,7 @@ public abstract class GeneralParser {
 	
 	protected static int getRecurring(String inputArgs){
 		inputArgs = inputArgs.toLowerCase();
-
+		
 		if(inputArgs.contains("every day")){
 			return 1;
 		}
@@ -78,7 +78,8 @@ public abstract class GeneralParser {
 			return -2;
 		}
 		else{
-			return 0;
+			int num = getCustomPeriod(inputArgs);
+			return num;
 		}
 
 	}
@@ -110,7 +111,7 @@ public abstract class GeneralParser {
 
 	private static int getCustomYears(String inputArgs) {
 		int num=0;  
-		Pattern pattern = Pattern.compile(Regex.PERIOD_YEAR_REGEX);
+		Pattern pattern = Pattern.compile(Regex.PERIOD_YEAR_REGEX_MUL);
 		Matcher matcher = pattern.matcher(inputArgs);
 		if (matcher.find( )) {
 			System.out.println("Found value: " + matcher.group() );
@@ -124,7 +125,7 @@ public abstract class GeneralParser {
 
 	private static int getCustomMonths(String inputArgs) {
 		int num=0;  
-		Pattern pattern = Pattern.compile(Regex.PERIOD_MONTH_REGEX);
+		Pattern pattern = Pattern.compile(Regex.PERIOD_MONTH_REGEX_MUL);
 		Matcher matcher = pattern.matcher(inputArgs);
 		if (matcher.find( )) {
 			System.out.println("Found value: " + matcher.group() );
@@ -137,7 +138,7 @@ public abstract class GeneralParser {
 
 	private static int getCustomWeeks(String inputArgs) {
 		int num=0;  
-		Pattern pattern = Pattern.compile(Regex.PERIOD_WEEK_REGEX);
+		Pattern pattern = Pattern.compile(Regex.PERIOD_WEEK_REGEX_MUL);
 		Matcher matcher = pattern.matcher(inputArgs);
 		if (matcher.find( )) {
 			System.out.println("Found value: " + matcher.group() );
@@ -150,7 +151,7 @@ public abstract class GeneralParser {
 
 	private static int getCustomDays(String inputArgs) {
 		int num=0;  
-		Pattern pattern = Pattern.compile(Regex.PERIOD_DAY_REGEX);
+		Pattern pattern = Pattern.compile(Regex.PERIOD_DAY_REGEX_MUL);
 		Matcher matcher = pattern.matcher(inputArgs);
 		if (matcher.find( )) {
 			System.out.println("Found value: " + matcher.group() );
