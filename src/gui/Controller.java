@@ -18,10 +18,12 @@ import java.util.ArrayList;
 public class Controller {
 	
     private static final String INCOMPLETE = "incomplete";
-	private static final String COMPLETED = "completed";
-	private static final String UPCOMING = "upcoming";
-	private static final String ALL = "all";
-	public static DisplayWindow DW;
+    private static final String COMPLETED = "completed";
+    private static final String UPCOMING = "upcoming";
+    private static final String ALL = "all";
+    private static final String HELP = "help";
+    private static final String OPTION = "option";
+    public static DisplayWindow DW;
     
     // @@author A0112184R
     public static void main(String args[]) throws Exception{
@@ -35,8 +37,8 @@ public class Controller {
 	public static void initialize() throws Exception {
     	DW = new DisplayWindow();
         DW.setVisible(true);
-		TaskProcessor.initialize();
-		displayTasks(TaskProcessor.getListToDisplay(), INCOMPLETE);
+	TaskProcessor.initialize();
+	displayTasks(TaskProcessor.getListToDisplay(), INCOMPLETE);
 	}
     // @@author    
     
@@ -73,6 +75,12 @@ public class Controller {
             case INCOMPLETE:
                 DW.displayIncompleteTaskList(tasks);
                 break;
+            case HELP:
+                DW.displayHelpField(tasks);
+                break; 
+            case OPTION:
+                DW.displayOptionField(tasks);
+                break;                
         }
     }
 }

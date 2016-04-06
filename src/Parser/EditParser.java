@@ -3,15 +3,11 @@ import java.util.Calendar;
 /* @@author A0121535R
  * Parser for editing a task
  */
-import java.util.Date;
 import java.util.logging.Level;
-
 import logic.Priority;
 import logic.commands.Command;
 import logic.commands.CommandEdit;
 import logic.commands.CommandInvalid;
-import logic.commands.CommandType;
-import logic.tasks.Deadline;
 import logic.tasks.Task;
 
 public class EditParser extends GeneralParser {
@@ -24,12 +20,9 @@ public class EditParser extends GeneralParser {
 
 			Task task = getEditTask(inputTokens[1]);
 			if(task ==null){
-			
 				return new CommandInvalid();
 			}
-			//String description = getDescription(inputArgs);
 			cmdDetails = new CommandEdit(inputNum,task);
-
 			return cmdDetails;
 		} catch(Exception e){
 			e.printStackTrace();
@@ -40,15 +33,34 @@ public class EditParser extends GeneralParser {
 	}
 
 	private Task getEditTask(String inputArgs) {
-		String title = getTitle(inputArgs);
-		if(title.trim().equals("")){
-			title=null;
+		String titleToken=inputArgs;
+		String notTitleToken = inputArgs;
+		int[] startEndArray = new int[2];
+		String title=null;
+		boolean check = checkAbsoluteTitle(inputArgs,startEndArray);
+		if(check == true){
+			title=inputArgs.substring(startEndArray[0]+1,startEndArray[1]);
+			notTitleToken = inputArgs.substring(startEndArray[1]+1);
+			System.out.println("this is treueeueueueuue");
 		}
-		Calendar[] date = getDateArray(inputArgs);
+		Calendar[] date = getDateArray(notTitleToken);
 		Priority tag = getTag(inputArgs);
 		int recurring = getRecurring(inputArgs);
 		Task task = createTask(title,date,tag,recurring);
 		return task;
+	}
+	
+	private static boolean checkAbsoluteTitle(String inputArgs, int[] array) {
+		int absIndexStart = inputArgs.indexOf("\""); 
+		if(absIndexStart>=0){
+			int absIndexEnd = inputArgs.indexOf("\"",absIndexStart+1);
+			if(absIndexEnd >absIndexStart && absIndexEnd>=0){
+				array[0]=absIndexStart;
+				array[1]=absIndexEnd;
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

@@ -5,6 +5,7 @@ package Parser;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,7 +26,7 @@ public class CommandParser {
 	public static Logger parserLogger = Logger.getLogger(CommandParser.class.getName());
 	public ArrayList<String> list;
 	public static SimpleDateFormat sdf;
-
+	HashMap hm;
 	public static CommandParser cmdParser;
 	FileHandler fh; 
 
@@ -44,105 +45,156 @@ public class CommandParser {
 	public static CommandParser getInstance() throws SecurityException, IOException{
 		if (cmdParser == null){
 			cmdParser= new CommandParser();
+			//cmdParser.init();
 		}
 		return cmdParser;
 	}
 
-	/**for add
-	 * Requires input format <add> <title> <date> 
-	 * for e.g add meet at john's house at next wednesday
-	 * 
-	 * for delete
-	 * Requires input format <delete> <num>
-	 * for e.g delete 2
-	 * 
-	 * for edit
-	 * Requires input format <edit> <num> <title>/<date>
-	 * for e.g edit 3 meet at jack's place 
-	 * or edit 3 at next tuesday
-	 * should check the value of TASK to see if the respective title and date fields 
-	 * are null or not.
-	 * 
-	 * for mark
-	 * Requires input format <mark> <num>
-	 * for e.g mark 1
-	 * 
-	 * for unmark
-	 * Requires input format <unmark> <num>
-	 * for e.g unmark 1
-	 * 
-	 * for undo
-	 * inputformat <undo>
-	 */
+	/*
+	private void init() {
+		hm = new HashMap(); 
+		hashAddAll(hm);
+		hashAddFloat(hm);
+		hashAddDeadline(hm);
+		hashAddSession(hm);
+		hashAddRecurring(hm);
+		hashAddDone(hm);
+		hashAddUndone(hm);
+		hashAddUpcoming(hm);
+		hashAddPast(hm);
+		hashAddHelp(hm);
+	}
+
+
+	private void hashAddHelp(HashMap hm) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	private void hashAddPast(HashMap hm) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	private void hashAddUpcoming(HashMap hm) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	private void hashAddUndone(HashMap hm) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	private void hashAddDone(HashMap hm) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	private void hashAddRecurring(HashMap hm) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	private void hashAddSession(HashMap hm) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	private void hashAddDeadline(HashMap hm) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	private void hashAddFloat(HashMap hm) {
+			hm.put("float", "float");
+			hm.put("undecided", "float");
+			hm.put("floating", "float");
+	}
+
+
+	private void hashAddAll(HashMap hm) {
+		hm.put("", "all");
+		hm.put("all","all");
+		
+	}
+*/
+
 	public static Command parseInput(String input) {
 		String[] inputTokens = getToken(input);
 		CommandType cmd = getCmdType(inputTokens[0]);
-		Command cmdDetails;
 		if(inputTokens.length==2){
 			switch(cmd){
-
 				case ADD:
 					AddParser ap = new AddParser();
-					return cmdDetails = ap.parse(inputTokens[1]);
+					return ap.parse(inputTokens[1]);
 
 				case DELETE:
 					DeleteParser dp = new DeleteParser();
-					return cmdDetails = dp.parse(inputTokens[1]);
+					return dp.parse(inputTokens[1]);
 
 				case EDIT:
 					EditParser ep = new EditParser();
-					return cmdDetails = ep.parse(inputTokens[1]);
+					return ep.parse(inputTokens[1]);
 
 				case MARK:
 					int inputNum = getInputNum(inputTokens[1]);
 					if(inputNum==-1){
 						cmd=CommandType.INVALID;
 					}
-					return cmdDetails= new CommandMark(inputNum);
+					return new CommandMark(inputNum);
 
 				case UNMARK:
 					inputNum = getInputNum(inputTokens[1]);
 					if(inputNum==-1){
 						cmd=CommandType.INVALID;
 					}
-					return cmdDetails= new CommandUnmark(inputNum);
+					return new CommandUnmark(inputNum);
 
 				case SET:
 					SetParser setParser = new SetParser();
-					return cmdDetails = setParser.parse(inputTokens[1]);
+					return setParser.parse(inputTokens[1]);
 
 				case SEARCH:
 					SearchParser searchP = new SearchParser();
-					return cmdDetails = searchP.parse(inputTokens[1]);
+					return searchP.parse(inputTokens[1]);
 
 				case DISPLAY:
-					return cmdDetails = getDisplayCommand(inputTokens[1]);
+					return getDisplayCommand(inputTokens[1]);
 	
 
 				default:
-					return cmdDetails = new CommandInvalid();
+					return new CommandInvalid();
 			}
 		}
 		else if(inputTokens.length==1){
 			switch(cmd){
 				case REDO:
-					return cmdDetails = new CommandRedo();
+					return new CommandRedo();
 
 				case UNDO:
-					return cmdDetails = new CommandUndo();
+					return new CommandUndo();
 
 				case HELP:
-					return cmdDetails =  new CommandHelp();
+					return new CommandHelp();
 
 				case CLEAR:
-					return cmdDetails = new CommandClear();
+					return new CommandClear();
 
 				default:
-					return cmdDetails = new CommandInvalid();
+					return new CommandInvalid();
 			}
 		}
 		else{
-			return cmdDetails = new CommandInvalid();
+			return new CommandInvalid();
 		}
 	}
 
@@ -208,6 +260,9 @@ public class CommandParser {
 			case "past":
 				returnString ="past";
 				break;
+			case"help":
+			case "halp":	
+				returnString="help";
 			default:
 				return new CommandInvalid();
 		}

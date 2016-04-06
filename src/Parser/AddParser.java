@@ -1,8 +1,8 @@
 package Parser;
 import java.util.Calendar;
 /* @@author A0121535R
-* Parser for adding a task
-*/
+ * Parser for adding a task
+ */
 import java.util.logging.Level;
 
 import logic.Priority;
@@ -12,18 +12,27 @@ import logic.commands.CommandInvalid;
 import logic.tasks.Task;
 
 public class AddParser extends GeneralParser {
-	
+
 	public Command parse(String inputArgs){
 		try{
-		String title = getTitle(inputArgs);
-		Calendar[] date = getDateArray(inputArgs);
-		Priority tag = getTag(inputArgs);
-		int recurring = getRecurring(inputArgs);
-		Task task = createTask(title,date,tag,recurring);
-		Command cmdDetails = new CommandAdd(task);
-		
-		//String description = getDescription(inputArgs);
-		return cmdDetails;
+			String notTitleToken = inputArgs;
+			int[] startEndArray = new int[2];
+			String title;
+			boolean check = checkAbsoluteTitle(inputArgs,startEndArray);
+			if(check == true){
+				title=inputArgs.substring(startEndArray[0]+1,startEndArray[1]);
+				notTitleToken = inputArgs.substring(startEndArray[1]+1);
+			}
+			else{
+			title = getTitle(inputArgs);
+			}
+			Calendar[] date = getDateArray(notTitleToken);
+			Priority tag = getTag(inputArgs);
+			int recurring = getRecurring(notTitleToken);
+			System.out.println("add reccur "+recurring);
+			Task task = createTask(title,date,tag,recurring);
+			Command cmdDetails = new CommandAdd(task);
+			return cmdDetails;
 
 		}
 		catch(Exception e){
@@ -31,6 +40,18 @@ public class AddParser extends GeneralParser {
 			CommandParser.parserLogger.log(Level.WARNING, "processing error", e);
 			return new CommandInvalid();
 		}
-		
 	}
+	private static boolean checkAbsoluteTitle(String inputArgs, int[] array) {
+		int absIndexStart = inputArgs.indexOf("\""); 
+		if(absIndexStart>=0){
+			int absIndexEnd = inputArgs.indexOf("\"",absIndexStart+1);
+			if(absIndexEnd >absIndexStart && absIndexEnd>=0){
+				array[0]=absIndexStart;
+				array[1]=absIndexEnd;
+				return true;
+			}
+		}
+		return false;
+	}
+
 }
