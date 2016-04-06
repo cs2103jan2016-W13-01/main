@@ -39,9 +39,9 @@ public class EditParser extends GeneralParser {
 		String title=null;
 		boolean check = checkAbsoluteTitle(inputArgs,startEndArray);
 		if(check == true){
-			titleToken=inputArgs.substring(startEndArray[0]+1,startEndArray[1]);
+			title=inputArgs.substring(startEndArray[0]+1,startEndArray[1]);
 			notTitleToken = inputArgs.substring(startEndArray[1]+1);
-			title = getTitle(titleToken);
+			System.out.println("this is treueeueueueuue");
 		}
 		Calendar[] date = getDateArray(notTitleToken);
 		Priority tag = getTag(inputArgs);

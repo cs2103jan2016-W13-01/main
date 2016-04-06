@@ -15,15 +15,17 @@ public class AddParser extends GeneralParser {
 
 	public Command parse(String inputArgs){
 		try{
-			String titleToken=inputArgs;
 			String notTitleToken = inputArgs;
 			int[] startEndArray = new int[2];
+			String title;
 			boolean check = checkAbsoluteTitle(inputArgs,startEndArray);
 			if(check == true){
-				titleToken=inputArgs.substring(startEndArray[0]+1,startEndArray[1]);
+				title=inputArgs.substring(startEndArray[0]+1,startEndArray[1]);
 				notTitleToken = inputArgs.substring(startEndArray[1]+1);
 			}
-			String title = getTitle(titleToken);
+			else{
+			title = getTitle(inputArgs);
+			}
 			Calendar[] date = getDateArray(notTitleToken);
 			Priority tag = getTag(inputArgs);
 			int recurring = getRecurring(notTitleToken);
