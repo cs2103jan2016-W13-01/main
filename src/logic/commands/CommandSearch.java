@@ -27,7 +27,19 @@ public class CommandSearch implements Command {
 		Predicate<Task> searchPredicate = new Predicate<Task>() {
 			public boolean test(Task task) {
 				String titleString = task.getTitle().toLowerCase();
-				return titleString.contains(keyword.toLowerCase());
+				String[] keys;
+				if (keyword.startsWith("\"") && keyword.endsWith("\"")) {
+					keys = new String[]{ keyword };
+				} else {
+					keys = keyword.toLowerCase().split("\\s+");
+				}
+				boolean result = false;
+				for (String word: keys) {
+					if (titleString.contains(word)) {
+						result = true;
+					}
+				}
+				return result;
 			}
 		};
 		

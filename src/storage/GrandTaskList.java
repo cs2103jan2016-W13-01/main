@@ -143,7 +143,7 @@ public class GrandTaskList {
 		doneTaskList.add(task);
 		task.markDone();
 		if (task.isRecurrence()) {
-			task.getParent().addException(task.getMainDate());
+			task.getParent().addException(task.getStartDate());
 		}
 		Database.saveDone();
 		return result;
@@ -152,7 +152,7 @@ public class GrandTaskList {
 	public static boolean unmarkDone(Task task) throws IOException {
 		boolean result = doneTaskList.delete(task);
 		if (task.isRecurrence()) {
-			task.getParent().removeException(task.getMainDate());
+			task.getParent().removeException(task.getStartDate());
 		} else {
 			addNewTask(task);
 			task.unmark();

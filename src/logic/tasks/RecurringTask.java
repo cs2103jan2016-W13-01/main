@@ -29,12 +29,7 @@ public class RecurringTask extends Task {
 	public TaskType getType() {
 		return TaskType.RECUR;
 	}
-	
-	@Override
-	public Calendar getMainDate() {
-		return startDate;
-	}
-	
+
 	public RecurringTask(String title, Calendar start, Calendar end, int time) {
 		super(title);
 		startDate = start;
@@ -59,14 +54,17 @@ public class RecurringTask extends Task {
 		this(title, Calendar.getInstance(), EVERY_DAY);
 	}
 	
+	@Override
 	public Calendar getStartDate() {
 		return startDate;
 	}
 	
+	@Override
 	public Calendar getEndDate() {
 		return endDate;
 	}
 	
+	@Override
 	public int getPeriod() {
 		return period;
 	}
