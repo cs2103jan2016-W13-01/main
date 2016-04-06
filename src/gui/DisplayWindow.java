@@ -36,7 +36,7 @@ public class DisplayWindow extends javax.swing.JFrame {
 	private static final String COMMAND_DISPLAY_UPCOMING_TASK_LIST = "display upcoming";     
 	private static final String COMMAND_DISPLAY_COMPLETED_TASK_LIST = "display completed";
 	private static final String COMMAND_DISPLAY_ALL_TASK_LIST = "display all";
-	private static final String COMMAND_DISPLAY_HELP = "display help";
+	private static final String COMMAND_DISPLAY_HELP = "help";
 	private static final String COMMAND_DISPLAY_OPTION = "display option";
         private static ArrayList<String> cmd = new ArrayList<String>();
 	private static ArrayList<String> cmdHistory = new ArrayList<String>();
@@ -285,7 +285,7 @@ public class DisplayWindow extends javax.swing.JFrame {
 			}
 		}, KeyStroke.getKeyStroke(KeyEvent.VK_F4, 0), JComponent.WHEN_IN_FOCUSED_WINDOW); 
 		
-                commandField.registerKeyboardAction(new java.awt.event.ActionListener() {
+        commandField.registerKeyboardAction(new java.awt.event.ActionListener() {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
 				Controller.sendCmd(COMMAND_DISPLAY_HELP);
