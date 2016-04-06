@@ -4,9 +4,11 @@ import logic.ExecutedCommands;
 import logic.LogicLogger;
 import logic.tasks.Deadline;
 import logic.tasks.Task;
+import logic.tasks.TaskUtil;
 import storage.StorageController;
 
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.NoSuchElementException;
 import java.util.logging.Level;
 
@@ -38,11 +40,32 @@ public class CommandEdit implements Command {
 		LogicLogger.log(Level.INFO, "editing task: " + editedTask.toString() + " in storage");
 		try {
 			oldTask = StorageController.deleteByIndex(taskNumberToEdit-1);
-			StorageController.addNewTask(editedTask);
+			System.out.println(TaskUtil.toString(editedTask));
+			String titleString = editedTask.getTitle();
+			Calendar start = editedTask.getStartDate();
+			Calendar end = editedTask.getEndDate();
+			int period = editedTask.getPeriod();
+			
+			if (titleString.equals("unspecified title")) {
+				titleString = oldTask.getTitle();
+			}
+			if (start == null) {
+				start = oldTask.getStartDate();
+			}
+			if (end == null) {
+				end = oldTask.getEndDate();
+			}
+			if (period == 0) {
+				period = oldTask.getPeriod();
+			}
+			editedTask = TaskUtil.getInstance(titleString, start, end, period);
+			System.out.println(TaskUtil.toString(editedTask));
+			
+			StorageController.addNoSwitchTab(taskNumberToEdit-1, editedTask);
 			ExecutedCommands.addCommand(this);
 			LogicLogger.log(Level.INFO, "edited successfully");
 			return String.format(MESSAGE_EDITED, editedTask.toString());
-		} catch (NoSuchElementException d) {
+		} catch (IndexOutOfBoundsException d) {
 			LogicLogger.log(Level.WARNING, "Task not found");
 			return String.format(MESSAGE_TASK_NOT_FOUND, taskNumberToEdit);
 		} catch (IOException e) {
@@ -55,7 +78,7 @@ public class CommandEdit implements Command {
 	public String undo() {
 		try {
 			StorageController.deleteTask(editedTask);
-			StorageController.addNewTask(oldTask);
+			StorageController.addNoSwitchTab(taskNumberToEdit-1, oldTask);
 			return String.format(MESSAGE_UNDONE, oldTask.toString());
 		} catch (IOException e) {
 			e.printStackTrace();

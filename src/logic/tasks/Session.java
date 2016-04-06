@@ -16,7 +16,7 @@ public class Session extends Task {
 	}
 	
 	@Override
-	public Calendar getMainDate() {
+	public Calendar getStartDate() {
 		return start;
 	}
 	
@@ -26,10 +26,7 @@ public class Session extends Task {
 		end = endDate;
 	}
 	
-	public Calendar getStartDate() {
-		return start;
-	}
-	
+	@Override
 	public Calendar getEndDate() {
 		return end;
 	}

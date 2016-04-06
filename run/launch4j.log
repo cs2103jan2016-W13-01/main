@@ -1,0 +1,23 @@
+
+
+Version:	3.8
+CmdLine:	E:\Documents\Java projects\main\run\Diamond.exe --l4j-debug
+WOW64:		no
+Working dir:	E:\Documents\Java projects\main\run\.
+32-bit search:	SOFTWARE\JavaSoft\Java Runtime Environment...
+Check:		SOFTWARE\JavaSoft\Java Runtime Environment\1.8
+Check launcher:	C:\Program Files\Java\jre1.8.0_45\bin\javaw.exe (OK)
+Match:		1.8
+Check:		SOFTWARE\JavaSoft\Java Runtime Environment\1.8.0_45
+Check launcher:	C:\Program Files\Java\jre1.8.0_45\bin\javaw.exe (OK)
+Match:		1.8.0_45
+32-bit search:	SOFTWARE\JavaSoft\Java Development Kit...
+Check:		SOFTWARE\JavaSoft\Java Development Kit\1.8
+Ignore:		1.8
+Check:		SOFTWARE\JavaSoft\Java Development Kit\1.8.0_40
+Ignore:		1.8.0_40
+Runtime used:	1.8.0_45 (32-bit)
+Launcher:	C:\Program Files\Java\jre1.8.0_45\bin\javaw.exe
+Launcher args:	-jar "E:\Documents\Java projects\main\run\Diamond.exe"
+Args length:	54/32768 chars
+Exit code:	1

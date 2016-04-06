@@ -22,7 +22,7 @@ public class Deadline extends Task {
 	}
 	
 	@Override
-	public Calendar getMainDate() {
+	public Calendar getStartDate() {
 		return date;
 	}
 	

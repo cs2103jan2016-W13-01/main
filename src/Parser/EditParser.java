@@ -41,7 +41,7 @@ public class EditParser extends GeneralParser {
 
 	private Task getEditTask(String inputArgs) {
 		String title = getTitle(inputArgs);
-		if(title==""){
+		if(title.trim().equals("")){
 			title=null;
 		}
 		Calendar[] date = getDateArray(inputArgs);

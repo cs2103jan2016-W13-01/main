@@ -1,5 +1,6 @@
 package logic.tasks;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -14,13 +15,16 @@ import org.apache.commons.lang.time.DateUtils;
  */
 public class TaskUtil {
 	
+	private static final String NULL_TIME = "-";
 	private static final String FIELD_SEPARATOR = ";";
+	private static final SimpleDateFormat STORAGE_FORMAT = new SimpleDateFormat("HH:mm yyyyMMdd", Locale.ENGLISH);
+	private static final SimpleDateFormat DISPLAY_FORMAT = new SimpleDateFormat("dd MMM HH:mm", Locale.ENGLISH);
 
 	public static class TaskComparator implements Comparator<Task> {
 		public int compare(Task task1, Task task2) {
 			int dateComp;
-			Calendar date1 = task1.getMainDate();
-			Calendar date2 = task2.getMainDate();
+			Calendar date1 = task1.getStartDate();
+			Calendar date2 = task2.getStartDate();
 			if (date1 == null && date2 == null) {
 				dateComp = task1.getTitle().compareToIgnoreCase(task2.getTitle());
 			} else if (date1 == null) {
@@ -120,7 +124,7 @@ public class TaskUtil {
 	}
 	
 	public static Calendar parseDate(String dateString) {
-		if (dateString.equals("null")) {
+		if (dateString.equals(NULL_TIME)) {
 			return null;
 		} else {
 			Calendar cal = Calendar.getInstance();
@@ -134,11 +138,10 @@ public class TaskUtil {
 		}
 	}
 	
-	public static String convertFromDate(Calendar date) {
+	public static String convertFromDate(Calendar date, DateFormat format) {
 		if (date == null) {
-			return "null";
+			return NULL_TIME;
 		} else {
-			SimpleDateFormat format = new SimpleDateFormat("HH:mm yyyyMMdd", Locale.ENGLISH);
 			return format.format(date.getTime());
 		}
 	}
@@ -147,20 +150,11 @@ public class TaskUtil {
 		StringBuilder sb = new StringBuilder();
 		sb.append("title: " + task.getTitle() + FIELD_SEPARATOR + "\r\n");
 		String startDateString, endDateString, statusString, isRecurrenceString;
-		startDateString = convertFromDate(task.getMainDate());
+		startDateString = convertFromDate(task.getStartDate(), STORAGE_FORMAT);
+		endDateString = convertFromDate(task.getEndDate(), STORAGE_FORMAT);
 		statusString = (task.isDone())? "completed":"incomplete";
 		isRecurrenceString = (task.isRecurrence())? "true":"false";
-		int period;
-		if (task instanceof RecurringTask) {
-			period = ((RecurringTask) task).getPeriod();
-			endDateString = convertFromDate(((RecurringTask) task).getEndDate());
-		} else if (task instanceof Session) {
-			endDateString = convertFromDate(((Session) task).getEndDate());
-			period = 0;
-		} else {
-			endDateString = "null";
-			period = 0;
-		}
+		int period = task.getPeriod();
 		sb.append("start: " + startDateString + FIELD_SEPARATOR + "\r\n");
 		sb.append("end: " + endDateString + FIELD_SEPARATOR + "\r\n");
 		sb.append("recurring period: " + period + FIELD_SEPARATOR + "\r\n");
@@ -172,20 +166,20 @@ public class TaskUtil {
 	public static String[] toStringArray(Task task) {
 		String isDoneString = task.isDone() ? "complete" : "incomplete";
 		String titleString = task.getTitle();
-		String startString = convertFromDate(task.getMainDate());
+		String startString = convertFromDate(task.getStartDate(), DISPLAY_FORMAT);
 		String endString;
 		if (task instanceof Session) {
-			endString = convertFromDate(((Session) task).getEndDate());
+			endString = convertFromDate(((Session) task).getEndDate(), DISPLAY_FORMAT);
 		} else if (task instanceof RecurringTask) {
-			endString = convertFromDate(((RecurringTask) task).getEndDate());
+			endString = convertFromDate(((RecurringTask) task).getEndDate(), DISPLAY_FORMAT);
 		} else {
-			endString = "null";
+			endString = NULL_TIME;
 		}
 		String periodString;
 		if (task instanceof RecurringTask) {
 			periodString = Integer.toString(((RecurringTask) task).getPeriod());
 		} else {
-			periodString = "null";
+			periodString = NULL_TIME;
 		}
 		String[] result = {isDoneString, titleString, startString, endString, periodString};
 		return result;
@@ -195,20 +189,20 @@ public class TaskUtil {
 	public static String toString(Task task) {
 		String isDoneString = task.isDone() ? "complete" : "incomplete";
 		String titleString = task.getTitle();
-		String startString = convertFromDate(task.getMainDate());
+		String startString = convertFromDate(task.getStartDate(), DISPLAY_FORMAT);
 		String endString;
 		if (task instanceof Session) {
-			endString = convertFromDate(((Session) task).getEndDate());
+			endString = convertFromDate(((Session) task).getEndDate(), DISPLAY_FORMAT);
 		} else if (task instanceof RecurringTask) {
-			endString = convertFromDate(((RecurringTask) task).getEndDate());
+			endString = convertFromDate(((RecurringTask) task).getEndDate(), DISPLAY_FORMAT);
 		} else {
-			endString = "null";
+			endString = NULL_TIME;
 		}
 		String periodString;
 		if (task instanceof RecurringTask) {
 			periodString = ((RecurringTask) task).getPeriodString();
 		} else {
-			periodString = "null";
+			periodString = NULL_TIME;
 		}
 		String result = isDoneString + "; " + titleString + "; "
 						+ startString + "; " + endString + "; " + periodString;
@@ -253,25 +247,25 @@ public class TaskUtil {
 	}
 
 	public static boolean willOccur(Task task, Calendar date) {
-		if (task.getMainDate() == null) {
+		if (task.getStartDate() == null) {
 			return false;
 		}
 		if (task instanceof RecurringTask) {
 			return ((RecurringTask) task).willOccur(date);
 		}
-		return DateUtils.isSameDay(task.getMainDate(), date);
+		return DateUtils.isSameDay(task.getStartDate(), date);
 	}
 	
 	public static boolean isWithinNDays(Task task, Calendar date, int n) {
-		if (task.getMainDate() == null) {
+		if (task.getStartDate() == null) {
 			return false;
 		}
-		int distance = daysBetween(task.getMainDate(), date);
+		int distance = daysBetween(task.getStartDate(), date);
 		return ((distance >= 0) && (distance <= n));
 	}
 	
 	public static boolean isWithinPeriod(Task task, Calendar start, Calendar end) {
-		Calendar mainDate = task.getMainDate();
+		Calendar mainDate = task.getStartDate();
 		if ((mainDate == null) || (end.before(start))) {
 			return false;
 		}
