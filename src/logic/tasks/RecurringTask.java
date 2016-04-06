@@ -1,6 +1,8 @@
 package logic.tasks;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import org.apache.commons.lang.time.DateUtils;
 
@@ -21,6 +23,7 @@ public class RecurringTask extends Task {
 	private Calendar startDate;
 	private Calendar endDate;
 	private int period;
+	private List<Calendar> exceptions;
 	
 	@Override
 	public TaskType getType() {
@@ -29,7 +32,7 @@ public class RecurringTask extends Task {
 	
 	@Override
 	public Calendar getMainDate() {
-		return null;
+		return startDate;
 	}
 	
 	public RecurringTask(String title, Calendar start, Calendar end, int time) {
@@ -37,6 +40,7 @@ public class RecurringTask extends Task {
 		startDate = start;
 		endDate = end;
 		period = time;
+		exceptions = new ArrayList<Calendar>();
 	}
 	
 	public RecurringTask(String title, Calendar start, Calendar end) {
@@ -147,7 +151,36 @@ public class RecurringTask extends Task {
 	public Task generate(Calendar date) {
 		Calendar[] start = {startDate, endDate};
 		Calendar[] cal = getClosestDate(start, date, period);
-		return TaskUtil.getInstance(title, cal[0], cal[1]);
+		Task result = TaskUtil.getInstance(title, cal[0], cal[1]);
+		result.setRecurrence(true);
+		result.setParent(this);
+		return result;
+	}
+	
+	public void addException(Calendar day) {
+		boolean contains = isException(day);
+		if (!contains) {
+			exceptions.add(day);
+		}
+	}
+
+	public boolean isException(Calendar day) {
+		boolean contains = false;
+		for (Calendar date: exceptions) {
+			if (DateUtils.isSameDay(date, day)) {
+				contains = true;
+				break;
+			}
+		}
+		return contains;
+	}
+	
+	public void removeException(Calendar day) {
+		for (Calendar date: exceptions) {
+			if (DateUtils.isSameDay(date, day)) {
+				exceptions.remove(date);
+			}
+		}
 	}
 	
 	@Override
@@ -165,7 +198,7 @@ public class RecurringTask extends Task {
 			return (((RecurringTask) obj).getType() == this.getType())
 					&& ((RecurringTask) obj).getTitle().equalsIgnoreCase(this.getTitle())
 					&& ((RecurringTask) obj).getStartDate().equals(this.getStartDate())
-					&& ((Session) obj).getEndDate().equals(this.getEndDate())
+					&& ((RecurringTask) obj).getEndDate().equals(this.getEndDate())
 					&& (((RecurringTask) obj).getPeriod() == this.getPeriod());
 		}
 		return false;

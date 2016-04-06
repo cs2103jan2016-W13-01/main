@@ -49,7 +49,12 @@ public abstract class GeneralParser {
 		if (dates.length == 0) {
 			return TaskUtil.getInstance(title, null);
 		} else if (dates.length == 1) {
-			return TaskUtil.getInstance(title, dates[0], recurringPeriod);
+			if(recurringPeriod==0){
+				return TaskUtil.getInstance(title, dates[0]);
+			}
+			else{
+				return TaskUtil.getInstance(title, dates[0],null,recurringPeriod);
+			}
 		} else {
 			return TaskUtil.getInstance(title, dates[0], dates[1], recurringPeriod);
 		}
@@ -178,7 +183,7 @@ public abstract class GeneralParser {
 			num = getPeriod(matcher.group());
 			num=-2*num;
 		}
-		
+
 		return num;
 	}
 

@@ -17,9 +17,8 @@ public class DateParser {
 	static final String CONNECT_DATE_KEYWORD =  "(to |till |until )";
 
 	static final String ALL_DATE_REGEX = "("+ TitleParser.FIRST_DATE_REGEX +"|"+ TitleParser.SECOND_DATE_REGEX +"|"+ TitleParser.MISC_FIRST_DATE_REGEX +"|"+ TitleParser.MISC_SECOND_DATE_REGEX +"|"+
-			TitleParser.FIRST_DAY_REGEX +"|"+ TitleParser.SECOND_DAY_REGEX +"|"+ TitleParser.MISC_NUMBERED_DATE_REGEX +"|"+ TitleParser.NUMBERED_DATE_REGEX +"|"+TitleParser.MISC_TIME_REGEX +"|"+Regex.TMR_REGEX+")";
-	static final String DATE_KEYWORD = "("+START_DATE_KEYWORD + TitleParser.NOT_TITLE_REGEX+"|"+TitleParser.NOT_TITLE_REGEX+")";
-
+			TitleParser.FIRST_DAY_REGEX +"|"+ TitleParser.SECOND_DAY_REGEX +"|"+ TitleParser.MISC_NUMBERED_DATE_REGEX +"|"+ TitleParser.NUMBERED_DATE_REGEX +")";
+	
 	public static Calendar[] getDates(String input) {
 		System.out.println("this is input to getDates "+input);
 		ArrayList<String> dateList = new ArrayList<String>();
@@ -119,9 +118,16 @@ public class DateParser {
 	public static Calendar[] convertFromDate(Date[] dates) {
 		Calendar[] result = new Calendar[dates.length];
 		for (int i=0; i<dates.length; i++) {
-			Calendar cal = Calendar.getInstance();
-			cal.setTime(DateUtils.truncate(dates[i], Calendar.SECOND));
+			Calendar cal;
+			Date date = dates[i];
+			if (date != null) {
+				cal = Calendar.getInstance();
+				cal.setTime(DateUtils.truncate(date, Calendar.SECOND));
+			} else {
+				cal = null;
+			}
 			result[i] = cal;
+			System.out.println(cal);
 		}
 		return result;
 	}

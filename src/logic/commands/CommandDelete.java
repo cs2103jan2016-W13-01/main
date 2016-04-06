@@ -1,6 +1,10 @@
 package logic.commands;
 
 import java.io.IOException;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 9a9e865c0749c398f03055730beb5bde91c3517a
 import java.util.logging.Level;
 
 import logic.ExecutedCommands;
@@ -13,7 +17,7 @@ import storage.StorageController;
 public class CommandDelete implements Command {
 	
 	private static final String MESSAGE_DELETE_ERROR = "Error encountered when deleting task";
-	private static final String MESSAGE_TASK_NOT_FOUND = "Task not found in task list: %1$s";
+	private static final String MESSAGE_TASK_NOT_FOUND = "Task number %s not found in task list";
 	private static final String MESSAGE_TASK_DELETED = "Task deleted: %1$s";
 	private static final String MESSAGE_UNDONE = "Task added back to task list: %1$s";
 	private static final String MESSAGE_UNDO_ERROR = "Failed to undo action: delete %1$s";

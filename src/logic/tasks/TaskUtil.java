@@ -18,16 +18,22 @@ public class TaskUtil {
 
 	public static class TaskComparator implements Comparator<Task> {
 		public int compare(Task task1, Task task2) {
+			int dateComp;
 			Calendar date1 = task1.getMainDate();
 			Calendar date2 = task2.getMainDate();
 			if (date1 == null && date2 == null) {
-				return task1.getTitle().compareToIgnoreCase(task2.getTitle());
+				dateComp = task1.getTitle().compareToIgnoreCase(task2.getTitle());
 			} else if (date1 == null) {
-				return 1;
+				dateComp = 1;
 			} else if (date2 == null) {
-				return -1;
+				dateComp = -1;
 			} else {
-				return date1.compareTo(date2);
+				dateComp = date1.compareTo(date2);
+			}
+			if (dateComp != 0) {
+				return dateComp;
+			} else {
+				return task1.getTitle().compareToIgnoreCase(task2.getTitle());
 			}
 		}
 	}
@@ -35,7 +41,7 @@ public class TaskUtil {
 	public static Task getInstance(String title, Calendar startDate, Calendar endDate, int recurringPeriod) {
 		if (startDate == null && endDate == null) {
 			return new Task(title);
-		} else if (recurringPeriod > 0) {
+		} else if (recurringPeriod != 0) {
 			return new RecurringTask(title, startDate, endDate, recurringPeriod);
 		} else if (endDate == null){
 			return new Deadline(title, startDate);
@@ -91,7 +97,26 @@ public class TaskUtil {
 		} catch (IndexOutOfBoundsException e) {
 			period = 0;
 		}
-		return getInstance(titleString, startDate, endDate, period);
+		
+		boolean isDone;
+		try {
+			String statusString = parts[4].split(":", 2)[1].trim();
+			isDone = statusString.equals("completed");
+		} catch (IndexOutOfBoundsException e) {
+			isDone = false;
+		}
+		
+		boolean isRecurrence;
+		try {
+			String isRecurrenceString = parts[5].split(":", 2)[1].trim();
+			isRecurrence = isRecurrenceString.equals("true");
+		} catch (IndexOutOfBoundsException e) {
+			isRecurrence = false;
+		}
+		Task result = getInstance(titleString, startDate, endDate, period);
+		result.setDone(isDone);
+		result.setRecurrence(isRecurrence);
+		return result;
 	}
 	
 	public static Calendar parseDate(String dateString) {
@@ -121,24 +146,26 @@ public class TaskUtil {
 	public static String convertToStorage(Task task) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("title: " + task.getTitle() + FIELD_SEPARATOR + "\r\n");
-		String startDateString, endDateString;
+		String startDateString, endDateString, statusString, isRecurrenceString;
+		startDateString = convertFromDate(task.getMainDate());
+		statusString = (task.isDone())? "completed":"incomplete";
+		isRecurrenceString = (task.isRecurrence())? "true":"false";
 		int period;
 		if (task instanceof RecurringTask) {
 			period = ((RecurringTask) task).getPeriod();
 			endDateString = convertFromDate(((RecurringTask) task).getEndDate());
-			startDateString = convertFromDate(((RecurringTask) task).getStartDate());
-		} else {
-			period = 0;
-			startDateString = convertFromDate(task.getMainDate());
-		}
-		if (task instanceof Session) {
+		} else if (task instanceof Session) {
 			endDateString = convertFromDate(((Session) task).getEndDate());
+			period = 0;
 		} else {
 			endDateString = "null";
+			period = 0;
 		}
 		sb.append("start: " + startDateString + FIELD_SEPARATOR + "\r\n");
 		sb.append("end: " + endDateString + FIELD_SEPARATOR + "\r\n");
 		sb.append("recurring period: " + period + FIELD_SEPARATOR + "\r\n");
+		sb.append("status: " + statusString + FIELD_SEPARATOR + "\r\n");
+		sb.append("is recurrence: " + isRecurrenceString + FIELD_SEPARATOR + "\r\n");
 		return sb.toString();
 	}
 	
