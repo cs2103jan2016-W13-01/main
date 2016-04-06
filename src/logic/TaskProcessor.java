@@ -70,6 +70,7 @@ public class TaskProcessor {
 		} catch (IOException e) {
 			LogicLogger.log(Level.SEVERE, "Error when initializing StorageController");
 			e.printStackTrace();
+			System.exit(0);
 		}
 	}
 	

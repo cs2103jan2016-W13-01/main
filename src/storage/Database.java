@@ -45,6 +45,7 @@ public class Database {
 				StorageLogger.log(Level.INFO, "Storage folder created");
 			} else {
 				StorageLogger.log(Level.SEVERE, "Storage folder not created");
+				throw new IOException("Storage folder not created");
 			}
 		}
 		floatListFile = initFile(String.format(FLOAT_LIST_FILE_NAME, directoryName));
