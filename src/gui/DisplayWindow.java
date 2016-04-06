@@ -58,7 +58,7 @@ public class DisplayWindow extends javax.swing.JFrame {
 	}
 
 	private void setIcon() {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("DiamondIcon.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/gui/DiamondIcon.png")));
 	}
 
 	private void setBgColor() {

@@ -55,6 +55,10 @@ public class StorageController {
 		}
 	}
 	
+	public static Task getIndex(int index) {
+		return displayList.get(index);
+	}
+	
 	public static Task deleteByIndex(int index) throws IOException {
 		Task task = displayList.get(index);
 		deleteTask(task);
@@ -75,6 +79,12 @@ public class StorageController {
 	
 	public static boolean addNewTask(Task task) throws IOException {
 		boolean result = GrandTaskList.addNewTask(task);
+		return result;
+	}
+	
+	public static boolean addNoSwitchTab(int index, Task task) throws IOException {
+		boolean result = GrandTaskList.addNewTask(task);
+		displayList.add(index, task);
 		return result;
 	}
 	
@@ -179,6 +189,7 @@ public class StorageController {
 	}
 	
 	public static void searchTask(Predicate<Task> predicate) {
+		displayList.clear();
 		for (Task task: GrandTaskList.search(predicate)) {
 			displayList.add(task);
 		}
@@ -187,7 +198,7 @@ public class StorageController {
 	public static ArrayList<Task> getTimelineList() {
 		ArrayList<Task> result = new ArrayList<Task>();
 		for (Task task: GrandTaskList.getNoRecurringList()) {
-			Calendar date = task.getMainDate();
+			Calendar date = task.getStartDate();
 			Calendar nextOneMonth = Calendar.getInstance();
 			nextOneMonth.add(Calendar.DATE, 30);
 			if (date != null

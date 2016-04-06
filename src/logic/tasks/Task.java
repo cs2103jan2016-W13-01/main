@@ -18,8 +18,16 @@ public class Task implements Cloneable {
 		return TaskType.FLOAT;
 	}
 	
-	public Calendar getMainDate() {
+	public Calendar getStartDate() {
 		return null;
+	}
+	
+	public Calendar getEndDate() {
+		return null;
+	}
+	
+	public int getPeriod() {
+		return 0;
 	}
 	
 	public Task(String title) {
@@ -89,5 +97,9 @@ public class Task implements Cloneable {
 		} else {
 			return DATE_FORMAT.format(date.getTime());
 		}
+	}
+
+	public void setDone(boolean isDone) {
+		done = isDone;
 	}
 }
