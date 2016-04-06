@@ -48,39 +48,13 @@ public class CommandParser {
 		return cmdParser;
 	}
 
-	/**for add
-	 * Requires input format <add> <title> <date> 
-	 * for e.g add meet at john's house at next wednesday
-	 * 
-	 * for delete
-	 * Requires input format <delete> <num>
-	 * for e.g delete 2
-	 * 
-	 * for edit
-	 * Requires input format <edit> <num> <title>/<date>
-	 * for e.g edit 3 meet at jack's place 
-	 * or edit 3 at next tuesday
-	 * should check the value of TASK to see if the respective title and date fields 
-	 * are null or not.
-	 * 
-	 * for mark
-	 * Requires input format <mark> <num>
-	 * for e.g mark 1
-	 * 
-	 * for unmark
-	 * Requires input format <unmark> <num>
-	 * for e.g unmark 1
-	 * 
-	 * for undo
-	 * inputformat <undo>
-	 */
+	
 	public static Command parseInput(String input) {
 		String[] inputTokens = getToken(input);
 		CommandType cmd = getCmdType(inputTokens[0]);
 		Command cmdDetails;
 		if(inputTokens.length==2){
 			switch(cmd){
-
 				case ADD:
 					AddParser ap = new AddParser();
 					return cmdDetails = ap.parse(inputTokens[1]);

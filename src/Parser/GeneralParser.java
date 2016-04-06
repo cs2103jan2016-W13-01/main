@@ -1,11 +1,10 @@
 package Parser;
-import java.util.Calendar;
-import java.util.regex.Matcher;
 /* @@author A0121535R
  * parser class with the basic methods
  */
+import java.util.Calendar;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import logic.Priority;
 import logic.commands.Command;
 import logic.tasks.Task;
@@ -13,12 +12,7 @@ import logic.tasks.TaskUtil;
 
 public abstract class GeneralParser {
 
-	private static final String REGEX_SPACE = "\\s";
-	private static final String PERIOD_DAY_REGEX = "("+" every " +"\\d+"+" day(?:s) "+")";
-	private static final String PERIOD_WEEK_REGEX = "("+" every " +"\\d+"+" week(?:s) "+")";
-	private static final String PERIOD_MONTH_REGEX = "("+" every " +"\\d+"+" month(?:s) "+")";
-	private static final String PERIOD_YEAR_REGEX = "("+" every " +"\\d+"+" year(?:s) "+")";
-	private static final String NUM_REGEX = "(\\d+)";
+	
 	protected abstract Command parse(String inputArgs);
 
 
@@ -38,7 +32,7 @@ public abstract class GeneralParser {
 	}
 
 	protected boolean checkInputArgs(String inputArgs, int size){
-		String[] inputToken = inputArgs.split(REGEX_SPACE);
+		String[] inputToken = inputArgs.split(Regex.REGEX_SPACE);
 		if(inputToken.length<size){
 			return false;
 		}
@@ -60,68 +54,11 @@ public abstract class GeneralParser {
 		}
 	}
 
-	/*
-	protected Task createTask(String title, Date[] dates, Priority tag, int isRecurring){
-		Task task=null;
-		System.out.println(dates.length);
-		if(isRecurring==1){
-			task = createRecurringTask(title,dates,tag,isRecurring);
-		}
-		else{
-			task = createNonRecurringTask(title,dates,tag);
-		}
-		return task;
-	}
 
-
-	private Task createNonRecurringTask(String title, Date[] dates, Priority tag) {
-		Task task = null;
-		if(dates.length==1||dates.length==0){
-			task = createDeadlineTask(title,dates,tag);
-		}
-		else if(dates.length==2){
-			task = createSessionTask(title,dates,tag);
-		}
-		return task;
-	}
-
-
-	private Task createRecurringTask(String title, Date[] dates, Priority tag, int isRecurring) {
-		RecurringTask task = null;
-		if(dates.length==1||dates.length==0){
-			task = (RecurringTask) TaskUtil.getInstance(title,dates[0],isRecurring);
-
-		}
-		else if(dates.length==2){
-			task =(RecurringTask) TaskUtil.getInstance(title,dates[0],dates[1],isRecurring);
-		}
-		return task;
-	}
-
-
-	private Task createDeadlineTask(String title, Date[] dates, Priority tag) {
-		Deadline task;
-		if(dates.length==1){
-		task = (Deadline) TaskUtil.getInstance(title, dates[0]);
-		}
-		else{
-		task = (Deadline) TaskUtil.getInstance(title, null);	
-		}
-		task.setPriority(tag);
-		return task;
-	}
-
-
-	private Task createSessionTask(String title, Date[] dates, Priority tag) {
-		Session task = (Session) TaskUtil.getInstance(title,dates[0],dates[1]);
-
-		return task;
-	}
-	 */
 	protected static Priority getTag(String inputArgs) {
-
 		return Priority.NULL;
 	}
+	
 	protected static int getRecurring(String inputArgs){
 		inputArgs = inputArgs.toLowerCase();
 
@@ -176,7 +113,7 @@ public abstract class GeneralParser {
 
 	private static int getCustomYears(String inputArgs) {
 		int num=0;  
-		Pattern pattern = Pattern.compile(PERIOD_YEAR_REGEX);
+		Pattern pattern = Pattern.compile(Regex.PERIOD_YEAR_REGEX);
 		Matcher matcher = pattern.matcher(inputArgs);
 		if (matcher.find( )) {
 			System.out.println("Found value: " + matcher.group() );
@@ -190,7 +127,7 @@ public abstract class GeneralParser {
 
 	private static int getCustomMonths(String inputArgs) {
 		int num=0;  
-		Pattern pattern = Pattern.compile(PERIOD_MONTH_REGEX);
+		Pattern pattern = Pattern.compile(Regex.PERIOD_MONTH_REGEX);
 		Matcher matcher = pattern.matcher(inputArgs);
 		if (matcher.find( )) {
 			System.out.println("Found value: " + matcher.group() );
@@ -203,7 +140,7 @@ public abstract class GeneralParser {
 
 	private static int getCustomWeeks(String inputArgs) {
 		int num=0;  
-		Pattern pattern = Pattern.compile(PERIOD_WEEK_REGEX);
+		Pattern pattern = Pattern.compile(Regex.PERIOD_WEEK_REGEX);
 		Matcher matcher = pattern.matcher(inputArgs);
 		if (matcher.find( )) {
 			System.out.println("Found value: " + matcher.group() );
@@ -216,7 +153,7 @@ public abstract class GeneralParser {
 
 	private static int getCustomDays(String inputArgs) {
 		int num=0;  
-		Pattern pattern = Pattern.compile(PERIOD_DAY_REGEX);
+		Pattern pattern = Pattern.compile(Regex.PERIOD_DAY_REGEX);
 		Matcher matcher = pattern.matcher(inputArgs);
 		if (matcher.find( )) {
 			System.out.println("Found value: " + matcher.group() );
@@ -227,7 +164,7 @@ public abstract class GeneralParser {
 
 
 	private static int getPeriod(String inputArgs) {
-		Pattern pattern = Pattern.compile(NUM_REGEX);
+		Pattern pattern = Pattern.compile(Regex.NUM_REGEX);
 		Matcher matcher = pattern.matcher(inputArgs);
 		if (matcher.find( )) {
 			System.out.println("Found value: " + matcher.group() );
