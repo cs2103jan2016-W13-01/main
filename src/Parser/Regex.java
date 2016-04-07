@@ -6,7 +6,7 @@ public class Regex {
 	static final String REGEX_SPACE = "(\\s+)";
 	static final String START = "(?<=^|\\s)";
 	static final String END = "(?=\\s|$)";
-	static final String MISC_REGEX ="(at?|from?|to?|till?|until?|by?|on?|next?|this?|by next?|by this?)?";
+	static final String MISC_REGEX ="(from?|to?|till?|until?|by?|on?|next?|this?|by next?|by this?)?";
 	static final String MONTHNAME = "(jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|jun(?:e)?|jul(?:y)?|aug(?:ust)?|sep(?:tember)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)";
 	static final String DATES = "(\\d?\\d)(?:st|rd|nd|th)?";
 	static final String YEAR = "(\\d{2}|\\d{4})?";

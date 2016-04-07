@@ -17,7 +17,7 @@ public class TestParser {
 		while (sc.hasNext()) {
 			String input = sc.nextLine();
 			CommandAdd command = (CommandAdd) parser.parse(input);
-			System.out.println(command.getTask());
+			System.out.println(TaskUtil.toString(command.getTask()));
 		}
 		sc.close();
 	}
