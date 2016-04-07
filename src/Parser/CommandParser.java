@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 import logic.commands.Command;
 import logic.commands.CommandClear;
 import logic.commands.CommandDisplay;
+import logic.commands.CommandGetLocation;
 import logic.commands.CommandHelp;
 import logic.commands.CommandInvalid;
 import logic.commands.CommandMark;
@@ -169,8 +170,7 @@ public class CommandParser {
 
 				case DISPLAY:
 					return getDisplayCommand(inputTokens[1]);
-	
-
+					
 				default:
 					return new CommandInvalid();
 			}
@@ -188,6 +188,8 @@ public class CommandParser {
 
 				case CLEAR:
 					return new CommandClear();
+				case GET:
+					return new CommandGetLocation();
 
 				default:
 					return new CommandInvalid();
@@ -260,11 +262,11 @@ public class CommandParser {
 			case "past":
 				returnString ="past";
 				break;
-			case"help":
+			case "help":
 			case "halp":	
-				returnString="help";
+				return new CommandHelp();
 			default:
-				return new CommandInvalid();
+				returnString = input;
 		}
 		CommandDisplay cmdDisplay = new CommandDisplay(returnString);
 		return cmdDisplay;
@@ -285,9 +287,11 @@ public class CommandParser {
 		switch (string) {
 			case "a":
 			case "add":
+			case "create":
 				return CommandType.ADD;
 			case "d":
 			case "delete":
+			case "remove":
 				return CommandType.DELETE;
 			case "u":
 			case "undo":
@@ -297,6 +301,8 @@ public class CommandParser {
 				return CommandType.REDO;
 			case "m":
 			case "mark":
+			case "complete":
+			case "finished":
 				return CommandType.MARK;
 			case "um":
 			case "unmark":
@@ -312,9 +318,15 @@ public class CommandParser {
 				return CommandType.HELP;
 			case "c":
 			case "clear":
+			case "kill":
 				return CommandType.CLEAR;
 			case "set":
+			case "save":
 				return CommandType.SET;
+			case "get":
+			case "dir":
+			case "cd":
+				return CommandType.GET;
 			case "dis":
 			case "display":
 				return CommandType.DISPLAY;

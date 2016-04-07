@@ -43,14 +43,14 @@ public class TaskUtil {
 	}
 	
 	public static Task getInstance(String title, Calendar startDate, Calendar endDate, int recurringPeriod) {
-		if (startDate == null && endDate == null) {
+		if (startDate == null && endDate == null && recurringPeriod == 0) {
 			return new Task(title);
-		} else if (recurringPeriod != 0) {
-			return new RecurringTask(title, startDate, endDate, recurringPeriod);
-		} else if (endDate == null){
+		} else if (recurringPeriod == 0 && endDate == null) {
 			return new Deadline(title, startDate);
-		} else {
+		} else if (recurringPeriod == 0){
 			return new Session(title, startDate, endDate);
+		} else {
+			return new RecurringTask(title, startDate, endDate, recurringPeriod);
 		}
 	}
 	

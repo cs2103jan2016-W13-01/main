@@ -171,7 +171,7 @@ public class DisplayWindow extends javax.swing.JFrame {
 		taskTabbedPane.setSelectedIndex(4);
 		int size = tasks.size();
 		for (int i = 0; i < size; i++) {
-                    helpField.append(tasks.get(i));
+             helpField.append(tasks.get(i));
 		}
 		tabIndex = 4;	
 	}  

@@ -16,7 +16,9 @@ public class CommandGetLocation implements Command {
 	public CommandGetLocation() {}
 	
 	public String execute() {
-		return String.format(MESSAGE_LOCATION, StorageController.getPath());
+		String path = StorageController.getPath();
+		System.out.println(path);
+		return String.format(MESSAGE_LOCATION, path);
 	}
 	
 	public String undo() {

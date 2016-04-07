@@ -7,7 +7,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.Scanner;
 import java.util.logging.Level;
 
@@ -18,6 +17,7 @@ import logic.tasks.*;
  */
 public class Database {
 	
+	private static final String DEFAULT_STORAGE_DIR = ".";
 	private static final String CONFIG_FILE_NAME = "./src/document/config.txt";
 	private static final String DIRECTORY_NAME = "%s/data";
 	private static final String FLOAT_LIST_FILE_NAME = "%s/data/floatList.txt";
@@ -37,8 +37,8 @@ public class Database {
 	private static File doneListFile;
 	
 	public static void retrieveFiles() throws IOException {
-		String directoryName = getStorageDirectory();
-		File data = new File(String.format(DIRECTORY_NAME, directoryName));
+		storagePath = getStorageDirectory();
+		File data = new File(String.format(DIRECTORY_NAME, storagePath));
 		if (!data.exists()) {
 			StorageLogger.log(Level.INFO, "Creating storage folder");
 			if (data.mkdirs()) {
@@ -48,11 +48,11 @@ public class Database {
 				throw new IOException("Storage folder not created");
 			}
 		}
-		floatListFile = initFile(String.format(FLOAT_LIST_FILE_NAME, directoryName));
-		deadlineListFile = initFile(String.format(DEADLINE_LIST_FILE_NAME, directoryName));
-		sessionListFile = initFile(String.format(SESSION_LIST_FILE_NAME, directoryName));
-		recurringListFile = initFile(String.format(RECURRING_LIST_FILE_NAME, directoryName));
-		doneListFile = initFile(String.format(DONE_LIST_FILE_NAME, directoryName));
+		floatListFile = initFile(String.format(FLOAT_LIST_FILE_NAME, storagePath));
+		deadlineListFile = initFile(String.format(DEADLINE_LIST_FILE_NAME, storagePath));
+		sessionListFile = initFile(String.format(SESSION_LIST_FILE_NAME, storagePath));
+		recurringListFile = initFile(String.format(RECURRING_LIST_FILE_NAME, storagePath));
+		doneListFile = initFile(String.format(DONE_LIST_FILE_NAME, storagePath));
 	}
 	
 	static File initFile(String filename) throws IOException {
@@ -64,13 +64,16 @@ public class Database {
 		return result;
 	}
 
-	private static String getStorageDirectory() throws FileNotFoundException {
+	private static String getStorageDirectory() throws IOException {
 		Scanner sc = new Scanner(configFile);
-		String storagePath;
 		if (sc.hasNextLine()) {
 			storagePath = sc.nextLine().trim();
 		} else {
-			storagePath = ".";
+			BufferedWriter bw = initBufferedWriter(configFile);
+			bw.write(DEFAULT_STORAGE_DIR);
+			bw.newLine();
+			bw.close();
+			storagePath = DEFAULT_STORAGE_DIR;
 		}
 		sc.close();
 		return storagePath;

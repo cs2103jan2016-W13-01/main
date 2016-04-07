@@ -6,7 +6,7 @@ import java.util.logging.Level;
 
 import Parser.CommandParser;
 import logic.commands.Command;
-import logic.commands.CommandQueue;
+import logic.commands.CommandHelp;
 import logic.tasks.*;
 import storage.StorageController;
 
@@ -27,23 +27,11 @@ public class TaskProcessor {
 	*/
 
 	private static ArrayList<String> listToDisplay;
-	
-	public static void main(String[] args) {
-		while (true) {
-			getAndExecuteCommand();
-		}
-	}
+
 	
 	public static ArrayList<String> getListToDisplay() {
 		loadIntoDisplayList(StorageController.getDisplayList());
 		return listToDisplay;
-	}
-	
-	public static void getAndExecuteCommand() {
-		Command command = CommandQueue.getCommand();
-		if (command != null) {
-			executeCommand(command);
-		}
 	}
 	
 	public static Response executeInput(String input) {
@@ -54,6 +42,10 @@ public class TaskProcessor {
 
 	public static Response executeCommand(Command command) {
 		String message = command.execute();
+		if (command instanceof CommandHelp) {
+			ArrayList<String> helpContent = ((CommandHelp) command).getHelpContent();
+			return new Response(message, "help", helpContent);
+		}
 		ArrayList<String> taskList = getListToDisplay();
 		return new Response(message, StorageController.getTabType(), taskList);
 	}
@@ -81,18 +73,5 @@ public class TaskProcessor {
 			assert task != null : "Some task in the task list is null";
 			listToDisplay.add(TaskUtil.toString(task));
 		}
-	}
-	
-	public static ArrayList<String[]> getTimelineList() {
-		ArrayList<String[]> result = new ArrayList<String[]>();
-		for (Task task: StorageController.getTimelineList()) {
-			String[] pentuple = TaskUtil.toStringArray(task);
-			String[] triple = new String[3];
-			for (int i=0; i<3; i++) {
-				triple[i] = pentuple[i+1];
-			}
-			result.add(triple);
-		}
-		return result;
 	}
 }
