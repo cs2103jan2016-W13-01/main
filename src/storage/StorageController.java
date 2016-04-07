@@ -106,66 +106,61 @@ public class StorageController {
 	}
 	
 	public static void displayAllTasks() {
-		displayList.clear();
-		for (Task task: GrandTaskList.getTotalList()) {
-			displayList.add(task);
-		}
+		displayList = GrandTaskList.getTotalList().toArrayList();
 	}
 	
 	public static void displayFloatTasks() {
-		displayList.clear();
-		for (Task task: GrandTaskList.getFloatList()) {
-			displayList.add(task);
-		}
+		Predicate<Task> pred = new Predicate<Task>() {
+			public boolean test(Task task) {
+				return (task.getStartDate() == null && task.getEndDate() == null);
+			}
+		};
+		searchTask(pred);
 	}
 	
 	public static void displayDeadlines() {
-		displayList.clear();
-		for (Task task: GrandTaskList.getDeadlineList()) {
-			displayList.add(task);
-		}
+		Predicate<Task> pred = new Predicate<Task>() {
+			public boolean test(Task task) {
+				return (task.getStartDate() == null && task.getEndDate() != null)
+						|| (task.getStartDate() != null && task.getEndDate() == null);
+			}
+		};
+		searchTask(pred);
 	}
 	
 	public static void displaySessions() {
 		displayList.clear();
-		for (Task task: GrandTaskList.getSessionList()) {
-			displayList.add(task);
-		}
+		Predicate<Task> pred = new Predicate<Task>() {
+			public boolean test(Task task) {
+				return (task.getStartDate() != null && task.getEndDate() != null);
+			}
+		};
+		displayList = GrandTaskList.search(pred).toArrayList();
 	}
 	
 	public static void displayRecurring() {
 		displayList.clear();
-		for (Task task: GrandTaskList.getRecurringList()) {
-			displayList.add(task);
-		}
+		displayList = GrandTaskList.getRecurringList().toArrayList();
 	}
 	
 	public static void displayTasksOnDate(Calendar date) {
 		displayList.clear();
-		for (Task task: GrandTaskList.getTasksOnDate(date)) {
-			displayList.add(task);
-		}
+		displayList = GrandTaskList.getTasksOnDate(date).toArrayList();
 	}
 	
 	public static void displayUndoneList() {
 		displayList.clear();
-		for (Task task: GrandTaskList.getUndoneList()) {
-			displayList.add(task);
-		}
+		displayList = GrandTaskList.getUndoneList().toArrayList();
 	}
 	
 	public static void displayUpcomingList() {
 		displayList.clear();
-		for (Task task: GrandTaskList.getUpcomingList()) {
-			displayList.add(task);
-		}
+		displayList = GrandTaskList.getUpcomingList().toArrayList();
 	}
 	
 	public static void displayDoneList() {
 		displayList.clear();
-		for (Task task: GrandTaskList.getDoneList()) {
-			displayList.add(task);
-		}
+		displayList = GrandTaskList.getDoneList().toArrayList();
 	}
 	
 	public static void clearDisplayedTasks() throws IOException {
@@ -190,9 +185,7 @@ public class StorageController {
 	
 	public static void searchTask(Predicate<Task> predicate) {
 		displayList.clear();
-		for (Task task: GrandTaskList.search(predicate)) {
-			displayList.add(task);
-		}
+		displayList = GrandTaskList.search(predicate).toArrayList();
 	}
 	
 	public static ArrayList<Task> getTimelineList() {

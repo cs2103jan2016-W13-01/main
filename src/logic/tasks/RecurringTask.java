@@ -24,17 +24,9 @@ public class RecurringTask extends Task {
 	private Calendar endDate;
 	private int period;
 	private List<Calendar> exceptions;
-	
-	@Override
-	public TaskType getType() {
-		return TaskType.RECUR;
-	}
 
 	public RecurringTask(String title, Calendar start, Calendar end, int time) {
-		super(title);
-		startDate = start;
-		endDate = end;
-		period = time;
+		super(title, start, end);
 		exceptions = new ArrayList<Calendar>();
 	}
 	
@@ -132,6 +124,7 @@ public class RecurringTask extends Task {
 		return TaskUtil.daysBetween(closestDates[0], startDate) <= n;
 	}
 	
+	@Override
 	public boolean willOccur(Calendar date) {
 		if (date.before(startDate)) {
 			return false;
@@ -149,9 +142,7 @@ public class RecurringTask extends Task {
 	public Task generate(Calendar date) {
 		Calendar[] start = {startDate, endDate};
 		Calendar[] cal = getClosestDate(start, date, period);
-		Task result = TaskUtil.getInstance(title, cal[0], cal[1]);
-		result.setRecurrence(true);
-		result.setParent(this);
+		Task result = TaskUtil.getInstance(getTitle(), cal[0], cal[1]);
 		return result;
 	}
 	
@@ -182,22 +173,12 @@ public class RecurringTask extends Task {
 	}
 	
 	@Override
-	public String toString() {
-		if (endDate == null) {
-			return getTitle() + " " + getDateString(startDate) + "every " + period + " days";
-		} else {
-			return getTitle() + " " + getDateString(startDate) + " - " + getDateString(endDate) + "every " + period + " days";
-		}
-	}
-	
-	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof RecurringTask) {
-			return (((RecurringTask) obj).getType() == this.getType())
-					&& ((RecurringTask) obj).getTitle().equalsIgnoreCase(this.getTitle())
+			return (((RecurringTask) obj).getTitle().equalsIgnoreCase(this.getTitle())
 					&& ((RecurringTask) obj).getStartDate().equals(this.getStartDate())
 					&& ((RecurringTask) obj).getEndDate().equals(this.getEndDate())
-					&& (((RecurringTask) obj).getPeriod() == this.getPeriod());
+					&& (((RecurringTask) obj).getPeriod() == this.getPeriod()));
 		}
 		return false;
 	}

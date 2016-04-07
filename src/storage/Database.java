@@ -20,9 +20,7 @@ public class Database {
 	private static final String DEFAULT_STORAGE_DIR = ".";
 	private static final String CONFIG_FILE_NAME = "./src/document/config.txt";
 	private static final String DIRECTORY_NAME = "%s/data";
-	private static final String FLOAT_LIST_FILE_NAME = "%s/data/floatList.txt";
-	private static final String DEADLINE_LIST_FILE_NAME = "%s/data/deadlineList.txt";
-	private static final String SESSION_LIST_FILE_NAME = "%s/data/sessionList.txt";
+	private static final String NORMAL_LIST_FILE_NAME = "%s/data/normalList.txt";
 	private static final String RECURRING_LIST_FILE_NAME = "%s/data/recurringList.txt";
 	private static final String DONE_LIST_FILE_NAME = "%s/data/doneList.txt";
 	
@@ -30,9 +28,7 @@ public class Database {
 	
 	private static String storagePath;
 	
-	private static File floatListFile;
-	private static File deadlineListFile;
-	private static File sessionListFile;
+	private static File normalListFile;
 	private static File recurringListFile;
 	private static File doneListFile;
 	
@@ -48,9 +44,7 @@ public class Database {
 				throw new IOException("Storage folder not created");
 			}
 		}
-		floatListFile = initFile(String.format(FLOAT_LIST_FILE_NAME, storagePath));
-		deadlineListFile = initFile(String.format(DEADLINE_LIST_FILE_NAME, storagePath));
-		sessionListFile = initFile(String.format(SESSION_LIST_FILE_NAME, storagePath));
+		normalListFile = initFile(String.format(NORMAL_LIST_FILE_NAME, storagePath));
 		recurringListFile = initFile(String.format(RECURRING_LIST_FILE_NAME, storagePath));
 		doneListFile = initFile(String.format(DONE_LIST_FILE_NAME, storagePath));
 	}
@@ -102,9 +96,7 @@ public class Database {
 	}
 	
 	public static void clear() throws IOException {
-		clearFile(floatListFile);
-		clearFile(deadlineListFile);
-		clearFile(sessionListFile);
+		clearFile(normalListFile);
 		clearFile(recurringListFile);
 		clearFile(doneListFile);
 	}
@@ -127,23 +119,13 @@ public class Database {
 	}
 	
 	public static void save() throws IOException {
-		saveFloat();
-		saveDeadline();
-		saveSession();
+		saveNormal();
 		saveRecurring();
 		saveDone();
 	}
 	
-	public static void saveFloat() throws IOException {
-		save(GrandTaskList.getFloatList(), floatListFile);
-	}
-	
-	public static void saveDeadline() throws IOException {
-		save(GrandTaskList.getDeadlineList(), deadlineListFile);
-	}
-	
-	public static void saveSession() throws IOException {
-		save(GrandTaskList.getSessionList(), sessionListFile);
+	public static void saveNormal() throws IOException {
+		save(GrandTaskList.getNormalList(), normalListFile);
 	}
 	
 	public static void saveRecurring() throws IOException {
@@ -155,23 +137,13 @@ public class Database {
 	}
 	
 	public static void load() throws IOException {
-		loadFloat();
-		loadDeadline();
-		loadSession();
+		loadNormal();
 		loadRecurring();
 		loadDone();
 	}
 	
-	public static void loadFloat() throws IOException {
-		load(GrandTaskList.getFloatList(), floatListFile);
-	}
-	
-	public static void loadDeadline() throws IOException {
-		load(GrandTaskList.getDeadlineList(), deadlineListFile);
-	}
-	
-	public static void loadSession() throws IOException {
-		load(GrandTaskList.getSessionList(), sessionListFile);
+	public static void loadNormal() throws IOException {
+		load(GrandTaskList.getNormalList(), normalListFile);
 	}
 	
 	public static void loadRecurring() throws IOException {

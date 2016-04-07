@@ -64,7 +64,7 @@ public class CommandDisplay implements Command {
 			StorageController.setTabType("upcoming");
 			return MESSAGE_UPCOMING;
 		} else {
-			Calendar date = TaskUtil.parseDate(criteria);
+			Calendar date = TaskUtil.stringToCalendar(criteria);
 			if (date != null) {
 				StorageController.setTabType("all");
 				StorageController.displayTasksOnDate(date);

@@ -15,9 +15,24 @@ import logic.tasks.TaskUtil;
 public class TaskList<T extends Task> implements Iterable<T> {
 	
 	private SortedSet<T> taskList;
+	private String name;
 	
 	public TaskList() {
 		taskList = new TreeSet<T>(new TaskUtil.TaskComparator());
+		name = null;
+	}
+	
+	public TaskList(String nameString) {
+		taskList = new TreeSet<T>(new TaskUtil.TaskComparator());
+		name = nameString;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public void setName(String nameString) {
+		name = nameString;
 	}
 	
 	public Iterator<T> iterator() {
@@ -44,41 +59,32 @@ public class TaskList<T extends Task> implements Iterable<T> {
 		return taskList.size();
 	}
 	
-	public TaskList<T> search(Predicate<T> predicate) {
-		TaskList<T> results = new TaskList<T>();
-		for (T task: taskList) {
-			if (predicate.test(task)) {
-				results.add(task);
-			}
-		}
-		return results;
+	public void clear() {
+		taskList.clear();
 	}
 	
-	public TaskList<Task> search(TaskList<Task> results, Predicate<Task> predicate) {
-		for (T task: taskList) {
+	public void merge(TaskList<Task> results, Predicate<Task> predicate) {
+		for (Task task: taskList) {
 			if (predicate.test(task)) {
 				results.add(task);
 			}
 		}
-		return results;
-	}
-
-	public ArrayList<Task> search(ArrayList<Task> results, Predicate<Task> predicate) {
-		for (T task: taskList) {
-			if (predicate.test(task)) {
-				results.add(task);
-			}
-		}
-		return results;
 	}
 	
-	public void merge(TaskList<Task> result) {
+	public void merge(TaskList<Task> results) {
+		Predicate<Task> predicate = new Predicate<Task>() {
+			public boolean test(Task task) {
+				return true;
+			}
+		};
+		merge(results, predicate);
+	}
+	
+	public ArrayList<Task> toArrayList() {
+		ArrayList<Task> result = new ArrayList<Task>();
 		for (Task task: taskList) {
 			result.add(task);
 		}
-	}
-	
-	public void clear() {
-		taskList.clear();
+		return result;
 	}
 }
