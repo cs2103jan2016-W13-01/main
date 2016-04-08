@@ -1,0 +1,33 @@
+
+
+Version:	3.8
+CmdLine:	C:\Users\User\git\main\Diamond.exe --l4j-debug
+WOW64:		yes
+Working dir:	C:\Users\User\git\main\.
+64-bit search:	SOFTWARE\JavaSoft\Java Runtime Environment...
+Check:		SOFTWARE\JavaSoft\Java Runtime Environment\1.7
+Check launcher:	C:\Program Files\Java\jre7\bin\javaw.exe (OK)
+Match:		1.7
+Check:		SOFTWARE\JavaSoft\Java Runtime Environment\1.7.0_80
+Check launcher:	C:\Program Files\Java\jre7\bin\javaw.exe (OK)
+Match:		1.7.0_80
+Check:		SOFTWARE\JavaSoft\Java Runtime Environment\1.8
+Check launcher:	C:\Program Files\Java\jre1.8.0_77\bin\javaw.exe (OK)
+Match:		1.8
+Check:		SOFTWARE\JavaSoft\Java Runtime Environment\1.8.0_77
+Check launcher:	C:\Program Files\Java\jre1.8.0_77\bin\javaw.exe (OK)
+Match:		1.8.0_77
+64-bit search:	SOFTWARE\JavaSoft\Java Development Kit...
+Check:		SOFTWARE\JavaSoft\Java Development Kit\1.7
+Ignore:		1.7
+Check:		SOFTWARE\JavaSoft\Java Development Kit\1.7.0_80
+Ignore:		1.7.0_80
+Check:		SOFTWARE\JavaSoft\Java Development Kit\1.8
+Ignore:		1.8
+Check:		SOFTWARE\JavaSoft\Java Development Kit\1.8.0_77
+Ignore:		1.8.0_77
+Runtime used:	1.8.0_77 (64-bit)
+Launcher:	C:\Program Files\Java\jre1.8.0_77\bin\javaw.exe
+Launcher args:	-jar "C:\Users\User\git\main\Diamond.exe"
+Args length:	41/32768 chars
+Exit code:	0
