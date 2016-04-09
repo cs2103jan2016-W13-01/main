@@ -1,8 +1,9 @@
 package logic.tasks;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
+import java.util.Comparator;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import org.apache.commons.lang.time.DateUtils;
 
@@ -20,16 +21,24 @@ public class RecurringTask extends Task {
 	private static final int EVERY_YEAR = -2;
 	private static final int EVERY_MONTH = -1;
 	private static final int EVERY_WEEK = 7;
-	private Calendar startDate;
-	private Calendar endDate;
+	private static final Comparator<Calendar> DAY_COMP = new Comparator<Calendar>() {
+		public int compare(Calendar date1, Calendar date2) {
+			return DateUtils.truncatedCompareTo(date1, date2, Calendar.DATE);
+		}
+	};
+	
 	private int period;
-	private List<Calendar> exceptions;
+	private SortedSet<Task> doneInstances;
+	private SortedSet<Task> deletedInstances;
 
 	public RecurringTask(String title, Calendar start, Calendar end, int time) {
 		super(title, start, end);
-		exceptions = new ArrayList<Calendar>();
+		period = time;
+		doneInstances = new TreeSet<Task>();
+		deletedInstances = new TreeSet<Task>();
 	}
 	
+	// constructors
 	public RecurringTask(String title, Calendar start, Calendar end) {
 		this(title, start, end, EVERY_DAY);
 	}
@@ -45,17 +54,9 @@ public class RecurringTask extends Task {
 	public RecurringTask(String title) {
 		this(title, Calendar.getInstance(), EVERY_DAY);
 	}
+	// end
 	
-	@Override
-	public Calendar getStartDate() {
-		return startDate;
-	}
-	
-	@Override
-	public Calendar getEndDate() {
-		return endDate;
-	}
-	
+	// methods for period
 	@Override
 	public int getPeriod() {
 		return period;
@@ -75,58 +76,68 @@ public class RecurringTask extends Task {
 		}
 	}
 	
-	public void setStartDate(Calendar newDate) {
-		startDate = newDate;
-	}
-	
 	public void setPeriod(int newPeriod) {
 		period = newPeriod;
 	}
+	// end
 	
 	private int daysUntil(Calendar date) {
-		return TaskUtil.daysBetween(startDate, date);
+		return TaskUtil.daysBetween(getMainDate() , date);
 	}
 	
 	private boolean isSameDayOfMonth(Calendar date) {
-		return startDate.get(Calendar.DAY_OF_MONTH) == date.get(Calendar.DAY_OF_MONTH);
+		return getMainDate().get(Calendar.DAY_OF_MONTH) == date.get(Calendar.DAY_OF_MONTH);
 	}
 	
 	private boolean isSameDayOfYear(Calendar date) {
-		return (startDate.get(Calendar.MONTH) == date.get(Calendar.MONTH))
-				&& (startDate.get(Calendar.DAY_OF_MONTH) == date.get(Calendar.DAY_OF_MONTH));
+		return (getMainDate().get(Calendar.MONTH) == date.get(Calendar.MONTH))
+				&& (getMainDate().get(Calendar.DAY_OF_MONTH) == date.get(Calendar.DAY_OF_MONTH));
 	}
 	
-	private Calendar[] getClosestDate(Calendar[] start, Calendar des, int step) {
-		Calendar[] result = new Calendar[2];
-		if (des == null || start == null) {
+	/*
+	private Calendar getClosestDate(Calendar start, Calendar des, int step) {
+		if (start == null) {
 			return null;
 		}
-		result[0] = Calendar.getInstance();
-		result[0].setTime(start[0].getTime());
-		if (start[1] != null) {
-			result[1] = Calendar.getInstance();
-			result[1].setTime(start[1].getTime());
-		} else {
-			result[1] = null;
+		Calendar count = Calendar.getInstance();
+		count.setTime(start.getTime());
+		while (DAY_COMP.compare(count, des) < 0) {
+			count.add(Calendar.DATE, step);
 		}
-		while (DateUtils.truncatedCompareTo(result[0], des, Calendar.DATE) < 0) {
-			for (Calendar cal: result) {
-				if (cal != null) {
-					cal.add(Calendar.DATE, step);
-				}
+		return count;
+	} */
+	
+	private Calendar[] getClosestDates(Calendar[] starts, Calendar des, int step) {
+		Calendar start = null;
+		Calendar[] results = new Calendar[starts.length];
+		for (int i=starts.length-1; i>=0; i--) {
+			Calendar date = starts[i];
+			results[i] = TaskUtil.cloneDate(date);
+			if (date != null) {
+				start = results[i];
 			}
 		}
-		return result;
+
+		if (start == null) {
+			return results;
+		}
+		while ((DAY_COMP.compare(start, des) < 0) || (!willOccur(start))) {
+			for (Calendar date: results) {
+				TaskUtil.addDate(date, Calendar.DATE, step);
+			}
+		}
+		return results;
 	}
 	
+	/*
 	public boolean willOccurWithinNDays(Calendar date, int n) {
-		Calendar[] closestDates = getClosestDate(new Calendar[]{startDate}, date, period);
-		return TaskUtil.daysBetween(closestDates[0], startDate) <= n;
-	}
+		Calendar closest = getClosestDate(getStartDate(), date, period);
+		return (TaskUtil.daysBetween(date, closest) <= n);
+	} */
 	
 	@Override
 	public boolean willOccur(Calendar date) {
-		if (date.before(startDate)) {
+		if (date.before(getStartDate()) || isException(date)) {
 			return false;
 		}
 		if (period == EVERY_YEAR) {
@@ -140,45 +151,84 @@ public class RecurringTask extends Task {
 	}
 	
 	public Task generate(Calendar date) {
-		Calendar[] start = {startDate, endDate};
-		Calendar[] cal = getClosestDate(start, date, period);
-		Task result = TaskUtil.getInstance(getTitle(), cal[0], cal[1]);
-		return result;
+		Calendar[] dates = {getStartDate(), getEndDate()};
+		Calendar[] results = getClosestDates(dates, date, period);
+		Task instance =  TaskUtil.getInstance(getTitle(), results[0], results[1]);
+		instance.setParent(this);
+		return instance;
+	}
+	public Task generateNearestInstance() {
+		return generate(getMainDate());
 	}
 	
-	public void addException(Calendar day) {
-		boolean contains = isException(day);
-		if (!contains) {
-			exceptions.add(day);
-		}
+	// methods for done instances
+	public SortedSet<Task> getDoneInstances() {
+		return doneInstances;
+	}
+	
+	public boolean addDoneInstance(Task instance) {
+		return doneInstances.add(instance);
 	}
 
-	public boolean isException(Calendar day) {
-		boolean contains = false;
-		for (Calendar date: exceptions) {
-			if (DateUtils.isSameDay(date, day)) {
-				contains = true;
+	public boolean isDoneInstance(Task instance) {
+		return doneInstances.contains(instance);
+	}
+	
+	public boolean removeDoneInstance(Task instance) {
+		return doneInstances.remove(instance);
+	}
+	// end
+	
+	// methods for deleted instances
+	public SortedSet<Task> getDeletedInstances() {
+		return deletedInstances;
+	}
+	
+	public boolean addDeletedInstance(Task instance) {
+		return deletedInstances.add(instance);
+	}
+	
+	public boolean isDeletedInstance(Task instance) {
+		return deletedInstances.contains(instance);
+	}
+	
+	public boolean reviveDeletedInstance(Task instance) {
+		return deletedInstances.remove(instance);
+	}
+	// end
+	
+	public boolean isException(Task instance) {
+		return isDoneInstance(instance) || isDeletedInstance(instance);
+	}
+	
+	public boolean isException(Calendar date) {
+		boolean result = false;
+		for (Task instance: doneInstances) {
+			if (DateUtils.isSameDay(instance.getMainDate(), date)) {
+				result = true;
 				break;
 			}
 		}
-		return contains;
-	}
-	
-	public void removeException(Calendar day) {
-		for (Calendar date: exceptions) {
-			if (DateUtils.isSameDay(date, day)) {
-				exceptions.remove(date);
+		if (result) {
+			return result;
+		}
+		for (Task instance: deletedInstances) {
+			if (DateUtils.isSameDay(instance.getMainDate(), date)) {
+				result = true;
+				break;
 			}
 		}
+		return result;
 	}
 	
+	// equals
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof RecurringTask) {
-			return (((RecurringTask) obj).getTitle().equalsIgnoreCase(this.getTitle())
-					&& ((RecurringTask) obj).getStartDate().equals(this.getStartDate())
-					&& ((RecurringTask) obj).getEndDate().equals(this.getEndDate())
-					&& (((RecurringTask) obj).getPeriod() == this.getPeriod()));
+			return equalTitles(getTitle(), ((RecurringTask) obj).getTitle())
+					&& equalDates(getStartDate(), ((RecurringTask) obj).getStartDate())
+					&& equalDates(getEndDate(), ((RecurringTask) obj).getEndDate())
+					&& (getPeriod() == ((RecurringTask) obj).getPeriod());
 		}
 		return false;
 	}

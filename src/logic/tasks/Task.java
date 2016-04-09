@@ -19,6 +19,7 @@ public class Task implements Cloneable, Comparable<Task> {
 	private boolean done;
 	private Calendar start;
 	private Calendar end;
+	private RecurringTask parent;
 
 	public Calendar getStartDate() {
 		return start;
@@ -33,6 +34,7 @@ public class Task implements Cloneable, Comparable<Task> {
 		start = startDate;
 		end = endDate;
 		done = false;
+		parent = null;
 	}
 	
 	public Calendar getMainDate() {
@@ -64,18 +66,39 @@ public class Task implements Cloneable, Comparable<Task> {
 		return 0;
 	}
 	
+	public RecurringTask getParent() {
+		return parent;
+	}
+	
+	public void setParent(RecurringTask recurTask) {
+		parent = recurTask;
+	}
+	
 	@Override
 	public String toString() {
-		String titleString, startString, endString, isDoneString;
+		String titleString, startString, endString, isDoneString, periodString;
 		titleString = (title  == null)? "unspecified": title;
-		startString = (start == null)? NULL_DATE: DATE_FORMAT.format(start);
-		endString = (end == null)? NULL_DATE: DATE_FORMAT.format(end);
+		startString = (start == null)? NULL_DATE: DATE_FORMAT.format(start.getTime());
+		endString = (end == null)? NULL_DATE: DATE_FORMAT.format(end.getTime());
 		isDoneString = (done == true)? STATUS_DONE: STATUS_UNDONE;
+		RecurringTask parent = getParent();
+		if (parent != null) {
+			periodString = parent.getPeriodString();
+		} else {
+			periodString = "Once";
+		}
 		return isDoneString + FIELD_SEPARATOR + titleString + FIELD_SEPARATOR
-				+ startString + FIELD_SEPARATOR + endString;
+				+ startString + FIELD_SEPARATOR + endString + FIELD_SEPARATOR + periodString;
 	}
 	
 	public boolean willOccur(Calendar date) {
+		if (start == null && end == null) {
+			return false;
+		} else if (start == null) {
+			return DateUtils.isSameDay(end, date);
+		} else if (end == null) {
+			return DateUtils.isSameDay(start, date);
+		}
 		return (DateUtils.truncatedCompareTo(start, date, Calendar.DATE) <= 0)
 				&& (DateUtils.truncatedCompareTo(end, date, Calendar.DATE) >= 0);
 	}
@@ -91,7 +114,7 @@ public class Task implements Cloneable, Comparable<Task> {
 		return false;
 	}
 	
-	private static boolean equalDates(Calendar date1, Calendar date2) {
+	protected static boolean equalDates(Calendar date1, Calendar date2) {
 		if (date1 == null) {
 			return date2 == null;
 		} else {
@@ -99,7 +122,7 @@ public class Task implements Cloneable, Comparable<Task> {
 		}
 	}
 	
-	private static boolean equalTitles(String title1, String title2) {
+	protected static boolean equalTitles(String title1, String title2) {
 		if (title1 == null) {
 			return title2 == null;
 		} else {

@@ -61,6 +61,7 @@ public class TaskUtil {
 		String[] parts = entry.split(FIELD_SEPARATOR);
 		
 		String titleString, startString, endString, doneString, periodString;
+		String doneInstancesString, deletedInstancesString;
 		Calendar startDate;
 		Calendar endDate;
 		boolean isDone;
@@ -71,6 +72,8 @@ public class TaskUtil {
 		endString = findValidLine("end", parts);
 		doneString = findValidLine("status", parts) ;
 		periodString = findValidLine("period", parts);
+		doneInstancesString = findValidLine("done instances", parts);
+		deletedInstancesString = findValidLine("deleted instances", parts);
 		
 		if (titleString == null) {
 			throw new IllegalArgumentException("not a proper entry");
@@ -82,13 +85,29 @@ public class TaskUtil {
 		
 		Task result = getInstance(titleString, startDate, endDate, period);
 		result.setDone(isDone);
+		if (doneInstancesString != null && !doneInstancesString.equals("")) {
+			String[] dateStrings = doneInstancesString.split("\\s+,\\s+");
+			for (String dateString: dateStrings) {
+				Calendar doneDay = stringToCalendar(dateString);
+				Task doneInstance = ((RecurringTask) result).generate(doneDay);
+				((RecurringTask) result).addDoneInstance(doneInstance);
+			}
+		}
+		if (deletedInstancesString != null && !deletedInstancesString.equals("")) {
+			String[] dateStrings = deletedInstancesString.split("\\s+,\\s+");
+			for (String dateString: dateStrings) {
+				Calendar deletedDay = stringToCalendar(dateString);
+				Task deletedInstance = ((RecurringTask) result).generate(deletedDay);
+				((RecurringTask) result).addDeletedInstance(deletedInstance);
+			}
+		}
 		return result;
 	}
 
 	private static String findValidLine(String header, String[] lines) {
 		String fieldString = null;
 		for (String line: lines) {
-			String[] lineParts = line.split(LINE_SEPARATOR);
+			String[] lineParts = line.split(LINE_SEPARATOR, 2);
 			if (lineParts[0].trim().toLowerCase().equals(header)) {
 				fieldString = lineParts[1].trim();
 			} 
@@ -127,6 +146,22 @@ public class TaskUtil {
 		sb.append("start: " + startDateString + FIELD_SEPARATOR + "\r\n");
 		sb.append("end: " + endDateString + FIELD_SEPARATOR + "\r\n");
 		sb.append("status: " + statusString + FIELD_SEPARATOR + "\r\n");
+		sb.append("period: " + task.getPeriod() + FIELD_SEPARATOR + "\r\n");
+		
+		if (task instanceof RecurringTask) {
+			
+			sb.append("done instances: ");
+			for (Task doneInstance: ((RecurringTask) task).getDoneInstances()) {
+				sb.append(calendarToString(doneInstance.getMainDate(), STORAGE_FORMAT) + ", ");
+			}
+			sb.append(FIELD_SEPARATOR + "\r\n");
+			
+			sb.append("deleted instances: ");
+			for (Task deletedInstance: ((RecurringTask) task).getDeletedInstances()) {
+				sb.append(calendarToString(deletedInstance.getMainDate(), STORAGE_FORMAT) + ", ");
+			}
+			sb.append(FIELD_SEPARATOR + "\r\n");
+		}
 		return sb.toString();
 	}
 	
@@ -202,5 +237,21 @@ public class TaskUtil {
 			return false;
 		}
 		return (isAfterDay(mainDate, start) && isBeforeDay(mainDate, end));
+	}
+
+	public static Calendar cloneDate(Calendar date) {
+		if (date == null) {
+			return null;
+		} else {
+			Calendar result = Calendar.getInstance();
+			result.setTime(date.getTime());
+			return result;
+		}
+	}
+	
+	public static void addDate(Calendar date, int field, int step) {
+		if (date != null) {
+			date.add(field, step);
+		}
 	}
 }

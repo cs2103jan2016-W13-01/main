@@ -23,6 +23,7 @@ public class Database {
 	private static final String NORMAL_LIST_FILE_NAME = "%s/data/normalList.txt";
 	private static final String RECURRING_LIST_FILE_NAME = "%s/data/recurringList.txt";
 	private static final String DONE_LIST_FILE_NAME = "%s/data/doneList.txt";
+	private static final String DONE_RECURRING_FILE_NAME = "%s/data/doneRecurringList.txt";
 	
 	private static File configFile;
 	
@@ -31,6 +32,7 @@ public class Database {
 	private static File normalListFile;
 	private static File recurringListFile;
 	private static File doneListFile;
+	private static File doneRecurringFile;
 	
 	public static void retrieveFiles() throws IOException {
 		storagePath = getStorageDirectory();
@@ -47,6 +49,7 @@ public class Database {
 		normalListFile = initFile(String.format(NORMAL_LIST_FILE_NAME, storagePath));
 		recurringListFile = initFile(String.format(RECURRING_LIST_FILE_NAME, storagePath));
 		doneListFile = initFile(String.format(DONE_LIST_FILE_NAME, storagePath));
+		doneRecurringFile = initFile(String.format(DONE_RECURRING_FILE_NAME, storagePath));
 	}
 	
 	static File initFile(String filename) throws IOException {
@@ -77,7 +80,6 @@ public class Database {
 		StorageLogger.initialize();
 		configFile = initFile(CONFIG_FILE_NAME);
 		retrieveFiles();
-		load();
 	}
 
 	public static void setPath(String pathName) throws IOException{
@@ -122,6 +124,7 @@ public class Database {
 		saveNormal();
 		saveRecurring();
 		saveDone();
+		saveDoneRecurring();
 	}
 	
 	public static void saveNormal() throws IOException {
@@ -136,10 +139,15 @@ public class Database {
 		save(GrandTaskList.getDoneList(), doneListFile);
 	}
 	
+	public static void saveDoneRecurring() throws IOException {
+		save(GrandTaskList.getDoneRecurringList(), doneRecurringFile);
+	}
+	
 	public static void load() throws IOException {
 		loadNormal();
 		loadRecurring();
 		loadDone();
+		loadDoneRecurring();
 	}
 	
 	public static void loadNormal() throws IOException {
@@ -154,6 +162,10 @@ public class Database {
 		load(GrandTaskList.getDoneList(), doneListFile);
 	}
 
+	public static void loadDoneRecurring() throws IOException {
+		load(GrandTaskList.getDoneRecurringList(), doneRecurringFile);
+	}
+	
 	@SuppressWarnings("unchecked")
 	public static <T extends Task> void load(TaskList<T> list, File file) throws IOException {
 		
@@ -178,9 +190,11 @@ public class Database {
 		clearFile(file);
 		BufferedWriter bw = initBufferedWriter(file);
 		for (T task: list) {
-			bw.write("{\r\n");
-			bw.write(TaskUtil.convertToStorage(task));
-			bw.write("}\r\n");
+			if (task.getParent() == null) {
+				bw.write("{\r\n");
+				bw.write(TaskUtil.convertToStorage(task));
+				bw.write("}\r\n");
+			}
 		}
 		bw.close();
 	}

@@ -71,7 +71,7 @@ public class TaskProcessor {
 		listToDisplay.clear();
 		for (Task task: taskList) {
 			assert task != null : "Some task in the task list is null";
-			listToDisplay.add(TaskUtil.toString(task));
+			listToDisplay.add(task.toString());
 		}
 	}
 }

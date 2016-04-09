@@ -52,7 +52,7 @@ public abstract class GeneralParser {
 				return TaskUtil.getInstance(title, dates[0]);
 			}
 			else{
-				return TaskUtil.getInstance(title, dates[0],null,recurringPeriod);
+				return TaskUtil.getInstance(title, dates[0],recurringPeriod);
 			}
 		} else {
 			return TaskUtil.getInstance(title, dates[0], dates[1], recurringPeriod);

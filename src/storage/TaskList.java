@@ -43,6 +43,9 @@ public class TaskList<T extends Task> implements Iterable<T> {
 		return taskList;
 	}
 	
+	public boolean contains(Task task) {
+		return taskList.contains(task);
+	}
 	public boolean add(T task) {
 		return taskList.add(task);
 	}
@@ -87,4 +90,5 @@ public class TaskList<T extends Task> implements Iterable<T> {
 		}
 		return result;
 	}
+
 }
