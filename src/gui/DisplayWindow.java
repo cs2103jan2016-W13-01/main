@@ -215,16 +215,16 @@ public class DisplayWindow extends DisplayWindowLayout {
 				Controller.sendCmd(COMMAND_DISPLAY_OPTION);
 			}
 		}, KeyStroke.getKeyStroke(KeyEvent.VK_F6, 0), JComponent.WHEN_IN_FOCUSED_WINDOW); 
-		
+
 	}
-		public void sendCommandWithEnter(){
-			 	getCommandField().addActionListener(new java.awt.event.ActionListener(){
-	            public void actionPerformed(java.awt.event.ActionEvent e){
-					String command = getCommandField().getText();
-					getCommandField().setText("");
-					Controller.sendCmd(command);
-					cmdHistory.add(command);
-					numberOfUp = 0;
-	            }});                                     
-			}  
-		}
+	public void sendCommandWithEnter(){
+		getCommandField().addActionListener(new java.awt.event.ActionListener(){
+			public void actionPerformed(java.awt.event.ActionEvent e){
+				String command = getCommandField().getText();
+				getCommandField().setText("");
+				Controller.sendCmd(command);
+				cmdHistory.add(command);
+				numberOfUp = 0;
+			}});                                     
+	}  
+}
