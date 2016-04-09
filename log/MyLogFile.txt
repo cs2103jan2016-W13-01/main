@@ -2,25 +2,14 @@
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2016-03-16T01:20:57</date>
-  <millis>1458062457538</millis>
-  <sequence>0</sequence>
+  <date>2016-04-09T23:37:22</date>
+  <millis>1460216242808</millis>
+  <sequence>10</sequence>
   <logger>Parser.CommandParser</logger>
   <level>INFO</level>
   <class>Parser.CommandParser</class>
   <method>&lt;init&gt;</method>
-  <thread>1</thread>
+  <thread>14</thread>
   <message>log starting</message>
-</record>
-<record>
-  <date>2016-03-16T01:20:57</date>
-  <millis>1458062457538</millis>
-  <sequence>1</sequence>
-  <logger>Parser.CommandParser</logger>
-  <level>INFO</level>
-  <class>AddParserTest</class>
-  <method>test</method>
-  <thread>1</thread>
-  <message>End of logging</message>
 </record>
 </log>
