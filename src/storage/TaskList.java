@@ -7,7 +7,6 @@ import java.util.TreeSet;
 import java.util.function.Predicate;
 
 import logic.tasks.Task;
-import logic.tasks.TaskUtil;
 
 /* @@author A0112184R
  * This class contains the lists of specific types of tasks
@@ -18,12 +17,12 @@ public class TaskList<T extends Task> implements Iterable<T> {
 	private String name;
 	
 	public TaskList() {
-		taskList = new TreeSet<T>(new TaskUtil.TaskComparator());
+		taskList = new TreeSet<T>();
 		name = null;
 	}
 	
 	public TaskList(String nameString) {
-		taskList = new TreeSet<T>(new TaskUtil.TaskComparator());
+		taskList = new TreeSet<T>();
 		name = nameString;
 	}
 	

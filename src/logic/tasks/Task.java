@@ -77,18 +77,38 @@ public class Task implements Cloneable, Comparable<Task> {
 	@Override
 	public String toString() {
 		String titleString, startString, endString, isDoneString, periodString;
-		titleString = (title  == null)? "unspecified": title;
-		startString = (start == null)? NULL_DATE: DATE_FORMAT.format(start.getTime());
-		endString = (end == null)? NULL_DATE: DATE_FORMAT.format(end.getTime());
-		isDoneString = (done == true)? STATUS_DONE: STATUS_UNDONE;
-		RecurringTask parent = getParent();
-		if (parent != null) {
-			periodString = parent.getPeriodString();
-		} else {
-			periodString = "Once";
-		}
+		titleString = getTitleString();
+		startString = getStartString();
+		endString = getEndString();
+		isDoneString = getStatusString();
+		periodString = getPeriodString();
 		return isDoneString + FIELD_SEPARATOR + titleString + FIELD_SEPARATOR
 				+ startString + FIELD_SEPARATOR + endString + FIELD_SEPARATOR + periodString;
+	}
+
+	public String getPeriodString() {
+		RecurringTask parent = getParent();
+		if (parent != null) {
+			return parent.getPeriodString();
+		} else {
+			return "Once";
+		}
+	}
+
+	public String getStatusString() {
+		return (done == true)? STATUS_DONE: STATUS_UNDONE;
+	}
+
+	public String getEndString() {
+		return (end == null)? NULL_DATE: DATE_FORMAT.format(end.getTime());
+	}
+
+	public String getStartString() {
+		return (start == null)? NULL_DATE: DATE_FORMAT.format(start.getTime());
+	}
+
+	public String getTitleString() {
+		return (title  == null)? "unspecified": title;
 	}
 	
 	public boolean willOccur(Calendar date) {
@@ -158,9 +178,9 @@ public class Task implements Cloneable, Comparable<Task> {
 		if (date1 == null && date2 == null) {
 			return 0;
 		} else if (date1 == null) {
-			return -1;
-		} else if (date2 == null) {
 			return 1;
+		} else if (date2 == null) {
+			return -1;
 		} else {
 			return DateUtils.truncatedCompareTo(date1, date2, Calendar.MINUTE);
 		}

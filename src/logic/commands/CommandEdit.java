@@ -43,9 +43,9 @@ public class CommandEdit implements Command {
 			String titleString = editedTask.getTitle();
 			Calendar start = editedTask.getStartDate();
 			Calendar end = editedTask.getEndDate();
-			int period = ((RecurringTask) editedTask).getPeriod();
+			int period = editedTask.getPeriod();
 			
-			if (titleString.equals("unspecified title")) {
+			if (titleString == null) {
 				titleString = oldTask.getTitle();
 			}
 			if (start == null) {

@@ -32,12 +32,48 @@ public class RecurringTask extends Task {
 	private SortedSet<Task> deletedInstances;
 
 	public RecurringTask(String title, Calendar start, Calendar end, int time) {
-		super(title, start, end);
+		super(title, start, (start == null && end == null)? floatingTimeToDeadline(time): end);
 		period = time;
 		doneInstances = new TreeSet<Task>();
 		deletedInstances = new TreeSet<Task>();
 	}
+
+	private static Calendar floatingTimeToDeadline(int time) {
+		Calendar end = Calendar.getInstance();
+		if (time > 0) {
+			end = getEndOfNDays(time);
+		} else if (time % 2 == 1) {
+			end = getEndOfNMonths((1-time)/2);
+		} else {
+			end = getEndOfNYears(-time/2);
+		}
+		return end;
+	}
+
+	private static Calendar getEndOfNDays(int numDays) {
+		Calendar result = Calendar.getInstance();
+		result.set(Calendar.HOUR_OF_DAY, 23);
+		result.set(Calendar.MINUTE, 59);
+		result.add(Calendar.DATE, numDays);
+		return result;
+	}
 	
+	private static Calendar getEndOfNMonths(int numMonths) {
+		Calendar result = Calendar.getInstance();
+		result.set(Calendar.HOUR_OF_DAY, 23);
+		result.set(Calendar.MINUTE, 59);
+		result.add(Calendar.MONTH, numMonths);
+		return result;
+	}
+	
+	private static Calendar getEndOfNYears(int numYears) {
+		Calendar result = Calendar.getInstance();
+		result.set(Calendar.HOUR_OF_DAY, 23);
+		result.set(Calendar.MINUTE, 59);
+		result.add(Calendar.YEAR, numYears);
+		return result;
+	}
+
 	// constructors
 	public RecurringTask(String title, Calendar start, Calendar end) {
 		this(title, start, end, EVERY_DAY);
@@ -62,6 +98,7 @@ public class RecurringTask extends Task {
 		return period;
 	}
 	
+	@Override
 	public String getPeriodString() {
 		if (period == EVERY_YEAR) {
 			return YEARLY;
