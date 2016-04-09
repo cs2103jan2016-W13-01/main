@@ -3,3 +3,5 @@ data/
 libs/appframework-1.0.3.jar
 src/document/config.txt
 Op2Commands.txt
+/nbproject/private/
+/build/
