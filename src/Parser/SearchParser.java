@@ -20,7 +20,7 @@ public class SearchParser extends GeneralParser {
 			return cmdDetails;
 		} catch(NullPointerException e){
 			e.printStackTrace();
-			CommandParser.parserLogger.log(Level.WARNING, "processing error", e);
+			CommandParser.parserLogger.log(Level.WARNING, "searchparser nullpointer error", e);
 			return new CommandInvalid();
 		}
 

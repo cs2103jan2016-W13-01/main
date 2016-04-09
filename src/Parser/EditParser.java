@@ -17,7 +17,6 @@ public class EditParser extends GeneralParser {
 			Command cmdDetails=null;
 			String[] inputTokens = inputArgs.split(Regex.REGEX_SPACE,2);
 			int inputNum = getInputNum(inputTokens[0]);
-
 			Task task = getEditTask(inputTokens[1]);
 			if(task ==null){
 				return new CommandInvalid();
@@ -26,7 +25,7 @@ public class EditParser extends GeneralParser {
 			return cmdDetails;
 		} catch(NullPointerException e){
 			e.printStackTrace();
-			CommandParser.parserLogger.log(Level.WARNING, "processing error", e);
+			CommandParser.parserLogger.log(Level.WARNING, "edit processing error", e);
 			return new  CommandInvalid();
 		}
 	}
@@ -39,8 +38,12 @@ public class EditParser extends GeneralParser {
 		if(check == true){
 			title=inputArgs.substring(startEndArray[0]+1,startEndArray[1]);
 			notTitleToken = inputArgs.substring(startEndArray[1]+1);
-			System.out.println("this is true");
 		}
+		Task task = consolidateEditFields(inputArgs, notTitleToken, title);
+		return task;
+	}
+
+	private Task consolidateEditFields(String inputArgs, String notTitleToken, String title) {
 		Calendar[] date = getDateArray(notTitleToken);
 		Priority tag = getTag(inputArgs);
 		int recurring = getRecurring(inputArgs);

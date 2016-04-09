@@ -20,7 +20,7 @@ public class SetParser extends GeneralParser{
 			return cmdDetails;
 		} catch(NullPointerException e){
 			e.printStackTrace();
-			CommandParser.parserLogger.log(Level.WARNING, "processing error", e);
+			CommandParser.parserLogger.log(Level.WARNING, "set Parser nullpointer error", e);
 			return new CommandInvalid();
 		}
 

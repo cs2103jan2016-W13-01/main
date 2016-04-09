@@ -4,6 +4,7 @@ package Parser;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.commons.lang.time.DateUtils;
@@ -28,14 +29,24 @@ public class DateParser {
 	//obtain the part of the string that has to do with dates
 	//obtain the part of the string that has to do with times
 	private static Calendar[] getCalendar(String input, ArrayList<String> dateList, ArrayList<String> timeList) {
-		Pattern pattern = Pattern.compile(ALL_DATE_REGEX);
-		Matcher matcher = pattern.matcher(input);	
-		getDays(dateList, matcher); 
-		pattern = Pattern.compile(Regex.TIME_REGEX);
-		matcher = pattern.matcher(input);	
-		getTimes(timeList, matcher); 
+		extractDays(input, dateList); 
+		extractTimes(input, timeList); 
 		Calendar[] cal = sortByDateSize(dateList, timeList);
 		return cal;
+	}
+
+	private static void extractTimes(String input, ArrayList<String> timeList) {
+		Pattern pattern;
+		Matcher matcher;
+		pattern = Pattern.compile(Regex.TIME_REGEX);
+		matcher = pattern.matcher(input);	
+		getTimes(timeList, matcher);
+	}
+
+	private static void extractDays(String input, ArrayList<String> dateList) {
+		Pattern pattern = Pattern.compile(ALL_DATE_REGEX);
+		Matcher matcher = pattern.matcher(input);	
+		getDays(dateList, matcher);
 	}
 	
 	//sort by the number of dates input
@@ -52,6 +63,8 @@ public class DateParser {
 				return dateSizeOne(dateList, timeList);
 			}
 		} catch(NullPointerException e){
+			e.printStackTrace();
+			CommandParser.parserLogger.log(Level.WARNING, "date nullpointer error", e);
 			return convertFromDate(new Date[0]);
 		}
 	}
@@ -148,18 +161,29 @@ public class DateParser {
 	public static Calendar[] convertFromDate(Date[] dates) {
 		Calendar[] result = new Calendar[dates.length];
 		for (int i=0; i<dates.length; i++) {
-			Calendar cal;
-			Date date = dates[i];
-			if (date != null) {
-				cal = Calendar.getInstance();
-				cal.setTime(DateUtils.truncate(date, Calendar.SECOND));
-			} else {
-				cal = null;
-			}
-			result[i] = cal;
+			Calendar cal = obtainCalendarDates(dates, result, i);
 			System.out.println(cal);
 		}
 		return result;
+	}
+
+	private static Calendar obtainCalendarDates(Date[] dates, Calendar[] result, int i) {
+		Calendar cal;
+		Date date = dates[i];
+		cal = getCal(date);
+		result[i] = cal;
+		return cal;
+	}
+
+	private static Calendar getCal(Date date) {
+		Calendar cal;
+		if (date != null) {
+			cal = Calendar.getInstance();
+			cal.setTime(DateUtils.truncate(date, Calendar.SECOND));
+		} else {
+			cal = null;
+		}
+		return cal;
 	}
 
 

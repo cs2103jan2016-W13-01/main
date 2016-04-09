@@ -23,12 +23,7 @@ public class AddParser extends GeneralParser {
 			} else{
 				title = getTitle(inputArgs);
 			}
-			Calendar[] date = getDateArray(notTitleToken);
-			Priority tag = getTag(inputArgs);
-			int recurring = getRecurring(notTitleToken);
-			System.out.println("add reccur "+recurring);
-			Task task = createTask(title,date,tag,recurring);
-			Command cmdDetails = new CommandAdd(task);
+			Command cmdDetails = consolidateAddFields(inputArgs, notTitleToken, title);
 			return cmdDetails;
 
 		} catch(NullPointerException e){
@@ -36,6 +31,16 @@ public class AddParser extends GeneralParser {
 			CommandParser.parserLogger.log(Level.WARNING, "add processing error", e);
 			return new CommandInvalid();
 		}
+	}
+
+	private Command consolidateAddFields(String inputArgs, String notTitleToken, String title) {
+		Calendar[] date = getDateArray(notTitleToken);
+		Priority tag = getTag(inputArgs);
+		int recurring = getRecurring(notTitleToken);
+		System.out.println("add reccur "+recurring);
+		Task task = createTask(title,date,tag,recurring);
+		Command cmdDetails = new CommandAdd(task);
+		return cmdDetails;
 	}
 	
 	//check if there is "<title>"
