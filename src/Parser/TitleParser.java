@@ -1,7 +1,7 @@
 package Parser;
-/* @@author A0121535R
- * parser that obtains the title
- */
+//@@author A0121535R
+// parses the title
+
 public class TitleParser {
 	static final String NO_YEAR_FORMATTED_DATE_REGEX = Regex.START + Regex.DAY + "[-/]" + Regex.MONTH + Regex.END;
 	static final String MISC_NO_YEAR_FORMATTED_DATE_REGEX = Regex.START+Regex.MISC_REGEX+Regex.REGEX_SPACE+ Regex.DAY + "[-/]" + Regex.MONTH + Regex.END;
@@ -19,7 +19,7 @@ public class TitleParser {
 	static final String SECOND_DAY_REGEX=Regex.MISC_REGEX +Regex.REGEX_SPACE+ Regex.DAYNAME+Regex.END+"|"+Regex.DAYNAME+ Regex.END;
 
 	static final String NOT_TITLE_REGEX = "("+ Regex.RECURRING_REGEX +"|"+ FIRST_DATE_REGEX +"|"+ SECOND_DATE_REGEX +"|"+ MISC_FIRST_DATE_REGEX +"|"+ MISC_SECOND_DATE_REGEX +"|"+
-			FIRST_DAY_REGEX +"|"+ SECOND_DAY_REGEX +"|"+ MISC_NUMBERED_DATE_REGEX +"|"+ NUMBERED_DATE_REGEX +"|"+ Regex.TIME_REGEX+"|"+MISC_TIME_REGEX +"|"+Regex.TMR_REGEX+")";
+			FIRST_DAY_REGEX +"|"+ SECOND_DAY_REGEX +"|"+ MISC_NUMBERED_DATE_REGEX +"|"+ NUMBERED_DATE_REGEX +"|"+ Regex.TIME_REGEX+"|"+MISC_TIME_REGEX +")";
 
 	public static String getParsedTitle(String inputArgs) {
 

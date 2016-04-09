@@ -1,7 +1,7 @@
 package Parser;
-/* @@author A0121535R
- * parser class with the basic methods
- */
+//@@author A0121535R
+//parser class with the general methods
+
 import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -50,9 +50,8 @@ public abstract class GeneralParser {
 		} else if (dates.length == 1) {
 			if(recurringPeriod==0){
 				return TaskUtil.getInstance(title, dates[0]);
-			}
-			else{
-				return TaskUtil.getInstance(title, dates[0],recurringPeriod);
+			} else{
+				return TaskUtil.getInstance(title, dates[0],null,recurringPeriod);
 			}
 		} else {
 			return TaskUtil.getInstance(title, dates[0], dates[1], recurringPeriod);
@@ -63,23 +62,20 @@ public abstract class GeneralParser {
 	protected static Priority getTag(String inputArgs) {
 		return Priority.NULL;
 	}
-
+	
+	//obtain the int values that represents the recurring dates
 	protected static int getRecurring(String inputArgs){
 		inputArgs = inputArgs.toLowerCase();
 
 		if(inputArgs.contains("every day")){
 			return 1;
-		}
-		else if(inputArgs.contains("every week")){
+		} else if(inputArgs.contains("every week")){
 			return 7;
-		}
-		else if(inputArgs.contains("every month")){
+		} else if(inputArgs.contains("every month")){
 			return -1;
-		}
-		else if(inputArgs.contains("every year")){
+		} else if(inputArgs.contains("every year")){
 			return -2;
-		}
-		else{
+		} else{
 			int num = getCustomPeriod(inputArgs);
 			return num;
 		}
@@ -120,7 +116,6 @@ public abstract class GeneralParser {
 			num = getPeriod(matcher.group());
 			num=-2*num;
 		}
-
 		return num;
 	}
 

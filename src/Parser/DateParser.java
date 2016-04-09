@@ -1,15 +1,12 @@
 package Parser;
-/* @@author A0121535R
- * parser that obtains the different date Strings then use natty parser to parse
- */
+//@@author A0121535R
+// parser that obtains the different date Strings then use natty parser to parse
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import org.apache.commons.lang.time.DateUtils;
-
 
 public class DateParser {
 
@@ -19,6 +16,7 @@ public class DateParser {
 	static final String ALL_DATE_REGEX = "("+ TitleParser.FIRST_DATE_REGEX +"|"+ TitleParser.SECOND_DATE_REGEX +"|"+ TitleParser.MISC_FIRST_DATE_REGEX +"|"+ TitleParser.MISC_SECOND_DATE_REGEX +"|"+
 			TitleParser.FIRST_DAY_REGEX +"|"+ TitleParser.SECOND_DAY_REGEX +"|"+ TitleParser.MISC_NUMBERED_DATE_REGEX +"|"+ TitleParser.NUMBERED_DATE_REGEX +")";
 	
+	//initial method called by other parser classes
 	public static Calendar[] getDates(String input) {
 		System.out.println("this is input to getDates "+input);
 		ArrayList<String> dateList = new ArrayList<String>();
@@ -26,7 +24,9 @@ public class DateParser {
 		Calendar[] cal =  getCalendar(input, dateList, timeList);
 		return cal;
 	}
-
+	
+	//obtain the part of the string that has to do with dates
+	//obtain the part of the string that has to do with times
 	private static Calendar[] getCalendar(String input, ArrayList<String> dateList, ArrayList<String> timeList) {
 		Pattern pattern = Pattern.compile(ALL_DATE_REGEX);
 		Matcher matcher = pattern.matcher(input);	
@@ -37,25 +37,26 @@ public class DateParser {
 		Calendar[] cal = sortByDateSize(dateList, timeList);
 		return cal;
 	}
-
+	
+	//sort by the number of dates input
+	//e.g 15 may and/or 03/03/2013
 	private static Calendar[] sortByDateSize(ArrayList<String> dateList, ArrayList<String> timeList) {
 		try{
 			if(dateList.size()==2){
 				Date[] dates = dateSizeTwo(dateList, timeList);
 				return convertFromDate(dates); 
-			}
-			else if(dateList.size()==0){
+			} else if(dateList.size()==0){
 				Calendar[] cal = dateSizeZero(timeList);
 				return cal;
-			}
-			else {
+			} else {
 				return dateSizeOne(dateList, timeList);
 			}
-		}catch(NullPointerException e){
+		} catch(NullPointerException e){
 			return convertFromDate(new Date[0]);
 		}
 	}
-
+	
+	//if input date is only one
 	private static Calendar[] dateSizeOne(ArrayList<String> dateList, ArrayList<String> timeList) {
 		String startTime;
 		String endTime;
@@ -65,21 +66,20 @@ public class DateParser {
 			endTime= timeList.get(1) +" "+dateList.get(0);
 			obtainDatesArray(startTime, endTime, dates);
 			return convertFromDate(dates); 
-		}
-		else if(timeList.size()==0){
+		} else if(timeList.size()==0){
 			Date[] dates = new Date[1];
 			startTime = dateList.get(0);
 			dates[0]=NattyDateParser.getDate(startTime);
 			return convertFromDate(dates); 
-		}
-		else{
+		} else{
 			Date[] dates = new Date[1];
 			startTime = timeList.get(0)+" "+dateList.get(0);
 			dates[0]=NattyDateParser.getDate(startTime);
 			return convertFromDate(dates); 
 		}
 	}
-
+	
+	//if no input date
 	private static Calendar[] dateSizeZero(ArrayList<String> timeList) {
 		String startTime;
 		String endTime;
@@ -89,18 +89,17 @@ public class DateParser {
 			endTime= timeList.get(1);
 			obtainDatesArray(startTime, endTime, dates);
 			return convertFromDate(dates); 
-		}
-		else if(timeList.size()==0){
+		} else if(timeList.size()==0){
 			return convertFromDate(new Date[0]);
-		}
-		else{
+		} else{
 			Date[] dates = new Date[1];
 			startTime = timeList.get(0);
 			dates[0]=NattyDateParser.getDate(startTime);
 			return convertFromDate(dates); 
 		}
 	}
-
+	
+	//if input date is two
 	private static Date[] dateSizeTwo(ArrayList<String> dateList, ArrayList<String> timeList) {
 		String startTime;
 		String endTime;
@@ -109,13 +108,11 @@ public class DateParser {
 			startTime = obtainFullDateString(timeList.get(0),dateList.get(0));
 			endTime = obtainFullDateString(timeList.get(1),dateList.get(1));
 			obtainDatesArray(startTime, endTime, dates);
-		}
-		else if(timeList.size()==0){
+		} else if(timeList.size()==0){
 			startTime = dateList.get(0);
 			endTime = dateList.get(1);
 			obtainDatesArray(startTime, endTime, dates);
-		}
-		else{
+		} else{
 			startTime = obtainFullDateString(timeList.get(0),dateList.get(0));
 			endTime = obtainFullDateString(timeList.get(0),dateList.get(1));
 			obtainDatesArray(startTime, endTime, dates);
@@ -123,6 +120,7 @@ public class DateParser {
 		return dates;
 	}
 	
+	//concat the time and date together
 	private static String obtainFullDateString (String time , String date){
 		String string = time+" "+date;
 		return string;
