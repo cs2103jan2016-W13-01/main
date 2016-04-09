@@ -2,8 +2,13 @@
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
+<<<<<<< HEAD
   <date>2016-04-10T00:10:59</date>
   <millis>1460218259129</millis>
+=======
+  <date>2016-04-09T23:37:22</date>
+  <millis>1460216242808</millis>
+>>>>>>> f577cc69807ad83bd6839ccab348e835234bf393
   <sequence>10</sequence>
   <logger>Parser.CommandParser</logger>
   <level>INFO</level>

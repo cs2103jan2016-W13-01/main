@@ -17,7 +17,7 @@ import java.util.GregorianCalendar;
  */
 public class DisplayWindowLayout extends javax.swing.JFrame {
 	private static final long serialVersionUID = 1L;
-	private static final String DIAMOND_ICON_FILE = "%s/src/gui/DiamondIcon.png";
+	private static final String DIAMOND_ICON_FILE = "DiamondIcon.png";
 	/**
 	 * Creates new form DisplayWindow
 	 *
