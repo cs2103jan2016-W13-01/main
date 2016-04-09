@@ -1,8 +1,8 @@
 package Parser;
+//@@author A0121535R
+//Parser for editing a task
+
 import java.util.Calendar;
-/* @@author A0121535R
- * Parser for editing a task
- */
 import java.util.logging.Level;
 import logic.Priority;
 import logic.commands.Command;
@@ -24,16 +24,14 @@ public class EditParser extends GeneralParser {
 			}
 			cmdDetails = new CommandEdit(inputNum,task);
 			return cmdDetails;
-		} catch(Exception e){
+		} catch(NullPointerException e){
 			e.printStackTrace();
 			CommandParser.parserLogger.log(Level.WARNING, "processing error", e);
 			return new  CommandInvalid();
 		}
-
 	}
 
 	private Task getEditTask(String inputArgs) {
-		String titleToken=inputArgs;
 		String notTitleToken = inputArgs;
 		int[] startEndArray = new int[2];
 		String title=null;
@@ -41,7 +39,7 @@ public class EditParser extends GeneralParser {
 		if(check == true){
 			title=inputArgs.substring(startEndArray[0]+1,startEndArray[1]);
 			notTitleToken = inputArgs.substring(startEndArray[1]+1);
-			System.out.println("this is treueeueueueuue");
+			System.out.println("this is true");
 		}
 		Calendar[] date = getDateArray(notTitleToken);
 		Priority tag = getTag(inputArgs);
@@ -50,6 +48,7 @@ public class EditParser extends GeneralParser {
 		return task;
 	}
 	
+	//check if there is "<title>"
 	private static boolean checkAbsoluteTitle(String inputArgs, int[] array) {
 		int absIndexStart = inputArgs.indexOf("\""); 
 		if(absIndexStart>=0){

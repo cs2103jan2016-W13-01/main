@@ -1,10 +1,9 @@
 package Parser;
-/* @@author A0121535R
- * inital parser that sort the input to the respective parser classes
- */
+//@@author A0121535R
+//inital parser called by logic, that sort the input to the respective parser classes
+
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
@@ -25,14 +24,23 @@ import logic.commands.CommandUnmark;
 public class CommandParser {
 
 	public static Logger parserLogger = Logger.getLogger(CommandParser.class.getName());
-	public ArrayList<String> list;
 	public static SimpleDateFormat sdf;
-	HashMap hm;
 	public static CommandParser cmdParser;
-	FileHandler fh; 
+	static FileHandler fh; 
+	private static HashMap<String, String> hashmap;
+
+	private static final String DISPLAY_ALL ="all";
+	private static final String DISPLAY_FLOAT ="float";
+	private static final String DISPLAY_DEADLINE="deadline";
+	private static final String DISPLAY_SESSION="session";
+	private static final String DISPLAY_RECURRING="recurring";
+	private static final String DISPLAY_DONE="done";
+	private static final String DISPLAY_UPCOMING="upcoming";
+	private static final String DISPLAY_UNDONE="undone";
+	private static final String DISPLAY_PAST="past";
+	private static final String DISPLAY_HELP="help";
 
 	public CommandParser() throws SecurityException, IOException {
-		list = new ArrayList<String>();
 		sdf = new SimpleDateFormat("ddMMyyyy HHmm");
 		sdf.setLenient(false);
 		FileHandler fh = new FileHandler("./log/MyLogFile.txt");  
@@ -42,94 +50,112 @@ public class CommandParser {
 
 	}
 
-
 	public static CommandParser getInstance() throws SecurityException, IOException{
 		if (cmdParser == null){
 			cmdParser= new CommandParser();
-			//cmdParser.init();
+			cmdParser.init();
 		}
 		return cmdParser;
 	}
 
-	/*
 	private void init() {
-		hm = new HashMap(); 
-		hashAddAll(hm);
-		hashAddFloat(hm);
-		hashAddDeadline(hm);
-		hashAddSession(hm);
-		hashAddRecurring(hm);
-		hashAddDone(hm);
-		hashAddUndone(hm);
-		hashAddUpcoming(hm);
-		hashAddPast(hm);
-		hashAddHelp(hm);
+		hashmap = new HashMap<String, String>(); 
+		hashAddAll();
+		hashAddFloat();
+		hashAddDeadline();
+		hashAddSession();
+		hashAddRecurring();
+		hashAddDone();
+		hashAddUndone();
+		hashAddUpcoming();
+		hashAddPast();
+		hashAddHelp();
+	}
+
+	private void hashAddHelp() {
+		CommandParser.hashmap.put(DISPLAY_HELP, DISPLAY_HELP);
+		CommandParser.hashmap.put("halp",DISPLAY_HELP);
 	}
 
 
-	private void hashAddHelp(HashMap hm) {
-		// TODO Auto-generated method stub
-		
+	private void hashAddPast() {
+		CommandParser.hashmap.put(DISPLAY_PAST, DISPLAY_PAST);
 	}
 
 
-	private void hashAddPast(HashMap hm) {
-		// TODO Auto-generated method stub
-		
+	private void hashAddUpcoming() {
+		CommandParser.hashmap.put(DISPLAY_UPCOMING, DISPLAY_UPCOMING);
+		CommandParser.hashmap.put("coming", DISPLAY_UPCOMING);
+
 	}
 
 
-	private void hashAddUpcoming(HashMap hm) {
-		// TODO Auto-generated method stub
-		
+	private void hashAddUndone() {
+		CommandParser.hashmap.put(DISPLAY_UNDONE, DISPLAY_UNDONE);
+		CommandParser.hashmap.put("uncompleted", DISPLAY_UNDONE);
+		CommandParser.hashmap.put("unfinished", DISPLAY_UNDONE);
+		CommandParser.hashmap.put("pending", DISPLAY_UNDONE);
+		CommandParser.hashmap.put("incomplete", DISPLAY_UNDONE);
+		CommandParser.hashmap.put("in progress", DISPLAY_UNDONE);
+		CommandParser.hashmap.put("uncomplete", DISPLAY_UNDONE);
+		CommandParser.hashmap.put("incompleted", DISPLAY_UNDONE);
 	}
 
 
-	private void hashAddUndone(HashMap hm) {
-		// TODO Auto-generated method stub
-		
+	private void hashAddDone() {
+		CommandParser.hashmap.put(DISPLAY_DONE, DISPLAY_DONE);
+		CommandParser.hashmap.put("completed", DISPLAY_DONE);
+		CommandParser.hashmap.put("finished", DISPLAY_DONE);
+		CommandParser.hashmap.put("complete", DISPLAY_DONE);
 	}
 
 
-	private void hashAddDone(HashMap hm) {
-		// TODO Auto-generated method stub
-		
+	private void hashAddRecurring() {
+		CommandParser.hashmap.put("repeating", DISPLAY_RECURRING);
+		CommandParser.hashmap.put("routine", DISPLAY_RECURRING);
+		CommandParser.hashmap.put(DISPLAY_RECURRING, DISPLAY_RECURRING);
+		CommandParser.hashmap.put("repeat", DISPLAY_RECURRING);
+		CommandParser.hashmap.put("recur", DISPLAY_RECURRING);
 	}
 
 
-	private void hashAddRecurring(HashMap hm) {
-		// TODO Auto-generated method stub
-		
+	private void hashAddSession() {
+		CommandParser.hashmap.put(DISPLAY_SESSION, DISPLAY_SESSION);
+		CommandParser.hashmap.put("event",  DISPLAY_SESSION);
 	}
 
 
-	private void hashAddSession(HashMap hm) {
-		// TODO Auto-generated method stub
-		
+	private void hashAddDeadline() {
+		CommandParser.hashmap.put(DISPLAY_DEADLINE,DISPLAY_DEADLINE);
+		CommandParser.hashmap.put("normal", DISPLAY_DEADLINE);
+		CommandParser.hashmap.put("norm", DISPLAY_DEADLINE);
 	}
 
 
-	private void hashAddDeadline(HashMap hm) {
-		// TODO Auto-generated method stub
-		
+	private void hashAddFloat() {
+		CommandParser.hashmap.put(DISPLAY_FLOAT, DISPLAY_FLOAT);
+		CommandParser.hashmap.put("undecided",DISPLAY_FLOAT );
+		CommandParser.hashmap.put("floating", DISPLAY_FLOAT);
 	}
 
 
-	private void hashAddFloat(HashMap hm) {
-			hm.put("float", "float");
-			hm.put("undecided", "float");
-			hm.put("floating", "float");
+	private void hashAddAll() {
+		CommandParser.hashmap.put("", DISPLAY_ALL);
+		CommandParser.hashmap.put(DISPLAY_ALL,DISPLAY_ALL);
 	}
 
-
-	private void hashAddAll(HashMap hm) {
-		hm.put("", "all");
-		hm.put("all","all");
-		
-	}
-*/
-
+	//sort the keyword at the start by the commandtypes to the different type of classes
 	public static Command parseInput(String input) {
+		try{
+			if (cmdParser == null){
+				cmdParser= new CommandParser();
+				cmdParser.init();
+			}
+		} catch( SecurityException e){
+			e.printStackTrace();
+		} catch (IOException e){
+			e.printStackTrace();
+		}
 		String[] inputTokens = getToken(input);
 		CommandType cmd = getCmdType(inputTokens[0]);
 		if(inputTokens.length==2){
@@ -170,12 +196,11 @@ public class CommandParser {
 
 				case DISPLAY:
 					return getDisplayCommand(inputTokens[1]);
-					
+
 				default:
 					return new CommandInvalid();
 			}
-		}
-		else if(inputTokens.length==1){
+		} else if(inputTokens.length==1){
 			switch(cmd){
 				case REDO:
 					return new CommandRedo();
@@ -194,8 +219,7 @@ public class CommandParser {
 				default:
 					return new CommandInvalid();
 			}
-		}
-		else{
+		} else{
 			return new CommandInvalid();
 		}
 	}
@@ -206,7 +230,7 @@ public class CommandParser {
 		try{
 			num = Integer.parseInt(input);
 			return num;
-		}catch(NumberFormatException e){
+		} catch(NumberFormatException e){
 			num=-1;
 			return num;
 		}
@@ -215,62 +239,25 @@ public class CommandParser {
 
 	private static Command getDisplayCommand(String input) {
 		input=input.toLowerCase();
-		String returnString="";
-		switch(input){
-			case "all":
-			case "":
-				returnString="all";
-				break;
-			case "float":
-			case "undecided":
-			case "floating":
-				returnString="float";
-				break;
-			case "deadline":
-			case "normal":
-			case "norm":
-				returnString="deadline";
-				break;
-			case "session":
-			case "event":
-				returnString="session";
-				break;
-			case "repeating":
-			case "routine":
-			case "recurring":
-			case "repeat":
-			case "recur":
-				returnString="recurring";
-				break;
-			case "done":
-			case "completed":
-			case "finished":
-				returnString="done";
-				break;
-			case "upcoming":
-			case "coming":
-				returnString="upcoming";
-				break;
-			case "undone":
-			case "uncompleted":
-			case "unfinished":
-			case "pending":
-			case "incomplete":
-			case "in progress":
-				returnString="undone";	
-				break;
-			case "past":
-				returnString ="past";
-				break;
-			case "help":
-			case "halp":	
-				return new CommandHelp();
-			default:
-				returnString = input;
-		}
-		CommandDisplay cmdDisplay = new CommandDisplay(returnString);
-		return cmdDisplay;
+		input=input.trim();
+		System.out.println("input at cmdParser is "+input);
+		String returnString;
 
+		try{
+			returnString = CommandParser.hashmap.get(input);
+		} catch(NullPointerException e){
+			System.out.println("returnstring is null");
+			returnString=null;
+		}
+
+		if(returnString==DISPLAY_HELP){
+			return new CommandHelp();
+		} else if(returnString==null){
+			return new CommandInvalid();
+		} else{
+			CommandDisplay cmdDisplay = new CommandDisplay(returnString);
+			return cmdDisplay;
+		}
 	}
 
 

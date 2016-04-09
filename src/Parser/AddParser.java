@@ -1,10 +1,8 @@
 package Parser;
+//@@author A0121535R
+//Parser that calls the required methods for adding a task
 import java.util.Calendar;
-/* @@author A0121535R
- * Parser for adding a task
- */
 import java.util.logging.Level;
-
 import logic.Priority;
 import logic.commands.Command;
 import logic.commands.CommandAdd;
@@ -22,9 +20,8 @@ public class AddParser extends GeneralParser {
 			if(check == true){
 				title=inputArgs.substring(startEndArray[0]+1,startEndArray[1]);
 				notTitleToken = inputArgs.substring(startEndArray[1]+1);
-			}
-			else{
-			title = getTitle(inputArgs);
+			} else{
+				title = getTitle(inputArgs);
 			}
 			Calendar[] date = getDateArray(notTitleToken);
 			Priority tag = getTag(inputArgs);
@@ -34,13 +31,14 @@ public class AddParser extends GeneralParser {
 			Command cmdDetails = new CommandAdd(task);
 			return cmdDetails;
 
-		}
-		catch(Exception e){
+		} catch(NullPointerException e){
 			e.printStackTrace();
-			CommandParser.parserLogger.log(Level.WARNING, "processing error", e);
+			CommandParser.parserLogger.log(Level.WARNING, "add processing error", e);
 			return new CommandInvalid();
 		}
 	}
+	
+	//check if there is "<title>"
 	private static boolean checkAbsoluteTitle(String inputArgs, int[] array) {
 		int absIndexStart = inputArgs.indexOf("\""); 
 		if(absIndexStart>=0){

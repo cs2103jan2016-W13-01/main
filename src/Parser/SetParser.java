@@ -1,7 +1,7 @@
 package Parser;
-/* @@author A0121535R
-* Parser for setting storage directory
-*/
+//@@author A0121535R
+//Parser for returning storage directory string
+
 import java.util.logging.Level;
 import logic.commands.Command;
 import logic.commands.CommandInvalid;
@@ -18,8 +18,7 @@ public class SetParser extends GeneralParser{
 			}
 			cmdDetails = new CommandSetLocation(stringPath);
 			return cmdDetails;
-		}
-		catch(Exception e){
+		} catch(NullPointerException e){
 			e.printStackTrace();
 			CommandParser.parserLogger.log(Level.WARNING, "processing error", e);
 			return new CommandInvalid();

@@ -1,12 +1,12 @@
 package Parser;
-/* @@author A0121535R
- * class  that contains the general Regex
- */
+//@@author A0121535R
+// class  that contains the general Regex
+
 public class Regex {
 	static final String REGEX_SPACE = "(\\s+)";
 	static final String START = "(?<=^|\\s)";
 	static final String END = "(?=\\s|$)";
-	static final String MISC_REGEX ="(from?|to?|till?|until?|by?|on?|next?|this?|by next?|by this?)?";
+	static final String MISC_REGEX =START+"(from?|to?|till?|until?|by?|on?|next?|this?|by next?|by this?)?";
 	static final String MONTHNAME = "(jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|jun(?:e)?|jul(?:y)?|aug(?:ust)?|sep(?:tember)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)";
 	static final String DATES = "(\\d?\\d)(?:st|rd|nd|th)?";
 	static final String YEAR = "(\\d{2}|\\d{4})?";
@@ -31,7 +31,7 @@ public class Regex {
 	static final String PERIOD_WEEK_REGEX_MUL ="every "+"(\\d+)"+" (week|weeks)" + END;
 	static final String PERIOD_MONTH_REGEX_MUL ="every "+"(\\d+)"+" (month|months)" + END;
 	static final String PERIOD_YEAR_REGEX_MUL ="every "+"(\\d+)"+" (year|years)" + END;
-	static final String RECURRING_REGEX= PERIOD_DAY_REGEX+ "|" +PERIOD_WEEK_REGEX +"|"+PERIOD_MONTH_REGEX+"|"+PERIOD_YEAR_REGEX;
-	static final String RECURRING_REGEX_MUL=PERIOD_DAY_REGEX_MUL+ "|" +PERIOD_WEEK_REGEX_MUL +"|"+PERIOD_MONTH_REGEX_MUL+"|"+PERIOD_YEAR_REGEX_MUL;
+	static final String RECURRING_REGEX= START+PERIOD_DAY_REGEX+ "|"+ START+PERIOD_WEEK_REGEX +"|"+START+PERIOD_MONTH_REGEX+"|"+START+PERIOD_YEAR_REGEX;
+	static final String RECURRING_REGEX_MUL=START+PERIOD_DAY_REGEX_MUL+ "|" +START+PERIOD_WEEK_REGEX_MUL +"|"+START+PERIOD_MONTH_REGEX_MUL+"|"+START+PERIOD_YEAR_REGEX_MUL;
 	static final String RECURRING_REGEX_FINAL = RECURRING_REGEX+"|"+RECURRING_REGEX_MUL;
 }
