@@ -17,7 +17,7 @@ import java.util.GregorianCalendar;
  */
 public class DisplayWindowLayout extends javax.swing.JFrame {
 	private static final long serialVersionUID = 1L;
-	private static final String DIAMOND_ICON_FILE = "%s/src/gui/DiamondIcon.png";
+	private static final String DIAMOND_ICON_FILE = "DiamondIcon.png";
 	/**
 	 * Creates new form DisplayWindow
 	 *
@@ -70,27 +70,27 @@ public class DisplayWindowLayout extends javax.swing.JFrame {
 	public javax.swing.JTable getCompletedTaskTable(){
 		return completedTaskTable;
 	}
-	
+
 	public javax.swing.JTable getAllTaskTable(){
 		return allTaskTable;
 	}
-	
+
 	public javax.swing.JLabel getStatusField(){
 		return statusField;
 	}
-	
+
 	public javax.swing.JTabbedPane getTaskTabbedPane(){
 		return taskTabbedPane;
 	}
-	
+
 	public javax.swing.JTextArea getHelpField(){
 		return helpField;
 	}
-	
+
 	public javax.swing.JTextField getCommandField(){
 		return commandField;
 	}
-	
+
 
 	/**
 	 * This method is called from within the constructor to initialize the form.
@@ -198,9 +198,9 @@ public class DisplayWindowLayout extends javax.swing.JFrame {
 				}
 				) {
 			/**
-					 * 
-					 */
-					private static final long serialVersionUID = 1L;
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			Class[] types = new Class [] {
 					java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
 			};
@@ -389,7 +389,7 @@ public class DisplayWindowLayout extends javax.swing.JFrame {
 						"No.", "Status", "Title", "Starting Time/Deadline", "Ending Time/ Deadline", "Repeating"
 				}
 				) {
-					private static final long serialVersionUID = 1L;
+			private static final long serialVersionUID = 1L;
 			Class[] types = new Class [] {
 					java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
 			};
