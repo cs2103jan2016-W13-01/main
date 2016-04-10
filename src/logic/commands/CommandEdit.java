@@ -2,14 +2,13 @@ package logic.commands;
 
 import logic.ExecutedCommands;
 import logic.LogicLogger;
-import logic.tasks.Deadline;
+import logic.tasks.RecurringTask;
 import logic.tasks.Task;
 import logic.tasks.TaskUtil;
 import storage.StorageController;
 
 import java.io.IOException;
 import java.util.Calendar;
-import java.util.NoSuchElementException;
 import java.util.logging.Level;
 
 /* @@author A0112184R
@@ -40,13 +39,13 @@ public class CommandEdit implements Command {
 		LogicLogger.log(Level.INFO, "editing task: " + editedTask.toString() + " in storage");
 		try {
 			oldTask = StorageController.deleteByIndex(taskNumberToEdit-1);
-			System.out.println(TaskUtil.toString(editedTask));
+			System.out.println(editedTask);
 			String titleString = editedTask.getTitle();
 			Calendar start = editedTask.getStartDate();
 			Calendar end = editedTask.getEndDate();
 			int period = editedTask.getPeriod();
 			
-			if (titleString.equals("unspecified title")) {
+			if (titleString == null) {
 				titleString = oldTask.getTitle();
 			}
 			if (start == null) {
@@ -59,7 +58,7 @@ public class CommandEdit implements Command {
 				period = oldTask.getPeriod();
 			}
 			editedTask = TaskUtil.getInstance(titleString, start, end, period);
-			System.out.println(TaskUtil.toString(editedTask));
+			System.out.println(editedTask);
 			
 			StorageController.addNoSwitchTab(taskNumberToEdit-1, editedTask);
 			ExecutedCommands.addCommand(this);

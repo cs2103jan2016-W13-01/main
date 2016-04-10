@@ -12,31 +12,50 @@ import storage.TaskList;
  */
 public class GrandTaskList {
 	
-	private static TaskList<Task> floatTaskList;
-	private static TaskList<Deadline> deadlineList;
-	private static TaskList<Session> sessionList;
+	private static TaskList<Task> normalTaskList;
 	private static TaskList<RecurringTask> recurringTaskList;
-	
 	private static TaskList<Task> doneTaskList;
+	private static TaskList<Task> recurringInstanceList;
+	private static TaskList<RecurringTask> doneRecurringList;
 	
-	public static void initialize() {
-		floatTaskList = new TaskList<Task>();
-		deadlineList = new TaskList<Deadline>();
-		sessionList = new TaskList<Session>();
-		recurringTaskList = new TaskList<RecurringTask>();
-		doneTaskList = new TaskList<Task>();
+	// initializer
+	public static void initialize() throws IOException {
+		normalTaskList = new TaskList<Task>("normal");
+		recurringTaskList = new TaskList<RecurringTask>("recurring");
+		doneTaskList = new TaskList<Task>("done");
+		doneRecurringList = new TaskList<RecurringTask>("done recurring");
+		recurringInstanceList = new TaskList<Task>("instances");
+		Database.load();
+		initRecurringInstances();
+		initDoneList();
 	}
 	
-	public static TaskList<Task> getFloatList() {
-		return floatTaskList;
+	public static void initRecurringInstances() {
+		for (RecurringTask recur: recurringTaskList) {
+			recurringInstanceList.add(recur.generateNearestInstance());
+		}
 	}
 	
-	public static TaskList<Deadline> getDeadlineList() {
-		return deadlineList;
+	public static void initDoneList() {
+		for (RecurringTask recurTask: recurringTaskList) {
+			addDoneRecurringInstance(recurTask);
+		}
 	}
 	
-	public static TaskList<Session> getSessionList() {
-		return sessionList;
+	public static void addDoneRecurringInstance(RecurringTask recurTask) {
+		for (Task instance: recurTask.getDoneInstances()) {
+			instance.setDone(true);
+			doneTaskList.add(instance);
+		}
+	}
+	
+	// get different types of list
+	public static TaskList<Task> getNormalList() {
+		return normalTaskList;
+	}
+	
+	public static TaskList<Task> getRecurringInstanceList() {
+		return recurringInstanceList;
 	}
 	
 	public static TaskList<RecurringTask> getRecurringList() {
@@ -47,30 +66,66 @@ public class GrandTaskList {
 		return doneTaskList;
 	}
 	
+	public static TaskList<RecurringTask> getDoneRecurringList() {
+		return doneRecurringList;
+	}
+	
 	public static TaskList<Task> getTotalList() {
 		TaskList<Task> results = new TaskList<Task>();
-		deadlineList.merge(results);
-		sessionList.merge(results);
-		recurringTaskList.merge(results);
-		floatTaskList.merge(results);
+		normalTaskList.merge(results);
 		doneTaskList.merge(results);
+		recurringInstanceList.merge(results);
 		return results;
 	}
 	
-	public static TaskList<Task> getNoRecurringList() {
+	public static TaskList<Task> getNonRecurringList() {
 		TaskList<Task> results = new TaskList<Task>();
-		deadlineList.merge(results);
-		sessionList.merge(results);
-		floatTaskList.merge(results);
+		normalTaskList.merge(results);
+		doneTaskList.merge(results);
 		return results;
 	}
 	
 	public static TaskList<Task> getUndoneList() {
 		TaskList<Task> results = new TaskList<Task>();
-		deadlineList.merge(results);
-		sessionList.merge(results);
-		floatTaskList.merge(results);
-		recurringTaskList.merge(results);
+		normalTaskList.merge(results);
+		recurringInstanceList.merge(results);
+		return results;
+	}	
+	
+	public static TaskList<Task> getUpcomingList() {
+		return getUpComingList(2);
+	}
+	
+	public static TaskList<Task> getUpComingList(int numDays) {
+		Calendar date = Calendar.getInstance();
+		TaskList<Task> result = new TaskList<Task>();
+		for (int i=0; i<numDays; i++) {
+			getTasksOnDate(date).merge(result);
+			date.add(Calendar.DATE, 1);
+		}
+		return result;
+	}
+	
+	public static TaskList<Task> search(Predicate<Task> predicate) {
+		TaskList<Task> results = new TaskList<Task>();
+		normalTaskList.merge(results, predicate);
+		recurringInstanceList.merge(results, predicate);
+		doneTaskList.merge(results, predicate);
+		return results;
+	}
+	
+	public static TaskList<Task> getTasksOnDate(Calendar date) {
+		TaskList<Task> results = new TaskList<Task>();
+		for (Task task: normalTaskList) {
+			if (task.willOccur(date)) {
+				results.add(task);
+			}
+		}
+		for (RecurringTask task: recurringTaskList) {
+			if (task.willOccur(date)) {
+				results.add(task.generate(date));
+			}
+		}
 		return results;
 	}
 	
@@ -88,121 +143,131 @@ public class GrandTaskList {
 		}
 	}
 	
-	public static TaskList<Task> getUpcomingList() {
-		return getUpComingList(2);
-	}
-	
-	public static TaskList<Task> getUpComingList(int numDays) {
-		Calendar date = Calendar.getInstance();
-		TaskList<Task> result = new TaskList<Task>();
-		for (int i=0; i<numDays; i++) {
-			date.add(Calendar.DATE, 1);
-			getTasksOnDate(date).merge(result);
+	// operations on tasks
+	public static boolean addNewTask(Task task) throws IOException {
+		boolean result;
+		if (task instanceof RecurringTask) {
+			result = addRecurringTask((RecurringTask) task);
+			Database.saveRecurring();
+		} else if (task.getParent() == null) {
+			result = normalTaskList.add(task);
+			Database.saveNormal();
+		} else {
+			RecurringTask parent = task.getParent();
+			recurringInstanceList.delete(parent.generateNearestInstance());
+			result = parent.reviveDeletedInstance(task);
+			recurringInstanceList.add(parent.generateNearestInstance());
+			Database.saveRecurring();
 		}
 		return result;
 	}
-
-	public static boolean addNewTask(Task task) throws IOException {
-		boolean result;
-		if (task instanceof Deadline) {
-			result = deadlineList.add((Deadline) task);
-			Database.saveDeadline();
-		} else if (task instanceof Session) {
-			result = sessionList.add((Session) task);
-			Database.saveSession();
-		} else if (task instanceof RecurringTask) {
-			result = recurringTaskList.add((RecurringTask) task);
-			Database.saveRecurring();
-		} else {
-			result = floatTaskList.add(task);
-			Database.saveFloat();
+	
+	public static boolean addRecurringTask(RecurringTask recurTask) {
+		boolean result = recurringTaskList.add(recurTask);
+		if (!result) {
+			return result;
 		}
+		for (Task task: doneTaskList) {
+			if (task.getParent() == recurTask) {
+				doneTaskList.delete(task);
+				recurTask.addDoneInstance(task);
+			}
+		}
+		recurringInstanceList.add(recurTask.generateNearestInstance());
 		return result;
 	}
 	
 	public static boolean deleteTask(Task task) throws IOException {
 		boolean result;
-		if (task instanceof Deadline) {
-			result = deadlineList.delete((Deadline) task);
-			Database.saveDeadline();
-		} else if (task instanceof Session) {
-			result = sessionList.delete((Session) task);
-			Database.saveSession();
-		} else if (task instanceof RecurringTask) {
-			result = recurringTaskList.delete((RecurringTask) task);
+		if (task instanceof RecurringTask) {
+			result = deleteRecurringTask((RecurringTask) task);
 			Database.saveRecurring();
+		} else if (task.getParent() == null) {
+			result = normalTaskList.delete(task);
+			Database.saveNormal();
 		} else {
-			result = floatTaskList.delete(task);
-			Database.saveFloat();
+			RecurringTask parent = task.getParent();
+			parent.addDeletedInstance(task);
+			if (recurringInstanceList.contains(task)) {
+				recurringInstanceList.delete(task);
+				recurringInstanceList.add(parent.generateNearestInstance());
+			}
+			Database.saveRecurring();
+			result = true;
 		}
+		return result;
+	}
+	
+	public static boolean deleteRecurringTask(RecurringTask recurTask) throws IOException {
+		boolean result = recurringTaskList.delete(recurTask);
+		if (!result) {
+			return result;
+		}
+		for (Task instance: recurTask.getDoneInstances()) {
+			instance.setParent(null);
+		}
+		Database.saveDone();
 		return result;
 	}
 	
 	public static boolean markDone(Task task) throws IOException {
-		boolean result = deleteTask(task);
-		doneTaskList.add(task);
-		task.markDone();
-		if (task.isRecurrence()) {
-			task.getParent().addException(task.getStartDate());
+		boolean result;
+		task.setDone(true);
+		if (task instanceof RecurringTask) {
+			result = recurringTaskList.delete((RecurringTask) task);
+			doneRecurringList.add((RecurringTask) task);
+			Database.saveRecurring();
+			Database.saveDoneRecurring();
+		} else if (task.getParent() == null) {
+			result = deleteTask(task);
+			doneTaskList.add(task);
+			Database.saveNormal();
+			Database.saveDone();
+		} else {
+			RecurringTask parent = task.getParent();
+			parent.addDoneInstance(task);
+			if (recurringInstanceList.delete(task)) {
+				recurringInstanceList.add(parent.generateNearestInstance());
+			}
+			Database.saveRecurring();
+			result = true;
 		}
-		Database.saveDone();
 		return result;
 	}
 	
 	public static boolean unmarkDone(Task task) throws IOException {
-		boolean result = doneTaskList.delete(task);
-		if (task.isRecurrence()) {
-			task.getParent().removeException(task.getStartDate());
-		} else {
+		boolean result;
+		task.setDone(false);
+		if (task instanceof RecurringTask) {
+			result = doneRecurringList.delete((RecurringTask) task);
+			recurringTaskList.add((RecurringTask) task);
+			Database.saveRecurring();
+			Database.saveDoneRecurring();
+		} else if (task.getParent() == null) {
+			result = doneTaskList.delete(task);
 			addNewTask(task);
-			task.unmark();
-		}
-		Database.saveDone();
-		return result;
-	}
-	
-	public static TaskList<Task> search(Predicate<Task> predicate) {
-		TaskList<Task> results = new TaskList<Task>();
-		deadlineList.search(results, predicate);
-		sessionList.search(results, predicate);
-		recurringTaskList.search(results, predicate);
-		floatTaskList.search(results, predicate);
-		return results;
-	}
-	
-	public static TaskList<Task> getTasksOnDate(Calendar date) {
-		TaskList<Task> result = new TaskList<Task>();
-		for (Task task: deadlineList) {
-			if (TaskUtil.willOccur(task, date)) {
-				result.add(task);
-			}
-		}
-		for (Task task: sessionList) {
-			if (TaskUtil.willOccur(task, date)) {
-				result.add(task);
-			}
-		}
-		for (RecurringTask task: recurringTaskList) {
-			if (task.willOccur(date)) {
-				result.add(task.generate(date));
-			}
+			Database.saveDone();
+		} else {
+			RecurringTask parent = task.getParent();
+			recurringInstanceList.delete(parent.generateNearestInstance());
+			parent.removeDoneInstance(task);
+			recurringInstanceList.add(parent.generateNearestInstance());
+			Database.saveRecurring();
+			result = true;
 		}
 		return result;
 	}
 	
 	public static void clearIncomplete() {
-		deadlineList.clear();
-		sessionList.clear();
-		recurringTaskList.clear();
-		floatTaskList.clear();
+		normalTaskList.clear();
 	}
 	
 	public static void clearAll() throws IOException {
-		deadlineList.clear();
-		sessionList.clear();
 		recurringTaskList.clear();
-		floatTaskList.clear();
+		normalTaskList.clear();
 		doneTaskList.clear();
+		doneRecurringList.clear();
+		recurringInstanceList.clear();
 		Database.clear();
 	}
 }

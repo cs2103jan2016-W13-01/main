@@ -41,10 +41,11 @@ public class StorageController {
 		}
 	}
 	
+	// initializer
 	public static void initialize() throws IOException {
 		displayList = new ArrayList<Task>();
-		GrandTaskList.initialize();
 		Database.initialize();
+		GrandTaskList.initialize();
 		loadDisplayList();
 		setTabType("incomplete");
 	}
@@ -59,24 +60,35 @@ public class StorageController {
 		return displayList.get(index);
 	}
 	
+	// operations on the task list
+	// delete
 	public static Task deleteByIndex(int index) throws IOException {
 		Task task = displayList.get(index);
 		deleteTask(task);
 		return task;
 	}
 	
-	public static Task markDoneByIndex(int index) throws IOException {
-		Task task = displayList.get(index);
-		markDone(task);
-		return task;
+	public static RecurringTask deleteRecurringByIndex(int index) throws IOException {
+		Task instance = displayList.get(index);
+		return deleteRecurringTask(instance);
 	}
 	
-	public static Task unmarkDoneByIndex(int index) throws IOException {
-		Task task = displayList.get(index);
-		unmarkDone(task);
-		return task;
+	public static boolean deleteTask(Task task) throws IOException {
+		boolean result = GrandTaskList.deleteTask(task);
+		displayList.remove(task);
+		return result;
 	}
 	
+	public static RecurringTask deleteRecurringTask(Task instance) throws IOException {
+		RecurringTask parent = instance.getParent();
+		if (parent != null) {
+			GrandTaskList.deleteTask(parent);
+			displayList.remove(instance);
+		}
+		return parent;
+	}
+	
+	// add
 	public static boolean addNewTask(Task task) throws IOException {
 		boolean result = GrandTaskList.addNewTask(task);
 		return result;
@@ -88,10 +100,16 @@ public class StorageController {
 		return result;
 	}
 	
-	public static boolean deleteTask(Task task) throws IOException {
-		boolean result = GrandTaskList.deleteTask(task);
-		displayList.remove(task);
-		return result;
+	// mark and unmark
+	public static Task markDoneByIndex(int index) throws IOException {
+		Task task = displayList.get(index);
+		markDone(task);
+		return task;
+	}
+	
+	public static RecurringTask markDoneRecurringByIndex(int index) throws IOException {
+		Task instance = displayList.get(index);
+		return markDoneRecurring(instance);
 	}
 	
 	public static boolean markDone(Task task) throws IOException {
@@ -100,74 +118,95 @@ public class StorageController {
 		return result;
 	}
 	
+	public static RecurringTask markDoneRecurring(Task instance) throws IOException {
+		RecurringTask parent = instance.getParent();
+		if (parent != null) {
+			GrandTaskList.deleteTask(parent);
+			displayList.remove(instance);
+		}
+		return parent;
+	}
+	
+	public static Task unmarkDoneByIndex(int index) throws IOException {
+		Task task = displayList.get(index);
+		unmarkDone(task);
+		return task;
+	}
+	
 	public static boolean unmarkDone(Task task) throws IOException {
 		boolean result = GrandTaskList.unmarkDone(task);
 		return result;
 	}
 	
+	// methods to get different sub lists
 	public static void displayAllTasks() {
-		displayList.clear();
-		for (Task task: GrandTaskList.getTotalList()) {
-			displayList.add(task);
-		}
+		displayList = GrandTaskList.getTotalList().toArrayList();
 	}
 	
 	public static void displayFloatTasks() {
-		displayList.clear();
-		for (Task task: GrandTaskList.getFloatList()) {
-			displayList.add(task);
-		}
+		Predicate<Task> pred = new Predicate<Task>() {
+			public boolean test(Task task) {
+				return (task.getStartDate() == null && task.getEndDate() == null);
+			}
+		};
+		searchTask(pred);
 	}
 	
 	public static void displayDeadlines() {
-		displayList.clear();
-		for (Task task: GrandTaskList.getDeadlineList()) {
-			displayList.add(task);
-		}
+		Predicate<Task> pred = new Predicate<Task>() {
+			public boolean test(Task task) {
+				return (task.getStartDate() == null && task.getEndDate() != null)
+						|| (task.getStartDate() != null && task.getEndDate() == null);
+			}
+		};
+		searchTask(pred);
 	}
 	
 	public static void displaySessions() {
-		displayList.clear();
-		for (Task task: GrandTaskList.getSessionList()) {
-			displayList.add(task);
-		}
+		Predicate<Task> pred = new Predicate<Task>() {
+			public boolean test(Task task) {
+				return (task.getStartDate() != null && task.getEndDate() != null);
+			}
+		};
+		searchTask(pred);
 	}
 	
 	public static void displayRecurring() {
 		displayList.clear();
-		for (Task task: GrandTaskList.getRecurringList()) {
-			displayList.add(task);
-		}
+		displayList = GrandTaskList.getRecurringInstanceList().toArrayList();
 	}
 	
 	public static void displayTasksOnDate(Calendar date) {
 		displayList.clear();
-		for (Task task: GrandTaskList.getTasksOnDate(date)) {
-			displayList.add(task);
-		}
+		displayList = GrandTaskList.getTasksOnDate(date).toArrayList();
 	}
 	
 	public static void displayUndoneList() {
 		displayList.clear();
-		for (Task task: GrandTaskList.getUndoneList()) {
-			displayList.add(task);
-		}
+		displayList = GrandTaskList.getUndoneList().toArrayList();
 	}
 	
 	public static void displayUpcomingList() {
 		displayList.clear();
-		for (Task task: GrandTaskList.getUpcomingList()) {
-			displayList.add(task);
-		}
+		displayList = GrandTaskList.getUpcomingList().toArrayList();
 	}
 	
 	public static void displayDoneList() {
 		displayList.clear();
-		for (Task task: GrandTaskList.getDoneList()) {
-			displayList.add(task);
-		}
+		displayList = GrandTaskList.getDoneList().toArrayList();
 	}
 	
+	public static void searchTask(Predicate<Task> predicate) {
+		ArrayList<Task> searchResults = new ArrayList<Task>();
+		for (Task task: displayList) {
+			if (predicate.test(task)) {
+				searchResults.add(task);
+			}
+		}
+		displayList = searchResults;
+	}
+	
+	// methods to clear lists
 	public static void clearDisplayedTasks() throws IOException {
 		for (Task task: displayList) {
 			GrandTaskList.deleteTask(task);
@@ -180,6 +219,7 @@ public class StorageController {
 		displayList.clear();
 	}
 	
+	// set and get storage path
 	public static void setPath(String pathName) throws IOException {
 		Database.setPath(pathName);
 	}
@@ -188,16 +228,9 @@ public class StorageController {
 		return Database.getPath();
 	}
 	
-	public static void searchTask(Predicate<Task> predicate) {
-		displayList.clear();
-		for (Task task: GrandTaskList.search(predicate)) {
-			displayList.add(task);
-		}
-	}
-	
 	public static ArrayList<Task> getTimelineList() {
 		ArrayList<Task> result = new ArrayList<Task>();
-		for (Task task: GrandTaskList.getNoRecurringList()) {
+		for (Task task: GrandTaskList.getNonRecurringList()) {
 			Calendar date = task.getStartDate();
 			Calendar nextOneMonth = Calendar.getInstance();
 			nextOneMonth.add(Calendar.DATE, 30);

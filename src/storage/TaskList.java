@@ -7,7 +7,6 @@ import java.util.TreeSet;
 import java.util.function.Predicate;
 
 import logic.tasks.Task;
-import logic.tasks.TaskUtil;
 
 /* @@author A0112184R
  * This class contains the lists of specific types of tasks
@@ -15,9 +14,24 @@ import logic.tasks.TaskUtil;
 public class TaskList<T extends Task> implements Iterable<T> {
 	
 	private SortedSet<T> taskList;
+	private String name;
 	
 	public TaskList() {
-		taskList = new TreeSet<T>(new TaskUtil.TaskComparator());
+		taskList = new TreeSet<T>();
+		name = null;
+	}
+	
+	public TaskList(String nameString) {
+		taskList = new TreeSet<T>();
+		name = nameString;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public void setName(String nameString) {
+		name = nameString;
 	}
 	
 	public Iterator<T> iterator() {
@@ -28,6 +42,9 @@ public class TaskList<T extends Task> implements Iterable<T> {
 		return taskList;
 	}
 	
+	public boolean contains(Task task) {
+		return taskList.contains(task);
+	}
 	public boolean add(T task) {
 		return taskList.add(task);
 	}
@@ -44,41 +61,33 @@ public class TaskList<T extends Task> implements Iterable<T> {
 		return taskList.size();
 	}
 	
-	public TaskList<T> search(Predicate<T> predicate) {
-		TaskList<T> results = new TaskList<T>();
-		for (T task: taskList) {
-			if (predicate.test(task)) {
-				results.add(task);
-			}
-		}
-		return results;
-	}
-	
-	public TaskList<Task> search(TaskList<Task> results, Predicate<Task> predicate) {
-		for (T task: taskList) {
-			if (predicate.test(task)) {
-				results.add(task);
-			}
-		}
-		return results;
-	}
-
-	public ArrayList<Task> search(ArrayList<Task> results, Predicate<Task> predicate) {
-		for (T task: taskList) {
-			if (predicate.test(task)) {
-				results.add(task);
-			}
-		}
-		return results;
-	}
-	
-	public void merge(TaskList<Task> result) {
-		for (Task task: taskList) {
-			result.add(task);
-		}
-	}
-	
 	public void clear() {
 		taskList.clear();
 	}
+	
+	public void merge(TaskList<Task> results, Predicate<Task> predicate) {
+		for (Task task: taskList) {
+			if (predicate.test(task)) {
+				results.add(task);
+			}
+		}
+	}
+	
+	public void merge(TaskList<Task> results) {
+		Predicate<Task> predicate = new Predicate<Task>() {
+			public boolean test(Task task) {
+				return true;
+			}
+		};
+		merge(results, predicate);
+	}
+	
+	public ArrayList<Task> toArrayList() {
+		ArrayList<Task> result = new ArrayList<Task>();
+		for (Task task: taskList) {
+			result.add(task);
+		}
+		return result;
+	}
+
 }

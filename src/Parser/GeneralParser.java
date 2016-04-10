@@ -46,15 +46,10 @@ public abstract class GeneralParser {
 		if (dates.length == 0) {
 			if(title==null){
 				System.out.println("Recurring only ! "+recurringPeriod);
-				return TaskUtil.getInstance(title, null,null,recurringPeriod);
 			}
-			return TaskUtil.getInstance(title, null);
+			return TaskUtil.getInstance(title, recurringPeriod);
 		} else if (dates.length == 1) {
-			if(recurringPeriod==0){
-				return TaskUtil.getInstance(title, dates[0]);
-			} else{
-				return TaskUtil.getInstance(title, dates[0],null,recurringPeriod);
-			}
+			return TaskUtil.getInstance(title, dates[0],recurringPeriod);
 		} else {
 			return TaskUtil.getInstance(title, dates[0], dates[1], recurringPeriod);
 		}

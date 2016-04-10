@@ -15,6 +15,7 @@ import org.apache.commons.lang.time.DateUtils;
  */
 public class TaskUtil {
 	
+	private static final String LINE_SEPARATOR = ":";
 	private static final String NULL_TIME = "-";
 	private static final String FIELD_SEPARATOR = ";";
 	private static final SimpleDateFormat STORAGE_FORMAT = new SimpleDateFormat("HH:mm yyyyMMdd", Locale.ENGLISH);
@@ -22,123 +23,112 @@ public class TaskUtil {
 
 	public static class TaskComparator implements Comparator<Task> {
 		public int compare(Task task1, Task task2) {
-			int dateComp;
-			Calendar date1 = task1.getStartDate();
-			Calendar date2 = task2.getStartDate();
-			if (date1 == null && date2 == null) {
-				dateComp = task1.getTitle().compareToIgnoreCase(task2.getTitle());
-			} else if (date1 == null) {
-				dateComp = 1;
-			} else if (date2 == null) {
-				dateComp = -1;
-			} else {
-				dateComp = date1.compareTo(date2);
-			}
-			if (dateComp != 0) {
-				return dateComp;
-			} else {
-				return task1.getTitle().compareToIgnoreCase(task2.getTitle());
-			}
+			return task1.compareTo(task2);
 		}
 	}
 	
-	public static Task getInstance(String title, Calendar startDate, Calendar endDate, int recurringPeriod) {
-		if (startDate == null && endDate == null && recurringPeriod == 0) {
-			return new Task(title);
-		} else if (recurringPeriod == 0 && endDate == null) {
-			return new Deadline(title, startDate);
-		} else if (recurringPeriod == 0){
-			return new Session(title, startDate, endDate);
+	public static Task getInstance(String title, Calendar startDate, Calendar endDate, int period) {
+		if (period == 0) {
+			return new Task(title, startDate, endDate);
 		} else {
-			return new RecurringTask(title, startDate, endDate, recurringPeriod);
+			return new RecurringTask(title, startDate, endDate, period);
 		}
+	}
+	
+	public static Task getInstance(String title, Calendar endDate, int period) {
+		return getInstance(title, null, endDate, period);
+	}
+	
+	public static Task getInstance(String title, int period) {
+		return getInstance(title, null, period);
+	}
+	
+	public static Task getInstance(String title) {
+		return getInstance(title, 0);
 	}
 	
 	public static Task getInstance(String title, Calendar startDate, Calendar endDate) {
-		return getInstance(title, startDate, endDate, 0);
+		return new Task(title, startDate, endDate);
 	}
 	
-	public static Task getInstance(String title, Calendar startDate, int recurringPeriod) {
-		return getInstance(title, startDate, null, recurringPeriod);
-	}
-	
-	public static Task getInstance(String title, Calendar startDate) {
-		return getInstance(title, startDate, null, 0);
+	public static Task getInstance(String title, Calendar endDate) {
+		return new Task(title, null, endDate);
 	}
 	
 	// @@author A0134185H
-	public static Task parseFromStorage(String entry) {
+	public static Task parseFromStorage(String entry) throws IllegalArgumentException {
 		
 		String[] parts = entry.split(FIELD_SEPARATOR);
-		for (String str: parts) {
-			System.out.println(str);
-		}
-		String titleString = parts[0].split(":", 2)[1].trim();
 		
+		String titleString, startString, endString, doneString, periodString;
+		String doneInstancesString, deletedInstancesString;
 		Calendar startDate;
 		Calendar endDate;
-		
-		try {
-			String startDateString = parts[1].split(":", 2)[1].trim();
-			startDate = parseDate(startDateString);
-		} catch (IndexOutOfBoundsException e) {
-			startDate = null;
-		}
-		
-		try {
-			String endDateString = parts[2].split(":", 2)[1].trim();
-			endDate = parseDate(endDateString);
-		} catch (IndexOutOfBoundsException e) {
-			endDate = null;
-		}
-		
-		int period;
-		try {
-			String periodString = parts[3].split(":", 2)[1].trim();
-			period = Integer.parseInt(periodString);
-		} catch (NumberFormatException e) {
-			period = 0;
-		} catch (IndexOutOfBoundsException e) {
-			period = 0;
-		}
-		
 		boolean isDone;
-		try {
-			String statusString = parts[4].split(":", 2)[1].trim();
-			isDone = statusString.equals("completed");
-		} catch (IndexOutOfBoundsException e) {
-			isDone = false;
-		}
+		int period;
+
+		titleString = findValidLine("title", parts);
+		startString = findValidLine("start", parts);
+		endString = findValidLine("end", parts);
+		doneString = findValidLine("status", parts) ;
+		periodString = findValidLine("period", parts);
+		doneInstancesString = findValidLine("done instances", parts);
+		deletedInstancesString = findValidLine("deleted instances", parts);
 		
-		boolean isRecurrence;
-		try {
-			String isRecurrenceString = parts[5].split(":", 2)[1].trim();
-			isRecurrence = isRecurrenceString.equals("true");
-		} catch (IndexOutOfBoundsException e) {
-			isRecurrence = false;
+		if (titleString == null) {
+			throw new IllegalArgumentException("not a proper entry");
 		}
+		startDate = stringToCalendar(startString);
+		endDate = stringToCalendar(endString);
+		isDone = (doneString == null || doneString.equalsIgnoreCase("incomplete"))? false: true;
+		period = (periodString == null)? 0: Integer.parseInt(periodString);
+		
 		Task result = getInstance(titleString, startDate, endDate, period);
 		result.setDone(isDone);
-		result.setRecurrence(isRecurrence);
+		if (doneInstancesString != null && !doneInstancesString.equals("")) {
+			String[] dateStrings = doneInstancesString.split("\\s+,\\s+");
+			for (String dateString: dateStrings) {
+				Calendar doneDay = stringToCalendar(dateString);
+				Task doneInstance = ((RecurringTask) result).generate(doneDay);
+				((RecurringTask) result).addDoneInstance(doneInstance);
+			}
+		}
+		if (deletedInstancesString != null && !deletedInstancesString.equals("")) {
+			String[] dateStrings = deletedInstancesString.split("\\s+,\\s+");
+			for (String dateString: dateStrings) {
+				Calendar deletedDay = stringToCalendar(dateString);
+				Task deletedInstance = ((RecurringTask) result).generate(deletedDay);
+				((RecurringTask) result).addDeletedInstance(deletedInstance);
+			}
+		}
 		return result;
 	}
+
+	private static String findValidLine(String header, String[] lines) {
+		String fieldString = null;
+		for (String line: lines) {
+			String[] lineParts = line.split(LINE_SEPARATOR, 2);
+			if (lineParts[0].trim().toLowerCase().equals(header)) {
+				fieldString = lineParts[1].trim();
+			} 
+		}
+		return fieldString;
+	}
 	
-	public static Calendar parseDate(String dateString) {
-		if (dateString.equals(NULL_TIME)) {
+	public static Calendar stringToCalendar(String dateString) {
+		if (dateString == null) {
 			return null;
-		} else {
-			Calendar cal = Calendar.getInstance();
-			SimpleDateFormat format = new SimpleDateFormat("HH:mm yyyyMMdd", Locale.ENGLISH);
-			try {
-				cal.setTime(format.parse(dateString));
-				return cal;
-			} catch (ParseException e) {
-				return null;
-			}
+		}
+		try {
+			Calendar result = Calendar.getInstance();
+			result.setTime(STORAGE_FORMAT.parse(dateString));
+			return result;
+		} catch (ParseException e) {
+			return null;
 		}
 	}
 	
-	public static String convertFromDate(Calendar date, DateFormat format) {
+	public static String calendarToString(Calendar date, DateFormat format) {
 		if (date == null) {
 			return NULL_TIME;
 		} else {
@@ -149,63 +139,40 @@ public class TaskUtil {
 	public static String convertToStorage(Task task) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("title: " + task.getTitle() + FIELD_SEPARATOR + "\r\n");
-		String startDateString, endDateString, statusString, isRecurrenceString;
-		startDateString = convertFromDate(task.getStartDate(), STORAGE_FORMAT);
-		endDateString = convertFromDate(task.getEndDate(), STORAGE_FORMAT);
+		String startDateString, endDateString, statusString;
+		startDateString = calendarToString(task.getStartDate(), STORAGE_FORMAT);
+		endDateString = calendarToString(task.getEndDate(), STORAGE_FORMAT);
 		statusString = (task.isDone())? "completed":"incomplete";
-		isRecurrenceString = (task.isRecurrence())? "true":"false";
-		int period = task.getPeriod();
 		sb.append("start: " + startDateString + FIELD_SEPARATOR + "\r\n");
 		sb.append("end: " + endDateString + FIELD_SEPARATOR + "\r\n");
-		sb.append("recurring period: " + period + FIELD_SEPARATOR + "\r\n");
 		sb.append("status: " + statusString + FIELD_SEPARATOR + "\r\n");
-		sb.append("is recurrence: " + isRecurrenceString + FIELD_SEPARATOR + "\r\n");
+		sb.append("period: " + task.getPeriod() + FIELD_SEPARATOR + "\r\n");
+		
+		if (task instanceof RecurringTask) {
+			
+			sb.append("done instances: ");
+			for (Task doneInstance: ((RecurringTask) task).getDoneInstances()) {
+				sb.append(calendarToString(doneInstance.getMainDate(), STORAGE_FORMAT) + ", ");
+			}
+			sb.append(FIELD_SEPARATOR + "\r\n");
+			
+			sb.append("deleted instances: ");
+			for (Task deletedInstance: ((RecurringTask) task).getDeletedInstances()) {
+				sb.append(calendarToString(deletedInstance.getMainDate(), STORAGE_FORMAT) + ", ");
+			}
+			sb.append(FIELD_SEPARATOR + "\r\n");
+		}
 		return sb.toString();
 	}
 	
 	public static String[] toStringArray(Task task) {
 		String isDoneString = task.isDone() ? "complete" : "incomplete";
 		String titleString = task.getTitle();
-		String startString = convertFromDate(task.getStartDate(), DISPLAY_FORMAT);
-		String endString;
-		if (task instanceof Session) {
-			endString = convertFromDate(((Session) task).getEndDate(), DISPLAY_FORMAT);
-		} else if (task instanceof RecurringTask) {
-			endString = convertFromDate(((RecurringTask) task).getEndDate(), DISPLAY_FORMAT);
-		} else {
-			endString = NULL_TIME;
-		}
-		String periodString;
-		if (task instanceof RecurringTask) {
-			periodString = Integer.toString(((RecurringTask) task).getPeriod());
-		} else {
-			periodString = NULL_TIME;
-		}
+		String startString = calendarToString(task.getStartDate(), DISPLAY_FORMAT);
+		String endString = calendarToString(task.getEndDate(), DISPLAY_FORMAT);
+		String periodString = (task instanceof RecurringTask)? ((RecurringTask) task).getPeriodString(): "-";
+		
 		String[] result = {isDoneString, titleString, startString, endString, periodString};
-		return result;
-	}
-	
-	
-	public static String toString(Task task) {
-		String isDoneString = task.isDone() ? "complete" : "incomplete";
-		String titleString = task.getTitle();
-		String startString = convertFromDate(task.getStartDate(), DISPLAY_FORMAT);
-		String endString;
-		if (task instanceof Session) {
-			endString = convertFromDate(((Session) task).getEndDate(), DISPLAY_FORMAT);
-		} else if (task instanceof RecurringTask) {
-			endString = convertFromDate(((RecurringTask) task).getEndDate(), DISPLAY_FORMAT);
-		} else {
-			endString = NULL_TIME;
-		}
-		String periodString;
-		if (task instanceof RecurringTask) {
-			periodString = ((RecurringTask) task).getPeriodString();
-		} else {
-			periodString = NULL_TIME;
-		}
-		String result = isDoneString + "; " + titleString + "; "
-						+ startString + "; " + endString + "; " + periodString;
 		return result;
 	}
 	
@@ -270,5 +237,21 @@ public class TaskUtil {
 			return false;
 		}
 		return (isAfterDay(mainDate, start) && isBeforeDay(mainDate, end));
+	}
+
+	public static Calendar cloneDate(Calendar date) {
+		if (date == null) {
+			return null;
+		} else {
+			Calendar result = Calendar.getInstance();
+			result.setTime(date.getTime());
+			return result;
+		}
+	}
+	
+	public static void addDate(Calendar date, int field, int step) {
+		if (date != null) {
+			date.add(field, step);
+		}
 	}
 }
