@@ -7,9 +7,13 @@ package gui;
 
 import java.util.ArrayList;
 import javax.swing.KeyStroke;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import javax.swing.JComponent;
+import javax.swing.JTabbedPane;
 import javax.swing.table.DefaultTableModel;
 
 /* @@author A0129845U
@@ -38,6 +42,7 @@ public class DisplayWindow extends DisplayWindowLayout {
 	public DisplayWindow() throws Exception {
 		super();
 		initShortCutKey();
+		initTabChange();
 		tabIndex = 0;
 		sendCommandWithEnter();
 	}
@@ -126,6 +131,7 @@ public class DisplayWindow extends DisplayWindowLayout {
 
 	public void displayHelpField(ArrayList<String> tasks) {
 		getTaskTabbedPane().setSelectedIndex(4);
+		getHelpField().setText("");
 		int size = tasks.size();
 		for (int i = 0; i < size; i++) {
 			getHelpField().append(tasks.get(i));
@@ -147,9 +153,6 @@ public class DisplayWindow extends DisplayWindowLayout {
 					getCommandField().setText(cmdHistory.get(size - numberOfUp - 1));
 					numberOfUp++;
 				} 
-				else {
-					getStatusField().setText(MESSAGE_NO_OLDER_COMMAND);
-				}
 			}
 		}, KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
 
@@ -160,9 +163,6 @@ public class DisplayWindow extends DisplayWindowLayout {
 				if ( numberOfUp > 1){
 					getCommandField().setText(cmdHistory.get(size - numberOfUp + 1));
 					numberOfUp--;
-				} 
-				else {
-					getStatusField().setText(MESSAGE_NO_NEWER_COMMAND);
 				}
 			}
 		}, KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
@@ -217,6 +217,42 @@ public class DisplayWindow extends DisplayWindowLayout {
 		}, KeyStroke.getKeyStroke(KeyEvent.VK_F6, 0), JComponent.WHEN_IN_FOCUSED_WINDOW); 
 
 	}
+	
+	private void initTabChange() {
+		JTabbedPane taskPane = getTaskTabbedPane();
+		ChangeListener tabChanger = new ChangeListener() {
+			public void stateChanged(ChangeEvent event) {
+				Object source = event.getSource();
+				if (source == taskPane) {
+					int index = taskPane.getSelectedIndex();
+					switch (index) {
+						case 0:
+							Controller.sendCmd(COMMAND_DISPLAY_INCOMPLETE_TASK_LIST);
+							break;
+						case 1:
+							Controller.sendCmd(COMMAND_DISPLAY_UPCOMING_TASK_LIST);
+							break;
+						case 2:
+							Controller.sendCmd(COMMAND_DISPLAY_COMPLETED_TASK_LIST);
+							break;
+						case 3:
+							Controller.sendCmd(COMMAND_DISPLAY_ALL_TASK_LIST);
+							break;
+						case 4:
+							Controller.sendCmd(COMMAND_DISPLAY_HELP);
+							break;
+						case 5:
+							Controller.sendCmd(COMMAND_DISPLAY_OPTION);
+							break;
+						default:
+							break;
+					}
+				}
+			}
+		};
+		getTaskTabbedPane().addChangeListener(tabChanger);
+	}
+	
 	public void sendCommandWithEnter(){
 		getCommandField().addActionListener(new java.awt.event.ActionListener(){
 			public void actionPerformed(java.awt.event.ActionEvent e){
@@ -226,5 +262,5 @@ public class DisplayWindow extends DisplayWindowLayout {
 				cmdHistory.add(command);
 				numberOfUp = 0;
 			}});                                     
-	}  
+	}
 }
