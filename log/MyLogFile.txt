@@ -2,12 +2,12 @@
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2016-04-10T00:17:15</date>
-  <millis>1460218635172</millis>
+  <date>2016-04-10T18:46:53</date>
+  <millis>1460285213563</millis>
   <sequence>10</sequence>
-  <logger>Parser.CommandParser</logger>
+  <logger>parser.CommandParser</logger>
   <level>INFO</level>
-  <class>Parser.CommandParser</class>
+  <class>parser.CommandParser</class>
   <method>&lt;init&gt;</method>
   <thread>14</thread>
   <message>log starting</message>
