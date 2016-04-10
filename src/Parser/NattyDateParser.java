@@ -1,4 +1,4 @@
-package Parser;
+package parser;
 //@@author A0121535R
 // Parser for using external library natty to get Date
 

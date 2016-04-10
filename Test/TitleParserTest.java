@@ -2,8 +2,8 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import Parser.newTitleParser;
-import Parser.titleParser;
+import parser.newTitleParser;
+import parser.titleParser;
 
 public class TitleParserTest {
 

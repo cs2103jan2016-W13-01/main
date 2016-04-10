@@ -1,11 +1,10 @@
-package Parser;
+package parser;
 //@@author A0121535R
 //parser class with the general methods
 
 import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import logic.Priority;
 import logic.commands.Command;
 import logic.tasks.Task;
 import logic.tasks.TaskUtil;
@@ -15,17 +14,19 @@ public abstract class GeneralParser {
 
 	protected abstract Command parse(String inputArgs);
 
-
+	//Obtain title from input
 	protected String getTitle(String input){
 		String title = TitleParser.getParsedTitle(input);
 		return title;
 	}
 
+	//Obtain dates from input
 	protected Calendar[] getDateArray(String input){
 		Calendar[] dates = DateParser.getDates(input);
 		return dates;
 	}
 
+	//Obtain number from input
 	protected int getInputNum(String inputArgs) {
 		int num = InputNumParser.getInputNum(inputArgs);
 		return num;
@@ -39,7 +40,8 @@ public abstract class GeneralParser {
 		return true;
 	}
 
-	protected Task createTask(String title, Calendar[] dates, Priority tag, int recurringPeriod) {
+	//Return a task object from the given fields
+	protected Task createTask(String title, Calendar[] dates, int recurringPeriod) {
 		System.out.println("Recurring! "+recurringPeriod);
 		if (dates.length == 0) {
 			if(title==null){
@@ -53,12 +55,7 @@ public abstract class GeneralParser {
 		}
 	}
 
-
-	protected static Priority getTag(String inputArgs) {
-		return Priority.NULL;
-	}
-	
-	//obtain the int values that represents the recurring dates
+	//Obtain the int values that represents the recurring dates
 	protected static int getRecurring(String inputArgs){
 		inputArgs = inputArgs.toLowerCase();
 
@@ -77,7 +74,7 @@ public abstract class GeneralParser {
 
 	}
 
-
+	//Obtain user input number recurring periods
 	private static int getCustomPeriod(String inputArgs) {
 
 		int num = 0;

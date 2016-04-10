@@ -9,8 +9,8 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import Parser.CommandParser;
 import logic.commands.Command;
+import parser.CommandParser;
 
 public class TextUI {
 	

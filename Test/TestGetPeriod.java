@@ -2,7 +2,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import Parser.GeneralParser;
+import parser.GeneralParser;
 
 public class TestGetPeriod {
 	

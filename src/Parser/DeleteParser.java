@@ -1,4 +1,4 @@
-package Parser;
+package parser;
 //@@author A0121535R
 //Parser for deleting a task
 
@@ -14,13 +14,15 @@ public class DeleteParser extends GeneralParser {
 	private static DeleteParser dp;
 	private HashSet<String> dpHs;
 	
+	// Returns a Command object 
 	public Command parse(String inputArgs){
 		inputArgs=inputArgs.trim();
 		inputArgs=inputArgs.toLowerCase();
 		String[] inputTokens = inputArgs.split(Regex.REGEX_SPACE);
 		return obtainDeleteCommand(inputArgs, inputTokens);
 	}
-
+	
+	//check the size of the input string after the command type
 	private Command obtainDeleteCommand(String inputArgs, String[] inputTokens) {
 		if(inputTokens.length ==2){
 			return getRecurringDelete(inputArgs, inputTokens);
@@ -28,7 +30,8 @@ public class DeleteParser extends GeneralParser {
 			return getNormalDelete(inputArgs);	
 		}
 	}
-
+	
+	//returns a normal CommandDelete if there is no recurring keyword
 	private Command getNormalDelete(String inputArgs) {
 		Command cmdDetails;
 		try{
@@ -41,12 +44,18 @@ public class DeleteParser extends GeneralParser {
 			return cmdDetails;
 		} catch(NullPointerException e){
 			e.printStackTrace();
-			CommandParser.parserLogger.log(Level.WARNING, "normal delete error", e);
+			CommandParser.parserLogger.log(Level.WARNING, "normal delete nullpointer error", e);
+			cmdDetails = new CommandInvalid();
+			return cmdDetails;
+		} catch(NumberFormatException e){
+			e.printStackTrace();
+			CommandParser.parserLogger.log(Level.WARNING, "normal delete numberFormat error", e);
 			cmdDetails = new CommandInvalid();
 			return cmdDetails;
 		}
 	}
-
+	
+	//returns a reccuring delete if there is recurring keyword
 	private Command getRecurringDelete(String inputArgs, String[] inputTokens) {
 		Command cmdDetails;
 		try{

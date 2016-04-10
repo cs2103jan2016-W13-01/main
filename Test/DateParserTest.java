@@ -6,7 +6,7 @@ import java.text.SimpleDateFormat;
 
 import org.junit.Test;
 
-import Parser.DateParser;
+import parser.DateParser;
 
 public class DateParserTest {
 	

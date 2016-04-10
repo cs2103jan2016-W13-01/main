@@ -1,16 +1,21 @@
-package Parser;
+package parser;
 //@@author A0121535R
 //Parser that calls the required methods for adding a task
 import java.util.Calendar;
 import java.util.logging.Level;
-import logic.Priority;
 import logic.commands.Command;
 import logic.commands.CommandAdd;
 import logic.commands.CommandInvalid;
 import logic.tasks.Task;
 
 public class AddParser extends GeneralParser {
-
+	
+	/* extracts the various parts of a Command from the given string
+	 * and returns a Command object
+	 * 
+	 * can either add <string>
+	 * or add "<title>" <rest of strings>
+	 */
 	public Command parse(String inputArgs){
 		try{
 			String notTitleToken = inputArgs;
@@ -32,18 +37,17 @@ public class AddParser extends GeneralParser {
 			return new CommandInvalid();
 		}
 	}
-
+	
+	//creates an Command object from the given fields
 	private Command consolidateAddFields(String inputArgs, String notTitleToken, String title) {
 		Calendar[] date = getDateArray(notTitleToken);
-		Priority tag = getTag(inputArgs);
 		int recurring = getRecurring(notTitleToken);
-		System.out.println("add reccur "+recurring);
-		Task task = createTask(title,date,tag,recurring);
+		Task task = createTask(title,date,recurring);
 		Command cmdDetails = new CommandAdd(task);
 		return cmdDetails;
 	}
 	
-	//check if there is "<title>"
+	//check if there is "<title>" as well as obtain the index array if true
 	private static boolean checkAbsoluteTitle(String inputArgs, int[] array) {
 		int absIndexStart = inputArgs.indexOf("\""); 
 		if(absIndexStart>=0){
