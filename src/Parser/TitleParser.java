@@ -1,6 +1,6 @@
-package Parser;
+package parser;
 //@@author A0121535R
-// parses the title
+//obtains the title from input string
 
 public class TitleParser {
 	static final String NO_YEAR_FORMATTED_DATE_REGEX = Regex.START + Regex.DAY + "[-/]" + Regex.MONTH + Regex.END;
@@ -26,11 +26,11 @@ public class TitleParser {
 		if (inputArgs == null) {
 			return null;
 		}
-		String title = getCustomTitle(inputArgs);
+		String title = getTitle(inputArgs);
 		return title;
 	}
 
-	private static String getCustomTitle(String inputArgs) {
+	private static String getTitle(String inputArgs) {
 		String[] strTok = inputArgs.split(NOT_TITLE_REGEX,2);
 		System.out.println("title parsed = "+strTok[0]);
 		String title = strTok[0].trim();

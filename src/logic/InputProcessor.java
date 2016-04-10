@@ -5,9 +5,9 @@
  */
 package logic;
 
-import Parser.CommandParser;
 import logic.commands.Command;
 import logic.commands.CommandQueue;
+import parser.CommandParser;
 
 public class InputProcessor {
 	

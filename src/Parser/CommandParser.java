@@ -1,4 +1,4 @@
-package Parser;
+package parser;
 //@@author A0121535R
 //inital parser called by logic, that sort the input to the respective parser classes
 
@@ -238,8 +238,10 @@ public class CommandParser {
 		CommandParser.displayHashmap.put("", DISPLAY_ALL);
 		CommandParser.displayHashmap.put(DISPLAY_ALL,DISPLAY_ALL);
 	}
-
-	//sort the keyword at the start by the commandtypes to the different type of classes
+	
+	/*
+	 * It obtains the command type then calls the other parser classes to obtain the Command Object.
+	*/
 	public static Command parseInput(String input) {
 		try{
 			if (cmdParser == null){
@@ -301,7 +303,7 @@ public class CommandParser {
 					return dp.parse(inputTokens[1]);
 
 				case EDIT:
-					EditParser ep = new EditParser();
+					EditParser ep = EditParser.getInstance();
 					return ep.parse(inputTokens[1]);
 
 				case MARK:

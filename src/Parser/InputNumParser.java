@@ -1,4 +1,4 @@
-package Parser;
+package parser;
 //@@author A0121535R
 //class for getting an input number
 

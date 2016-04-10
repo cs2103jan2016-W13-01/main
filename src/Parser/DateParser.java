@@ -1,4 +1,4 @@
-package Parser;
+package parser;
 //@@author A0121535R
 // parser that obtains the different date Strings then use natty parser to parse
 import java.util.ArrayList;
@@ -19,22 +19,23 @@ public class DateParser {
 	
 	//initial method called by other parser classes
 	public static Calendar[] getDates(String input) {
-		System.out.println("this is input to getDates "+input);
 		ArrayList<String> dateList = new ArrayList<String>();
 		ArrayList<String> timeList = new ArrayList<String>();
 		Calendar[] cal =  getCalendar(input, dateList, timeList);
 		return cal;
 	}
 	
-	//obtain the part of the string that has to do with dates
-	//obtain the part of the string that has to do with times
+	/*obtain the part of the string that has to do with dates
+	* and obtain the part of the string that has to do with times
+	*/
 	private static Calendar[] getCalendar(String input, ArrayList<String> dateList, ArrayList<String> timeList) {
 		extractDays(input, dateList); 
 		extractTimes(input, timeList); 
 		Calendar[] cal = sortByDateSize(dateList, timeList);
 		return cal;
 	}
-
+	
+	//extract any part of the string related to time
 	private static void extractTimes(String input, ArrayList<String> timeList) {
 		Pattern pattern;
 		Matcher matcher;
@@ -42,7 +43,8 @@ public class DateParser {
 		matcher = pattern.matcher(input);	
 		getTimes(timeList, matcher);
 	}
-
+	
+	//extract any part of the string related to day
 	private static void extractDays(String input, ArrayList<String> dateList) {
 		Pattern pattern = Pattern.compile(ALL_DATE_REGEX);
 		Matcher matcher = pattern.matcher(input);	
@@ -157,7 +159,8 @@ public class DateParser {
 			dateList.add(matcher.group());
 		}
 	}
-
+	
+	//convert date object to calendar object
 	public static Calendar[] convertFromDate(Date[] dates) {
 		Calendar[] result = new Calendar[dates.length];
 		for (int i=0; i<dates.length; i++) {
@@ -174,6 +177,7 @@ public class DateParser {
 		result[i] = cal;
 		return cal;
 	}
+	
 
 	private static Calendar getCal(Date date) {
 		Calendar cal;
