@@ -1,7 +1,9 @@
 package logic.commands;
 
 public class CommandDeleteRecurring implements Command {
+	
 	private int taskNumberToDelete;
+	
 	public CommandDeleteRecurring(int num){
 		taskNumberToDelete = num;
 	}

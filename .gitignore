@@ -5,3 +5,4 @@ src/document/config.txt
 Op2Commands.txt
 /nbproject/private/
 /build/
+log/MyLogFile.txt
