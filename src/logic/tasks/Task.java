@@ -74,6 +74,22 @@ public class Task implements Cloneable, Comparable<Task> {
 		parent = recurTask;
 	}
 	
+	public String toMessage() {
+		String titleString, timeString, periodString;
+		titleString = getTitleString();
+		periodString = getPeriodString().equals(NULL_DATE)? "": getPeriodString();
+		if (start != null && end != null) {
+			timeString = "from " + getStartString() + " to " + getEndString();
+		} else if (start != null) {
+			timeString = "at " + getStartString();
+		} else if (end != null) {
+			timeString = "by " + getEndString();
+		} else {
+			timeString = "";
+		}
+		return titleString + " " + timeString + " " + periodString;
+	}
+	
 	@Override
 	public String toString() {
 		String titleString, startString, endString, isDoneString, periodString;

@@ -68,24 +68,24 @@ public class StorageController {
 		return task;
 	}
 	
-	public static RecurringTask deleteRecurringByIndex(int index) throws IOException {
-		Task instance = displayList.get(index);
-		return deleteRecurringTask(instance);
-	}
-	
 	public static boolean deleteTask(Task task) throws IOException {
 		boolean result = GrandTaskList.deleteTask(task);
 		displayList.remove(task);
 		return result;
 	}
 	
-	public static RecurringTask deleteRecurringTask(Task instance) throws IOException {
-		RecurringTask parent = instance.getParent();
-		if (parent != null) {
-			GrandTaskList.deleteTask(parent);
+	public static RecurringTask deleteRecurringTask(RecurringTask recurTask) throws IOException {
+		GrandTaskList.deleteTask(recurTask);
+		ArrayList<Task> listToDelete = new ArrayList<Task>();
+		for (Task instance: displayList) {
+			if (instance.getParent() == recurTask && !instance.isDone()) {
+					listToDelete.add(instance);
+			}
+		}
+		for (Task instance: listToDelete) {
 			displayList.remove(instance);
 		}
-		return parent;
+		return recurTask;
 	}
 	
 	// add
@@ -106,11 +106,7 @@ public class StorageController {
 		markDone(task);
 		return task;
 	}
-	
-	public static RecurringTask markDoneRecurringByIndex(int index) throws IOException {
-		Task instance = displayList.get(index);
-		return markDoneRecurring(instance);
-	}
+
 	
 	public static boolean markDone(Task task) throws IOException {
 		boolean result = GrandTaskList.markDone(task);
@@ -118,13 +114,18 @@ public class StorageController {
 		return result;
 	}
 	
-	public static RecurringTask markDoneRecurring(Task instance) throws IOException {
-		RecurringTask parent = instance.getParent();
-		if (parent != null) {
-			GrandTaskList.deleteTask(parent);
+	public static boolean markDoneRecurring(RecurringTask recurTask) throws IOException {
+		boolean result = GrandTaskList.markDone(recurTask);
+		ArrayList<Task> markedList = new ArrayList<Task>();
+		for (Task instance: displayList) {
+			if (instance.getParent() == recurTask && !instance.isDone()) {
+				markedList.add(instance);
+			}
+		}
+		for (Task instance: markedList) {
 			displayList.remove(instance);
 		}
-		return parent;
+		return result;
 	}
 	
 	public static Task unmarkDoneByIndex(int index) throws IOException {
@@ -135,6 +136,16 @@ public class StorageController {
 	
 	public static boolean unmarkDone(Task task) throws IOException {
 		boolean result = GrandTaskList.unmarkDone(task);
+		return result;
+	}
+	
+	public static boolean unmarkDoneRecurring(RecurringTask recurTask) throws IOException {
+		boolean result = GrandTaskList.unmarkDone(recurTask);
+		for (Task instance: displayList) {
+			if (instance.getParent() == recurTask && !recurTask.isDoneInstance(instance)) {
+				unmarkDone(instance);
+			}
+		}
 		return result;
 	}
 	

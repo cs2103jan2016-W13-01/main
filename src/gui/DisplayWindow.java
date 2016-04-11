@@ -23,8 +23,6 @@ import javax.swing.table.DefaultTableModel;
 public class DisplayWindow extends DisplayWindowLayout {
 
 	private static final long serialVersionUID = 1L;
-	private static final String MESSAGE_NO_OLDER_COMMAND = "No more older command";
-	private static final String MESSAGE_NO_NEWER_COMMAND = "No more newer command";
 	private static final String COMMAND_DISPLAY_INCOMPLETE_TASK_LIST = "display incomplete";
 	private static final String COMMAND_DISPLAY_UPCOMING_TASK_LIST = "display upcoming";     
 	private static final String COMMAND_DISPLAY_COMPLETED_TASK_LIST = "display completed";

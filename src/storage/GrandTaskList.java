@@ -1,7 +1,9 @@
 package storage;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.function.Predicate;
 
 import logic.tasks.*;
@@ -149,6 +151,9 @@ public class GrandTaskList {
 		if (task instanceof RecurringTask) {
 			result = addRecurringTask((RecurringTask) task);
 			Database.saveRecurring();
+		} else if (task.isDone()) {
+			result = doneTaskList.add(task);
+			Database.saveDone();
 		} else if (task.getParent() == null) {
 			result = normalTaskList.add(task);
 			Database.saveNormal();
@@ -169,9 +174,11 @@ public class GrandTaskList {
 		}
 		for (Task task: doneTaskList) {
 			if (task.getParent() == recurTask) {
-				doneTaskList.delete(task);
 				recurTask.addDoneInstance(task);
 			}
+		}
+		for (Task task: recurTask.getDoneInstances()) {
+			doneTaskList.delete(task);
 		}
 		recurringInstanceList.add(recurTask.generateNearestInstance());
 		return result;
@@ -206,6 +213,15 @@ public class GrandTaskList {
 		for (Task instance: recurTask.getDoneInstances()) {
 			instance.setParent(null);
 		}
+		List<Task> deletedInstances = new ArrayList<Task>();
+		for (Task instance: recurringInstanceList) {
+			if (instance.getParent() == recurTask) {
+				deletedInstances.add(instance);
+			}
+		}
+		for (Task instance: deletedInstances) {
+			recurringInstanceList.delete(instance);
+		}
 		Database.saveDone();
 		return result;
 	}
@@ -226,11 +242,11 @@ public class GrandTaskList {
 		} else {
 			RecurringTask parent = task.getParent();
 			parent.addDoneInstance(task);
+			result = doneTaskList.add(task);
 			if (recurringInstanceList.delete(task)) {
 				recurringInstanceList.add(parent.generateNearestInstance());
 			}
 			Database.saveRecurring();
-			result = true;
 		}
 		return result;
 	}
@@ -251,9 +267,9 @@ public class GrandTaskList {
 			RecurringTask parent = task.getParent();
 			recurringInstanceList.delete(parent.generateNearestInstance());
 			parent.removeDoneInstance(task);
+			result = doneTaskList.delete(task);
 			recurringInstanceList.add(parent.generateNearestInstance());
 			Database.saveRecurring();
-			result = true;
 		}
 		return result;
 	}

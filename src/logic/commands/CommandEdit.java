@@ -2,7 +2,6 @@ package logic.commands;
 
 import logic.ExecutedCommands;
 import logic.LogicLogger;
-import logic.tasks.RecurringTask;
 import logic.tasks.Task;
 import logic.tasks.TaskUtil;
 import storage.StorageController;
@@ -23,12 +22,13 @@ public class CommandEdit implements Command {
 	private static final String MESSAGE_UNDO_ERROR = "Error when undoing action: edit %1$s";
 	
 	private int taskNumberToEdit;
-	private Task editedTask;
+	private Task newTask;
 	private Task oldTask;
+	private String oldTab;
 	
 	public CommandEdit(int taskNumber,Task task) {
 		taskNumberToEdit = taskNumber;
-		editedTask = task;
+		newTask = task;
 	}
 	
 	public CommandType getType() {
@@ -36,14 +36,14 @@ public class CommandEdit implements Command {
 	}
 	
 	public String execute() {
-		LogicLogger.log(Level.INFO, "editing task: " + editedTask.toString() + " in storage");
+		LogicLogger.log(Level.INFO, "editing task: " + newTask.toString() + " in storage");
 		try {
+			oldTab = StorageController.getTabType();
 			oldTask = StorageController.deleteByIndex(taskNumberToEdit-1);
-			System.out.println(editedTask);
-			String titleString = editedTask.getTitle();
-			Calendar start = editedTask.getStartDate();
-			Calendar end = editedTask.getEndDate();
-			int period = editedTask.getPeriod();
+			String titleString = newTask.getTitle();
+			Calendar start = newTask.getStartDate();
+			Calendar end = newTask.getEndDate();
+			int period = newTask.getPeriod();
 			
 			if (titleString == null) {
 				titleString = oldTask.getTitle();
@@ -57,13 +57,12 @@ public class CommandEdit implements Command {
 			if (period == 0) {
 				period = oldTask.getPeriod();
 			}
-			editedTask = TaskUtil.getInstance(titleString, start, end, period);
-			System.out.println(editedTask);
+			newTask = TaskUtil.getInstance(titleString, start, end, period);
 			
-			StorageController.addNoSwitchTab(taskNumberToEdit-1, editedTask);
+			StorageController.addNoSwitchTab(taskNumberToEdit-1, newTask);
 			ExecutedCommands.addCommand(this);
 			LogicLogger.log(Level.INFO, "edited successfully");
-			return String.format(MESSAGE_EDITED, editedTask.toString());
+			return String.format(MESSAGE_EDITED, newTask.toMessage());
 		} catch (IndexOutOfBoundsException d) {
 			LogicLogger.log(Level.WARNING, "Task not found");
 			return String.format(MESSAGE_TASK_NOT_FOUND, taskNumberToEdit);
@@ -76,12 +75,13 @@ public class CommandEdit implements Command {
 	
 	public String undo() {
 		try {
-			StorageController.deleteTask(editedTask);
+			StorageController.setTabType(oldTab);
+			StorageController.deleteTask(newTask);
 			StorageController.addNoSwitchTab(taskNumberToEdit-1, oldTask);
-			return String.format(MESSAGE_UNDONE, oldTask.toString());
+			return String.format(MESSAGE_UNDONE, oldTask.toMessage());
 		} catch (IOException e) {
 			e.printStackTrace();
-			return String.format(MESSAGE_UNDO_ERROR, oldTask.toString());
+			return String.format(MESSAGE_UNDO_ERROR, oldTask.toMessage());
 		}
 	}
 }

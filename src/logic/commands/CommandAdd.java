@@ -13,7 +13,7 @@ import storage.StorageController;
  */
 public class CommandAdd implements Command {
 	
-	private static final String MESSAGE_TASK_ADDED = "Task added successfully";
+	private static final String MESSAGE_TASK_ADDED = "Task added successfully: %s";
 	private static final String MESSAGE_ADD_ERROR = "Error encountered when adding task. Please try again.";
 	private static final String MESSAGE_UNDONE = "Action undone: add %1$s";
 	private static final String MESSAGE_UNDO_ERROR = "Failed to undo action: add %1$s";
@@ -40,7 +40,7 @@ public class CommandAdd implements Command {
 			StorageController.setTabType("incomplete");
 			ExecutedCommands.addCommand(this);
 			LogicLogger.log(Level.INFO, "added successfully");
-			return MESSAGE_TASK_ADDED;
+			return String.format(MESSAGE_TASK_ADDED, task.toMessage());
 		} catch (IOException e) {
 			LogicLogger.log(Level.SEVERE, "Error when adding to storage:");
 			LogicLogger.log(Level.SEVERE, e.toString());
@@ -53,11 +53,11 @@ public class CommandAdd implements Command {
 		try {
 			StorageController.deleteTask(task);
 			LogicLogger.log(Level.INFO, "undone successfully");
-			return String.format(MESSAGE_UNDONE, task.toString());
+			return String.format(MESSAGE_UNDONE, task.toMessage());
 		} catch (IOException e) {
 			LogicLogger.log(Level.SEVERE, "Error when deleting from storage:");
 			LogicLogger.log(Level.SEVERE, e.toString());
-			return String.format(MESSAGE_UNDO_ERROR, task.toString());
+			return String.format(MESSAGE_UNDO_ERROR, task.toMessage());
 		}
 	}
 	

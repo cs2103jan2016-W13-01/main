@@ -10,7 +10,7 @@ import java.util.Scanner;
  */
 public class CommandHelp implements Command{
 	
-	private static final String TOPIC_SEPARATOR = "--------------------------------------\r\n";
+	private static final String TOPIC_SEPARATOR = "\r\n==================================================================\r\n";
 	private static final String MESSAGE_HELP = "Welcome to help topics!";
 	private static final String MESSAGE_HELP_TOPIC = "Welcome to help topic for: %s!";
 	private static final String HELP_FILE_NAME = "./src/document/help.txt";
@@ -75,8 +75,12 @@ public class CommandHelp implements Command{
 			Scanner sc = new Scanner(new File(HELP_FILE_NAME));
 			boolean found = false;
 			while (sc.hasNextLine()) {
-				found = foundAndAppend(topicName, result, sc, found);
+				boolean match = foundAndAppend(topicName, result, sc);
+				if (!found) {
+					found = match;
+				}
 			}
+			sc.close();
 			if (found) {
 				return result;
 			} else {
@@ -91,15 +95,15 @@ public class CommandHelp implements Command{
 	}
 
 	private boolean foundAndAppend(String topicName, ArrayList<String> list,
-										Scanner sc, boolean found)
+										Scanner sc)
 	{
+		boolean found = false;
 		String open = sc.nextLine();
 		if (open.trim().equals("{")) {
 			String line = sc.nextLine();
 			found = line.split(":")[1].trim().equals(topicName);
 			if (found) {
 				StringBuilder sb = new StringBuilder();
-				found = true;
 				while (!line.trim().equals("}")) {
 					sb.append(line);
 					sb.append("\r\n");

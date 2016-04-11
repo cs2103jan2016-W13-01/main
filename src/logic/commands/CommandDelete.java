@@ -37,7 +37,7 @@ public class CommandDelete implements Command {
 			LogicLogger.log(Level.INFO, "deleting task: " + deletedTask.toString() + " from storage");
 			ExecutedCommands.addCommand(this);
 			LogicLogger.log(Level.INFO, "deleted successfully");
-			return String.format(MESSAGE_TASK_DELETED, deletedTask.toString());
+			return String.format(MESSAGE_TASK_DELETED, deletedTask.toMessage());
 		} catch (IndexOutOfBoundsException d) {
 			LogicLogger.log(Level.WARNING, "Task not found");
 			return String.format(MESSAGE_TASK_NOT_FOUND, taskNumberToDelete);
@@ -54,11 +54,11 @@ public class CommandDelete implements Command {
 			StorageController.addNewTask(deletedTask);
 			StorageController.setTabType("incomplete");
 			LogicLogger.log(Level.INFO, "undone successfully");
-			return String.format(MESSAGE_UNDONE, deletedTask.toString());
+			return String.format(MESSAGE_UNDONE, deletedTask.toMessage());
 		} catch (IOException e) {
 			LogicLogger.log(Level.SEVERE, "Error when adding from storage:");
 			LogicLogger.log(Level.SEVERE, e.toString());
-			return String.format(MESSAGE_UNDO_ERROR, deletedTask.toString());
+			return String.format(MESSAGE_UNDO_ERROR, deletedTask.toMessage());
 		}
 	}
 
