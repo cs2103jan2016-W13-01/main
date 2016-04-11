@@ -43,7 +43,6 @@ public class Controller {
 	// @@author    
 
 	public static void sendCmd(String command){
-		DW.clear(); 
 		Response response = TaskProcessor.executeInput(command);
 		displayFeedback(response);
 	}
@@ -64,23 +63,29 @@ public class Controller {
 	public static void displayTasks(ArrayList<String> tasks, String type){
 		switch (type) {
 			case ALL:
+				DW.clear();
 				DW.displayAllTaskList(tasks);
 				break;
 			case UPCOMING:
+				DW.clear();
 				DW.displayUpcomingTaskList(tasks);
 				break;
 			case COMPLETED:   
+				DW.clear();
 				DW.displayCompletedTaskList(tasks);
 				break;
 			case INCOMPLETE:
+				DW.clear();
 				DW.displayIncompleteTaskList(tasks);
 				break;
 			case HELP:
+				DW.clear();
 				DW.displayHelpField(tasks);
 				break; 
 			case OPTION:
+				DW.clear();
 				DW.displayOptionField(tasks);
-				break;                
+				break;
 		}
 	}
 }

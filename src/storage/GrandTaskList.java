@@ -284,6 +284,5 @@ public class GrandTaskList {
 		doneTaskList.clear();
 		doneRecurringList.clear();
 		recurringInstanceList.clear();
-		Database.clear();
 	}
 }

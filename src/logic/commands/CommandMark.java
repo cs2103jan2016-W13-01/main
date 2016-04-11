@@ -38,7 +38,7 @@ public class CommandMark implements Command {
 			task.setDone(true);
 			StorageController.markDoneByIndex(taskNumber-1);
 			ExecutedCommands.addCommand(this);
-			return String.format(MESSAGE_TASK_MARKED, task.toString());
+			return String.format(MESSAGE_TASK_MARKED, task.toMessage());
 		} catch (IOException e) {
 			e.printStackTrace();
 			return MESSAGE_MARK_ERROR;
@@ -51,10 +51,9 @@ public class CommandMark implements Command {
 		try {
 			assert (task != null): "Task is null";
 			assert (task.isDone()): "Task is somehow not done";
-			StorageController.unmarkDone(task);
-			StorageController.setTabType("incomplete");
 			task.setDone(false);
-			return String.format(MESSAGE_TASK_UNMARKED, task.toString());
+			StorageController.unmarkDone(task);
+			return String.format(MESSAGE_TASK_UNMARKED, task.toMessage());
 		} catch (IOException e) {
 			e.printStackTrace();
 			return MESSAGE_UNMARK_ERROR;

@@ -143,7 +143,7 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="taskTabbedPane" alignment="0" pref="0" max="32767" attributes="0"/>
+                      <Component id="taskTabbedPane" alignment="0" pref="836" max="32767" attributes="0"/>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
@@ -174,7 +174,7 @@
                       <Layout>
                         <DimensionLayout dim="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="incompleteTabScrollPane" alignment="0" pref="786" max="32767" attributes="0"/>
+                              <Component id="incompleteTabScrollPane" alignment="0" pref="831" max="32767" attributes="0"/>
                           </Group>
                         </DimensionLayout>
                         <DimensionLayout dim="1">
@@ -280,9 +280,9 @@
                       <Layout>
                         <DimensionLayout dim="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <EmptySpace min="0" pref="786" max="32767" attributes="0"/>
+                              <EmptySpace min="0" pref="831" max="32767" attributes="0"/>
                               <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
-                                  <Component id="upcomingTabScrollPane" alignment="0" pref="786" max="32767" attributes="0"/>
+                                  <Component id="upcomingTabScrollPane" alignment="0" pref="831" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -392,9 +392,9 @@
                       <Layout>
                         <DimensionLayout dim="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <EmptySpace min="0" pref="786" max="32767" attributes="0"/>
+                              <EmptySpace min="0" pref="831" max="32767" attributes="0"/>
                               <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
-                                  <Component id="completedTabScrollPane" alignment="0" pref="786" max="32767" attributes="0"/>
+                                  <Component id="completedTabScrollPane" alignment="0" pref="831" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -504,9 +504,9 @@
                       <Layout>
                         <DimensionLayout dim="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <EmptySpace min="0" pref="786" max="32767" attributes="0"/>
+                              <EmptySpace min="0" pref="831" max="32767" attributes="0"/>
                               <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
-                                  <Component id="allTabScrollPane" alignment="0" pref="786" max="32767" attributes="0"/>
+                                  <Component id="allTabScrollPane" alignment="0" pref="831" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -616,7 +616,7 @@
                       <Layout>
                         <DimensionLayout dim="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="helpTabScrollPane" alignment="0" pref="786" max="32767" attributes="0"/>
+                              <Component id="helpTabScrollPane" alignment="0" pref="831" max="32767" attributes="0"/>
                           </Group>
                         </DimensionLayout>
                         <DimensionLayout dim="1">
@@ -659,7 +659,7 @@
                       <Layout>
                         <DimensionLayout dim="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <EmptySpace min="0" pref="786" max="32767" attributes="0"/>
+                              <EmptySpace min="0" pref="831" max="32767" attributes="0"/>
                           </Group>
                         </DimensionLayout>
                         <DimensionLayout dim="1">

@@ -6,6 +6,7 @@ import java.util.logging.Level;
 
 import logic.commands.Command;
 import logic.commands.CommandHelp;
+import logic.commands.CommandInvalid;
 import logic.tasks.*;
 import parser.CommandParser;
 import storage.StorageController;
@@ -45,6 +46,9 @@ public class TaskProcessor {
 		if (command instanceof CommandHelp) {
 			ArrayList<String> helpContent = ((CommandHelp) command).getHelpContent();
 			return new Response(message, "help", helpContent);
+		}
+		if (command instanceof CommandInvalid) {
+			return new Response(command.execute(), "no change", null);
 		}
 		ArrayList<String> taskList = getListToDisplay();
 		return new Response(message, StorageController.getTabType(), taskList);

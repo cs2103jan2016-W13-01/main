@@ -69,13 +69,18 @@ public class StorageController {
 	}
 	
 	public static boolean deleteTask(Task task) throws IOException {
-		boolean result = GrandTaskList.deleteTask(task);
-		displayList.remove(task);
+		boolean result;
+		if (task instanceof RecurringTask) {
+			result = deleteRecurringTask((RecurringTask) task);
+		} else {
+			result = GrandTaskList.deleteTask(task);
+			displayList.remove(task);
+		}
 		return result;
 	}
 	
-	public static RecurringTask deleteRecurringTask(RecurringTask recurTask) throws IOException {
-		GrandTaskList.deleteTask(recurTask);
+	public static boolean deleteRecurringTask(RecurringTask recurTask) throws IOException {
+		boolean result = GrandTaskList.deleteTask(recurTask);
 		ArrayList<Task> listToDelete = new ArrayList<Task>();
 		for (Task instance: displayList) {
 			if (instance.getParent() == recurTask && !instance.isDone()) {
@@ -85,7 +90,7 @@ public class StorageController {
 		for (Task instance: listToDelete) {
 			displayList.remove(instance);
 		}
-		return recurTask;
+		return result;
 	}
 	
 	// add
@@ -110,7 +115,6 @@ public class StorageController {
 	
 	public static boolean markDone(Task task) throws IOException {
 		boolean result = GrandTaskList.markDone(task);
-		displayList.remove(task);
 		return result;
 	}
 	
@@ -233,6 +237,7 @@ public class StorageController {
 	// set and get storage path
 	public static void setPath(String pathName) throws IOException {
 		Database.setPath(pathName);
+		Database.save();
 	}
 	
 	public static String getPath() {
@@ -253,5 +258,13 @@ public class StorageController {
 			}
 		}
 		return result;
+	}
+
+	
+	public static void load(String newPath) throws IOException {
+		GrandTaskList.clearAll();
+		displayList.clear();
+		Database.setPath(newPath);
+		Database.load();
 	}
 }

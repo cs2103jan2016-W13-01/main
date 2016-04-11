@@ -90,7 +90,6 @@ public class Database {
 		bf.newLine();
 		bf.close();
 		retrieveFiles();
-		save();
 	}
 	
 	public static String getPath() {

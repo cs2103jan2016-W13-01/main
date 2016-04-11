@@ -16,6 +16,8 @@ import javax.swing.JComponent;
 import javax.swing.JTabbedPane;
 import javax.swing.table.DefaultTableModel;
 
+import storage.StorageController;
+
 /* @@author A0129845U
  * The DisplayWindow is to initialize the GUI with shortcut and be able to display or retrieve 
  * information
@@ -40,7 +42,7 @@ public class DisplayWindow extends DisplayWindowLayout {
 	public DisplayWindow() throws Exception {
 		super();
 		initShortCutKey();
-		initTabChange();
+		// initTabChange();
 		tabIndex = 0;
 		sendCommandWithEnter();
 	}
@@ -225,25 +227,24 @@ public class DisplayWindow extends DisplayWindowLayout {
 					int index = taskPane.getSelectedIndex();
 					switch (index) {
 						case 0:
-							Controller.sendCmd(COMMAND_DISPLAY_INCOMPLETE_TASK_LIST);
+							StorageController.setTabType("incomplete");
 							break;
 						case 1:
-							Controller.sendCmd(COMMAND_DISPLAY_UPCOMING_TASK_LIST);
+							StorageController.setTabType("upcoming");;
 							break;
 						case 2:
-							Controller.sendCmd(COMMAND_DISPLAY_COMPLETED_TASK_LIST);
+							StorageController.setTabType("completed");;
 							break;
 						case 3:
-							Controller.sendCmd(COMMAND_DISPLAY_ALL_TASK_LIST);
+							StorageController.setTabType("all");;
 							break;
 						case 4:
-							Controller.sendCmd(COMMAND_DISPLAY_HELP);
-							break;
-						case 5:
-							Controller.sendCmd(COMMAND_DISPLAY_OPTION);
+							String helpContent = getHelpField().getText();
+							if (helpContent.equals("")) {
+								Controller.sendCmd(COMMAND_DISPLAY_HELP);
+							}
 							break;
 						default:
-							break;
 					}
 				}
 			}

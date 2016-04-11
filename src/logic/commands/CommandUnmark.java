@@ -38,7 +38,7 @@ public class CommandUnmark implements Command {
 			StorageController.unmarkDoneByIndex(taskNumber-1);
 			task.setDone(false);
 			ExecutedCommands.addCommand(this);
-			return String.format(MESSAGE_TASK_UNMARKED, task.toString());
+			return String.format(MESSAGE_TASK_UNMARKED, task.toMessage());
 		} catch (IOException e) {
 			e.printStackTrace();
 			return MESSAGE_UNMARK_ERROR;
@@ -53,7 +53,7 @@ public class CommandUnmark implements Command {
 			assert (!task.isDone()): "Task is somehow done";
 			StorageController.markDone(task);
 			task.setDone(true);
-			return String.format(MESSAGE_TASK_MARKED, task.toString());
+			return String.format(MESSAGE_TASK_MARKED, task.toMessage());
 		} catch (IOException e) {
 			e.printStackTrace();
 			return MESSAGE_MARK_ERROR;

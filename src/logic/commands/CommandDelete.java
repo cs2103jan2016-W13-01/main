@@ -21,6 +21,7 @@ public class CommandDelete implements Command {
 	
 	private int taskNumberToDelete;
 	private Task deletedTask;
+	private String oldTab;
 	
 	public CommandDelete(int taskNumber) {
 		taskNumberToDelete = taskNumber;
@@ -34,6 +35,7 @@ public class CommandDelete implements Command {
 	public String execute() {
 		try {
 			deletedTask = StorageController.deleteByIndex(taskNumberToDelete-1);
+			oldTab = StorageController.getTabType();
 			LogicLogger.log(Level.INFO, "deleting task: " + deletedTask.toString() + " from storage");
 			ExecutedCommands.addCommand(this);
 			LogicLogger.log(Level.INFO, "deleted successfully");
@@ -52,7 +54,7 @@ public class CommandDelete implements Command {
 		LogicLogger.log(Level.INFO, "adding task back: " + deletedTask.toString() + " to storage");
 		try {
 			StorageController.addNewTask(deletedTask);
-			StorageController.setTabType("incomplete");
+			StorageController.setTabType(oldTab);
 			LogicLogger.log(Level.INFO, "undone successfully");
 			return String.format(MESSAGE_UNDONE, deletedTask.toMessage());
 		} catch (IOException e) {

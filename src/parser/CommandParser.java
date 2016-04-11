@@ -15,6 +15,7 @@ import logic.commands.CommandDisplay;
 import logic.commands.CommandGetLocation;
 import logic.commands.CommandHelp;
 import logic.commands.CommandInvalid;
+import logic.commands.CommandLoad;
 import logic.commands.CommandMark;
 import logic.commands.CommandRedo;
 import logic.commands.CommandType;
@@ -80,6 +81,7 @@ public class CommandParser {
 		cmdHashDisplay();
 		cmdHashClear();
 		cmdHashHelp();	
+		cmdHashLoad();
 	}
 
 	private void cmdHashEdit() {
@@ -152,6 +154,11 @@ public class CommandParser {
 		CommandParser.cmdTypeHm.put("add",CommandType.ADD);
 		CommandParser.cmdTypeHm.put("a",CommandType.ADD);
 		CommandParser.cmdTypeHm.put("create",CommandType.ADD);
+	}
+	
+	private void cmdHashLoad() {
+		CommandParser.cmdTypeHm.put("load", CommandType.LOAD);
+		CommandParser.cmdTypeHm.put("l", CommandType.LOAD);
 	}
 
 	private void displayHmInit() {
@@ -333,6 +340,8 @@ public class CommandParser {
 				
 				case HELP:
 					return new CommandHelp(inputTokens[1]);
+				case LOAD:
+					return new CommandLoad(inputTokens[1]);
 
 				default:
 					return new CommandInvalid();

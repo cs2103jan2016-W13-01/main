@@ -195,7 +195,7 @@ public class DisplayWindowLayout extends javax.swing.JFrame {
         incompleteTab.setLayout(incompleteTabLayout);
         incompleteTabLayout.setHorizontalGroup(
             incompleteTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(incompleteTabScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 786, Short.MAX_VALUE)
+            .addComponent(incompleteTabScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 831, Short.MAX_VALUE)
         );
         incompleteTabLayout.setVerticalGroup(
             incompleteTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -253,9 +253,9 @@ public class DisplayWindowLayout extends javax.swing.JFrame {
         upcomingTab.setLayout(upcomingTabLayout);
         upcomingTabLayout.setHorizontalGroup(
             upcomingTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 786, Short.MAX_VALUE)
+            .addGap(0, 831, Short.MAX_VALUE)
             .addGroup(upcomingTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(upcomingTabScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 786, Short.MAX_VALUE))
+                .addComponent(upcomingTabScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 831, Short.MAX_VALUE))
         );
         upcomingTabLayout.setVerticalGroup(
             upcomingTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -315,9 +315,9 @@ public class DisplayWindowLayout extends javax.swing.JFrame {
         completedTab.setLayout(completedTabLayout);
         completedTabLayout.setHorizontalGroup(
             completedTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 786, Short.MAX_VALUE)
+            .addGap(0, 831, Short.MAX_VALUE)
             .addGroup(completedTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(completedTabScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 786, Short.MAX_VALUE))
+                .addComponent(completedTabScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 831, Short.MAX_VALUE))
         );
         completedTabLayout.setVerticalGroup(
             completedTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -377,9 +377,9 @@ public class DisplayWindowLayout extends javax.swing.JFrame {
         allTab.setLayout(allTabLayout);
         allTabLayout.setHorizontalGroup(
             allTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 786, Short.MAX_VALUE)
+            .addGap(0, 831, Short.MAX_VALUE)
             .addGroup(allTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(allTabScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 786, Short.MAX_VALUE))
+                .addComponent(allTabScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 831, Short.MAX_VALUE))
         );
         allTabLayout.setVerticalGroup(
             allTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -391,8 +391,8 @@ public class DisplayWindowLayout extends javax.swing.JFrame {
         taskTabbedPane.addTab("All tasks", allTab);
 
         helpField.setColumns(20);
-        helpField.setFont(new java.awt.Font("Trebuchet MS", 0, 18)); // NOI18N
-        helpField.setLineWrap(false);
+        helpField.setFont(new java.awt.Font("Trebuchet MS", 0, 24)); // NOI18N
+        helpField.setLineWrap(true);
         helpField.setRows(5);
         helpTabScrollPane.setViewportView(helpField);
 
@@ -400,7 +400,7 @@ public class DisplayWindowLayout extends javax.swing.JFrame {
         helpTab.setLayout(helpTabLayout);
         helpTabLayout.setHorizontalGroup(
             helpTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(helpTabScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 786, Short.MAX_VALUE)
+            .addComponent(helpTabScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 831, Short.MAX_VALUE)
         );
         helpTabLayout.setVerticalGroup(
             helpTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -413,7 +413,7 @@ public class DisplayWindowLayout extends javax.swing.JFrame {
         optionTab.setLayout(optionTabLayout);
         optionTabLayout.setHorizontalGroup(
             optionTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 786, Short.MAX_VALUE)
+            .addGap(0, 831, Short.MAX_VALUE)
         );
         optionTabLayout.setVerticalGroup(
             optionTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -426,7 +426,7 @@ public class DisplayWindowLayout extends javax.swing.JFrame {
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(taskTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addComponent(taskTabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 836, Short.MAX_VALUE)
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
