@@ -146,6 +146,9 @@ public class GrandTaskList {
 	}
 	
 	// operations on tasks
+	/* @@author A0134185H
+	 * add a task to the task list
+	 */
 	public static boolean addNewTask(Task task) throws IOException {
 		boolean result;
 		if (task instanceof RecurringTask) {
@@ -167,6 +170,9 @@ public class GrandTaskList {
 		return result;
 	}
 	
+	/* add a recurring task to the task list
+	 * 
+	 */
 	public static boolean addRecurringTask(RecurringTask recurTask) {
 		boolean result = recurringTaskList.add(recurTask);
 		if (!result) {
@@ -184,6 +190,9 @@ public class GrandTaskList {
 		return result;
 	}
 	
+	/* delete a task from the task list
+	 * 
+	 */
 	public static boolean deleteTask(Task task) throws IOException {
 		boolean result;
 		if (task instanceof RecurringTask) {
@@ -205,6 +214,9 @@ public class GrandTaskList {
 		return result;
 	}
 	
+	/* delete a recurring task from the task list
+	 * 
+	 */
 	public static boolean deleteRecurringTask(RecurringTask recurTask) throws IOException {
 		boolean result = recurringTaskList.delete(recurTask);
 		if (!result) {
@@ -226,6 +238,10 @@ public class GrandTaskList {
 		return result;
 	}
 	
+	// @@author A0112184R
+	/* mark a task as done and move it to the done task list
+	 * 
+	 */
 	public static boolean markDone(Task task) throws IOException {
 		boolean result;
 		task.setDone(true);
@@ -251,6 +267,9 @@ public class GrandTaskList {
 		return result;
 	}
 	
+	/* unmark a task and move it back to its old task list
+	 * 
+	 */
 	public static boolean unmarkDone(Task task) throws IOException {
 		boolean result;
 		task.setDone(false);

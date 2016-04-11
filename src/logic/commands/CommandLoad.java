@@ -6,7 +6,7 @@ import logic.ExecutedCommands;
 import storage.StorageController;
 
 /* @@author A0112184R
- *
+ * This class contains details for the "load from location" commands
  */
 public class CommandLoad implements Command {
 	

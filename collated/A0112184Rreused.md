@@ -62,5 +62,21 @@
 		}
 		return (isAfterDay(mainDate, start) && isBeforeDay(mainDate, end));
 	}
+
+	public static Calendar cloneDate(Calendar date) {
+		if (date == null) {
+			return null;
+		} else {
+			Calendar result = Calendar.getInstance();
+			result.setTime(date.getTime());
+			return result;
+		}
+	}
+	
+	public static void addDate(Calendar date, int field, int step) {
+		if (date != null) {
+			date.add(field, step);
+		}
+	}
 }
 ```
