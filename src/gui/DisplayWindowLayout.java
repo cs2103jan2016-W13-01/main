@@ -17,7 +17,7 @@ import java.util.GregorianCalendar;
  */
 public class DisplayWindowLayout extends javax.swing.JFrame {
 	private static final long serialVersionUID = 1L;
-	private static final String DIAMOND_ICON_FILE = "DiamondIcon.png";
+	private static final String DIAMOND_ICON_FILE = "/src/gui/DiamondIcon.png";
 	/**
 	 * Creates new form DisplayWindow
 	 *
@@ -28,6 +28,7 @@ public class DisplayWindowLayout extends javax.swing.JFrame {
 		setIcon();
 		setBgColor();
 		displayTime();
+		System.out.println("gui root: " + System.getProperty("user.dir"));
 	}
 
 	private void setIcon() {
@@ -480,7 +481,7 @@ public class DisplayWindowLayout extends javax.swing.JFrame {
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
         jPanel6.setRequestFocusEnabled(false);
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gui/DiamondIcon.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource(DIAMOND_ICON_FILE))); // NOI18N
         jLabel1.setRequestFocusEnabled(false);
 
         timeField.setFont(new java.awt.Font("Comic Sans MS", 1, 18)); // NOI18N
