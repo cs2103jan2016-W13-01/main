@@ -1,15 +1,14 @@
-Task added successfully
-1. incomplete; dinner with family; null; null; null
-Task added successfully
-1. incomplete; buy presents for dennis; null; null; null
-2. incomplete; dinner with family; null; null; null
+Task added successfully: dinner with family  Once
+1. incomplete; dinner with family; -; -; Once
+Task added successfully: buy presents for dennis  Once
+1. incomplete; buy presents for dennis; -; -; Once
+2. incomplete; dinner with family; -; -; Once
 Invalid command. Please try again.
-1. incomplete; buy presents for dennis; null; null; null
-2. incomplete; dinner with family; null; null; null
-Task not found in task list: 3
-1. incomplete; buy presents for dennis; null; null; null
-2. incomplete; dinner with family; null; null; null
-Action undone: add buy presents for dennis
-1. incomplete; dinner with family; null; null; null
-Task not found in task list: 2
-1. incomplete; dinner with family; null; null; null
+Task list not loaded
+Task number 3 not found in task list
+1. incomplete; buy presents for dennis; -; -; Once
+2. incomplete; dinner with family; -; -; Once
+Action undone: add buy presents for dennis  Once
+1. incomplete; dinner with family; -; -; Once
+Task number 2 not found in task list
+1. incomplete; dinner with family; -; -; Once

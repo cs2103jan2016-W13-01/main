@@ -1,66 +1,71 @@
 Task added successfully: task 1  Once
-1. incomplete; go to lecture; -; 10:00 05 Apr; Once
-2. incomplete; go to library; -; -; Once
-3. incomplete; task 1; -; -; Once
+1. incomplete; task 1; -; -; Once
 Task added successfully: task 2  Once
-1. incomplete; go to lecture; -; 10:00 05 Apr; Once
-2. incomplete; go to library; -; -; Once
-3. incomplete; task 1; -; -; Once
-4. incomplete; task 2; -; -; Once
+1. incomplete; task 1; -; -; Once
+2. incomplete; task 2; -; -; Once
 Task added successfully: task 3  Once
-1. incomplete; go to lecture; -; 10:00 05 Apr; Once
-2. incomplete; go to library; -; -; Once
-3. incomplete; task 1; -; -; Once
-4. incomplete; task 2; -; -; Once
-5. incomplete; task 3; -; -; Once
+1. incomplete; task 1; -; -; Once
+2. incomplete; task 2; -; -; Once
+3. incomplete; task 3; -; -; Once
 Task added successfully: task 4  Once
-1. incomplete; go to lecture; -; 10:00 05 Apr; Once
-2. incomplete; go to library; -; -; Once
-3. incomplete; task 1; -; -; Once
-4. incomplete; task 2; -; -; Once
-5. incomplete; task 3; -; -; Once
-6. incomplete; task 4; -; -; Once
+1. incomplete; task 1; -; -; Once
+2. incomplete; task 2; -; -; Once
+3. incomplete; task 3; -; -; Once
+4. incomplete; task 4; -; -; Once
 Task added successfully: task 5  Once
-1. incomplete; go to lecture; -; 10:00 05 Apr; Once
-2. incomplete; go to library; -; -; Once
-3. incomplete; task 1; -; -; Once
-4. incomplete; task 2; -; -; Once
-5. incomplete; task 3; -; -; Once
-6. incomplete; task 4; -; -; Once
-7. incomplete; task 5; -; -; Once
+1. incomplete; task 1; -; -; Once
+2. incomplete; task 2; -; -; Once
+3. incomplete; task 3; -; -; Once
+4. incomplete; task 4; -; -; Once
+5. incomplete; task 5; -; -; Once
 Task added successfully: task 6  Once
-1. incomplete; go to lecture; -; 10:00 05 Apr; Once
-2. incomplete; go to library; -; -; Once
-3. incomplete; task 1; -; -; Once
-4. incomplete; task 2; -; -; Once
-5. incomplete; task 3; -; -; Once
-6. incomplete; task 4; -; -; Once
-7. incomplete; task 5; -; -; Once
-8. incomplete; task 6; -; -; Once
+1. incomplete; task 1; -; -; Once
+2. incomplete; task 2; -; -; Once
+3. incomplete; task 3; -; -; Once
+4. incomplete; task 4; -; -; Once
+5. incomplete; task 5; -; -; Once
+6. incomplete; task 6; -; -; Once
 Task added successfully: task 7  Once
-1. incomplete; go to lecture; -; 10:00 05 Apr; Once
-2. incomplete; go to library; -; -; Once
-3. incomplete; task 1; -; -; Once
-4. incomplete; task 2; -; -; Once
-5. incomplete; task 3; -; -; Once
-6. incomplete; task 4; -; -; Once
-7. incomplete; task 5; -; -; Once
-8. incomplete; task 6; -; -; Once
-9. incomplete; task 7; -; -; Once
+1. incomplete; task 1; -; -; Once
+2. incomplete; task 2; -; -; Once
+3. incomplete; task 3; -; -; Once
+4. incomplete; task 4; -; -; Once
+5. incomplete; task 5; -; -; Once
+6. incomplete; task 6; -; -; Once
+7. incomplete; task 7; -; -; Once
 Task added successfully: task 8  Once
-1. incomplete; go to lecture; -; 10:00 05 Apr; Once
-2. incomplete; go to library; -; -; Once
-3. incomplete; task 1; -; -; Once
-4. incomplete; task 2; -; -; Once
-5. incomplete; task 3; -; -; Once
-6. incomplete; task 4; -; -; Once
-7. incomplete; task 5; -; -; Once
-8. incomplete; task 6; -; -; Once
-9. incomplete; task 7; -; -; Once
-10. incomplete; task 8; -; -; Once
+1. incomplete; task 1; -; -; Once
+2. incomplete; task 2; -; -; Once
+3. incomplete; task 3; -; -; Once
+4. incomplete; task 4; -; -; Once
+5. incomplete; task 5; -; -; Once
+6. incomplete; task 6; -; -; Once
+7. incomplete; task 7; -; -; Once
+8. incomplete; task 8; -; -; Once
 Task added successfully: task 9  Once
-1. incomplete; go to lecture; -; 10:00 05 Apr; Once
-2. incomplete; go to library; -; -; Once
+1. incomplete; task 1; -; -; Once
+2. incomplete; task 2; -; -; Once
+3. incomplete; task 3; -; -; Once
+4. incomplete; task 4; -; -; Once
+5. incomplete; task 5; -; -; Once
+6. incomplete; task 6; -; -; Once
+7. incomplete; task 7; -; -; Once
+8. incomplete; task 8; -; -; Once
+9. incomplete; task 9; -; -; Once
+Task added successfully: task 10 by 14:00 15 Apr Once
+1. incomplete; task 10; -; 14:00 15 Apr; Once
+2. incomplete; task 1; -; -; Once
+3. incomplete; task 2; -; -; Once
+4. incomplete; task 3; -; -; Once
+5. incomplete; task 4; -; -; Once
+6. incomplete; task 5; -; -; Once
+7. incomplete; task 6; -; -; Once
+8. incomplete; task 7; -; -; Once
+9. incomplete; task 8; -; -; Once
+10. incomplete; task 9; -; -; Once
+Task added successfully: task 12 by 15:00 27 Apr Once
+1. incomplete; task 10; -; 14:00 15 Apr; Once
+2. incomplete; task 12; -; 15:00 27 Apr; Once
 3. incomplete; task 1; -; -; Once
 4. incomplete; task 2; -; -; Once
 5. incomplete; task 3; -; -; Once
@@ -70,10 +75,10 @@ Task added successfully: task 9  Once
 9. incomplete; task 7; -; -; Once
 10. incomplete; task 8; -; -; Once
 11. incomplete; task 9; -; -; Once
-Task added successfully: task 10 by 14:00 15 Apr Once
-1. incomplete; go to lecture; -; 10:00 05 Apr; Once
-2. incomplete; task 10; -; 14:00 15 Apr; Once
-3. incomplete; go to library; -; -; Once
+Task added successfully: task 13 from 15:00 26 Apr to 17:00 26 Apr Once
+1. incomplete; task 10; -; 14:00 15 Apr; Once
+2. incomplete; task 13; 15:00 26 Apr; 17:00 26 Apr; Once
+3. incomplete; task 12; -; 15:00 27 Apr; Once
 4. incomplete; task 1; -; -; Once
 5. incomplete; task 2; -; -; Once
 6. incomplete; task 3; -; -; Once
@@ -83,11 +88,11 @@ Task added successfully: task 10 by 14:00 15 Apr Once
 10. incomplete; task 7; -; -; Once
 11. incomplete; task 8; -; -; Once
 12. incomplete; task 9; -; -; Once
-Task added successfully: task 11 from 10:50 28 Apr to 10:50 29 Apr Once
-1. incomplete; go to lecture; -; 10:00 05 Apr; Once
-2. incomplete; task 10; -; 14:00 15 Apr; Once
-3. incomplete; task 11; 10:50 28 Apr; 10:50 29 Apr; Once
-4. incomplete; go to library; -; -; Once
+Task added successfully: task 14 from 16:00 24 Apr to 18:00 25 Apr Once
+1. incomplete; task 10; -; 14:00 15 Apr; Once
+2. incomplete; task 14; 16:00 24 Apr; 18:00 25 Apr; Once
+3. incomplete; task 13; 15:00 26 Apr; 17:00 26 Apr; Once
+4. incomplete; task 12; -; 15:00 27 Apr; Once
 5. incomplete; task 1; -; -; Once
 6. incomplete; task 2; -; -; Once
 7. incomplete; task 3; -; -; Once
@@ -97,51 +102,3 @@ Task added successfully: task 11 from 10:50 28 Apr to 10:50 29 Apr Once
 11. incomplete; task 7; -; -; Once
 12. incomplete; task 8; -; -; Once
 13. incomplete; task 9; -; -; Once
-Task added successfully: task 12 by 15:00 27 Apr Once
-1. incomplete; go to lecture; -; 10:00 05 Apr; Once
-2. incomplete; task 10; -; 14:00 15 Apr; Once
-3. incomplete; task 12; -; 15:00 27 Apr; Once
-4. incomplete; task 11; 10:50 28 Apr; 10:50 29 Apr; Once
-5. incomplete; go to library; -; -; Once
-6. incomplete; task 1; -; -; Once
-7. incomplete; task 2; -; -; Once
-8. incomplete; task 3; -; -; Once
-9. incomplete; task 4; -; -; Once
-10. incomplete; task 5; -; -; Once
-11. incomplete; task 6; -; -; Once
-12. incomplete; task 7; -; -; Once
-13. incomplete; task 8; -; -; Once
-14. incomplete; task 9; -; -; Once
-Task added successfully: task 13 from 15:00 26 Apr to 17:00 26 Apr Once
-1. incomplete; go to lecture; -; 10:00 05 Apr; Once
-2. incomplete; task 10; -; 14:00 15 Apr; Once
-3. incomplete; task 13; 15:00 26 Apr; 17:00 26 Apr; Once
-4. incomplete; task 12; -; 15:00 27 Apr; Once
-5. incomplete; task 11; 10:50 28 Apr; 10:50 29 Apr; Once
-6. incomplete; go to library; -; -; Once
-7. incomplete; task 1; -; -; Once
-8. incomplete; task 2; -; -; Once
-9. incomplete; task 3; -; -; Once
-10. incomplete; task 4; -; -; Once
-11. incomplete; task 5; -; -; Once
-12. incomplete; task 6; -; -; Once
-13. incomplete; task 7; -; -; Once
-14. incomplete; task 8; -; -; Once
-15. incomplete; task 9; -; -; Once
-Task added successfully: task 14 from 16:00 24 Apr to 18:00 25 Apr Once
-1. incomplete; go to lecture; -; 10:00 05 Apr; Once
-2. incomplete; task 10; -; 14:00 15 Apr; Once
-3. incomplete; task 14; 16:00 24 Apr; 18:00 25 Apr; Once
-4. incomplete; task 13; 15:00 26 Apr; 17:00 26 Apr; Once
-5. incomplete; task 12; -; 15:00 27 Apr; Once
-6. incomplete; task 11; 10:50 28 Apr; 10:50 29 Apr; Once
-7. incomplete; go to library; -; -; Once
-8. incomplete; task 1; -; -; Once
-9. incomplete; task 2; -; -; Once
-10. incomplete; task 3; -; -; Once
-11. incomplete; task 4; -; -; Once
-12. incomplete; task 5; -; -; Once
-13. incomplete; task 6; -; -; Once
-14. incomplete; task 7; -; -; Once
-15. incomplete; task 8; -; -; Once
-16. incomplete; task 9; -; -; Once
