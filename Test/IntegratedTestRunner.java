@@ -6,6 +6,7 @@ import java.io.IOException;
 import org.apache.commons.io.FileUtils;
 
 import logic.TextUI;
+import storage.Database;
 import storage.StorageController;
 
 //@@author: A0134185H
@@ -17,6 +18,7 @@ public class IntegratedTestRunner {
 	public static void runTest(String inputFileName) throws IOException {
 		TextUI.initialize();
 		StorageController.clearAllTasks();
+		Database.clear();
 		File inputDir = new File(inputDirName);
 		if (!inputDir.exists()) {
 			inputDir.mkdirs();
@@ -40,7 +42,7 @@ public class IntegratedTestRunner {
 		TextUI.mainFileToFile(inputFile, outputFile);
 		String output = FileUtils.readFileToString(outputFile, "UTF-8");
 		String expected = FileUtils.readFileToString(expectedFile, "UTF-8");
-		assertEquals(expected, output);
+		assertEquals(expected.trim(), output.trim());
 	}
 	
 	/*

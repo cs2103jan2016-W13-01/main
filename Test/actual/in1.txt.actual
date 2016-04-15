@@ -1,20 +1,23 @@
-Task added successfully
-1. incomplete; go to library; null; null; null
-Task added successfully
-1. incomplete; go to gym; null; null; null
-Task added successfully
-1. incomplete; go to lecture; 10:00 20160405; null; null
-Task added successfully
-1. incomplete; submit paper; 23:59 20160412; null; null
-All tasks are displayed below:
-1. incomplete; go to lecture; 10:00 20160405; null; null
-2. incomplete; submit paper; 23:59 20160412; null; null
-3. incomplete; go to gym; null; null; null
-4. incomplete; go to library; null; null; null
-Task deleted: go to gym
-1. incomplete; go to lecture; 10:00 20160405; null; null
-2. incomplete; submit paper; 23:59 20160412; null; null
-3. incomplete; go to library; null; null; null
-Task deleted: submit paper 12/04/2016 23:59
-1. incomplete; go to lecture; 10:00 20160405; null; null
-2. incomplete; go to library; null; null; null
+Task added successfully: go to library  Once
+1. incomplete; go to library; -; -; Once
+Task added successfully: go to gym  Once
+1. incomplete; go to gym; -; -; Once
+2. incomplete; go to library; -; -; Once
+Task added successfully: go to lecture by 10:00 05 Apr Once
+1. incomplete; go to lecture; -; 10:00 05 Apr; Once
+2. incomplete; go to gym; -; -; Once
+3. incomplete; go to library; -; -; Once
+Task added successfully: submit paper by 23:59 12 Apr Once
+1. incomplete; go to lecture; -; 10:00 05 Apr; Once
+2. incomplete; submit paper; -; 23:59 12 Apr; Once
+3. incomplete; go to gym; -; -; Once
+4. incomplete; go to library; -; -; Once
+Invalid command. Please try again.
+Task list not loaded
+Task deleted: go to gym  Once
+1. incomplete; go to lecture; -; 10:00 05 Apr; Once
+2. incomplete; submit paper; -; 23:59 12 Apr; Once
+3. incomplete; go to library; -; -; Once
+Task deleted: submit paper by 23:59 12 Apr Once
+1. incomplete; go to lecture; -; 10:00 05 Apr; Once
+2. incomplete; go to library; -; -; Once
